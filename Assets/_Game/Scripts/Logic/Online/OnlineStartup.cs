@@ -9,16 +9,16 @@ namespace DemoRestaurant.Logic.Online
         SignedOut,
         /// <summary>Signed in but the email link has not been opened yet.</summary>
         NeedsVerification,
-        /// <summary>Talking to the server (bootstrap, loading the restaurant).</summary>
+        /// <summary>Talking to the server (bootstrap, rules, first ledger sync).</summary>
         Connecting,
-        /// <summary>Profile, wallet, inventory, restaurant and layout are loaded.</summary>
+        /// <summary>Bootstrapped, the ruleset is cached and the first sync settled the time away.</summary>
         Online,
         /// <summary>The server could not be reached; local play continues and the flow retries later.</summary>
         Unreachable,
     }
 
-    /// <summary>The next start-up call (mobile-integration.md, "Recommended mobile implementation order").</summary>
-    public enum StartupStep { None, ShowSignIn, ShowVerifyEmail, Bootstrap, LoadRestaurants, CreateRestaurant, LoadState, Done }
+    /// <summary>The next start-up call (mobile-api-v2.md, "Startup sequence").</summary>
+    public enum StartupStep { None, ShowSignIn, ShowVerifyEmail, Bootstrap, LoadConfig, Sync, Done }
 
     /// <summary>What the client knows so far. Each completed call sets one flag.</summary>
     public struct StartupFacts
@@ -28,9 +28,10 @@ namespace DemoRestaurant.Logic.Online
         public bool SignedIn;
         public bool EmailVerified;
         public bool Bootstrapped;
-        public bool RestaurantsLoaded;
-        public bool HasRestaurant;
-        public bool StateLoaded;
+        /// <summary><c>GET /config</c> answered (or 304 for the cached ruleset).</summary>
+        public bool ConfigLoaded;
+        /// <summary>The first <c>POST /sync/ledger</c> of this run succeeded.</summary>
+        public bool Synced;
     }
 
     public static class StartupPlanner
@@ -41,9 +42,8 @@ namespace DemoRestaurant.Logic.Online
             if (!f.SignedIn) return StartupStep.ShowSignIn;
             if (!f.EmailVerified) return StartupStep.ShowVerifyEmail;
             if (!f.Bootstrapped) return StartupStep.Bootstrap;
-            if (!f.RestaurantsLoaded) return StartupStep.LoadRestaurants;
-            if (!f.HasRestaurant) return StartupStep.CreateRestaurant;
-            if (!f.StateLoaded) return StartupStep.LoadState;
+            if (!f.ConfigLoaded) return StartupStep.LoadConfig;
+            if (!f.Synced) return StartupStep.Sync;
             return StartupStep.Done;
         }
 

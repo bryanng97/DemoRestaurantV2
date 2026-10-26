@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Developer check: drives the game's Logic/Online sync code (compiled from source) against a hosted
+       player-api. Run through source/scripts/live-unity-sync-test.ts, which creates and removes the test player.
+       Outside Assets/, so Unity never imports it. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <NoWarn>CS0649;CS0169;CS0414;CS0067</NoWarn>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../../Assets/_Game/Scripts/Logic/**/*.cs" />
+    <Compile Include="Program.cs" />
+  </ItemGroup>
+</Project>

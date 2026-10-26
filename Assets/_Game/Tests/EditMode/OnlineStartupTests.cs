@@ -23,12 +23,11 @@ namespace DemoRestaurant.Logic.Tests
             f.EmailVerified = true;
             Assert.AreEqual(StartupStep.Bootstrap, StartupPlanner.Next(f));
             f.Bootstrapped = true;
-            Assert.AreEqual(StartupStep.LoadRestaurants, StartupPlanner.Next(f));
-            f.RestaurantsLoaded = true;
-            Assert.AreEqual(StartupStep.CreateRestaurant, StartupPlanner.Next(f));
-            f.HasRestaurant = true;
-            Assert.AreEqual(StartupStep.LoadState, StartupPlanner.Next(f));
-            f.StateLoaded = true;
+            Assert.AreEqual(StartupStep.LoadConfig, StartupPlanner.Next(f));
+            f.ConfigLoaded = true;
+            Assert.AreEqual(StartupStep.Sync, StartupPlanner.Next(f));
+            Assert.AreEqual(OnlineState.Connecting, StartupPlanner.StateFor(StartupStep.Sync));
+            f.Synced = true;
             Assert.AreEqual(StartupStep.Done, StartupPlanner.Next(f));
             Assert.AreEqual(OnlineState.Online, StartupPlanner.StateFor(StartupStep.Done));
         }

@@ -115,7 +115,10 @@ namespace DemoRestaurant.Logic.Session
             Recipes.Discovered += OnRecipeDiscovered;
             Recipes.Upgraded += (dish, level) =>
             {
-                Progress.Add(Progress.XpForRecipeLevel(level));
+                int gained = Progress.XpForRecipeLevel(level);
+                _effectKey = RecordAction("recipe_learn", Body().Set("dishId", dish.Id), xp: gained);
+                Progress.Add(gained);
+                _effectKey = null;
                 Ledger.Record(LedgerKind.RecipeUpgraded, level, dish.Id, _utcNow());
             };
 
@@ -145,16 +148,17 @@ namespace DemoRestaurant.Logic.Session
                 FixSeconds = Math.Max(0f, Rules.Toilets.fixSeconds),
                 EntertainmentSeconds = Math.Max(0f, Rules.Entertainment.playSeconds),
             });
+            InitServerLog();
             Sim.CustomerPaid += OnCustomerPaid;
             Sim.EntertainmentCompleted += OnEntertainmentCompleted;
             Sim.CustomerAngry += OnCustomerAngry;
             // Every guest who leaves unhappy costs demand: no room even to queue, gave up queuing (angry is handled
             // in OnCustomerAngry).
-            Sim.CustomerTurnedAway += _ => Demand.OnUnhappyGuest();
-            Sim.CustomerNoToilet += _ => Demand.OnUnhappyGuest(); // as in the reference game: no toilet, unhappy guest
+            Sim.CustomerTurnedAway += _ => Unhappy("turned_away");
+            Sim.CustomerNoToilet += _ => Unhappy("no_toilet"); // as in the reference game: no toilet, unhappy guest
             UpdateToiletChance();
-            Sim.CustomerGaveUpWaiting += _ => Demand.OnUnhappyGuest();
-            Sim.CustomerNoTable += _ => Demand.OnUnhappyGuest();
+            Sim.CustomerGaveUpWaiting += _ => Unhappy("gave_up");
+            Sim.CustomerNoTable += _ => Unhappy("no_table");
         }
 
         public void Tick(float dt)
@@ -238,6 +242,7 @@ namespace DemoRestaurant.Logic.Session
                 return true;
             else
                 Sim.ChangeType(owner, type, home);
+            RecordAction("owner_role", Body().Set("role", RoleId(role)));
             Ledger.Record(LedgerKind.OwnerJobChanged, 0, type.Id, _utcNow());
             return true;
         }
@@ -266,6 +271,12 @@ namespace DemoRestaurant.Logic.Session
                 return HireResult.NotEnoughCoins;
             Ledger.Record(LedgerKind.StaffHired, cost, type.Id, _utcNow());
             staff = Sim.Hire(type, home);
+            // Free hires are the local starter team (the server bootstrap creates its own) and stress-test staff.
+            if (!free)
+            {
+                staff.ServerId = Guid.NewGuid().ToString();
+                RecordAction("hire", Body().Set("role", RoleId(type.Role)).Set("staffId", staff.ServerId), coins: -cost);
+            }
             return HireResult.Hired;
         }
 
@@ -281,7 +292,10 @@ namespace DemoRestaurant.Logic.Session
         {
             var result = Profile.TryRename(name, _utcNow(), RenameCooldown);
             if (result == NameCheck.Ok)
+            {
+                RecordAction("rename", Body().Set("restaurantId", ServerRestaurantId ?? "").Set("name", Profile.DisplayName));
                 Ledger.Record(LedgerKind.Renamed, 0, Profile.DisplayName, _utcNow());
+            }
             return result;
         }
 
@@ -300,8 +314,19 @@ namespace DemoRestaurant.Logic.Session
             Ledger.Record(LedgerKind.AvatarChanged, 0, clean.Key, _utcNow());
         }
 
-        public void SendToRest(Staff staff) => Sim.SendToRest(staff);
-        public void ReturnToWork(Staff staff) => Sim.ReturnToWork(staff);
+        public void SendToRest(Staff staff)
+        {
+            if (staff == null || staff.IsResting || staff.RestRequested) return;
+            Sim.SendToRest(staff);
+            RecordDuty(staff, false);
+        }
+
+        public void ReturnToWork(Staff staff)
+        {
+            if (staff == null || (!staff.IsResting && !staff.RestRequested)) return;
+            Sim.ReturnToWork(staff);
+            RecordDuty(staff, true);
+        }
 
         /// <summary>Buys one item with coins.</summary>
         public bool BuyItem(ItemDef item)
@@ -309,6 +334,7 @@ namespace DemoRestaurant.Logic.Session
             if (item == null || item.Price <= 0 || !Wallet.TrySpend(item.Price))
                 return false;
             Items.Add(item);
+            RecordAction("item_buy", Body().Set("itemId", item.Id).Set("count", 1), coins: -item.Price);
             Ledger.Record(LedgerKind.ItemBought, item.Price, item.Id, _utcNow());
             return true;
         }
@@ -319,6 +345,8 @@ namespace DemoRestaurant.Logic.Session
             if (item == null || staff == null || staff.Energy >= StaffEnergyRules.Max || !Items.TryUse(item))
                 return false;
             Sim.RestoreEnergy(staff, item.EnergyRestore);
+            if (staff.ServerId != null)
+                RecordAction("item_use", Body().Set("itemId", item.Id).Set("staffId", staff.ServerId));
             Ledger.Record(LedgerKind.ItemUsed, 1, item.Id, _utcNow());
             return true;
         }
@@ -346,6 +374,7 @@ namespace DemoRestaurant.Logic.Session
             if (staff == null || staff.IsOwner)
                 return;
             Ledger.Record(LedgerKind.StaffDismissed, 1, staff.Type.Id, _utcNow());
+            if (staff.ServerId != null) RecordAction("dismiss", Body().Set("staffId", staff.ServerId));
             Sim.Dismiss(staff);
         }
 
@@ -356,6 +385,7 @@ namespace DemoRestaurant.Logic.Session
             if (Market == null)
                 return Array.Empty<IngredientDef>();
             var got = Market.Collect(Inventory);
+            if (got.Count > 0) RecordAction("market_collect_all", Body());
             foreach (var i in got)
                 Ledger.Record(LedgerKind.MarketCollect, 1, i.Id, _utcNow());
             if (got.Count > 0)
@@ -374,6 +404,7 @@ namespace DemoRestaurant.Logic.Session
             if (state != PlotState.Empty) return GardenResult.NotEmpty;
             if (Wallet.DisplayCoins < Garden.SeedCost || !Wallet.TrySpend(Garden.SeedCost)) return GardenResult.NotEnoughCoins;
             Garden.Plant(plot, Progress.Level, now);
+            RecordAction("garden", Body().Set("plot", plot).Set("action", "plant"), coins: -Garden.SeedCost);
             Ledger.Record(LedgerKind.GardenSeed, Garden.SeedCost, plot.ToString(System.Globalization.CultureInfo.InvariantCulture), now);
             return GardenResult.Done;
         }
@@ -382,6 +413,7 @@ namespace DemoRestaurant.Logic.Session
         {
             var now = _utcNow();
             if (!Garden.Water(plot, Progress.Level, now)) return GardenResult.NothingToWater;
+            RecordAction("garden", Body().Set("plot", plot).Set("action", "water"));
             Ledger.Record(LedgerKind.GardenWater, 1, plot.ToString(System.Globalization.CultureInfo.InvariantCulture), now);
             return GardenResult.Done;
         }
@@ -392,6 +424,7 @@ namespace DemoRestaurant.Logic.Session
             var now = _utcNow();
             var crop = Garden.Harvest(plot, Progress.Level, now);
             if (crop == null) return GardenResult.NotReady;
+            RecordAction("garden", Body().Set("plot", plot).Set("action", "harvest"));
             Inventory.Add(crop, Garden.HarvestAmount);
             Ledger.Record(LedgerKind.GardenHarvest, Garden.HarvestAmount, crop.Id, now);
             var gained = new List<IngredientDef>();
@@ -434,7 +467,10 @@ namespace DemoRestaurant.Logic.Session
         private void OnRecipeDiscovered(DishDef dish)
         {
             Menu.MakeAvailable(dish);
-            Progress.Add(Progress.XpForRecipeLevel(1));
+            int gained = Progress.XpForRecipeLevel(1);
+            _effectKey = RecordAction("recipe_learn", Body().Set("dishId", dish.Id), xp: gained);
+            Progress.Add(gained);
+            _effectKey = null;
             Ledger.Record(LedgerKind.RecipeDiscovered, 1, dish.Id, _utcNow());
             RecipeDiscovered?.Invoke(dish);
         }
@@ -444,6 +480,7 @@ namespace DemoRestaurant.Logic.Session
             if (coins > 0)
             {
                 Wallet.CreditOffline(coins);
+                ServerLog.AddEffect(_effectKey, coins);
                 Ledger.Record(LedgerKind.LevelReward, coins, level.ToString(System.Globalization.CultureInfo.InvariantCulture), _utcNow());
             }
             Menu.FillFreeSlots(); // more menu slots at some levels
@@ -481,6 +518,8 @@ namespace DemoRestaurant.Logic.Session
                 authority.SubmitEntertainment(receipt, item.Def.Id);
             }
             else Wallet.CreditOffline(coins); // Not yet validated online: stays in the unsynced ledger.
+            string instance = ServerInstanceOf?.Invoke(item);
+            if (instance != null) RecordAction("functional_use", Body().Set("instanceId", instance), coins: coins);
             Ledger.Record(LedgerKind.EntertainmentIncome, coins, item.Def.Id, _utcNow());
             Earnings.Record(Time, coins);
             EntertainmentEarned?.Invoke(item, coins);
@@ -494,9 +533,13 @@ namespace DemoRestaurant.Logic.Session
             Earnings.Record(Time, coins);
             TotalCustomersServed++;
             Ledger.Record(LedgerKind.Sale, coins, c.Order.Id, _utcNow());
+            double demandBefore = Demand.Value;
             Demand.OnHappyGuest();
             int xp = Progress.XpForServe(Recipes.LevelOf(c.Order));
+            _effectKey = RecordAction("sale", Body().Set("dishId", c.Order.Id).Set("recipeLevel", Recipes.LevelOf(c.Order))
+                .Set("happy", true), coins, xp, (float)(Demand.Value - demandBefore));
             Progress.Add(xp);
+            _effectKey = null;
             CustomerServed?.Invoke(c, coins, xp);
         }
 
@@ -504,6 +547,7 @@ namespace DemoRestaurant.Logic.Session
         {
             double before = Demand.Value;
             Demand.OnUnhappyGuest();
+            RecordUnhappy("angry", before);
             CustomerAngered?.Invoke(c, Demand.Value - before);
         }
 

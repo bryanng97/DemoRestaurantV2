@@ -24,6 +24,8 @@ namespace DemoRestaurant.Logic.Simulation
         public event Action<Customer> CustomerNoToilet;
         /// <summary>A toilet reached its BreakCount uses.</summary>
         public event Action<PlacedFurniture> ToiletBroke;
+        /// <summary>A broken toilet or machine was repaired (by the player or a cleaner).</summary>
+        public event Action<PlacedFurniture> FurnitureFixed;
 
         public float ToiletChance
         {
@@ -52,6 +54,7 @@ namespace DemoRestaurant.Logic.Simulation
             if (!IsBroken(toilet)) return false;
             toilet.UsageCount = 0;
             _toiletUses.Remove(toilet.InstanceId);
+            FurnitureFixed?.Invoke(toilet);
             return true;
         }
 
@@ -185,6 +188,7 @@ namespace DemoRestaurant.Logic.Simulation
             _toiletUses.Remove(toilet.InstanceId);
             ReleaseFixing(s);
             toilet.UsageCount = 0;
+            FurnitureFixed?.Invoke(toilet);
             GoHome(s);
         }
 

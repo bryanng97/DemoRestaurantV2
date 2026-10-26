@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -11,12 +12,18 @@ namespace DemoRestaurant.Game.Online
         public readonly int Status;
         public readonly string Body;
         public readonly string RetryAfter;
+        /// <summary><c>ETag</c> (on <c>/config</c> and <c>/catalog</c>), as received (the gateway may weaken it).</summary>
+        public readonly string ETag;
+        /// <summary><c>X-Ruleset-Version</c>: the ruleset the player is pinned to, on every v2 response.</summary>
+        public readonly string RulesetVersion;
 
-        public HttpResult(int status, string body, string retryAfter)
+        public HttpResult(int status, string body, string retryAfter, string etag = null, string rulesetVersion = null)
         {
             Status = status;
             Body = body;
             RetryAfter = retryAfter;
+            ETag = etag;
+            RulesetVersion = rulesetVersion;
         }
 
         public bool IsSuccess => Status >= 200 && Status < 300;
@@ -38,7 +45,7 @@ namespace DemoRestaurant.Game.Online
         public OnlineConfig Config => _config;
 
         public async Awaitable<HttpResult> Send(string method, string url, string jsonBody, string bearer,
-            string idempotencyKey = null)
+            string idempotencyKey = null, IReadOnlyDictionary<string, string> headers = null)
         {
             using (var request = new UnityWebRequest(url, method))
             {
@@ -53,6 +60,9 @@ namespace DemoRestaurant.Game.Online
                     request.SetRequestHeader("Authorization", "Bearer " + bearer);
                 if (!string.IsNullOrEmpty(idempotencyKey))
                     request.SetRequestHeader("Idempotency-Key", idempotencyKey);
+                if (headers != null)
+                    foreach (var pair in headers)
+                        if (!string.IsNullOrEmpty(pair.Value)) request.SetRequestHeader(pair.Key, pair.Value);
                 request.timeout = Mathf.Max(1, _config.timeoutSeconds);
 
                 try
@@ -67,7 +77,8 @@ namespace DemoRestaurant.Game.Online
                 bool noResponse = request.result == UnityWebRequest.Result.ConnectionError ||
                                   request.result == UnityWebRequest.Result.InProgress;
                 int status = noResponse ? 0 : (int)request.responseCode;
-                return new HttpResult(status, request.downloadHandler?.text, request.GetResponseHeader("Retry-After"));
+                return new HttpResult(status, request.downloadHandler?.text, request.GetResponseHeader("Retry-After"),
+                    request.GetResponseHeader("ETag"), request.GetResponseHeader("X-Ruleset-Version"));
             }
         }
     }

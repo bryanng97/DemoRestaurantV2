@@ -1,42 +1,57 @@
 using System;
-using System.Collections.Generic;
+using System.IO;
 using DemoRestaurant.Logic.Online;
+using DemoRestaurant.Logic.Session;
 using UnityEngine;
 
 namespace DemoRestaurant.Game.Online
 {
     /// <summary>
-    /// Runs the online start-up (sign-in → bootstrap → own restaurant, created if missing → wallet, inventory,
-    /// layout) and holds what the server returned. Every failure leaves the game playable offline.
+    /// Runs the v2 online start-up (sign-in → bootstrap → <c>GET /config</c> → <c>POST /sync/ledger</c>) and then keeps
+    /// the restaurant in step with the server: queued actions are uploaded every few seconds, on pause and on quit,
+    /// and each answer folds the server state back into the session (<see cref="OnlineSync"/>). Every failure leaves
+    /// the game playable offline; nothing here blocks play.
     /// </summary>
     public sealed class OnlineSession
     {
         private const string OfflinePrefsKey = "dr_play_offline";
+        public const float SyncSeconds = 15f;
 
-        private readonly Func<string> _restaurantName;
+        private readonly RestaurantSession _game;
+        private readonly string _packId;
         private StartupFacts _facts;
         private bool _running;
+        private float _syncTimer = SyncSeconds;
 
         public SupabaseAuth Auth { get; }
         public GameApiClient Api { get; }
-        public OnlineCoins Coins { get; } = new OnlineCoins();
+        public OnlineSync Sync { get; }
         public OnlineState State { get; private set; } = OnlineState.Offline;
         public bool IsConfigured => _facts.Configured;
 
-        public ApiProfile Profile { get; private set; }
-        public ApiRestaurant Restaurant { get; private set; }
-        public ApiLayoutSnapshot Layout { get; private set; }
-        /// <summary>Owned quantity per server item id (includes placed copies).</summary>
-        public Dictionary<string, int> Inventory { get; } = new Dictionary<string, int>();
+        /// <summary>The player's display name from the server profile, once bootstrapped.</summary>
+        public string DisplayName { get; private set; }
 
         /// <summary>Raised on every state change (on the main thread).</summary>
         public event Action StateChanged;
 
-        public OnlineSession(OnlineConfig config, Func<string> restaurantName)
+        /// <summary>
+        /// The server's restaurant differs from the local one in a way that can't be patched in place (another
+        /// device, a rejected hire or renovation): the game writes <c>RestaurantSession.SaveFromServer</c> and reloads.
+        /// </summary>
+        public event Action<JsonValue, string> AdoptionNeeded;
+
+        /// <summary>Actions the server turned down in the last round (type and reason), for a toast or the log.</summary>
+        public event Action<string, string> ActionRejected;
+
+        public OnlineSession(OnlineConfig config, RestaurantSession game, string packId, ServerIdMap ids, string defaultWallpaper = null)
         {
-            _restaurantName = restaurantName ?? (() => "My Restaurant");
+            _game = game ?? throw new ArgumentNullException(nameof(game));
+            _packId = packId;
+            Sync = new OnlineSync(game, ids) { DefaultWallpaper = defaultWallpaper };
             _facts.Configured = config != null && config.IsConfigured;
             _facts.PlayOffline = PlayerPrefs.GetInt(OfflinePrefsKey, 0) == 1;
+            LoadSyncSave();
             if (!_facts.Configured) return;
             var http = new SupabaseHttp(config);
             Auth = new SupabaseAuth(http);
@@ -82,6 +97,7 @@ namespace DemoRestaurant.Game.Online
         public async Awaitable SignOut()
         {
             if (Auth == null) return;
+            SaveSync();
             await Auth.SignOut(); // raises SignedOut → OnSignedOut
         }
 
@@ -123,104 +139,199 @@ namespace DemoRestaurant.Game.Online
             }
         }
 
+        /// <summary>Call every frame: uploads queued actions every <see cref="SyncSeconds"/> while online.</summary>
+        public void Tick(float unscaledDt)
+        {
+            if (State == OnlineState.Unreachable)
+            {
+                // Retry the start-up now and then; the game keeps playing meanwhile.
+                _syncTimer -= unscaledDt;
+                if (_syncTimer <= 0f) { _syncTimer = SyncSeconds * 2; _ = Run(); }
+                return;
+            }
+            if (State != OnlineState.Online) return;
+            _syncTimer -= unscaledDt;
+            if (_syncTimer > 0f) return;
+            _syncTimer = SyncSeconds;
+            _ = SyncNow();
+        }
+
+        /// <summary>Uploads everything queued now (pause, quit, after a renovation). Returns false when offline or failed.</summary>
+        public async Awaitable<bool> SyncNow()
+        {
+            if (State != OnlineState.Online || _running) return false;
+            _running = true;
+            try { return await SyncAll(false); }
+            finally { _running = false; }
+        }
+
+        /// <summary>Writes the action log and instance ids (call with the game save).</summary>
+        public void SaveSync()
+        {
+            var data = Sync.Capture(Auth?.UserId ?? _savedPlayer);
+            WriteAtomic(SyncPath, JsonUtility.ToJson(data));
+        }
+
+        // ---------------------------------------------------------------- steps
+
         private async Awaitable<bool> Do(StartupStep step)
         {
             switch (step)
             {
                 case StartupStep.Bootstrap:
                 {
+                    ForgetOtherAccount();
                     var r = await Api.Bootstrap();
                     if (!Check(r)) return false;
-                    Profile = r.Data.profile;
-                    Coins.ApplyServer(r.Data.wallet.softCurrency, r.Data.wallet.updatedAt);
+                    DisplayName = r.Data["profile"]["displayName"].AsString();
+                    _game.ServerRestaurantId = r.Data["restaurantId"].AsString() ?? _game.ServerRestaurantId;
                     _facts.Bootstrapped = true;
                     return true;
                 }
-                case StartupStep.LoadRestaurants:
+                case StartupStep.LoadConfig:
                 {
-                    var r = await Api.GetMyRestaurants();
-                    if (!Check(r)) return false;
-                    Restaurant = r.Data.items != null && r.Data.items.Length > 0 ? r.Data.items[0] : null;
-                    _facts.HasRestaurant = Restaurant != null;
-                    _facts.RestaurantsLoaded = true;
+                    if (!await LoadConfig()) return false;
+                    _facts.ConfigLoaded = true;
                     return true;
                 }
-                case StartupStep.CreateRestaurant:
+                case StartupStep.Sync:
                 {
-                    var r = await Api.CreateRestaurant(RestaurantName());
-                    if (r.Ok) Restaurant = r.Data;
-                    else if (r.Code == "RESTAURANT_LIMIT_REACHED") _facts.RestaurantsLoaded = false; // load the existing one
-                    else return Check(r);
-                    _facts.HasRestaurant = Restaurant != null;
+                    // The first round settles the time away even with nothing queued.
+                    if (!await SyncAll(true)) return false;
+                    _facts.Synced = true;
+                    _syncTimer = SyncSeconds;
                     return true;
                 }
-                case StartupStep.LoadState:
-                    if (!await LoadState()) return false;
-                    _facts.StateLoaded = true;
-                    return true;
                 default:
                     return false;
             }
         }
 
-        /// <summary>Wallet, inventory (all pages) and the saved layout.</summary>
-        public async Awaitable<bool> LoadState()
+        private async Awaitable<bool> LoadConfig()
         {
-            var wallet = await Api.GetWallet();
-            if (!Check(wallet)) return false;
-            Coins.ApplyServer(wallet.Data.softCurrency, wallet.Data.updatedAt);
-
-            var owned = new Dictionary<string, int>();
-            string cursor = null;
-            do
+            string cached = ReadText(ConfigPath);
+            JsonValue config = null;
+            if (cached != null && JsonValue.TryParse(cached, out var parsed) && parsed["etag"].AsString() != null) config = parsed;
+            var r = await Api.GetConfig(config?["etag"].AsString());
+            if (!r.Ok)
             {
-                var page = await Api.GetInventory(100, cursor);
-                if (!Check(page)) return false;
-                foreach (var e in page.Data.items ?? new ApiInventoryEntry[0])
-                    owned[e.itemId] = e.quantity;
-                cursor = page.Data.nextCursor;
-            } while (!string.IsNullOrEmpty(cursor));
-            Inventory.Clear();
-            foreach (var pair in owned) Inventory[pair.Key] = pair.Value;
+                // Without the network a cached ruleset is still good enough to build requests later.
+                if (config == null) return Check(r);
+                Check(r);
+                return false;
+            }
+            if (!r.NotModified)
+            {
+                config = r.Data;
+                WriteAtomic(ConfigPath, config.ToString());
+            }
+            Sync.Catalog = ServerCatalog.FromConfig(config);
+            Api.RulesetVersion = Sync.Catalog.RulesetVersion;
+            return true;
+        }
 
-            var layout = await Api.GetLayout(Restaurant.id);
-            if (!Check(layout)) return false;
-            Layout = layout.Data;
+        /// <summary>Sends batches until the log is empty (or only retries are left). One round settles even if empty.</summary>
+        private async Awaitable<bool> SyncAll(bool evenIfEmpty)
+        {
+            for (int round = 0; round < 50; round++)
+            {
+                var body = Sync.NextRequest(out var batch, evenIfEmpty && round == 0);
+                if (body == null) return true;
+                var r = await Api.SyncLedger(body);
+                if (!r.Ok)
+                {
+                    SaveSync(); // the batch is marked sent: it goes again unchanged
+                    if (r.Action == ApiAction.RefreshConfig && await LoadConfig()) continue;
+                    return Check(r);
+                }
+                var outcome = Sync.ApplyResponse(r.Data);
+                SaveSync();
+                foreach (var rejected in outcome.Outcome.Rejected)
+                {
+                    Debug.Log($"Online: {rejected.Key.type} rejected ({rejected.Value})");
+                    ActionRejected?.Invoke(rejected.Key.type, rejected.Value);
+                }
+                if (outcome.NeedsAdoption)
+                {
+                    AdoptionNeeded?.Invoke(Sync.LastState, outcome.AdoptReason);
+                    return true;
+                }
+                // Retries mean the server is busy (rate limit): stop and try again next tick.
+                if (outcome.Outcome.Retry.Count > 0 || batch.Count < ServerActionLog.MaxBatch) return true;
+            }
             return true;
         }
 
         /// <summary>Maps a failed call to a state; true when the call succeeded.</summary>
-        private bool Check<T>(ApiResult<T> r)
+        private bool Check(ApiJson r)
         {
             if (r.Ok) return true;
             switch (r.Action)
             {
                 case ApiAction.VerifyEmail: SetState(OnlineState.NeedsVerification); break;
                 case ApiAction.RefreshSession: SetState(Auth.IsSignedIn ? OnlineState.Unreachable : OnlineState.SignedOut); break;
-                case ApiAction.NotFound:
-                    // Our restaurant vanished (deleted elsewhere): start over from the restaurant list.
-                    _facts.RestaurantsLoaded = _facts.HasRestaurant = _facts.StateLoaded = false;
+                default:
+                    if (State == OnlineState.Online) _facts.Synced = false; // re-run the start-up later
                     SetState(OnlineState.Unreachable);
                     break;
-                default: SetState(OnlineState.Unreachable); break;
             }
             return false;
         }
 
-        private string RestaurantName()
+        // ---------------------------------------------------------------- local files
+
+        private string _savedPlayer;
+
+        private string SyncPath => Path.Combine(Application.persistentDataPath, $"online_sync_{_packId}.json");
+        private string ConfigPath => Path.Combine(Application.persistentDataPath, $"online_config_{_packId}.json");
+
+        private void LoadSyncSave()
         {
-            string name = (_restaurantName() ?? "").Trim();
-            if (name.Length == 0) name = "My Restaurant";
-            return name.Length > 40 ? name.Substring(0, 40) : name;
+            string text = ReadText(SyncPath);
+            if (text == null) return;
+            try
+            {
+                var save = JsonUtility.FromJson<OnlineSyncSave>(text);
+                _savedPlayer = save?.playerId;
+                Sync.Restore(save);
+            }
+            catch (Exception e) { Debug.LogWarning($"Online: could not read the sync save ({e.Message})."); }
+        }
+
+        // The device save belongs to whoever played on it last: another account never receives those actions.
+        private void ForgetOtherAccount()
+        {
+            string user = Auth.UserId;
+            if (string.IsNullOrEmpty(_savedPlayer) || _savedPlayer == user) { _savedPlayer = user; return; }
+            Debug.Log("Online: a different account signed in; the queued actions of the previous one are dropped.");
+            Sync.Restore(new OnlineSyncSave());
+            _game.ServerRestaurantId = null;
+            _savedPlayer = user;
+            SaveSync();
+        }
+
+        private static string ReadText(string path)
+        {
+            try { return File.Exists(path) ? File.ReadAllText(path) : null; }
+            catch (Exception) { return null; }
+        }
+
+        private static void WriteAtomic(string path, string text)
+        {
+            try
+            {
+                string temp = path + ".tmp";
+                File.WriteAllText(temp, text);
+                if (File.Exists(path)) File.Replace(temp, path, null);
+                else File.Move(temp, path);
+            }
+            catch (Exception e) { Debug.LogWarning($"Online: could not write {Path.GetFileName(path)} ({e.Message})."); }
         }
 
         private void OnSignedOut()
         {
             _facts = new StartupFacts { Configured = _facts.Configured };
-            Profile = null;
-            Restaurant = null;
-            Layout = null;
-            Inventory.Clear();
+            DisplayName = null;
             SetState(OnlineState.SignedOut);
         }
 
@@ -228,7 +339,7 @@ namespace DemoRestaurant.Game.Online
         {
             if (State == state) return;
             State = state;
-            Debug.Log($"Online: {state}" + (state == OnlineState.Online ? $" (server coins {Coins.ServerCoins})" : ""));
+            Debug.Log($"Online: {state}" + (state == OnlineState.Online ? $" ({Sync.Log.Count} actions waiting)" : ""));
             StateChanged?.Invoke();
         }
 

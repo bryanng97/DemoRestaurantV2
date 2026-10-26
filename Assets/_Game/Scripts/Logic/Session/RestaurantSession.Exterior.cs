@@ -38,6 +38,7 @@ namespace DemoRestaurant.Logic.Session
                 if (persist == null || !persist(save)) return false;
                 _exterior = accepted.Copy();
                 Ledger.Restore(save.ledger, save.ledgerDropped);
+                ServerLog.RecordDeferred("exterior", -(Wallet.ConfirmedCoins - balance));
                 return true;
             });
         }

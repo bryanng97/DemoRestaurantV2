@@ -1,0 +1,9 @@
+{
+  "_comment": "Local content id -> backend ruleset id, for the ids that differ (online sync only). Unlisted ids are the same on both sides; an empty server id means none. Remove entries once the backend ruleset uses the client ids.",
+  "ids": [
+    { "local": "wood", "server": "floor_wood" },
+    { "local": "stone", "server": "terrace_tile" },
+    { "local": "pattern", "server": "floor_mint" },
+    { "local": "classic", "server": "wall_cream" }
+  ]
+}

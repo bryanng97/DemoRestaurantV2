@@ -44,7 +44,11 @@ namespace DemoRestaurant.Logic.Session
                 Layout.SetTerrace(oldWidth, oldDepth);
                 return false;
             });
-            if (result == LandPurchaseResult.Success) Wallet.SetConfirmed(server.Balance);
+            if (result == LandPurchaseResult.Success)
+            {
+                Wallet.SetConfirmed(server.Balance);
+                RecordAction("terrace", Body().Set("restaurantId", ServerRestaurantId ?? "").Set("step", TerraceStep), coins: -next.price);
+            }
             return result;
         }
 

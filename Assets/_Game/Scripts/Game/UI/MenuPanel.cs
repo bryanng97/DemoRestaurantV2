@@ -85,7 +85,9 @@ namespace DemoRestaurant.Game.UI
 
         private void OnCardTapped(DishDef dish)
         {
-            switch (Menu.Toggle(dish))
+            var change = Menu.Toggle(dish);
+            if (change == MenuChange.Added || change == MenuChange.Removed) Ui.Session.RecordMenuChanged();
+            switch (change)
             {
                 case MenuChange.MenuFull:
                     Ui.Toast(Menu.SlotsFor(dish.Category) == 0

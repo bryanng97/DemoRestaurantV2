@@ -89,6 +89,8 @@ namespace DemoRestaurant.Logic.Save
         /// <summary>0-100; missing in version-1 saves, which load as full energy.</summary>
         public float energy = 100f;
         public bool resting;
+        /// <summary>The backend's id for this staff member (empty before the first sync).</summary>
+        public string serverId;
     }
 
     [Serializable]

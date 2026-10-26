@@ -2,7 +2,7 @@ using System;
 
 namespace DemoRestaurant.Logic.Online
 {
-    /// <summary>What the client does after a failed game API call (mobile-integration.md, "Retry behavior").</summary>
+    /// <summary>What the client does after a failed game API call (mobile-api-v2.md, "Write rules").</summary>
     public enum ApiAction
     {
         /// <summary>Show the failure; retrying the same request can't help.</summary>
@@ -15,12 +15,14 @@ namespace DemoRestaurant.Logic.Online
         Bootstrap,
         /// <summary>Resource is missing or not ours.</summary>
         NotFound,
-        /// <summary>Server state moved on (layout version, existing restaurant, funds): reload, then decide.</summary>
+        /// <summary>Server state moved on (revision, ownership, coins): reload, then decide.</summary>
         Reload,
         /// <summary>Wait the server's Retry-After, then retry with the same key/body.</summary>
         RetryAfter,
         /// <summary>Uncertain outcome (5xx, network): bounded backoff, same key/body.</summary>
         Backoff,
+        /// <summary>The player's ruleset moved on (<c>RULESET_OUTDATED</c>): fetch <c>/config</c>, then retry.</summary>
+        RefreshConfig,
     }
 
     public static class ApiErrorPolicy
@@ -41,14 +43,17 @@ namespace DemoRestaurant.Logic.Online
                 switch (code)
                 {
                     case "PLAYER_NOT_INITIALIZED": return ApiAction.Bootstrap;
-                    case "RESTAURANT_LIMIT_REACHED":
-                    case "LAYOUT_VERSION_CONFLICT":
+                    case "RULESET_OUTDATED": return ApiAction.RefreshConfig;
+                    // Server state moved on: reload it (the next ledger sync returns it), then decide.
+                    case "REVISION_CONFLICT":
+                    case "OWNERSHIP_MISMATCH":
+                    case "INSUFFICIENT_COINS":
                     case "ITEM_NOT_OWNED":
-                    case "INSUFFICIENT_FUNDS":
                     case "ITEM_NOT_AVAILABLE":
                     case "REWARD_NOT_READY":
                         return ApiAction.Reload;
-                    default: return ApiAction.Fail; // IDEMPOTENCY_KEY_REUSED, SELF_VISIT_NOT_ALLOWED, limit codes
+                    // IDEMPOTENCY_KEY_REUSED, SELF_VISIT_NOT_ALLOWED, LEVEL_TOO_LOW, STAFF_SLOT_FULL and other rule codes
+                    default: return ApiAction.Fail;
                 }
             }
             return ApiAction.Fail; // 400, 413, 415 and anything unexpected

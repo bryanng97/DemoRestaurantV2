@@ -39,6 +39,8 @@ namespace DemoRestaurant.Logic.Simulation
         public StaffTypeDef Type { get; internal set; }
         public StaffRole Role => Type.Role;
         public bool IsOwner => Type.IsOwner;
+        /// <summary>The backend's id (UUID) for this staff member; null until hired online or synced.</summary>
+        public string ServerId { get; set; }
         public StaffState State { get; internal set; }
         /// <summary>Where they wait when there is no work, and where they rest. Renovations can relocate it.</summary>
         public GridPos Home { get; internal set; }

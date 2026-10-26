@@ -39,7 +39,7 @@ namespace DemoRestaurant.Logic.Session
                 save.staff.Add(new StaffSave
                 {
                     typeId = s.Type.Id, homeX = s.Home.X, homeY = s.Home.Y,
-                    energy = s.Energy, resting = s.IsResting || s.RestRequested,
+                    energy = s.Energy, resting = s.IsResting || s.RestRequested, serverId = s.ServerId,
                 });
             foreach (var pair in Items.Contents()) save.items.Add(new ItemCount { id = pair.Key.Id, count = pair.Value });
             save.playerId = Profile.PlayerId;
@@ -119,6 +119,7 @@ namespace DemoRestaurant.Logic.Session
                 }
                 takenHomes.Add(home);
                 var staff = Sim.Hire(type, home);
+                staff.ServerId = string.IsNullOrEmpty(s.serverId) ? null : s.serverId;
                 Sim.SetEnergy(staff, s.energy, s.resting);
             }
 

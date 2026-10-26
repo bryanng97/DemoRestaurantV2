@@ -322,6 +322,7 @@ namespace DemoRestaurant.Game.Controls
             var snapshot = LayoutSnapshot.Capture(Editor.Draft);
             var server = Server;
             var placed = PlacedInDraft();
+            long balanceBefore = server?.Balance ?? 0;
             // Land and any furniture beyond what is owned are paid together; the room and ownership are saved with it.
             var result = server == null ? LandPurchaseResult.Unavailable : server.CommitLayout(snapshot.width, snapshot.height, placed,
                 balance =>
@@ -337,6 +338,7 @@ namespace DemoRestaurant.Game.Controls
             }
             _session.Sim.ApplyLayout(snapshot, _content.Pack);
             _session.Wallet.SetConfirmed(server.Balance);
+            _session.RecordLayoutSaved(balanceBefore - server.Balance);
             End();
             Saved?.Invoke();
             _ui.Toast(Loc.Get(unreachable ? "ui.build.saved_unreachable" : "ui.build.saved"));
