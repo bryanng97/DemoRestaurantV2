@@ -191,6 +191,7 @@ namespace DemoRestaurant.Game.Online
                     if (!Check(r)) return false;
                     await ClaimOrForget(r.Data);
                     DisplayName = r.Data["profile"]["displayName"].AsString();
+                    _game.ApplyServerProfile(r.Data); // the account's id and name, the same on every device
                     _game.ServerRestaurantId = r.Data["restaurantId"].AsString() ?? _game.ServerRestaurantId;
                     _facts.Bootstrapped = true;
                     return true;
@@ -354,6 +355,7 @@ namespace DemoRestaurant.Game.Online
         {
             _facts = new StartupFacts { Configured = _facts.Configured };
             DisplayName = null;
+            _game.Profile.SetAccount(null); // back to this device's guest id; the name stays
             SetState(OnlineState.SignedOut);
         }
 

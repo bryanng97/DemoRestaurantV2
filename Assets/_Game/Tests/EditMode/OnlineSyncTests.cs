@@ -4,6 +4,7 @@ using DemoRestaurant.Logic.Content;
 using DemoRestaurant.Logic.Grid;
 using DemoRestaurant.Logic.Layout;
 using DemoRestaurant.Logic.Online;
+using DemoRestaurant.Logic.Profile;
 using DemoRestaurant.Logic.Session;
 using DemoRestaurant.Logic.Simulation;
 using NUnit.Framework;
@@ -294,8 +295,11 @@ namespace DemoRestaurant.Logic.Tests
             return new RestaurantSession(pack, layout, seed: 3, startingCoins: coins);
         }
 
-        private static JsonValue State(long coins, int level = 1, int xp = 0, string staff = "[]") => JsonValue.Parse(
-            "{\"restaurantId\":\"bd2cd2fe-187f-4ad3-b85b-39767ab556f4\",\"coins\":" + coins + ",\"level\":" + level +
+        private const string Account = "7c0f6a55-3e1b-4a8e-9a43-2a1f0b6c9d10";
+
+        private static JsonValue State(long coins, int level = 1, int xp = 0, string staff = "[]", string name = null) => JsonValue.Parse(
+            "{" + (name == null ? "" : "\"profile\":{\"id\":\"" + Account + "\",\"displayName\":\"" + name + "\"},") +
+            "\"restaurantId\":\"bd2cd2fe-187f-4ad3-b85b-39767ab556f4\",\"coins\":" + coins + ",\"level\":" + level +
             ",\"levelXp\":" + xp + ",\"popularity\":{\"demand\":150},\"recipes\":{\"teh_tarik\":2},\"menu\":{\"drink\":[],\"main\":[],\"starter\":[],\"dessert\":[]}," +
             "\"inventory\":{\"ingredients\":{\"rice\":4},\"items\":{},\"furniture\":{}},\"staff\":" + staff + "}");
 
@@ -361,6 +365,49 @@ namespace DemoRestaurant.Logic.Tests
             Assert.AreEqual(0, s.ServerLog.Count);
             Assert.AreEqual(800, s.Wallet.DisplayCoins);
             Assert.AreEqual(90f, chef.Energy, 1e-3);
+        }
+
+        [Test]
+        public void ServerProfile_GivesTheAccountsIdAndName_SignOutReturnsToTheGuestId()
+        {
+            var s = Session();
+            string guest = s.Profile.PlayerId;
+            s.ApplyServerState(State(1000, name: "Mei Ling"));
+            Assert.AreEqual(Account, s.Profile.PlayerId, "the same id on every device");
+            Assert.AreEqual("Mei Ling", s.Profile.DisplayName);
+            Assert.AreEqual(guest, s.Profile.GuestId);
+
+            var loaded = Session();
+            loaded.ApplySave(s.CaptureSave());
+            Assert.AreEqual(Account, loaded.Profile.PlayerId, "kept across restarts");
+            Assert.AreEqual(guest, loaded.Profile.GuestId);
+
+            loaded.Profile.SetAccount(null);
+            Assert.AreEqual(guest, loaded.Profile.PlayerId);
+            Assert.AreEqual("Mei Ling", loaded.Profile.DisplayName, "signing out keeps the name");
+        }
+
+        [Test]
+        public void ServerProfile_KeepsARenameThatIsNotSentYet()
+        {
+            var s = Session();
+            Assert.AreEqual(NameCheck.Ok, s.Rename("Kedai Ali"));
+            s.ApplyServerState(State(1000, name: "Chef"));
+            Assert.AreEqual("Kedai Ali", s.Profile.DisplayName);
+            Assert.AreEqual(Account, s.Profile.PlayerId);
+            s.ServerLog.Apply(JsonValue.Parse("[{\"key\":\"" + s.ServerLog.Items[0].key + "\",\"outcome\":\"accepted\",\"result\":{}}]"));
+            s.ApplyServerState(State(1000, name: "Kedai Ali"));
+            Assert.AreEqual("Kedai Ali", s.Profile.DisplayName);
+        }
+
+        [Test]
+        public void SaveFromServer_TakesTheAccountsIdAndName()
+        {
+            var s = Session();
+            var save = s.SaveFromServer(State(1000, name: "Mei Ling"));
+            Assert.AreEqual(Account, save.accountId);
+            Assert.AreEqual("Mei Ling", save.displayName);
+            Assert.AreEqual(s.Profile.GuestId, save.playerId);
         }
 
         [TestCase("a", "a", 500, 3, true, AccountChange.SameAccount)]

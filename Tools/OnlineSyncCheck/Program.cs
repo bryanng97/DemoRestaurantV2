@@ -8,6 +8,7 @@ using DemoRestaurant.Logic.Economy;
 using DemoRestaurant.Logic.Grid;
 using DemoRestaurant.Logic.Layout;
 using DemoRestaurant.Logic.Online;
+using DemoRestaurant.Logic.Profile;
 using DemoRestaurant.Logic.Session;
 using DemoRestaurant.Logic.Simulation;
 
@@ -112,6 +113,7 @@ public static class Program
         game.RecordLayoutSaved(chair.Price);
         game.RecordMenuChanged();
         game.Wallet.TrySpend(chair.Price);
+        Check(game.Rename("Kedai Live") == NameCheck.Ok, "the player renames (first rename is free)");
 
         var sent = new List<string>();
         foreach (var a in game.ServerLog.Items) sent.Add(a.type);
@@ -133,6 +135,8 @@ public static class Program
         Check(collected.Count == 0 || after["market"]["baskets"].Count > 0, $"market collected ({collected.Count} local)");
         Check(game.ServerLog.Count == 0, "log empty after the round");
         Check(game.Wallet.DisplayCoins == after["coins"].AsLong(), $"coins reconcile to the server ({before} → {after["coins"].AsLong()})");
+        Check(after["profile"]["displayName"].AsString() == "Kedai Live", "the account's profile has the new name");
+        Check(game.Profile.PlayerId == after["profile"]["id"].AsString(), "the profile id is the account id");
 
         // Resending the same batch (a lost response) changes nothing.
         var replay = Call("POST", "/sync/ledger", body);
@@ -182,6 +186,9 @@ public static class Program
         Check(reloaded.Wallet.DisplayCoins == serverBefore["coins"].AsLong() && reloaded.Progress.Level == serverBefore["level"].AsInt(),
             $"coins {reloaded.Wallet.DisplayCoins} and level {reloaded.Progress.Level} are the account's");
         Check(reloaded.Layout.Furniture.Count == serverBefore["layout"]["furniture"].Count, "the bought chair is in the room");
+        Check(reloaded.Profile.PlayerId == game.Profile.PlayerId && reloaded.Profile.GuestId != game.Profile.GuestId,
+            "the new device shows the same player id (its own guest id kept aside)");
+        Check(reloaded.Profile.DisplayName == "Kedai Live", "and the account's name");
     }
 
     // ---------------------------------------------------------------- helpers

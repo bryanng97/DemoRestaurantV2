@@ -85,6 +85,7 @@ namespace DemoRestaurant.Logic.Session
             ids ??= new ServerIdMap();
             var log = ServerLog;
             ServerRestaurantId = state["restaurantId"].AsString() ?? ServerRestaurantId;
+            ApplyServerProfile(state);
 
             long coins = state["coins"].AsLong() + log.PendingCoins - Wallet.PendingCoins;
             Wallet.SetConfirmed(Math.Max(0, coins));
@@ -178,11 +179,24 @@ namespace DemoRestaurant.Logic.Session
         }
 
         /// <summary>
-        /// A local save built from a server state, keeping what only the device has (profile, avatar, toilet wear,
-        /// customers served). Coins include the actions still waiting in the log, which stays and is sent next.
+        /// The account's id and, unless a rename is still waiting to be sent, its name: the same on every device.
+        /// </summary>
+        public void ApplyServerProfile(JsonValue state)
+        {
+            var profile = state?["profile"];
+            string id = profile?["id"].AsString();
+            if (string.IsNullOrEmpty(id)) return;
+            Profile.SetAccount(id, ServerLog.HasPending("rename") ? null : profile["displayName"].AsString());
+        }
+
+        /// <summary>
+        /// A local save built from a server state, keeping what only the device has (avatar, toilet wear, customers
+        /// served); the profile takes the account's id and name. Coins include the actions still waiting in the log,
+        /// which stays and is sent next.
         /// </summary>
         public SaveData SaveFromServer(JsonValue state)
         {
+            ApplyServerProfile(state);
             var save = CaptureSave();
             save.coins = Math.Max(0, state["coins"].AsLong() + ServerLog.PendingCoins);
             save.level = state["level"].AsInt(1);

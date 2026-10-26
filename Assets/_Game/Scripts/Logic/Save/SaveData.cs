@@ -45,7 +45,10 @@ namespace DemoRestaurant.Logic.Save
         public List<StaffSave> staff = new List<StaffSave>();
         public List<ItemCount> items = new List<ItemCount>();
 
+        /// <summary>This device's guest id.</summary>
         public string playerId;
+        /// <summary>The signed-in server account, empty for a guest.</summary>
+        public string accountId;
         public string displayName;
         /// <summary>ISO 8601 UTC, empty if never renamed.</summary>
         public string lastRenameUtc;

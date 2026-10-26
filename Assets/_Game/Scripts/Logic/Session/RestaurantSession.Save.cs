@@ -42,7 +42,8 @@ namespace DemoRestaurant.Logic.Session
                     energy = s.Energy, resting = s.IsResting || s.RestRequested, serverId = s.ServerId,
                 });
             foreach (var pair in Items.Contents()) save.items.Add(new ItemCount { id = pair.Key.Id, count = pair.Value });
-            save.playerId = Profile.PlayerId;
+            save.playerId = Profile.GuestId;
+            save.accountId = Profile.AccountId ?? "";
             save.displayName = Profile.DisplayName;
             save.lastRenameUtc = Profile.LastRenameUtc?.ToString("o", CultureInfo.InvariantCulture) ?? "";
             foreach (var part in Profile.Avatar.Parts)
@@ -208,7 +209,7 @@ namespace DemoRestaurant.Logic.Session
             var linked = new List<AccountProvider>();
             foreach (var name in save.linkedAccounts)
                 if (Enum.TryParse(name, out AccountProvider p)) linked.Add(p);
-            Profile.Restore(save.playerId, save.displayName, renamed, linked);
+            Profile.Restore(save.playerId, save.displayName, renamed, linked, save.accountId);
 
             var parts = new List<KeyValuePair<AvatarSlot, string>>();
             foreach (var part in save.avatar)

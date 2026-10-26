@@ -20,7 +20,12 @@ namespace DemoRestaurant.Logic.Profile
     {
         private readonly List<AccountProvider> _linked = new List<AccountProvider>();
 
-        public string PlayerId { get; private set; }
+        /// <summary>The account id while signed in (the same on every device), else this device's guest id.</summary>
+        public string PlayerId => AccountId ?? GuestId;
+        /// <summary>The id made up on this device the first time the game ran.</summary>
+        public string GuestId { get; private set; }
+        /// <summary>The server account this profile belongs to (null = guest).</summary>
+        public string AccountId { get; private set; }
         public string DisplayName { get; private set; }
         public AvatarLook Avatar { get; private set; }
         /// <summary>When the name was last changed by the player (null = never; the first rename is free).</summary>
@@ -32,7 +37,7 @@ namespace DemoRestaurant.Logic.Profile
 
         public PlayerProfile(string playerId, string displayName, AvatarLook avatar)
         {
-            PlayerId = string.IsNullOrEmpty(playerId) ? Guid.NewGuid().ToString("N") : playerId;
+            GuestId = string.IsNullOrEmpty(playerId) ? Guid.NewGuid().ToString("N") : playerId;
             DisplayName = NameRules.Normalize(displayName);
             Avatar = avatar ?? throw new ArgumentNullException(nameof(avatar));
         }
@@ -76,9 +81,25 @@ namespace DemoRestaurant.Logic.Profile
             Changed?.Invoke();
         }
 
-        public void Restore(string playerId, string displayName, DateTime? lastRenameUtc, IEnumerable<AccountProvider> linked)
+        /// <summary>
+        /// The signed-in account (null on sign-out) and, when given, the name the server has for it. The guest id is
+        /// kept for when the player signs out.
+        /// </summary>
+        public void SetAccount(string accountId, string serverName = null)
         {
-            if (!string.IsNullOrEmpty(playerId)) PlayerId = playerId;
+            string id = string.IsNullOrEmpty(accountId) ? null : accountId;
+            string name = string.IsNullOrWhiteSpace(serverName) ? DisplayName : NameRules.Normalize(serverName);
+            if (id == AccountId && name == DisplayName) return;
+            AccountId = id;
+            DisplayName = name;
+            Changed?.Invoke();
+        }
+
+        public void Restore(string playerId, string displayName, DateTime? lastRenameUtc, IEnumerable<AccountProvider> linked,
+            string accountId = null)
+        {
+            if (!string.IsNullOrEmpty(playerId)) GuestId = playerId;
+            AccountId = string.IsNullOrEmpty(accountId) ? null : accountId;
             if (!string.IsNullOrEmpty(displayName)) DisplayName = NameRules.Normalize(displayName);
             LastRenameUtc = lastRenameUtc;
             _linked.Clear();
