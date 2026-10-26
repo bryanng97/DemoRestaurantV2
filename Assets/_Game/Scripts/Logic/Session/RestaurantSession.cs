@@ -1,0 +1,526 @@
+﻿using System;
+using System.Collections.Generic;
+using DemoRestaurant.Logic.Content;
+using DemoRestaurant.Logic.Economy;
+using DemoRestaurant.Logic.Grid;
+using DemoRestaurant.Logic.Layout;
+using DemoRestaurant.Logic.Menu;
+using DemoRestaurant.Logic.Progression;
+using DemoRestaurant.Logic.Save;
+using DemoRestaurant.Logic.Profile;
+using DemoRestaurant.Logic.Simulation;
+
+namespace DemoRestaurant.Logic.Session
+{
+    public enum HireResult
+    {
+        Hired,
+        /// <summary>Every staff slot for the restaurant level is taken.</summary>
+        NoSlot,
+        /// <summary>This role unlocks at a higher restaurant level.</summary>
+        RoleLocked,
+        NotEnoughCoins,
+    }
+
+    /// <summary>How ingredients were gained (for the gain popup).</summary>
+    public enum IngredientGain
+    {
+        /// <summary>Timed market baskets.</summary>
+        Market,
+        /// <summary>Harvested from the farm.</summary>
+        Garden,
+    }
+
+    /// <summary>
+    /// One running restaurant: the simulation plus everything around it (guest arrivals, restaurant level, star
+    /// rating, coins, ingredients, recipes, menu and staff slots), wired together in plain C#. Numbers come from
+    /// the economy table (economy.json). The Unity layer creates this, calls <see cref="Tick"/> every frame and
+    /// draws its state.
+    /// </summary>
+    public sealed partial class RestaurantSession
+    {
+        private readonly Random _random;
+        private readonly List<CustomerTypeDef> _arriving = new List<CustomerTypeDef>();
+        private readonly Func<DateTime> _utcNow;
+
+        public ContentPack Content { get; }
+        public GameRules Rules => Content.Rules;
+        /// <summary>The designers' economy sheet (economy.json): levels, formulas and limits.</summary>
+        public EconomyTable Tuning { get; }
+        public EconomySettings Settings => Tuning.settings;
+        public RestaurantLayout Layout { get; }
+        public RestaurantSim Sim { get; }
+        public RestaurantMenu Menu { get; }
+        public RecipeBook Recipes { get; }
+        public Inventory Inventory { get; }
+        /// <summary>Consumable items such as energy drinks.</summary>
+        public ItemBag Items { get; } = new ItemBag();
+        public IngredientMarket Market { get; }
+        /// <summary>The farm behind the restaurant (9 plots, opened by level).</summary>
+        public Garden Garden { get; }
+        /// <summary>Restaurant level and XP (shown on the profile card).</summary>
+        public RestaurantProgress Progress { get; }
+        /// <summary>Popularity: how often guests arrive; happy guests raise it, unhappy ones lower it.</summary>
+        public RestaurantDemand Demand { get; }
+        /// <summary>Display name, avatar, player id and linked accounts (the profile dialog).</summary>
+        public PlayerProfile Profile { get; }
+        public CustomerArrivals Arrivals { get; }
+        public Wallet Wallet { get; }
+        public EarningsTracker Earnings { get; }
+        public IEconomyServer Economy { get; }
+        /// <summary>Everything done while offline, to be validated by the backend on the next sync.</summary>
+        public OfflineLedger Ledger { get; } = new OfflineLedger();
+        public long TotalCustomersServed { get; private set; }
+
+        /// <summary>Game seconds since the session started.</summary>
+        public float Time { get; private set; }
+        /// <summary>When false, customers only arrive through <see cref="RestaurantSim.SpawnCustomer"/> (stress test).</summary>
+        public bool ArrivalsEnabled { get; set; } = true;
+
+        /// <summary>A customer paid: coins (predicted) and XP gained.</summary>
+        public event Action<Customer, int, int> CustomerServed;
+        /// <summary>A customer left angry: demand lost (negative).</summary>
+        public event Action<Customer, double> CustomerAngered;
+        public event Action<IReadOnlyList<IngredientDef>, IngredientGain> IngredientsGained;
+        public event Action<DishDef> RecipeDiscovered;
+        /// <summary>New restaurant level and the coins it paid.</summary>
+        public event Action<int, int> LevelUp;
+
+        /// <param name="utcNow">Wall clock for the ledger and idle progress; injectable for tests.</param>
+        public RestaurantSession(ContentPack content, RestaurantLayout layout, int seed,
+            long startingCoins = 0, IEconomyServer economy = null, Func<DateTime> utcNow = null,
+            string playerName = null)
+        {
+            Content = content ?? throw new ArgumentNullException(nameof(content));
+            Tuning = content.Economy ?? throw new ContentException(
+                $"Content pack '{content.Id}' has no economy.json (DemoRestaurant > Content > Import Economy Sheet).");
+            Layout = layout ?? throw new ArgumentNullException(nameof(layout));
+            _random = new Random(seed);
+            _utcNow = utcNow ?? (() => DateTime.UtcNow);
+            Profile = new PlayerProfile(null, string.IsNullOrWhiteSpace(playerName) ? "Player" : playerName,
+                AvatarLook.Default(content.Avatar));
+
+            Inventory = new Inventory();
+            Inventory.AddAll(Rules.StartingIngredients);
+            foreach (var pair in Rules.StartingItems)
+                Items.Add(pair.Key, pair.Value);
+            Progress = new RestaurantProgress(Tuning);
+            Demand = new RestaurantDemand(Rules.Demand);
+            Progress.LevelUp += OnLevelUp;
+
+            Recipes = new RecipeBook(content.Dishes);
+            if (Recipes.Known.Count == 0)
+                throw new ContentException($"Content pack '{content.Id}' needs at least one dish known at the start.");
+            Menu = new RestaurantMenu(Recipes.Known, category => Tuning.MenuSlots(Progress.Level, category));
+            Recipes.Discovered += OnRecipeDiscovered;
+            Recipes.Upgraded += (dish, level) =>
+            {
+                Progress.Add(Progress.XpForRecipeLevel(level));
+                Ledger.Record(LedgerKind.RecipeUpgraded, level, dish.Id, _utcNow());
+            };
+
+            Arrivals = new CustomerArrivals(content.CustomerTypes, () => Progress.Level, () => Demand.GuestsPerMinute, _random);
+            if (content.Ingredients.Count > 0)
+                Market = new IngredientMarket(content.Ingredients, Rules.MarketBaskets, Rules.MarketRestockSeconds, _random);
+            Garden = new Garden(content.Ingredients, Settings, Rules.GardenHarvest, _random);
+
+            Wallet = new Wallet(startingCoins);
+            Economy = economy ?? new LocalEconomyServer(content, startingCoins: startingCoins,
+                ownedWidth: layout.RoomWidth, ownedHeight: layout.RoomHeight, wallet: Wallet);
+            Economy.SaleSettled += Wallet.Settle;
+            (Economy as LocalEconomyServer)?.SetRecipeLevelSource(id => Recipes.LevelOf(Content.GetDish(id)));
+            (Economy as LocalEconomyServer)?.SetLevelSource(() => Progress.Level);
+            RestoreTerraceFromLayout();
+            Earnings = new EarningsTracker();
+
+            Sim = new RestaurantSim(layout, Menu, seed, new SimSettings
+            {
+                StaffEnergy = Rules.StaffEnergy,
+                CleanSeconds = Math.Max(0f, Rules.CleanSeconds),
+                PlayerCleanSeconds = Math.Max(.1f, Rules.PlayerCleanSeconds),
+                StreetWalk = true,
+                NoTableWaitSeconds = Math.Max(0f, Rules.NoTableWaitSeconds),
+                ToiletSeconds = Math.Max(0f, Rules.Toilets.toiletSeconds),
+                SinkSeconds = Math.Max(0f, Rules.Toilets.sinkSeconds),
+                FixSeconds = Math.Max(0f, Rules.Toilets.fixSeconds),
+                EntertainmentSeconds = Math.Max(0f, Rules.Entertainment.playSeconds),
+            });
+            Sim.CustomerPaid += OnCustomerPaid;
+            Sim.EntertainmentCompleted += OnEntertainmentCompleted;
+            Sim.CustomerAngry += OnCustomerAngry;
+            // Every guest who leaves unhappy costs demand: no room even to queue, gave up queuing (angry is handled
+            // in OnCustomerAngry).
+            Sim.CustomerTurnedAway += _ => Demand.OnUnhappyGuest();
+            Sim.CustomerNoToilet += _ => Demand.OnUnhappyGuest(); // as in the reference game: no toilet, unhappy guest
+            UpdateToiletChance();
+            Sim.CustomerGaveUpWaiting += _ => Demand.OnUnhappyGuest();
+            Sim.CustomerNoTable += _ => Demand.OnUnhappyGuest();
+        }
+
+        public void Tick(float dt)
+        {
+            if (dt <= 0)
+                return;
+            Time += dt;
+
+            if (ArrivalsEnabled)
+            {
+                Arrivals.Tick(dt, _arriving);
+                foreach (var type in _arriving)
+                    Sim.SpawnCustomer(type);
+            }
+
+            Sim.Tick(dt);
+            if (ArrivalsEnabled && !IsOpen)
+                Demand.OnClosed(TimeSpan.FromSeconds(dt));
+            TickEconomy(dt);
+            Market?.Tick(dt);
+        }
+
+        public void TickEconomy(float dt) => (Economy as LocalEconomyServer)?.Tick(dt);
+
+        // ---------------------------------------------------------------- staff
+
+        /// <summary>Staff slots shared by every role at the current level (the owner doesn't take one).</summary>
+        public int StaffSlots => Progress.Row.staffSlots;
+
+        /// <summary>Hired staff of every role (not the owner).</summary>
+        public int HiredCount
+        {
+            get
+            {
+                int n = 0;
+                foreach (var s in Sim.Staff)
+                    if (!s.IsOwner) n++;
+                return n;
+            }
+        }
+
+        /// <summary>Cost of the next hire: base + per member x current team size.</summary>
+        public int NextHireCost => EconomyFormulas.HireCost(Settings, HiredCount);
+
+        /// <summary>Restaurant level a role can first be hired at.</summary>
+        public int RoleUnlockLevel(StaffRole role) => Tuning.RoleUnlockLevel(role.ToString());
+
+        /// <summary>Hired staff of a role. The owner (the player's avatar) doesn't count.</summary>
+        public int StaffCount(StaffRole role)
+        {
+            int n = 0;
+            foreach (var s in Sim.Staff)
+                if (s.Role == role && !s.IsOwner) n++;
+            return n;
+        }
+
+        /// <summary>The player's own avatar working in the restaurant, if placed.</summary>
+        public Staff Owner
+        {
+            get
+            {
+                foreach (var s in Sim.Staff)
+                    if (s.IsOwner) return s;
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Puts the player's avatar to work as <paramref name="role"/> (free, outside the caps), or moves them to that
+        /// job if already working. False if the pack has no owner type for the role.
+        /// </summary>
+        public bool AssignOwner(StaffRole role, GridPos home)
+        {
+            var type = Content.OwnerType(role);
+            if (type == null)
+                return false;
+            var owner = Owner;
+            if (owner == null)
+                Sim.Hire(type, home);
+            else if (owner.Type == type)
+                return true;
+            else
+                Sim.ChangeType(owner, type, home);
+            Ledger.Record(LedgerKind.OwnerJobChanged, 0, type.Id, _utcNow());
+            return true;
+        }
+
+        public bool HasFreeSlot => HiredCount < StaffSlots;
+
+        /// <summary>Why a staff type can or can't be hired right now.</summary>
+        public HireResult CheckHire(StaffTypeDef type, bool free = false)
+        {
+            if (type.IsOwner || !HasFreeSlot) return HireResult.NoSlot; // the owner is placed, not hired
+            if (Progress.Level < RoleUnlockLevel(type.Role)) return HireResult.RoleLocked;
+            if (!free && Wallet.DisplayCoins < NextHireCost) return HireResult.NotEnoughCoins;
+            return HireResult.Hired;
+        }
+
+        /// <summary>Hires one staff member: a free slot, role unlocked, hire cost paid (unless free).</summary>
+        public HireResult Hire(StaffTypeDef type, GridPos home, out Staff staff, bool free = false)
+        {
+            staff = null;
+            if (type == null) throw new ArgumentNullException(nameof(type));
+            var check = CheckHire(type, free);
+            if (check != HireResult.Hired)
+                return check;
+            int cost = free ? 0 : NextHireCost;
+            if (cost > 0 && !Wallet.TrySpend(cost))
+                return HireResult.NotEnoughCoins;
+            Ledger.Record(LedgerKind.StaffHired, cost, type.Id, _utcNow());
+            staff = Sim.Hire(type, home);
+            return HireResult.Hired;
+        }
+
+        /// <summary>Hire for a cost; null if not allowed (see <see cref="CheckHire"/>).</summary>
+        public Staff TryHire(StaffTypeDef type, GridPos home) =>
+            type != null && Hire(type, home, out var staff) == HireResult.Hired ? staff : null;
+
+        // ---------------------------------------------------------------- profile
+
+        public TimeSpan RenameCooldown => TimeSpan.FromHours(Math.Max(0f, Rules.NameChangeCooldownHours));
+
+        public NameCheck Rename(string name)
+        {
+            var result = Profile.TryRename(name, _utcNow(), RenameCooldown);
+            if (result == NameCheck.Ok)
+                Ledger.Record(LedgerKind.Renamed, 0, Profile.DisplayName, _utcNow());
+            return result;
+        }
+
+        /// <summary>Saves an edited avatar. Locked or unknown parts are replaced with valid ones first.</summary>
+        public void SaveAvatar(AvatarLook look)
+        {
+            var clean = look.Clone();
+            clean.Sanitize(Content.Avatar);
+            foreach (var slot in AvatarCatalog.AllSlots)
+            {
+                var part = Content.Avatar.Find(slot, clean[slot]);
+                if (part != null && part.UnlockLevel > Progress.Level)
+                    clean.TrySet(Content.Avatar, slot, Profile.Avatar[slot] ?? Content.Avatar.Default(slot)?.Id, int.MaxValue);
+            }
+            Profile.SetAvatar(clean);
+            Ledger.Record(LedgerKind.AvatarChanged, 0, clean.Key, _utcNow());
+        }
+
+        public void SendToRest(Staff staff) => Sim.SendToRest(staff);
+        public void ReturnToWork(Staff staff) => Sim.ReturnToWork(staff);
+
+        /// <summary>Buys one item with coins.</summary>
+        public bool BuyItem(ItemDef item)
+        {
+            if (item == null || item.Price <= 0 || !Wallet.TrySpend(item.Price))
+                return false;
+            Items.Add(item);
+            Ledger.Record(LedgerKind.ItemBought, item.Price, item.Id, _utcNow());
+            return true;
+        }
+
+        /// <summary>Uses one item on a staff member (restores energy). False if none left or energy is already full.</summary>
+        public bool UseItem(ItemDef item, Staff staff)
+        {
+            if (item == null || staff == null || staff.Energy >= StaffEnergyRules.Max || !Items.TryUse(item))
+                return false;
+            Sim.RestoreEnergy(staff, item.EnergyRestore);
+            Ledger.Record(LedgerKind.ItemUsed, 1, item.Id, _utcNow());
+            return true;
+        }
+
+        /// <summary>
+        /// One tap refill: uses the item on whoever is most tired, again and again, until everyone is full or the items
+        /// run out. Returns how many were used.
+        /// </summary>
+        public int RefillAll(ItemDef item)
+        {
+            int used = 0;
+            while (true)
+            {
+                Staff tiredest = null;
+                foreach (var s in Sim.Staff)
+                    if (s.Energy < StaffEnergyRules.Max && (tiredest == null || s.Energy < tiredest.Energy)) tiredest = s;
+                if (tiredest == null || !UseItem(item, tiredest)) return used;
+                used++;
+            }
+        }
+
+        /// <summary>Dismisses hired staff. The owner can change jobs or rest, but never leaves.</summary>
+        public void Dismiss(Staff staff)
+        {
+            if (staff == null || staff.IsOwner)
+                return;
+            Ledger.Record(LedgerKind.StaffDismissed, 1, staff.Type.Id, _utcNow());
+            Sim.Dismiss(staff);
+        }
+
+        // ---------------------------------------------------------------- ingredients & recipes
+
+        public IReadOnlyList<IngredientDef> CollectMarket()
+        {
+            if (Market == null)
+                return Array.Empty<IngredientDef>();
+            var got = Market.Collect(Inventory);
+            foreach (var i in got)
+                Ledger.Record(LedgerKind.MarketCollect, 1, i.Id, _utcNow());
+            if (got.Count > 0)
+                IngredientsGained?.Invoke(got, IngredientGain.Market);
+            return got;
+        }
+
+        public enum GardenResult { Done, Locked, NotEmpty, NotEnoughCoins, NothingToWater, NotReady }
+
+        /// <summary>Buys a seed (economy sheet price) and plants it in an open, empty plot.</summary>
+        public GardenResult BuySeed(int plot)
+        {
+            var now = _utcNow();
+            var state = Garden.StateOf(plot, Progress.Level, now);
+            if (state == PlotState.Locked) return GardenResult.Locked;
+            if (state != PlotState.Empty) return GardenResult.NotEmpty;
+            if (Wallet.DisplayCoins < Garden.SeedCost || !Wallet.TrySpend(Garden.SeedCost)) return GardenResult.NotEnoughCoins;
+            Garden.Plant(plot, Progress.Level, now);
+            Ledger.Record(LedgerKind.GardenSeed, Garden.SeedCost, plot.ToString(System.Globalization.CultureInfo.InvariantCulture), now);
+            return GardenResult.Done;
+        }
+
+        public GardenResult WaterPlot(int plot)
+        {
+            var now = _utcNow();
+            if (!Garden.Water(plot, Progress.Level, now)) return GardenResult.NothingToWater;
+            Ledger.Record(LedgerKind.GardenWater, 1, plot.ToString(System.Globalization.CultureInfo.InvariantCulture), now);
+            return GardenResult.Done;
+        }
+
+        /// <summary>Picks a ready crop into the inventory.</summary>
+        public GardenResult HarvestPlot(int plot)
+        {
+            var now = _utcNow();
+            var crop = Garden.Harvest(plot, Progress.Level, now);
+            if (crop == null) return GardenResult.NotReady;
+            Inventory.Add(crop, Garden.HarvestAmount);
+            Ledger.Record(LedgerKind.GardenHarvest, Garden.HarvestAmount, crop.Id, now);
+            var gained = new List<IngredientDef>();
+            for (int i = 0; i < Garden.HarvestAmount; i++) gained.Add(crop);
+            IngredientsGained?.Invoke(gained, IngredientGain.Garden);
+            return GardenResult.Done;
+        }
+
+
+        /// <summary>Internal testing only (debug overlay): adds <paramref name="count"/> of every ingredient.</summary>
+        public void DebugAddIngredients(int count)
+        {
+            foreach (var ingredient in Content.Ingredients) Inventory.Add(ingredient, count);
+        }
+
+        /// <summary>
+        /// Internal testing only (debug overlay): learns every recipe at once, whatever the level, and makes each one
+        /// available on the menu. No XP, no ledger entry. Returns how many were new.
+        /// </summary>
+        public int DebugLearnAllRecipes()
+        {
+            int learned = 0;
+            foreach (var dish in Recipes.AllDishes)
+            {
+                if (Recipes.IsKnown(dish)) continue;
+                Recipes.Restore(new[] { dish });
+                Menu.MakeAvailable(dish);
+                learned++;
+            }
+            return learned;
+        }
+
+        public RecipeTrainResult TrainRecipe(DishDef dish) => Recipes.Train(dish, Inventory, Progress.Level,
+            Settings.maxDishLevel, Settings.ingredientSetsPerUpgrade);
+
+        public int PriceForDish(DishDef dish) => EconomyFormulas.DishPrice(Settings, dish.Price, Recipes.LevelOf(dish));
+
+        // ---------------------------------------------------------------- events
+
+        private void OnRecipeDiscovered(DishDef dish)
+        {
+            Menu.MakeAvailable(dish);
+            Progress.Add(Progress.XpForRecipeLevel(1));
+            Ledger.Record(LedgerKind.RecipeDiscovered, 1, dish.Id, _utcNow());
+            RecipeDiscovered?.Invoke(dish);
+        }
+
+        private void OnLevelUp(int level, int coins)
+        {
+            if (coins > 0)
+            {
+                Wallet.CreditOffline(coins);
+                Ledger.Record(LedgerKind.LevelReward, coins, level.ToString(System.Globalization.CultureInfo.InvariantCulture), _utcNow());
+            }
+            Menu.FillFreeSlots(); // more menu slots at some levels
+            GrowRoom();
+            UpdateToiletChance();
+            LevelUp?.Invoke(level, coins);
+        }
+
+        /// <summary>
+        /// Grows the room to the size its level allows (<see cref="GameRules.RoomGrowth"/>): free, never smaller. Called
+        /// on level-up and by the game after loading a save. Returns true when the room got bigger.
+        /// </summary>
+        /// <summary>From the rules' level on, some guests use the toilet after their meal.</summary>
+        private void UpdateToiletChance() =>
+            Sim.ToiletChance = Progress.Level >= Rules.Toilets.fromLevel ? Rules.Toilets.chance : 0f;
+
+        public bool GrowRoom()
+        {
+            var growth = Rules.RoomGrowth;
+            if (growth == null) return false;
+            var (width, height) = growth.Grow(Layout.RoomWidth, Layout.RoomHeight, Progress.Level);
+            if (width == Layout.RoomWidth && height == Layout.RoomHeight) return false;
+            Layout.Resize(width, height);
+            return true;
+        }
+
+        public event Action<PlacedFurniture, int> EntertainmentEarned;
+
+        private void OnEntertainmentCompleted(Customer customer, PlacedFurniture item)
+        {
+            int coins = Math.Max(0, Rules.Entertainment.coinsPerUse);
+            if (Economy is IEntertainmentEconomyServer authority)
+            {
+                long receipt = Wallet.Predict(coins);
+                authority.SubmitEntertainment(receipt, item.Def.Id);
+            }
+            else Wallet.CreditOffline(coins); // Not yet validated online: stays in the unsynced ledger.
+            Ledger.Record(LedgerKind.EntertainmentIncome, coins, item.Def.Id, _utcNow());
+            Earnings.Record(Time, coins);
+            EntertainmentEarned?.Invoke(item, coins);
+        }
+
+        private void OnCustomerPaid(Customer c, int coins)
+        {
+            coins = PriceForDish(c.Order);
+            long receipt = Wallet.Predict(coins);
+            Economy.SubmitSale(new SaleReport(receipt, c.Order.Id, coins));
+            Earnings.Record(Time, coins);
+            TotalCustomersServed++;
+            Ledger.Record(LedgerKind.Sale, coins, c.Order.Id, _utcNow());
+            Demand.OnHappyGuest();
+            int xp = Progress.XpForServe(Recipes.LevelOf(c.Order));
+            Progress.Add(xp);
+            CustomerServed?.Invoke(c, coins, xp);
+        }
+
+        private void OnCustomerAngry(Customer c)
+        {
+            double before = Demand.Value;
+            Demand.OnUnhappyGuest();
+            CustomerAngered?.Invoke(c, Demand.Value - before);
+        }
+
+        /// <summary>Someone can cook and someone can serve (resting staff don't count). The owner counts.</summary>
+        public bool IsOpen
+        {
+            get
+            {
+                bool chef = false, waiter = false;
+                foreach (var s in Sim.Staff)
+                {
+                    if (s.IsResting) continue;
+                    if (s.Role == StaffRole.Chef) chef = true;
+                    else if (s.Role == StaffRole.Waiter) waiter = true;
+                }
+                return chef && waiter;
+            }
+        }
+    }
+}

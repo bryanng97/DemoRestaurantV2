@@ -1,0 +1,49 @@
+# name, x0, y0, x1, y1 [, bg tolerance]   (pixel boxes on the 1536x1024 concept asset sheet)
+# Environment
+floor_wood,      812,  78,  908, 140
+floor_stone,     905,  78, 1002, 140
+floor_pattern,  1000,  76, 1095, 140
+wall01,         1098,  42, 1182, 157
+wall02,         1188,  42, 1266, 157
+window01,       1270,  36, 1350, 152
+door01,         1353,  28, 1434, 154
+fence01,        1436,  28, 1532, 154
+# Furniture & decoration
+table01,         810, 232,  940, 340
+chair01,         942, 236, 1018, 340
+tableset02,     1022, 234, 1144, 340
+cabinet01,      1152, 226, 1270, 338
+plant01,        1272, 218, 1364, 340
+lamp01,         1360, 202, 1442, 322
+signboard01,    1440, 232, 1530, 342
+# Kitchen equipment
+oven01,          810, 433,  958, 566
+stove01,         948, 436, 1060, 562
+prep01,         1060, 438, 1202, 562
+sink01,         1200, 436, 1314, 558
+fridge01,       1324, 405, 1424, 562
+shelf01,        1422, 418, 1530, 562
+# Characters
+chef,             12, 662,  112, 812
+waiter,          106, 666,  206, 812
+customer01,      202, 666,  298, 812
+customer02,      294, 666,  392, 812
+customer03,      390, 666,  488, 812
+chef_front,       18, 866,  102, 980
+chef_q_left,     100, 866,  180, 980
+chef_left,       178, 866,  256, 980
+chef_back,       252, 866,  330, 980
+chef_right,      326, 866,  402, 980
+chef_q_right,    398, 866,  482, 980
+# Food icons (stand-ins for order bubbles)
+food_bread,      508, 670,  604, 748
+food_bun,        706, 670,  794, 748
+food_pasta,      508, 780,  606, 852
+food_steak,      606, 780,  700, 852
+food_soup,       702, 780,  796, 852
+food_cake,       798, 776,  894, 852
+food_coffee,     510, 884,  604, 965
+food_juice,      620, 878,  700, 965
+food_dessert,    798, 880,  894, 965
+# UI
+ui_coin,         918, 864,  968, 914, 34, circle

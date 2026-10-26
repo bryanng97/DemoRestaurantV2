@@ -1,0 +1,3800 @@
+{
+ "sprites": [
+  {
+   "key": "ref_window_inside",
+   "group": "interior",
+   "symbol": "WindowInside",
+   "frame": 2
+  },
+  {
+   "key": "ref_window_inside11",
+   "group": "interior",
+   "symbol": "WindowInside11",
+   "frame": 2
+  },
+  {
+   "key": "ref_window_inside2",
+   "group": "interior",
+   "symbol": "WindowInside2",
+   "frame": 2
+  },
+  {
+   "key": "ref_window_inside3",
+   "group": "interior",
+   "symbol": "WindowInside3",
+   "frame": 2
+  },
+  {
+   "key": "ref_window_inside4",
+   "group": "interior",
+   "symbol": "WindowInside4",
+   "frame": 2
+  },
+  {
+   "key": "ref_window_inside5",
+   "group": "interior",
+   "symbol": "WindowInside5",
+   "frame": 2
+  },
+  {
+   "key": "ref_window_inside6",
+   "group": "interior",
+   "symbol": "WindowInside6",
+   "frame": 2
+  },
+  {
+   "key": "ref_window_inside7",
+   "group": "interior",
+   "symbol": "WindowInside7",
+   "frame": 2
+  },
+  {
+   "key": "ref_window_inside8",
+   "group": "interior",
+   "symbol": "WindowInside8",
+   "frame": 2
+  },
+  {
+   "key": "ref_window_inside9",
+   "group": "interior",
+   "symbol": "WindowInside9",
+   "frame": 2
+  },
+  {
+   "key": "ref_window_inside10",
+   "group": "interior",
+   "symbol": "WindowInside10",
+   "frame": 2
+  },
+  {
+   "key": "ref_picture",
+   "group": "interior",
+   "symbol": "Picture",
+   "frame": 2
+  },
+  {
+   "key": "ref_chili_peppers_picture",
+   "group": "interior",
+   "symbol": "ChiliPeppersPicture",
+   "frame": 2
+  },
+  {
+   "key": "ref_window_inside12",
+   "group": "interior",
+   "symbol": "WindowInside12",
+   "frame": 2
+  },
+  {
+   "key": "ref_window_inside13",
+   "group": "interior",
+   "symbol": "WindowInside13",
+   "frame": 2
+  },
+  {
+   "key": "ref_specials_chalkboard",
+   "group": "interior",
+   "symbol": "SpecialsChalkboard",
+   "frame": 2
+  },
+  {
+   "key": "ref_dart_board",
+   "group": "interior",
+   "symbol": "DartBoard",
+   "frame": 2
+  },
+  {
+   "key": "ref_bamboo_wall_scroll",
+   "group": "interior",
+   "symbol": "BambooWallScroll",
+   "frame": 2
+  },
+  {
+   "key": "ref_classic_fireplace",
+   "group": "interior",
+   "symbol": "ClassicFireplace",
+   "frame": 2
+  },
+  {
+   "key": "ref_silver_mirror",
+   "group": "interior",
+   "symbol": "SilverMirror",
+   "frame": 2
+  },
+  {
+   "key": "ref_female_toilet_sign",
+   "group": "interior",
+   "symbol": "FemaleToiletSign",
+   "frame": 2
+  },
+  {
+   "key": "ref_male_toilet_sign",
+   "group": "interior",
+   "symbol": "MaleToiletSign",
+   "frame": 2
+  },
+  {
+   "key": "ref_red_drapery",
+   "group": "interior",
+   "symbol": "RedDrapery",
+   "frame": 2
+  },
+  {
+   "key": "ref_blue_drapery",
+   "group": "interior",
+   "symbol": "BlueDrapery",
+   "frame": 2
+  },
+  {
+   "key": "ref_white_drapery",
+   "group": "interior",
+   "symbol": "WhiteDrapery",
+   "frame": 2
+  },
+  {
+   "key": "ref_black_drapery",
+   "group": "interior",
+   "symbol": "BlackDrapery",
+   "frame": 2
+  },
+  {
+   "key": "ref_green_drapery",
+   "group": "interior",
+   "symbol": "GreenDrapery",
+   "frame": 2
+  },
+  {
+   "key": "ref_brown_drapery",
+   "group": "interior",
+   "symbol": "BrownDrapery",
+   "frame": 2
+  },
+  {
+   "key": "ref_ship_wheel_decor",
+   "group": "interior",
+   "symbol": "ShipWheelDecor",
+   "frame": 2
+  },
+  {
+   "key": "ref_tribal_mask",
+   "group": "interior",
+   "symbol": "TribalMask",
+   "frame": 2
+  },
+  {
+   "key": "ref_tribal_shield",
+   "group": "interior",
+   "symbol": "TribalShield",
+   "frame": 2
+  },
+  {
+   "key": "ref_knight_shield",
+   "group": "interior",
+   "symbol": "KnightShield",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall_tri_candle_holder",
+   "group": "interior",
+   "symbol": "WallTriCandleHolder",
+   "frame": 2
+  },
+  {
+   "key": "ref_persian_wall_rug",
+   "group": "interior",
+   "symbol": "PersianWallRug",
+   "frame": 2
+  },
+  {
+   "key": "ref_vent",
+   "group": "interior",
+   "symbol": "Vent",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall_oil_lamp",
+   "group": "interior",
+   "symbol": "WallOilLamp",
+   "frame": 2
+  },
+  {
+   "key": "ref_classic_white_fireplace",
+   "group": "interior",
+   "symbol": "ClassicWhiteFireplace",
+   "frame": 2
+  },
+  {
+   "key": "ref_window_inside14",
+   "group": "interior",
+   "symbol": "WindowInside14",
+   "frame": 2
+  },
+  {
+   "key": "ref_large_sheild",
+   "group": "interior",
+   "symbol": "LargeSheild",
+   "frame": 2
+  },
+  {
+   "key": "ref_large_ocean_painting",
+   "group": "interior",
+   "symbol": "LargeOceanPainting",
+   "frame": 2
+  },
+  {
+   "key": "ref_chestnut_picture",
+   "group": "interior",
+   "symbol": "ChestnutPicture",
+   "frame": 2
+  },
+  {
+   "key": "ref_fall_wreath",
+   "group": "interior",
+   "symbol": "FallWreath",
+   "frame": 2
+  },
+  {
+   "key": "ref_window_inside16",
+   "group": "interior",
+   "symbol": "WindowInside16",
+   "frame": 2
+  },
+  {
+   "key": "ref_window_inside17",
+   "group": "interior",
+   "symbol": "WindowInside17",
+   "frame": 2
+  },
+  {
+   "key": "ref_egyptian_painting",
+   "group": "interior",
+   "symbol": "EgyptianPainting",
+   "frame": 2
+  },
+  {
+   "key": "ref_king_tut_wall_decor",
+   "group": "interior",
+   "symbol": "KingTutWallDecor",
+   "frame": 2
+  },
+  {
+   "key": "ref_egyptian_wall_decor",
+   "group": "interior",
+   "symbol": "EgyptianWallDecor",
+   "frame": 2
+  },
+  {
+   "key": "ref_window_inside18",
+   "group": "interior",
+   "symbol": "WindowInside18",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall_mounted_oil_lamp",
+   "group": "interior",
+   "symbol": "WallMountedOilLamp",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall_mounted_cow_skull",
+   "group": "interior",
+   "symbol": "WallMountedCowSkull",
+   "frame": 2
+  },
+  {
+   "key": "ref_wagon_wheel",
+   "group": "interior",
+   "symbol": "WagonWheel",
+   "frame": 2
+  },
+  {
+   "key": "ref_pirate_flag",
+   "group": "interior",
+   "symbol": "PirateFlag",
+   "frame": 2
+  },
+  {
+   "key": "ref_swords_wall_decor",
+   "group": "interior",
+   "symbol": "SwordsWallDecor",
+   "frame": 2
+  },
+  {
+   "key": "ref_window_inside19",
+   "group": "interior",
+   "symbol": "WindowInside19",
+   "frame": 2
+  },
+  {
+   "key": "ref_bullet_holes",
+   "group": "interior",
+   "symbol": "BulletHoles",
+   "frame": 2
+  },
+  {
+   "key": "ref_lucky_wall_sticker",
+   "group": "interior",
+   "symbol": "LuckyWallSticker",
+   "frame": 2
+  },
+  {
+   "key": "ref_good_fortune_calligraphy",
+   "group": "interior",
+   "symbol": "GoodFortuneCalligraphy",
+   "frame": 2
+  },
+  {
+   "key": "ref_heart_wreath",
+   "group": "interior",
+   "symbol": "HeartWreath",
+   "frame": 2
+  },
+  {
+   "key": "ref_pink_drapery",
+   "group": "interior",
+   "symbol": "PinkDrapery",
+   "frame": 2
+  },
+  {
+   "key": "ref_window_inside20",
+   "group": "interior",
+   "symbol": "WindowInside20",
+   "frame": 2
+  },
+  {
+   "key": "ref_window_inside21",
+   "group": "interior",
+   "symbol": "WindowInside21",
+   "frame": 2
+  },
+  {
+   "key": "ref_blooming_bush",
+   "group": "interior",
+   "symbol": "BloomingBush",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_lush_bush",
+   "group": "interior",
+   "symbol": "LushBush",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_elegant_pine",
+   "group": "interior",
+   "symbol": "ElegantPine",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_delicate_bush",
+   "group": "interior",
+   "symbol": "DelicateBush",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_pleasant_palm",
+   "group": "interior",
+   "symbol": "PleasantPalm",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_cat_tails",
+   "group": "interior",
+   "symbol": "CatTails",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_flourishing_pine",
+   "group": "interior",
+   "symbol": "FlourishingPine",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_fish_tank_small",
+   "group": "interior",
+   "symbol": "FishTankSmall",
+   "frame": 2
+  },
+  {
+   "key": "ref_speaker",
+   "group": "interior",
+   "symbol": "Speaker",
+   "frame": 2
+  },
+  {
+   "key": "ref_table_lamp",
+   "group": "interior",
+   "symbol": "TableLamp",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_table_lamp_blue",
+   "group": "interior",
+   "symbol": "TableLampBlue",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_table_lamp_pink",
+   "group": "interior",
+   "symbol": "TableLampPink",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_bubble_tube_silver",
+   "group": "interior",
+   "symbol": "BubbleTubeSilver",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_bubble_tube_gold",
+   "group": "interior",
+   "symbol": "BubbleTubeGold",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_pink_block",
+   "group": "interior",
+   "symbol": "PinkBlock",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_pink_wall",
+   "group": "interior",
+   "symbol": "PinkWall",
+   "frame": 2
+  },
+  {
+   "key": "ref_wooden_block",
+   "group": "interior",
+   "symbol": "WoodenBlock",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_wooden_wall",
+   "group": "interior",
+   "symbol": "WoodenWall",
+   "frame": 2
+  },
+  {
+   "key": "ref_luxurious_block",
+   "group": "interior",
+   "symbol": "LuxuriousBlock",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_luxurious_wall",
+   "group": "interior",
+   "symbol": "LuxuriousWall",
+   "frame": 2
+  },
+  {
+   "key": "ref_chrome_block",
+   "group": "interior",
+   "symbol": "ChromeBlock",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_chrome_wall",
+   "group": "interior",
+   "symbol": "ChromeWall",
+   "frame": 2
+  },
+  {
+   "key": "ref_chrome_glass_wall",
+   "group": "interior",
+   "symbol": "ChromeGlassWall",
+   "frame": 2
+  },
+  {
+   "key": "ref_classic_block",
+   "group": "interior",
+   "symbol": "ClassicBlock",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_classic_wall",
+   "group": "interior",
+   "symbol": "ClassicWall",
+   "frame": 2
+  },
+  {
+   "key": "ref_barrel",
+   "group": "interior",
+   "symbol": "Barrel",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_barrel_with_tap",
+   "group": "interior",
+   "symbol": "BarrelWithTap",
+   "frame": 2
+  },
+  {
+   "key": "ref_barrel_with_tap_back",
+   "group": "interior",
+   "symbol": "BarrelWithTap",
+   "frame": 4
+  },
+  {
+   "key": "ref_greek_column",
+   "group": "interior",
+   "symbol": "GreekColumn",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_brick_pillar",
+   "group": "interior",
+   "symbol": "BrickPillar",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_wooden_pillar",
+   "group": "interior",
+   "symbol": "WoodenPillar",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_white_trash_cabinet",
+   "group": "interior",
+   "symbol": "WhiteTrashCabinet",
+   "frame": 2
+  },
+  {
+   "key": "ref_white_trash_cabinet_back",
+   "group": "interior",
+   "symbol": "WhiteTrashCabinet",
+   "frame": 4
+  },
+  {
+   "key": "ref_wooden_trash_cabinet",
+   "group": "interior",
+   "symbol": "WoodenTrashCabinet",
+   "frame": 2
+  },
+  {
+   "key": "ref_wooden_trash_cabinet_back",
+   "group": "interior",
+   "symbol": "WoodenTrashCabinet",
+   "frame": 4
+  },
+  {
+   "key": "ref_rustic_fireplace",
+   "group": "interior",
+   "symbol": "RusticFireplace",
+   "frame": 2
+  },
+  {
+   "key": "ref_rustic_fireplace_back",
+   "group": "interior",
+   "symbol": "RusticFireplace",
+   "frame": 4
+  },
+  {
+   "key": "ref_modern_fireplace",
+   "group": "interior",
+   "symbol": "ModernFireplace",
+   "frame": 2
+  },
+  {
+   "key": "ref_modern_fireplace_back",
+   "group": "interior",
+   "symbol": "ModernFireplace",
+   "frame": 4
+  },
+  {
+   "key": "ref_traditional_brick_fireplace",
+   "group": "interior",
+   "symbol": "TraditionalBrickFireplace",
+   "frame": 2
+  },
+  {
+   "key": "ref_traditional_brick_fireplace_back",
+   "group": "interior",
+   "symbol": "TraditionalBrickFireplace",
+   "frame": 4
+  },
+  {
+   "key": "ref_ming_vase",
+   "group": "interior",
+   "symbol": "MingVase",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_dragon_vase",
+   "group": "interior",
+   "symbol": "DragonVase",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_white_ceramic_vase",
+   "group": "interior",
+   "symbol": "WhiteCeramicVase",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_black_ceramic_vase",
+   "group": "interior",
+   "symbol": "BlackCeramicVase",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_brown_ceramic_vase",
+   "group": "interior",
+   "symbol": "BrownCeramicVase",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_blue_power_core_base",
+   "group": "interior",
+   "symbol": "BluePowerCoreBase",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_green_power_core_base",
+   "group": "interior",
+   "symbol": "GreenPowerCoreBase",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_yellow_power_core_base",
+   "group": "interior",
+   "symbol": "YellowPowerCoreBase",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_red_power_core_base",
+   "group": "interior",
+   "symbol": "RedPowerCoreBase",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_giant_cactus",
+   "group": "interior",
+   "symbol": "GiantCactus",
+   "frame": 2
+  },
+  {
+   "key": "ref_white_wall",
+   "group": "interior",
+   "symbol": "WhiteWall",
+   "frame": 2
+  },
+  {
+   "key": "ref_white_wall_corner",
+   "group": "interior",
+   "symbol": "WhiteWallCorner",
+   "frame": 2
+  },
+  {
+   "key": "ref_white_wall_corner_back",
+   "group": "interior",
+   "symbol": "WhiteWallCorner",
+   "frame": 4
+  },
+  {
+   "key": "ref_white_wall_cross",
+   "group": "interior",
+   "symbol": "WhiteWallCross",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_white_wall_t",
+   "group": "interior",
+   "symbol": "WhiteWallT",
+   "frame": 2
+  },
+  {
+   "key": "ref_white_wall_t_back",
+   "group": "interior",
+   "symbol": "WhiteWallT",
+   "frame": 4
+  },
+  {
+   "key": "ref_japanese_lamp",
+   "group": "interior",
+   "symbol": "JapaneseLamp",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_sake_keg",
+   "group": "interior",
+   "symbol": "SakeKeg",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_classic_white_divider_block",
+   "group": "interior",
+   "symbol": "ClassicWhiteDividerBlock",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_classic_white_divider",
+   "group": "interior",
+   "symbol": "ClassicWhiteDivider",
+   "frame": 2
+  },
+  {
+   "key": "ref_red_rope_barrier",
+   "group": "interior",
+   "symbol": "RedRopeBarrier",
+   "frame": 2
+  },
+  {
+   "key": "ref_flat_screen_tv",
+   "group": "interior",
+   "symbol": "FlatScreenTv",
+   "frame": 2
+  },
+  {
+   "key": "ref_flat_screen_tv_back",
+   "group": "interior",
+   "symbol": "FlatScreenTv",
+   "frame": 4
+  },
+  {
+   "key": "ref_red_rose",
+   "group": "interior",
+   "symbol": "RedRose",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_blue_iris",
+   "group": "interior",
+   "symbol": "BlueIris",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_calla_lily",
+   "group": "interior",
+   "symbol": "CallaLily",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_white_round_side_table",
+   "group": "interior",
+   "symbol": "WhiteRoundSideTable",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_black_round_side_table",
+   "group": "interior",
+   "symbol": "BlackRoundSideTable",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_bamboo_plant",
+   "group": "interior",
+   "symbol": "BambooPlant",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_golden_fan_decor",
+   "group": "interior",
+   "symbol": "GoldenFanDecor",
+   "frame": 2
+  },
+  {
+   "key": "ref_stainless_steel_kitchen_counter",
+   "group": "interior",
+   "symbol": "StainlessSteelKitchenCounter",
+   "frame": 2
+  },
+  {
+   "key": "ref_stainless_steel_kitchen_counter_back",
+   "group": "interior",
+   "symbol": "StainlessSteelKitchenCounter",
+   "frame": 4
+  },
+  {
+   "key": "ref_stainless_steel_kitchen_cabinet",
+   "group": "interior",
+   "symbol": "StainlessSteelKitchenCabinet",
+   "frame": 2
+  },
+  {
+   "key": "ref_stainless_steel_kitchen_cabinet_back",
+   "group": "interior",
+   "symbol": "StainlessSteelKitchenCabinet",
+   "frame": 4
+  },
+  {
+   "key": "ref_stainless_steel_kitchen_drawer",
+   "group": "interior",
+   "symbol": "StainlessSteelKitchenDrawer",
+   "frame": 2
+  },
+  {
+   "key": "ref_stainless_steel_kitchen_drawer_back",
+   "group": "interior",
+   "symbol": "StainlessSteelKitchenDrawer",
+   "frame": 4
+  },
+  {
+   "key": "ref_party_balloons",
+   "group": "interior",
+   "symbol": "PartyBalloons",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_fish_tank_large",
+   "group": "interior",
+   "symbol": "FishTankLarge",
+   "frame": 2
+  },
+  {
+   "key": "ref_shoji_folding_screen",
+   "group": "interior",
+   "symbol": "ShojiFoldingScreen",
+   "frame": 2
+  },
+  {
+   "key": "ref_djembe_drum",
+   "group": "interior",
+   "symbol": "DjembeDrum",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_allamanda_flower_basket",
+   "group": "interior",
+   "symbol": "AllamandaFlowerBasket",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_white_orchid",
+   "group": "interior",
+   "symbol": "WhiteOrchid",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_classic_floor_lamp",
+   "group": "interior",
+   "symbol": "ClassicFloorLamp",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_classic_bookshelf",
+   "group": "interior",
+   "symbol": "ClassicBookshelf",
+   "frame": 2
+  },
+  {
+   "key": "ref_inside_palmtree",
+   "group": "interior",
+   "symbol": "InsidePalmtree",
+   "frame": 2
+  },
+  {
+   "key": "ref_japanese_light",
+   "group": "interior",
+   "symbol": "JapaneseLight",
+   "frame": 2
+  },
+  {
+   "key": "ref_red_vase",
+   "group": "interior",
+   "symbol": "RedVase",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_tall_vase",
+   "group": "interior",
+   "symbol": "TallVase",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_flower_pot",
+   "group": "interior",
+   "symbol": "FlowerPot",
+   "frame": 2
+  },
+  {
+   "key": "ref_flower_pot_back",
+   "group": "interior",
+   "symbol": "FlowerPot",
+   "frame": 4
+  },
+  {
+   "key": "ref_flower_pot1",
+   "group": "interior",
+   "symbol": "FlowerPot1",
+   "frame": 2
+  },
+  {
+   "key": "ref_flower_pot1_back",
+   "group": "interior",
+   "symbol": "FlowerPot1",
+   "frame": 4
+  },
+  {
+   "key": "ref_water_fountain",
+   "group": "interior",
+   "symbol": "WaterFountain",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_fish_tank_huge",
+   "group": "interior",
+   "symbol": "FishTankHuge",
+   "frame": 2
+  },
+  {
+   "key": "ref_potted_palmtree",
+   "group": "interior",
+   "symbol": "PottedPalmtree",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_large_flower_pot",
+   "group": "interior",
+   "symbol": "LargeFlowerPot",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_candle_holder",
+   "group": "interior",
+   "symbol": "CandleHolder",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_small_water_fountain",
+   "group": "interior",
+   "symbol": "SmallWaterFountain",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_lucky_cat_decor",
+   "group": "interior",
+   "symbol": "LuckyCatDecor",
+   "frame": 2
+  },
+  {
+   "key": "ref_lucky_cat_decor_back",
+   "group": "interior",
+   "symbol": "LuckyCatDecor",
+   "frame": 4
+  },
+  {
+   "key": "ref_camel_figurine",
+   "group": "interior",
+   "symbol": "CamelFigurine",
+   "frame": 2
+  },
+  {
+   "key": "ref_camel_figurine_back",
+   "group": "interior",
+   "symbol": "CamelFigurine",
+   "frame": 4
+  },
+  {
+   "key": "ref_elephant_figurine",
+   "group": "interior",
+   "symbol": "ElephantFigurine",
+   "frame": 2
+  },
+  {
+   "key": "ref_elephant_figurine_back",
+   "group": "interior",
+   "symbol": "ElephantFigurine",
+   "frame": 4
+  },
+  {
+   "key": "ref_dark_greek_column",
+   "group": "interior",
+   "symbol": "DarkGreekColumn",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_folding_screen2",
+   "group": "interior",
+   "symbol": "FoldingScreen2",
+   "frame": 2
+  },
+  {
+   "key": "ref_classic_white_bookshelf",
+   "group": "interior",
+   "symbol": "ClassicWhiteBookshelf",
+   "frame": 2
+  },
+  {
+   "key": "ref_greenlocker",
+   "group": "interior",
+   "symbol": "Greenlocker",
+   "frame": 2
+  },
+  {
+   "key": "ref_greenlocker_back",
+   "group": "interior",
+   "symbol": "Greenlocker",
+   "frame": 4
+  },
+  {
+   "key": "ref_grey_fireplace",
+   "group": "interior",
+   "symbol": "GreyFireplace",
+   "frame": 2
+  },
+  {
+   "key": "ref_grey_fireplace_back",
+   "group": "interior",
+   "symbol": "GreyFireplace",
+   "frame": 4
+  },
+  {
+   "key": "ref_black_piano",
+   "group": "interior",
+   "symbol": "BlackPiano",
+   "frame": 2
+  },
+  {
+   "key": "ref_black_piano_back",
+   "group": "interior",
+   "symbol": "BlackPiano",
+   "frame": 4
+  },
+  {
+   "key": "ref_rocking_horse_decor",
+   "group": "interior",
+   "symbol": "RockingHorseDecor",
+   "frame": 2
+  },
+  {
+   "key": "ref_rocking_horse_decor_back",
+   "group": "interior",
+   "symbol": "RockingHorseDecor",
+   "frame": 4
+  },
+  {
+   "key": "ref_greek_pot",
+   "group": "interior",
+   "symbol": "GreekPot",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_golden_greek_column",
+   "group": "interior",
+   "symbol": "GoldenGreekColumn",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_column_divider_block",
+   "group": "interior",
+   "symbol": "ColumnDividerBlock",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_column_divider",
+   "group": "interior",
+   "symbol": "ColumnDivider",
+   "frame": 2
+  },
+  {
+   "key": "ref_floating_fish01",
+   "group": "interior",
+   "symbol": "FloatingFish01",
+   "frame": 2
+  },
+  {
+   "key": "ref_floating_fish01_back",
+   "group": "interior",
+   "symbol": "FloatingFish01",
+   "frame": 4
+  },
+  {
+   "key": "ref_floating_fish02",
+   "group": "interior",
+   "symbol": "FloatingFish02",
+   "frame": 2
+  },
+  {
+   "key": "ref_floating_fish02_back",
+   "group": "interior",
+   "symbol": "FloatingFish02",
+   "frame": 4
+  },
+  {
+   "key": "ref_floating_fish03",
+   "group": "interior",
+   "symbol": "FloatingFish03",
+   "frame": 2
+  },
+  {
+   "key": "ref_floating_fish03_back",
+   "group": "interior",
+   "symbol": "FloatingFish03",
+   "frame": 4
+  },
+  {
+   "key": "ref_treasure_chest",
+   "group": "interior",
+   "symbol": "TreasureChest",
+   "frame": 2
+  },
+  {
+   "key": "ref_treasure_chest_back",
+   "group": "interior",
+   "symbol": "TreasureChest",
+   "frame": 4
+  },
+  {
+   "key": "ref_seaweed1",
+   "group": "interior",
+   "symbol": "Seaweed1",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_seaweed2",
+   "group": "interior",
+   "symbol": "Seaweed2",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_seaweed3",
+   "group": "interior",
+   "symbol": "Seaweed3",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_turkey_decor",
+   "group": "interior",
+   "symbol": "TurkeyDecor",
+   "frame": 2
+  },
+  {
+   "key": "ref_turkey_decor_back",
+   "group": "interior",
+   "symbol": "TurkeyDecor",
+   "frame": 4
+  },
+  {
+   "key": "ref_candy_jar",
+   "group": "interior",
+   "symbol": "CandyJar",
+   "frame": 2
+  },
+  {
+   "key": "ref_festive_tree",
+   "group": "interior",
+   "symbol": "FestiveTree",
+   "frame": 2
+  },
+  {
+   "key": "ref_giant_festive_tree",
+   "group": "interior",
+   "symbol": "GiantFestiveTree",
+   "frame": 2
+  },
+  {
+   "key": "ref_red_present",
+   "group": "interior",
+   "symbol": "RedPresent",
+   "frame": 2
+  },
+  {
+   "key": "ref_white_present",
+   "group": "interior",
+   "symbol": "WhitePresent",
+   "frame": 2
+  },
+  {
+   "key": "ref_blue_present",
+   "group": "interior",
+   "symbol": "BluePresent",
+   "frame": 2
+  },
+  {
+   "key": "ref_green_present",
+   "group": "interior",
+   "symbol": "GreenPresent",
+   "frame": 2
+  },
+  {
+   "key": "ref_gold_present",
+   "group": "interior",
+   "symbol": "GoldPresent",
+   "frame": 2
+  },
+  {
+   "key": "ref_pink_present",
+   "group": "interior",
+   "symbol": "PinkPresent",
+   "frame": 2
+  },
+  {
+   "key": "ref_giant_present",
+   "group": "interior",
+   "symbol": "GiantPresent",
+   "frame": 2
+  },
+  {
+   "key": "ref_candy_cane_pole",
+   "group": "interior",
+   "symbol": "CandyCanePole",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_gingerbread_divider_block",
+   "group": "interior",
+   "symbol": "GingerbreadDividerBlock",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_gingerbread_divider",
+   "group": "interior",
+   "symbol": "GingerbreadDivider",
+   "frame": 2
+  },
+  {
+   "key": "ref_ice_sculpture",
+   "group": "interior",
+   "symbol": "IceSculpture",
+   "frame": 2
+  },
+  {
+   "key": "ref_ice_sculpture_back",
+   "group": "interior",
+   "symbol": "IceSculpture",
+   "frame": 4
+  },
+  {
+   "key": "ref_festive_fireplace",
+   "group": "interior",
+   "symbol": "FestiveFireplace",
+   "frame": 2
+  },
+  {
+   "key": "ref_festive_fireplace_back",
+   "group": "interior",
+   "symbol": "FestiveFireplace",
+   "frame": 4
+  },
+  {
+   "key": "ref_santas_boot",
+   "group": "interior",
+   "symbol": "SantasBoot",
+   "frame": 2
+  },
+  {
+   "key": "ref_ice_tree",
+   "group": "interior",
+   "symbol": "IceTree",
+   "frame": 2
+  },
+  {
+   "key": "ref_glow_tube_pink",
+   "group": "interior",
+   "symbol": "GlowTubePink",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_glow_tube_blue",
+   "group": "interior",
+   "symbol": "GlowTubeBlue",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_glow_tube_green",
+   "group": "interior",
+   "symbol": "GlowTubeGreen",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_golden_hat_decor",
+   "group": "interior",
+   "symbol": "GoldenHatDecor",
+   "frame": 2
+  },
+  {
+   "key": "ref_rocket_decor",
+   "group": "interior",
+   "symbol": "RocketDecor",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_bottle_decor",
+   "group": "interior",
+   "symbol": "BottleDecor",
+   "frame": 2
+  },
+  {
+   "key": "ref_egyptian_divider_block",
+   "group": "interior",
+   "symbol": "EgyptianDividerBlock",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_egyptian_divider",
+   "group": "interior",
+   "symbol": "EgyptianDivider",
+   "frame": 2
+  },
+  {
+   "key": "ref_eqyptian_pillar",
+   "group": "interior",
+   "symbol": "EqyptianPillar",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_eqyptian_candle_stand",
+   "group": "interior",
+   "symbol": "EqyptianCandleStand",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_golden_cobra_candlelight",
+   "group": "interior",
+   "symbol": "GoldenCobraCandlelight",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_egyptian_pot",
+   "group": "interior",
+   "symbol": "EgyptianPot",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_jackal_statue",
+   "group": "interior",
+   "symbol": "JackalStatue",
+   "frame": 2
+  },
+  {
+   "key": "ref_jackal_statue_back",
+   "group": "interior",
+   "symbol": "JackalStatue",
+   "frame": 4
+  },
+  {
+   "key": "ref_old_piano",
+   "group": "interior",
+   "symbol": "OldPiano",
+   "frame": 2
+  },
+  {
+   "key": "ref_old_piano_back",
+   "group": "interior",
+   "symbol": "OldPiano",
+   "frame": 4
+  },
+  {
+   "key": "ref_spit_jar",
+   "group": "interior",
+   "symbol": "SpitJar",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_saloon_divider",
+   "group": "interior",
+   "symbol": "SaloonDivider",
+   "frame": 2
+  },
+  {
+   "key": "ref_saloon_divider_block",
+   "group": "interior",
+   "symbol": "SaloonDividerBlock",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_cacti_joe",
+   "group": "interior",
+   "symbol": "CactiJoe",
+   "frame": 2
+  },
+  {
+   "key": "ref_cacti_joe_back",
+   "group": "interior",
+   "symbol": "CactiJoe",
+   "frame": 4
+  },
+  {
+   "key": "ref_old_oil_lamp",
+   "group": "interior",
+   "symbol": "OldOilLamp",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_cannon",
+   "group": "interior",
+   "symbol": "Cannon",
+   "frame": 2
+  },
+  {
+   "key": "ref_cannon_back",
+   "group": "interior",
+   "symbol": "Cannon",
+   "frame": 4
+  },
+  {
+   "key": "ref_ship_railing",
+   "group": "interior",
+   "symbol": "ShipRailing",
+   "frame": 2
+  },
+  {
+   "key": "ref_ship_railing_block",
+   "group": "interior",
+   "symbol": "ShipRailingBlock",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_gold_doubloons",
+   "group": "interior",
+   "symbol": "GoldDoubloons",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_fake_skeleton_decor",
+   "group": "interior",
+   "symbol": "FakeSkeletonDecor",
+   "frame": 2
+  },
+  {
+   "key": "ref_fake_skeleton_decor_back",
+   "group": "interior",
+   "symbol": "FakeSkeletonDecor",
+   "frame": 4
+  },
+  {
+   "key": "ref_miniture_ship_model",
+   "group": "interior",
+   "symbol": "MinitureShipModel",
+   "frame": 2
+  },
+  {
+   "key": "ref_miniture_ship_model_back",
+   "group": "interior",
+   "symbol": "MinitureShipModel",
+   "frame": 4
+  },
+  {
+   "key": "ref_cannon_balls",
+   "group": "interior",
+   "symbol": "CannonBalls",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_digsite",
+   "group": "interior",
+   "symbol": "Digsite",
+   "frame": 2
+  },
+  {
+   "key": "ref_pirate_decor",
+   "group": "interior",
+   "symbol": "PirateDecor",
+   "frame": 2
+  },
+  {
+   "key": "ref_pirate_decor_back",
+   "group": "interior",
+   "symbol": "PirateDecor",
+   "frame": 4
+  },
+  {
+   "key": "ref_classic_black_bookshelf",
+   "group": "interior",
+   "symbol": "ClassicBlackBookshelf",
+   "frame": 2
+  },
+  {
+   "key": "ref_poker_cards_decor",
+   "group": "interior",
+   "symbol": "PokerCardsDecor",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_goldbars",
+   "group": "interior",
+   "symbol": "Goldbars",
+   "frame": 2
+  },
+  {
+   "key": "ref_money_bag",
+   "group": "interior",
+   "symbol": "MoneyBag",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_crate",
+   "group": "interior",
+   "symbol": "Crate",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_white_brick_pillar",
+   "group": "interior",
+   "symbol": "WhiteBrickPillar",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_black_side_table",
+   "group": "interior",
+   "symbol": "BlackSideTable",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_violin_case",
+   "group": "interior",
+   "symbol": "ViolinCase",
+   "frame": 2
+  },
+  {
+   "key": "ref_violin_case_back",
+   "group": "interior",
+   "symbol": "ViolinCase",
+   "frame": 4
+  },
+  {
+   "key": "ref_classic_black_wall",
+   "group": "interior",
+   "symbol": "ClassicBlackWall",
+   "frame": 2
+  },
+  {
+   "key": "ref_classic_black_block",
+   "group": "interior",
+   "symbol": "ClassicBlackBlock",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_classy_table_lamp",
+   "group": "interior",
+   "symbol": "ClassyTableLamp",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_classy_plant",
+   "group": "interior",
+   "symbol": "ClassyPlant",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_classy_bush",
+   "group": "interior",
+   "symbol": "ClassyBush",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_elegant_rope_barrier",
+   "group": "interior",
+   "symbol": "ElegantRopeBarrier",
+   "frame": 2
+  },
+  {
+   "key": "ref_fu_orange_basket",
+   "group": "interior",
+   "symbol": "FuOrangeBasket",
+   "frame": 2
+  },
+  {
+   "key": "ref_wealth_statue",
+   "group": "interior",
+   "symbol": "WealthStatue",
+   "frame": 2
+  },
+  {
+   "key": "ref_wealth_statue_back",
+   "group": "interior",
+   "symbol": "WealthStatue",
+   "frame": 4
+  },
+  {
+   "key": "ref_dragon_decor",
+   "group": "interior",
+   "symbol": "DragonDecor",
+   "frame": 2
+  },
+  {
+   "key": "ref_dragon_decor_back",
+   "group": "interior",
+   "symbol": "DragonDecor",
+   "frame": 4
+  },
+  {
+   "key": "ref_gold_ingot",
+   "group": "interior",
+   "symbol": "GoldIngot",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_flowering_bonsai",
+   "group": "interior",
+   "symbol": "FloweringBonsai",
+   "frame": 2
+  },
+  {
+   "key": "ref_tiger",
+   "group": "interior",
+   "symbol": "Tiger",
+   "frame": 2
+  },
+  {
+   "key": "ref_tiger_back",
+   "group": "interior",
+   "symbol": "Tiger",
+   "frame": 4
+  },
+  {
+   "key": "ref_tiger_cub",
+   "group": "interior",
+   "symbol": "TigerCub",
+   "frame": 2
+  },
+  {
+   "key": "ref_tiger_cub_back",
+   "group": "interior",
+   "symbol": "TigerCub",
+   "frame": 4
+  },
+  {
+   "key": "ref_red_valentines_present",
+   "group": "interior",
+   "symbol": "RedValentinesPresent",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_turquoise_valentines_present",
+   "group": "interior",
+   "symbol": "TurquoiseValentinesPresent",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_fu_orange_tree",
+   "group": "interior",
+   "symbol": "FuOrangeTree",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_heart_balloon_purple",
+   "group": "interior",
+   "symbol": "HeartBalloonPurple",
+   "frame": 2
+  },
+  {
+   "key": "ref_rose_bucket",
+   "group": "interior",
+   "symbol": "RoseBucket",
+   "frame": 2
+  },
+  {
+   "key": "ref_rose_bunch",
+   "group": "interior",
+   "symbol": "RoseBunch",
+   "frame": 2
+  },
+  {
+   "key": "ref_single_rose",
+   "group": "interior",
+   "symbol": "SingleRose",
+   "frame": 2
+  },
+  {
+   "key": "ref_vday_decor_heart",
+   "group": "interior",
+   "symbol": "VdayDecorHeart",
+   "frame": 2
+  },
+  {
+   "key": "ref_romantic_cats",
+   "group": "interior",
+   "symbol": "RomanticCats",
+   "frame": 2
+  },
+  {
+   "key": "ref_romantic_cats_back",
+   "group": "interior",
+   "symbol": "RomanticCats",
+   "frame": 4
+  },
+  {
+   "key": "ref_romantic_swans",
+   "group": "interior",
+   "symbol": "RomanticSwans",
+   "frame": 2
+  },
+  {
+   "key": "ref_romantic_swans_back",
+   "group": "interior",
+   "symbol": "RomanticSwans",
+   "frame": 4
+  },
+  {
+   "key": "ref_romantic_table_lamp",
+   "group": "interior",
+   "symbol": "RomanticTableLamp",
+   "frame": 2
+  },
+  {
+   "key": "ref_vday_present",
+   "group": "interior",
+   "symbol": "VdayPresent",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_heart_divider_block",
+   "group": "interior",
+   "symbol": "HeartDividerBlock",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_heart_divider",
+   "group": "interior",
+   "symbol": "HeartDivider",
+   "frame": 2
+  },
+  {
+   "key": "ref_heart_divider_corner",
+   "group": "interior",
+   "symbol": "HeartDividerCorner",
+   "frame": 2
+  },
+  {
+   "key": "ref_heart_divider_corner_back",
+   "group": "interior",
+   "symbol": "HeartDividerCorner",
+   "frame": 4
+  },
+  {
+   "key": "ref_table",
+   "group": "interior",
+   "symbol": "Table",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_bench",
+   "group": "interior",
+   "symbol": "Bench",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_white_table1x1",
+   "group": "interior",
+   "symbol": "WhiteTable1x1",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_blue_table",
+   "group": "interior",
+   "symbol": "BlueTable",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_black_table",
+   "group": "interior",
+   "symbol": "BlackTable",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_princess_table",
+   "group": "interior",
+   "symbol": "PrincessTable",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_chrome_table",
+   "group": "interior",
+   "symbol": "ChromeTable",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_glass_table",
+   "group": "interior",
+   "symbol": "GlassTable",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_chinese_table",
+   "group": "interior",
+   "symbol": "ChineseTable",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_pink_table_cloth",
+   "group": "interior",
+   "symbol": "PinkTableCloth",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_white_table_cloth",
+   "group": "interior",
+   "symbol": "WhiteTableCloth",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_round_glass_table",
+   "group": "interior",
+   "symbol": "RoundGlassTable",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_round_antique_table",
+   "group": "interior",
+   "symbol": "RoundAntiqueTable",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_wooden_table",
+   "group": "interior",
+   "symbol": "WoodenTable",
+   "frame": 2
+  },
+  {
+   "key": "ref_wooden_table_pink",
+   "group": "interior",
+   "symbol": "WoodenTablePink",
+   "frame": 2
+  },
+  {
+   "key": "ref_wooden_table_blue",
+   "group": "interior",
+   "symbol": "WoodenTableBlue",
+   "frame": 2
+  },
+  {
+   "key": "ref_red_eastern_table",
+   "group": "interior",
+   "symbol": "RedEasternTable",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_purple_eastern_table",
+   "group": "interior",
+   "symbol": "PurpleEasternTable",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_white_diner_table",
+   "group": "interior",
+   "symbol": "WhiteDinerTable",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_green_table_cloth",
+   "group": "interior",
+   "symbol": "GreenTableCloth",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_golden_table_cloth",
+   "group": "interior",
+   "symbol": "GoldenTableCloth",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_picnic_table_cloth",
+   "group": "interior",
+   "symbol": "PicnicTableCloth",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_white_pink_table",
+   "group": "interior",
+   "symbol": "WhitePinkTable",
+   "frame": 2
+  },
+  {
+   "key": "ref_black_table_cloth",
+   "group": "interior",
+   "symbol": "BlackTableCloth",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_mushroom_table",
+   "group": "interior",
+   "symbol": "MushroomTable",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_orange_slice_table",
+   "group": "interior",
+   "symbol": "OrangeSliceTable",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_kiwi_slice_table",
+   "group": "interior",
+   "symbol": "KiwiSliceTable",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_greek_table",
+   "group": "interior",
+   "symbol": "GreekTable",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_rock_table",
+   "group": "interior",
+   "symbol": "RockTable",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_autumn_table",
+   "group": "interior",
+   "symbol": "AutumnTable",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_festive_table",
+   "group": "interior",
+   "symbol": "FestiveTable",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_candy_table",
+   "group": "interior",
+   "symbol": "CandyTable",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_tree_trunk_table",
+   "group": "interior",
+   "symbol": "TreeTrunkTable",
+   "frame": 2
+  },
+  {
+   "key": "ref_ice_table",
+   "group": "interior",
+   "symbol": "IceTable",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_red_and_green_table",
+   "group": "interior",
+   "symbol": "RedAndGreenTable",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_egyptian_table",
+   "group": "interior",
+   "symbol": "EgyptianTable",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_saloon_table",
+   "group": "interior",
+   "symbol": "SaloonTable",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_pirate_table",
+   "group": "interior",
+   "symbol": "PirateTable",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_classy_black_table",
+   "group": "interior",
+   "symbol": "ClassyBlackTable",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_lucky_chinese_table",
+   "group": "interior",
+   "symbol": "LuckyChineseTable",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_vday_red_table",
+   "group": "interior",
+   "symbol": "VdayRedTable",
+   "frame": 2
+  },
+  {
+   "key": "ref_vday_white_table",
+   "group": "interior",
+   "symbol": "VdayWhiteTable",
+   "frame": 2
+  },
+  {
+   "key": "ref_romantic_table",
+   "group": "interior",
+   "symbol": "RomanticTable",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_chair01",
+   "group": "interior",
+   "symbol": "Chair01",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair01_back",
+   "group": "interior",
+   "symbol": "Chair01",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair02",
+   "group": "interior",
+   "symbol": "Chair02",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair02_back",
+   "group": "interior",
+   "symbol": "Chair02",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair03",
+   "group": "interior",
+   "symbol": "Chair03",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair03_back",
+   "group": "interior",
+   "symbol": "Chair03",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair04",
+   "group": "interior",
+   "symbol": "Chair04",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair04_back",
+   "group": "interior",
+   "symbol": "Chair04",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair05",
+   "group": "interior",
+   "symbol": "Chair05",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair05_back",
+   "group": "interior",
+   "symbol": "Chair05",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair06",
+   "group": "interior",
+   "symbol": "Chair06",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair06_back",
+   "group": "interior",
+   "symbol": "Chair06",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair07",
+   "group": "interior",
+   "symbol": "Chair07",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair07_back",
+   "group": "interior",
+   "symbol": "Chair07",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair08",
+   "group": "interior",
+   "symbol": "Chair08",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair08_back",
+   "group": "interior",
+   "symbol": "Chair08",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair09",
+   "group": "interior",
+   "symbol": "Chair09",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair09_back",
+   "group": "interior",
+   "symbol": "Chair09",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair10",
+   "group": "interior",
+   "symbol": "Chair10",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair10_back",
+   "group": "interior",
+   "symbol": "Chair10",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair11",
+   "group": "interior",
+   "symbol": "Chair11",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair11_back",
+   "group": "interior",
+   "symbol": "Chair11",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair12",
+   "group": "interior",
+   "symbol": "Chair12",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair12_back",
+   "group": "interior",
+   "symbol": "Chair12",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair13",
+   "group": "interior",
+   "symbol": "Chair13",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair13_back",
+   "group": "interior",
+   "symbol": "Chair13",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair14",
+   "group": "interior",
+   "symbol": "Chair14",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair14_back",
+   "group": "interior",
+   "symbol": "Chair14",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair15",
+   "group": "interior",
+   "symbol": "Chair15",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair15_back",
+   "group": "interior",
+   "symbol": "Chair15",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair17",
+   "group": "interior",
+   "symbol": "Chair17",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair17_back",
+   "group": "interior",
+   "symbol": "Chair17",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair16",
+   "group": "interior",
+   "symbol": "Chair16",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair16_back",
+   "group": "interior",
+   "symbol": "Chair16",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair18",
+   "group": "interior",
+   "symbol": "Chair18",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair18_back",
+   "group": "interior",
+   "symbol": "Chair18",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair19",
+   "group": "interior",
+   "symbol": "Chair19",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair19_back",
+   "group": "interior",
+   "symbol": "Chair19",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair20",
+   "group": "interior",
+   "symbol": "Chair20",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair20_back",
+   "group": "interior",
+   "symbol": "Chair20",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair21",
+   "group": "interior",
+   "symbol": "Chair21",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair21_back",
+   "group": "interior",
+   "symbol": "Chair21",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair22",
+   "group": "interior",
+   "symbol": "Chair22",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair22_back",
+   "group": "interior",
+   "symbol": "Chair22",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair24",
+   "group": "interior",
+   "symbol": "Chair24",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair24_back",
+   "group": "interior",
+   "symbol": "Chair24",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair25",
+   "group": "interior",
+   "symbol": "Chair25",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair25_back",
+   "group": "interior",
+   "symbol": "Chair25",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair26",
+   "group": "interior",
+   "symbol": "Chair26",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair26_back",
+   "group": "interior",
+   "symbol": "Chair26",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair27",
+   "group": "interior",
+   "symbol": "Chair27",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair27_back",
+   "group": "interior",
+   "symbol": "Chair27",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair28",
+   "group": "interior",
+   "symbol": "Chair28",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair28_back",
+   "group": "interior",
+   "symbol": "Chair28",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair29",
+   "group": "interior",
+   "symbol": "Chair29",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair29_back",
+   "group": "interior",
+   "symbol": "Chair29",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair30",
+   "group": "interior",
+   "symbol": "Chair30",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair30_back",
+   "group": "interior",
+   "symbol": "Chair30",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair31",
+   "group": "interior",
+   "symbol": "Chair31",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair31_back",
+   "group": "interior",
+   "symbol": "Chair31",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair32",
+   "group": "interior",
+   "symbol": "Chair32",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair32_back",
+   "group": "interior",
+   "symbol": "Chair32",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair35",
+   "group": "interior",
+   "symbol": "Chair35",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair35_back",
+   "group": "interior",
+   "symbol": "Chair35",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair33",
+   "group": "interior",
+   "symbol": "Chair33",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair33_back",
+   "group": "interior",
+   "symbol": "Chair33",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair34",
+   "group": "interior",
+   "symbol": "Chair34",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair34_back",
+   "group": "interior",
+   "symbol": "Chair34",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair36",
+   "group": "interior",
+   "symbol": "Chair36",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair36_back",
+   "group": "interior",
+   "symbol": "Chair36",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair37",
+   "group": "interior",
+   "symbol": "Chair37",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair37_back",
+   "group": "interior",
+   "symbol": "Chair37",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair38",
+   "group": "interior",
+   "symbol": "Chair38",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair38_back",
+   "group": "interior",
+   "symbol": "Chair38",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair39",
+   "group": "interior",
+   "symbol": "Chair39",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair39_back",
+   "group": "interior",
+   "symbol": "Chair39",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair41",
+   "group": "interior",
+   "symbol": "Chair41",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair41_back",
+   "group": "interior",
+   "symbol": "Chair41",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair40",
+   "group": "interior",
+   "symbol": "Chair40",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair40_back",
+   "group": "interior",
+   "symbol": "Chair40",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair42",
+   "group": "interior",
+   "symbol": "Chair42",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair42_back",
+   "group": "interior",
+   "symbol": "Chair42",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair43",
+   "group": "interior",
+   "symbol": "Chair43",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair43_back",
+   "group": "interior",
+   "symbol": "Chair43",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair44",
+   "group": "interior",
+   "symbol": "Chair44",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair44_back",
+   "group": "interior",
+   "symbol": "Chair44",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair45",
+   "group": "interior",
+   "symbol": "Chair45",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair45_back",
+   "group": "interior",
+   "symbol": "Chair45",
+   "frame": 4
+  },
+  {
+   "key": "ref_chair46",
+   "group": "interior",
+   "symbol": "Chair46",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_chair46_back",
+   "group": "interior",
+   "symbol": "Chair46",
+   "frame": 4
+  },
+  {
+   "key": "ref_arcade_machine_snake",
+   "group": "interior",
+   "symbol": "ArcadeMachineSnake",
+   "frame": 2
+  },
+  {
+   "key": "ref_arcade_machine_snake_back",
+   "group": "interior",
+   "symbol": "ArcadeMachineSnake",
+   "frame": 4
+  },
+  {
+   "key": "ref_toilet05",
+   "group": "interior",
+   "symbol": "Toilet05",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_toilet05_back",
+   "group": "interior",
+   "symbol": "Toilet05",
+   "frame": 4
+  },
+  {
+   "key": "ref_toilet01",
+   "group": "interior",
+   "symbol": "Toilet01",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_toilet01_back",
+   "group": "interior",
+   "symbol": "Toilet01",
+   "frame": 4
+  },
+  {
+   "key": "ref_toilet02",
+   "group": "interior",
+   "symbol": "Toilet02",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_toilet02_back",
+   "group": "interior",
+   "symbol": "Toilet02",
+   "frame": 4
+  },
+  {
+   "key": "ref_toilet03",
+   "group": "interior",
+   "symbol": "Toilet03",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_toilet03_back",
+   "group": "interior",
+   "symbol": "Toilet03",
+   "frame": 4
+  },
+  {
+   "key": "ref_toilet04",
+   "group": "interior",
+   "symbol": "Toilet04",
+   "frame": 2,
+   "seatHeight": 0.25
+  },
+  {
+   "key": "ref_toilet04_back",
+   "group": "interior",
+   "symbol": "Toilet04",
+   "frame": 4
+  },
+  {
+   "key": "ref_white_sink",
+   "group": "interior",
+   "symbol": "WhiteSink",
+   "frame": 2
+  },
+  {
+   "key": "ref_white_sink_back",
+   "group": "interior",
+   "symbol": "WhiteSink",
+   "frame": 4
+  },
+  {
+   "key": "ref_basin_cabinet",
+   "group": "interior",
+   "symbol": "BasinCabinet",
+   "frame": 2
+  },
+  {
+   "key": "ref_basin_cabinet_back",
+   "group": "interior",
+   "symbol": "BasinCabinet",
+   "frame": 4
+  },
+  {
+   "key": "ref_red_sink",
+   "group": "interior",
+   "symbol": "RedSink",
+   "frame": 2
+  },
+  {
+   "key": "ref_red_sink_back",
+   "group": "interior",
+   "symbol": "RedSink",
+   "frame": 4
+  },
+  {
+   "key": "ref_black_basin_cabinet",
+   "group": "interior",
+   "symbol": "BlackBasinCabinet",
+   "frame": 2
+  },
+  {
+   "key": "ref_black_basin_cabinet_back",
+   "group": "interior",
+   "symbol": "BlackBasinCabinet",
+   "frame": 4
+  },
+  {
+   "key": "ref_pinball_machine",
+   "group": "interior",
+   "symbol": "PinballMachine",
+   "frame": 2
+  },
+  {
+   "key": "ref_pinball_machine_back",
+   "group": "interior",
+   "symbol": "PinballMachine",
+   "frame": 4
+  },
+  {
+   "key": "ref_wishing_well",
+   "group": "interior",
+   "symbol": "WishingWell",
+   "frame": 2
+  },
+  {
+   "key": "ref_gingerbread_basin",
+   "group": "interior",
+   "symbol": "GingerbreadBasin",
+   "frame": 2
+  },
+  {
+   "key": "ref_gingerbread_basin_back",
+   "group": "interior",
+   "symbol": "GingerbreadBasin",
+   "frame": 4
+  },
+  {
+   "key": "ref_floor_tile21",
+   "group": "interior",
+   "symbol": "FloorTile21",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile",
+   "group": "interior",
+   "symbol": "FloorTile",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile2",
+   "group": "interior",
+   "symbol": "FloorTile2",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile3",
+   "group": "interior",
+   "symbol": "FloorTile3",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile4",
+   "group": "interior",
+   "symbol": "FloorTile4",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile5",
+   "group": "interior",
+   "symbol": "FloorTile5",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile6",
+   "group": "interior",
+   "symbol": "FloorTile6",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile7",
+   "group": "interior",
+   "symbol": "FloorTile7",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile8",
+   "group": "interior",
+   "symbol": "FloorTile8",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile9",
+   "group": "interior",
+   "symbol": "FloorTile9",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile10",
+   "group": "interior",
+   "symbol": "FloorTile10",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile11",
+   "group": "interior",
+   "symbol": "FloorTile11",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile12",
+   "group": "interior",
+   "symbol": "FloorTile12",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile13",
+   "group": "interior",
+   "symbol": "FloorTile13",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile14",
+   "group": "interior",
+   "symbol": "FloorTile14",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile15",
+   "group": "interior",
+   "symbol": "FloorTile15",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile16",
+   "group": "interior",
+   "symbol": "FloorTile16",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile17",
+   "group": "interior",
+   "symbol": "FloorTile17",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile18",
+   "group": "interior",
+   "symbol": "FloorTile18",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile19",
+   "group": "interior",
+   "symbol": "FloorTile19",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile20",
+   "group": "interior",
+   "symbol": "FloorTile20",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile22",
+   "group": "interior",
+   "symbol": "FloorTile22",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile23",
+   "group": "interior",
+   "symbol": "FloorTile23",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile24",
+   "group": "interior",
+   "symbol": "FloorTile24",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile25",
+   "group": "interior",
+   "symbol": "FloorTile25",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile26",
+   "group": "interior",
+   "symbol": "FloorTile26",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile27",
+   "group": "interior",
+   "symbol": "FloorTile27",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile28",
+   "group": "interior",
+   "symbol": "FloorTile28",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile29",
+   "group": "interior",
+   "symbol": "FloorTile29",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile30",
+   "group": "interior",
+   "symbol": "FloorTile30",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile31",
+   "group": "interior",
+   "symbol": "FloorTile31",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile32",
+   "group": "interior",
+   "symbol": "FloorTile32",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile33",
+   "group": "interior",
+   "symbol": "FloorTile33",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile34",
+   "group": "interior",
+   "symbol": "FloorTile34",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile35",
+   "group": "interior",
+   "symbol": "FloorTile35",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile36",
+   "group": "interior",
+   "symbol": "FloorTile36",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile37",
+   "group": "interior",
+   "symbol": "FloorTile37",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile38",
+   "group": "interior",
+   "symbol": "FloorTile38",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile39",
+   "group": "interior",
+   "symbol": "FloorTile39",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile40",
+   "group": "interior",
+   "symbol": "FloorTile40",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile41",
+   "group": "interior",
+   "symbol": "FloorTile41",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile42",
+   "group": "interior",
+   "symbol": "FloorTile42",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile43",
+   "group": "interior",
+   "symbol": "FloorTile43",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile44",
+   "group": "interior",
+   "symbol": "FloorTile44",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile45",
+   "group": "interior",
+   "symbol": "FloorTile45",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile46",
+   "group": "interior",
+   "symbol": "FloorTile46",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile47",
+   "group": "interior",
+   "symbol": "FloorTile47",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile48",
+   "group": "interior",
+   "symbol": "FloorTile48",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile49",
+   "group": "interior",
+   "symbol": "FloorTile49",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile50",
+   "group": "interior",
+   "symbol": "FloorTile50",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile51",
+   "group": "interior",
+   "symbol": "FloorTile51",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile52",
+   "group": "interior",
+   "symbol": "FloorTile52",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile53",
+   "group": "interior",
+   "symbol": "FloorTile53",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile54",
+   "group": "interior",
+   "symbol": "FloorTile54",
+   "frame": 1
+  },
+  {
+   "key": "ref_floor_tile55",
+   "group": "interior",
+   "symbol": "FloorTile55",
+   "frame": 1
+  },
+  {
+   "key": "ref_wall1",
+   "group": "interior",
+   "symbol": "Wall1",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall18",
+   "group": "interior",
+   "symbol": "Wall18",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall19",
+   "group": "interior",
+   "symbol": "Wall19",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall17",
+   "group": "interior",
+   "symbol": "Wall17",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall3",
+   "group": "interior",
+   "symbol": "Wall3",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall4",
+   "group": "interior",
+   "symbol": "Wall4",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall5",
+   "group": "interior",
+   "symbol": "Wall5",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall6",
+   "group": "interior",
+   "symbol": "Wall6",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall7",
+   "group": "interior",
+   "symbol": "Wall7",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall8",
+   "group": "interior",
+   "symbol": "Wall8",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall9",
+   "group": "interior",
+   "symbol": "Wall9",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall10",
+   "group": "interior",
+   "symbol": "Wall10",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall11",
+   "group": "interior",
+   "symbol": "Wall11",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall12",
+   "group": "interior",
+   "symbol": "Wall12",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall13",
+   "group": "interior",
+   "symbol": "Wall13",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall14",
+   "group": "interior",
+   "symbol": "Wall14",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall15",
+   "group": "interior",
+   "symbol": "Wall15",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall16",
+   "group": "interior",
+   "symbol": "Wall16",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall20",
+   "group": "interior",
+   "symbol": "Wall20",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall21",
+   "group": "interior",
+   "symbol": "Wall21",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall22",
+   "group": "interior",
+   "symbol": "Wall22",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall23",
+   "group": "interior",
+   "symbol": "Wall23",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall24",
+   "group": "interior",
+   "symbol": "Wall24",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall25",
+   "group": "interior",
+   "symbol": "Wall25",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall26",
+   "group": "interior",
+   "symbol": "Wall26",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall27",
+   "group": "interior",
+   "symbol": "Wall27",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall28",
+   "group": "interior",
+   "symbol": "Wall28",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall29",
+   "group": "interior",
+   "symbol": "Wall29",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall30",
+   "group": "interior",
+   "symbol": "Wall30",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall31",
+   "group": "interior",
+   "symbol": "Wall31",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall32",
+   "group": "interior",
+   "symbol": "Wall32",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall33",
+   "group": "interior",
+   "symbol": "Wall33",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall34",
+   "group": "interior",
+   "symbol": "Wall34",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall35",
+   "group": "interior",
+   "symbol": "Wall35",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall36",
+   "group": "interior",
+   "symbol": "Wall36",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall37",
+   "group": "interior",
+   "symbol": "Wall37",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall38",
+   "group": "interior",
+   "symbol": "Wall38",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall39",
+   "group": "interior",
+   "symbol": "Wall39",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall41",
+   "group": "interior",
+   "symbol": "Wall41",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall40",
+   "group": "interior",
+   "symbol": "Wall40",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall42",
+   "group": "interior",
+   "symbol": "Wall42",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall43",
+   "group": "interior",
+   "symbol": "Wall43",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall44",
+   "group": "interior",
+   "symbol": "Wall44",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall45",
+   "group": "interior",
+   "symbol": "Wall45",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall46",
+   "group": "interior",
+   "symbol": "Wall46",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall47",
+   "group": "interior",
+   "symbol": "Wall47",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall48",
+   "group": "interior",
+   "symbol": "Wall48",
+   "frame": 2
+  },
+  {
+   "key": "ref_wall49",
+   "group": "interior",
+   "symbol": "Wall49",
+   "frame": 2
+  },
+  {
+   "key": "ref_stove01",
+   "group": "interior",
+   "symbol": "Stove01",
+   "frame": 1,
+   "mirror": true,
+   "frontCells": 1
+  },
+  {
+   "key": "ref_stove01_back",
+   "group": "interior",
+   "symbol": "indoor_asset_fla.Stove01Down_476",
+   "frame": 1
+  },
+  {
+   "key": "ref_stove02",
+   "group": "interior",
+   "symbol": "Stove02",
+   "frame": 1,
+   "mirror": true,
+   "frontCells": 1
+  },
+  {
+   "key": "ref_stove02_back",
+   "group": "interior",
+   "symbol": "StoveRedRotations",
+   "frame": 3
+  },
+  {
+   "key": "ref_stove5",
+   "group": "interior",
+   "symbol": "Stove5",
+   "frame": 1,
+   "mirror": true,
+   "frontCells": 1
+  },
+  {
+   "key": "ref_stove5_back",
+   "group": "interior",
+   "symbol": "indoor_asset_fla.Stove05Down_508",
+   "frame": 1
+  },
+  {
+   "key": "ref_stove7",
+   "group": "interior",
+   "symbol": "Stove7",
+   "frame": 1,
+   "mirror": true,
+   "frontCells": 1
+  },
+  {
+   "key": "ref_stove7_back",
+   "group": "interior",
+   "symbol": "indoor_asset_fla.Stove07Down_526",
+   "frame": 1
+  },
+  {
+   "key": "ref_stove04",
+   "group": "interior",
+   "symbol": "Stove04",
+   "frame": 1,
+   "mirror": true,
+   "frontCells": 1
+  },
+  {
+   "key": "ref_stove04_back",
+   "group": "interior",
+   "symbol": "indoor_asset_fla.Stove04Down_504",
+   "frame": 1
+  },
+  {
+   "key": "ref_stove03",
+   "group": "interior",
+   "symbol": "Stove03",
+   "frame": 1,
+   "mirror": true,
+   "frontCells": 1
+  },
+  {
+   "key": "ref_stove03_back",
+   "group": "interior",
+   "symbol": "indoor_asset_fla.Stove03Down_551",
+   "frame": 1
+  },
+  {
+   "key": "ref_stove10",
+   "group": "interior",
+   "symbol": "Stove10",
+   "frame": 1,
+   "mirror": true,
+   "frontCells": 1
+  },
+  {
+   "key": "ref_stove10_back",
+   "group": "interior",
+   "symbol": "StoveRotations10",
+   "frame": 1
+  },
+  {
+   "key": "ref_soda_dispenser",
+   "group": "interior",
+   "symbol": "SodaDispenser",
+   "frame": 2
+  },
+  {
+   "key": "ref_soda_dispenser_back",
+   "group": "interior",
+   "symbol": "SodaDispenser",
+   "frame": 4
+  },
+  {
+   "key": "ref_drinks_fridge",
+   "group": "interior",
+   "symbol": "DrinksFridge",
+   "frame": 2
+  },
+  {
+   "key": "ref_drinks_fridge_back",
+   "group": "interior",
+   "symbol": "DrinksFridge",
+   "frame": 4
+  },
+  {
+   "key": "ref_drinks_shelf",
+   "group": "interior",
+   "symbol": "DrinksShelf",
+   "frame": 2
+  },
+  {
+   "key": "ref_drinks_shelf_back",
+   "group": "interior",
+   "symbol": "DrinksShelf",
+   "frame": 4
+  },
+  {
+   "key": "ref_stove13",
+   "group": "interior",
+   "symbol": "Stove13",
+   "frame": 1,
+   "mirror": true,
+   "frontCells": 1
+  },
+  {
+   "key": "ref_stove13_back",
+   "group": "interior",
+   "symbol": "Stove13Rotations",
+   "frame": 3
+  },
+  {
+   "key": "ref_green_bush",
+   "group": "interior",
+   "symbol": "GreenBush",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_red_berry_bush",
+   "group": "interior",
+   "symbol": "RedBerryBush",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_white_flower_bush",
+   "group": "interior",
+   "symbol": "WhiteFlowerBush",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_iris",
+   "group": "interior",
+   "symbol": "Iris",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_pink_tulips",
+   "group": "interior",
+   "symbol": "PinkTulips",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_sunflowers",
+   "group": "interior",
+   "symbol": "Sunflowers",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_blueflowers",
+   "group": "interior",
+   "symbol": "Blueflowers",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_pine_tree",
+   "group": "interior",
+   "symbol": "PineTree",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_snowy_pine_tree",
+   "group": "interior",
+   "symbol": "SnowyPineTree",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_daffodils",
+   "group": "interior",
+   "symbol": "Daffodils",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_white_flowers",
+   "group": "interior",
+   "symbol": "WhiteFlowers",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_mushrooms",
+   "group": "interior",
+   "symbol": "Mushrooms",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_vriesea",
+   "group": "interior",
+   "symbol": "Vriesea",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_anthurium",
+   "group": "interior",
+   "symbol": "Anthurium",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_yellow_daisy",
+   "group": "interior",
+   "symbol": "YellowDaisy",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_pansy",
+   "group": "interior",
+   "symbol": "Pansy",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_balsamine",
+   "group": "interior",
+   "symbol": "Balsamine",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_blooming_cactus",
+   "group": "interior",
+   "symbol": "BloomingCactus",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_palm_tree_garden",
+   "group": "interior",
+   "symbol": "PalmTreeGarden",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_desert_palm",
+   "group": "interior",
+   "symbol": "DesertPalm",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_romantic_tree",
+   "group": "interior",
+   "symbol": "RomanticTree",
+   "frame": 1,
+   "mirror": true
+  },
+  {
+   "key": "ref_heart_tree",
+   "group": "interior",
+   "symbol": "HeartTree",
+   "frame": 2
+  }
+ ]
+}

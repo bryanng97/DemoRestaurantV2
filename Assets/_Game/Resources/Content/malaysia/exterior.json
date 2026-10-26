@@ -1,0 +1,259 @@
+{
+  "items": [
+    {
+      "id": "wall_cream",
+      "nameKey": "exterior.item.wall_cream",
+      "kind": "Wall",
+      "price": 100,
+      "width": 800,
+      "height": 360,
+      "unlockLevel": 1,
+      "starterOwned": 1,
+      "sprite": "Art/ExteriorPrototype/wall_cream"
+    },
+    {
+      "id": "wall_red",
+      "nameKey": "exterior.item.wall_red",
+      "kind": "Wall",
+      "price": 100,
+      "width": 800,
+      "height": 360,
+      "unlockLevel": 1,
+      "starterOwned": 0,
+      "sprite": "Art/ExteriorPrototype/wall_red"
+    },
+    {
+      "id": "wall_stone",
+      "nameKey": "exterior.item.wall_stone",
+      "kind": "Wall",
+      "price": 150,
+      "width": 800,
+      "height": 360,
+      "unlockLevel": 1,
+      "starterOwned": 0,
+      "sprite": "Art/ExteriorPrototype/wall_stone"
+    },
+    {
+      "id": "roof_red",
+      "nameKey": "exterior.item.roof_red",
+      "kind": "Roof",
+      "price": 300,
+      "width": 860,
+      "height": 272,
+      "unlockLevel": 1,
+      "starterOwned": 1,
+      "sprite": "Art/ExteriorPrototype/roof_red"
+    },
+    {
+      "id": "roof_gables",
+      "nameKey": "exterior.item.roof_gables",
+      "kind": "Roof",
+      "price": 700,
+      "width": 860,
+      "height": 300,
+      "unlockLevel": 1,
+      "starterOwned": 0,
+      "sprite": "Art/ExteriorPrototype/roof_gables"
+    },
+    {
+      "id": "door_arch",
+      "nameKey": "exterior.item.door_arch",
+      "kind": "Door",
+      "price": 250,
+      "width": 100,
+      "height": 180,
+      "unlockLevel": 1,
+      "starterOwned": 1,
+      "sprite": "Art/ExteriorPrototype/door_arch"
+    },
+    {
+      "id": "door_wood",
+      "nameKey": "exterior.item.door_wood",
+      "kind": "Door",
+      "price": 300,
+      "width": 100,
+      "height": 180,
+      "unlockLevel": 1,
+      "starterOwned": 0,
+      "sprite": "Art/ExteriorPrototype/door_wood"
+    },
+    {
+      "id": "window_arch",
+      "nameKey": "exterior.item.window_arch",
+      "kind": "Window",
+      "price": 150,
+      "width": 100,
+      "height": 150,
+      "unlockLevel": 1,
+      "starterOwned": 2,
+      "sprite": "Art/ExteriorPrototype/window_arch"
+    },
+    {
+      "id": "window_square",
+      "nameKey": "exterior.item.window_square",
+      "kind": "Window",
+      "price": 200,
+      "width": 110,
+      "height": 140,
+      "unlockLevel": 1,
+      "starterOwned": 0,
+      "sprite": "Art/ExteriorPrototype/window_square"
+    },
+    {
+      "id": "sign_wood",
+      "nameKey": "exterior.item.sign_wood",
+      "kind": "Sign",
+      "price": 150,
+      "width": 350,
+      "height": 90,
+      "unlockLevel": 1,
+      "starterOwned": 1,
+      "sprite": "Art/ExteriorPrototype/sign_wood"
+    },
+    {
+      "id": "sign_cream",
+      "nameKey": "exterior.item.sign_cream",
+      "kind": "Sign",
+      "price": 200,
+      "width": 350,
+      "height": 110,
+      "unlockLevel": 1,
+      "starterOwned": 0,
+      "sprite": "Art/ExteriorPrototype/sign_cream"
+    },
+    {
+      "id": "menu_sign",
+      "nameKey": "exterior.item.menu_sign",
+      "kind": "WallDecor",
+      "price": 300,
+      "width": 65,
+      "height": 85,
+      "unlockLevel": 1,
+      "starterOwned": 0,
+      "sprite": "Art/ExteriorPrototype/menu_sign"
+    },
+    {
+      "id": "plant_red",
+      "nameKey": "exterior.item.plant_red",
+      "kind": "Ground",
+      "price": 250,
+      "width": 65,
+      "height": 100,
+      "unlockLevel": 1,
+      "starterOwned": 2,
+      "sprite": "Art/ExteriorPrototype/plant_red"
+    },
+    {
+      "id": "flower_box",
+      "nameKey": "exterior.item.flower_box",
+      "kind": "Ground",
+      "price": 300,
+      "width": 140,
+      "height": 60,
+      "unlockLevel": 1,
+      "starterOwned": 0,
+      "sprite": "Art/ExteriorPrototype/flower_box"
+    },
+    {
+      "id": "topiary",
+      "nameKey": "exterior.item.topiary",
+      "kind": "Ground",
+      "price": 350,
+      "width": 65,
+      "height": 140,
+      "unlockLevel": 1,
+      "starterOwned": 0,
+      "sprite": "Art/ExteriorPrototype/topiary"
+    }
+  ],
+  "buildingSteps": [
+    {
+      "level": 5,
+      "width": 953,
+      "height": 318
+    },
+    {
+      "level": 10,
+      "width": 1106,
+      "height": 318
+    },
+    {
+      "level": 15,
+      "width": 1122,
+      "height": 436
+    },
+    {
+      "level": 20,
+      "width": 1141,
+      "height": 490
+    },
+    {
+      "level": 30,
+      "width": 1141,
+      "height": 505
+    },
+    {
+      "level": 40,
+      "width": 1141,
+      "height": 590
+    }
+  ],
+  "starter": [
+    {
+      "instance": 1,
+      "itemId": "wall_cream",
+      "x": 500,
+      "y": 620,
+      "flipped": false
+    },
+    {
+      "instance": 2,
+      "itemId": "roof_red",
+      "x": 500,
+      "y": 272,
+      "flipped": false
+    },
+    {
+      "instance": 3,
+      "itemId": "door_arch",
+      "x": 500,
+      "y": 620,
+      "flipped": false
+    },
+    {
+      "instance": 4,
+      "itemId": "window_arch",
+      "x": 280,
+      "y": 560,
+      "flipped": false
+    },
+    {
+      "instance": 5,
+      "itemId": "window_arch",
+      "x": 720,
+      "y": 560,
+      "flipped": false
+    },
+    {
+      "instance": 6,
+      "itemId": "sign_wood",
+      "x": 500,
+      "y": 405,
+      "flipped": false
+    },
+    {
+      "instance": 7,
+      "itemId": "plant_red",
+      "x": 150,
+      "y": 650,
+      "flipped": false
+    },
+    {
+      "instance": 8,
+      "itemId": "plant_red",
+      "x": 850,
+      "y": 650,
+      "flipped": false
+    }
+  ]
+}

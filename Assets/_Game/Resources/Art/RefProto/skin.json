@@ -1,0 +1,2585 @@
+{
+    "tilePixelWidth":  160,
+    "wallCellsPerSegment":  1,
+    "backgroundColor":  "#92BA45",
+    "roadColor":  "#888885",
+    "sidewalkColor":  "#CBA29E",
+    "sprites":  [
+                    {
+                        "key":  "door01_open",
+                        "anchor":  {
+                                       "x":  0.7343,
+                                       "y":  0
+                                   },
+                        "firstFrameWidth":  87
+                    },
+                    {
+                        "key":  "chair01",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "stove01",
+                        "mirror":  true,
+                        "frontCells":  1
+                    },
+                    {
+                        "key":  "oven01",
+                        "mirror":  true,
+                        "frontCells":  1
+                    },
+                    {
+                        "key":  "sink01",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "fridge01",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "cabinet01",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "shelf01",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "signboard01",
+                        "wallLift":  0.3
+                    },
+                    {
+                        "key":  "garden_plot_wet",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0
+                                   },
+                        "firstFrameWidth":  228
+                    },
+                    {
+                        "key":  "street_tile",
+                        "anchor":  {
+                                       "x":  0.0,
+                                       "y":  0.0006
+                                   }
+                    },
+                    {
+                        "key":  "serve_roti_canai",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.355
+                                   }
+                    },
+                    {
+                        "key":  "serve_satay",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.48
+                                   }
+                    },
+                    {
+                        "key":  "serve_nasi_lemak",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_mee_goreng_mamak",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_char_kway_teow",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_nasi_kerabu",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_laksa",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.17
+                                   }
+                    },
+                    {
+                        "key":  "serve_cendol",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.263
+                                   }
+                    },
+                    {
+                        "key":  "serve_teh_tarik",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.292
+                                   }
+                    },
+                    {
+                        "key":  "ref_blooming_bush",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_lush_bush",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_elegant_pine",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_delicate_bush",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_pleasant_palm",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_cat_tails",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_flourishing_pine",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_table_lamp",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_table_lamp_blue",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_table_lamp_pink",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_bubble_tube_silver",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_bubble_tube_gold",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_pink_block",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_wooden_block",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_luxurious_block",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_chrome_block",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_classic_block",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_barrel",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_greek_column",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_brick_pillar",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_wooden_pillar",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_ming_vase",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_dragon_vase",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_white_ceramic_vase",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_black_ceramic_vase",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_brown_ceramic_vase",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_blue_power_core_base",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_green_power_core_base",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_yellow_power_core_base",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_red_power_core_base",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_white_wall_cross",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_japanese_lamp",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_sake_keg",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_classic_white_divider_block",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_red_rose",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_blue_iris",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_calla_lily",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_white_round_side_table",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_black_round_side_table",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_bamboo_plant",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_party_balloons",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_djembe_drum",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_allamanda_flower_basket",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_white_orchid",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_classic_floor_lamp",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_red_vase",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_tall_vase",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_water_fountain",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_potted_palmtree",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_large_flower_pot",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_candle_holder",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_small_water_fountain",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_dark_greek_column",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_greek_pot",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_golden_greek_column",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_column_divider_block",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_seaweed1",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_seaweed2",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_seaweed3",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_candy_cane_pole",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_gingerbread_divider_block",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_glow_tube_pink",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_glow_tube_blue",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_glow_tube_green",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_rocket_decor",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_egyptian_divider_block",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_eqyptian_pillar",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_eqyptian_candle_stand",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_golden_cobra_candlelight",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_egyptian_pot",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_spit_jar",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_saloon_divider_block",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_old_oil_lamp",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_ship_railing_block",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_gold_doubloons",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_cannon_balls",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_poker_cards_decor",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_money_bag",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_crate",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_white_brick_pillar",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_black_side_table",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_classic_black_block",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_classy_table_lamp",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_classy_plant",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_classy_bush",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_gold_ingot",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_red_valentines_present",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_turquoise_valentines_present",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_fu_orange_tree",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_vday_present",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_heart_divider_block",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_table",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_bench",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_white_table1x1",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_blue_table",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_black_table",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_princess_table",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_chrome_table",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_glass_table",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_chinese_table",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_pink_table_cloth",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_white_table_cloth",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_round_glass_table",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_round_antique_table",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_red_eastern_table",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_purple_eastern_table",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_white_diner_table",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_green_table_cloth",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_golden_table_cloth",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_picnic_table_cloth",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_black_table_cloth",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_mushroom_table",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_orange_slice_table",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_kiwi_slice_table",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_greek_table",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_rock_table",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_autumn_table",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_festive_table",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_candy_table",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_ice_table",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_red_and_green_table",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_egyptian_table",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_saloon_table",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_pirate_table",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_classy_black_table",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_lucky_chinese_table",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_romantic_table",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_chair01",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair02",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair03",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair04",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair05",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair06",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair07",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair08",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair09",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair10",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair11",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair12",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair13",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair14",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair15",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair17",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair16",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair18",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair19",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair20",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair21",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair22",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair24",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair25",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair26",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair27",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair28",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair29",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair30",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair31",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair32",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair35",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair33",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair34",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair36",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair37",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair38",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair39",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair41",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair40",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair42",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair43",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair44",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair45",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_chair46",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_toilet05",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_toilet01",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_toilet02",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_toilet03",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_toilet04",
+                        "seatHeight":  0.25
+                    },
+                    {
+                        "key":  "ref_stove01",
+                        "mirror":  true,
+                        "frontCells":  1
+                    },
+                    {
+                        "key":  "ref_stove02",
+                        "mirror":  true,
+                        "frontCells":  1
+                    },
+                    {
+                        "key":  "ref_stove5",
+                        "mirror":  true,
+                        "frontCells":  1
+                    },
+                    {
+                        "key":  "ref_stove7",
+                        "mirror":  true,
+                        "frontCells":  1
+                    },
+                    {
+                        "key":  "ref_stove04",
+                        "mirror":  true,
+                        "frontCells":  1
+                    },
+                    {
+                        "key":  "ref_stove03",
+                        "mirror":  true,
+                        "frontCells":  1
+                    },
+                    {
+                        "key":  "ref_stove10",
+                        "mirror":  true,
+                        "frontCells":  1
+                    },
+                    {
+                        "key":  "ref_stove13",
+                        "mirror":  true,
+                        "frontCells":  1
+                    },
+                    {
+                        "key":  "ref_green_bush",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_red_berry_bush",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_white_flower_bush",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_iris",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_pink_tulips",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_sunflowers",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_blueflowers",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_pine_tree",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_snowy_pine_tree",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_daffodils",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_white_flowers",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_mushrooms",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_vriesea",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_anthurium",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_yellow_daisy",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_pansy",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_balsamine",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_blooming_cactus",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_palm_tree_garden",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_desert_palm",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "ref_romantic_tree",
+                        "mirror":  true
+                    },
+                    {
+                        "key":  "serve_roti_canai_level01",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.355
+                                   }
+                    },
+                    {
+                        "key":  "serve_satay_level01",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.48
+                                   }
+                    },
+                    {
+                        "key":  "serve_nasi_lemak_level01",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_mee_goreng_mamak_level01",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_char_kway_teow_level01",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_nasi_kerabu_level01",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_laksa_level01",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.17
+                                   }
+                    },
+                    {
+                        "key":  "serve_cendol_level01",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.263
+                                   }
+                    },
+                    {
+                        "key":  "serve_teh_tarik_level01",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.292
+                                   }
+                    },
+                    {
+                        "key":  "serve_roti_canai_level02",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.355
+                                   }
+                    },
+                    {
+                        "key":  "serve_satay_level02",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.48
+                                   }
+                    },
+                    {
+                        "key":  "serve_nasi_lemak_level02",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_mee_goreng_mamak_level02",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_char_kway_teow_level02",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_nasi_kerabu_level02",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_laksa_level02",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.17
+                                   }
+                    },
+                    {
+                        "key":  "serve_cendol_level02",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.263
+                                   }
+                    },
+                    {
+                        "key":  "serve_teh_tarik_level02",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.292
+                                   }
+                    },
+                    {
+                        "key":  "serve_roti_canai_level03",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.355
+                                   }
+                    },
+                    {
+                        "key":  "serve_satay_level03",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.48
+                                   }
+                    },
+                    {
+                        "key":  "serve_nasi_lemak_level03",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_mee_goreng_mamak_level03",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_char_kway_teow_level03",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_nasi_kerabu_level03",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_laksa_level03",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.17
+                                   }
+                    },
+                    {
+                        "key":  "serve_cendol_level03",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.263
+                                   }
+                    },
+                    {
+                        "key":  "serve_teh_tarik_level03",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.292
+                                   }
+                    },
+                    {
+                        "key":  "serve_roti_canai_level04",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.355
+                                   }
+                    },
+                    {
+                        "key":  "serve_satay_level04",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.48
+                                   }
+                    },
+                    {
+                        "key":  "serve_nasi_lemak_level04",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_mee_goreng_mamak_level04",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_char_kway_teow_level04",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_nasi_kerabu_level04",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_laksa_level04",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.17
+                                   }
+                    },
+                    {
+                        "key":  "serve_cendol_level04",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.263
+                                   }
+                    },
+                    {
+                        "key":  "serve_teh_tarik_level04",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.292
+                                   }
+                    },
+                    {
+                        "key":  "serve_roti_canai_level05",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.355
+                                   }
+                    },
+                    {
+                        "key":  "serve_satay_level05",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.48
+                                   }
+                    },
+                    {
+                        "key":  "serve_nasi_lemak_level05",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_mee_goreng_mamak_level05",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_char_kway_teow_level05",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_nasi_kerabu_level05",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_laksa_level05",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.17
+                                   }
+                    },
+                    {
+                        "key":  "serve_cendol_level05",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.263
+                                   }
+                    },
+                    {
+                        "key":  "serve_teh_tarik_level05",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.292
+                                   }
+                    },
+                    {
+                        "key":  "serve_roti_canai_level06",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.355
+                                   }
+                    },
+                    {
+                        "key":  "serve_satay_level06",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.48
+                                   }
+                    },
+                    {
+                        "key":  "serve_nasi_lemak_level06",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_mee_goreng_mamak_level06",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_char_kway_teow_level06",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_nasi_kerabu_level06",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_laksa_level06",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.17
+                                   }
+                    },
+                    {
+                        "key":  "serve_cendol_level06",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.263
+                                   }
+                    },
+                    {
+                        "key":  "serve_teh_tarik_level06",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.292
+                                   }
+                    },
+                    {
+                        "key":  "serve_roti_canai_level07",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.355
+                                   }
+                    },
+                    {
+                        "key":  "serve_satay_level07",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.48
+                                   }
+                    },
+                    {
+                        "key":  "serve_nasi_lemak_level07",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_mee_goreng_mamak_level07",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_char_kway_teow_level07",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_nasi_kerabu_level07",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_laksa_level07",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.17
+                                   }
+                    },
+                    {
+                        "key":  "serve_cendol_level07",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.263
+                                   }
+                    },
+                    {
+                        "key":  "serve_teh_tarik_level07",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.292
+                                   }
+                    },
+                    {
+                        "key":  "serve_roti_canai_level08",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.355
+                                   }
+                    },
+                    {
+                        "key":  "serve_satay_level08",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.48
+                                   }
+                    },
+                    {
+                        "key":  "serve_nasi_lemak_level08",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_mee_goreng_mamak_level08",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_char_kway_teow_level08",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_nasi_kerabu_level08",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_laksa_level08",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.17
+                                   }
+                    },
+                    {
+                        "key":  "serve_cendol_level08",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.263
+                                   }
+                    },
+                    {
+                        "key":  "serve_teh_tarik_level08",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.292
+                                   }
+                    },
+                    {
+                        "key":  "serve_roti_canai_level09",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.355
+                                   }
+                    },
+                    {
+                        "key":  "serve_satay_level09",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.48
+                                   }
+                    },
+                    {
+                        "key":  "serve_nasi_lemak_level09",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_mee_goreng_mamak_level09",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_char_kway_teow_level09",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_nasi_kerabu_level09",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_laksa_level09",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.17
+                                   }
+                    },
+                    {
+                        "key":  "serve_cendol_level09",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.263
+                                   }
+                    },
+                    {
+                        "key":  "serve_teh_tarik_level09",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.292
+                                   }
+                    },
+                    {
+                        "key":  "serve_roti_canai_level10",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.355
+                                   }
+                    },
+                    {
+                        "key":  "serve_satay_level10",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.48
+                                   }
+                    },
+                    {
+                        "key":  "serve_nasi_lemak_level10",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_mee_goreng_mamak_level10",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_char_kway_teow_level10",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_nasi_kerabu_level10",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.5
+                                   }
+                    },
+                    {
+                        "key":  "serve_laksa_level10",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.17
+                                   }
+                    },
+                    {
+                        "key":  "serve_cendol_level10",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.263
+                                   }
+                    },
+                    {
+                        "key":  "serve_teh_tarik_level10",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.292
+                                   }
+                    },
+                    {
+                        "key":  "char_chef_walk_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_chef_walk_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_chef_carry_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   },
+                        "hand":  {
+                                     "x":  0.4173,
+                                     "y":  0.1865
+                                 }
+                    },
+                    {
+                        "key":  "char_chef_carry_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   },
+                        "hand":  {
+                                     "x":  0.7215,
+                                     "y":  0.2420
+                                 }
+                    },
+                    {
+                        "key":  "char_chef_hold_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   },
+                        "hand":  {
+                                     "x":  0.4104,
+                                     "y":  0.1929
+                                 }
+                    },
+                    {
+                        "key":  "char_chef_hold_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   },
+                        "hand":  {
+                                     "x":  0.7262,
+                                     "y":  0.2475
+                                 }
+                    },
+                    {
+                        "key":  "char_chef_idle_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_chef_idle_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_chef_cook_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_chef_cook_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_chef_sit_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_chef_sit_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_chef_eat_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_chef_eat_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_chef_clean_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_chef_clean_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_chef_fix_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_chef_fix_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_waiter_walk_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_waiter_walk_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_waiter_carry_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   },
+                        "hand":  {
+                                     "x":  0.4173,
+                                     "y":  0.1865
+                                 }
+                    },
+                    {
+                        "key":  "char_waiter_carry_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   },
+                        "hand":  {
+                                     "x":  0.7215,
+                                     "y":  0.2420
+                                 }
+                    },
+                    {
+                        "key":  "char_waiter_hold_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   },
+                        "hand":  {
+                                     "x":  0.4104,
+                                     "y":  0.1929
+                                 }
+                    },
+                    {
+                        "key":  "char_waiter_hold_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   },
+                        "hand":  {
+                                     "x":  0.7262,
+                                     "y":  0.2475
+                                 }
+                    },
+                    {
+                        "key":  "char_waiter_idle_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_waiter_idle_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_waiter_cook_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_waiter_cook_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_waiter_sit_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_waiter_sit_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_waiter_eat_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_waiter_eat_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_waiter_clean_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_waiter_clean_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_waiter_fix_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_waiter_fix_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_cleaner_walk_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_cleaner_walk_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_cleaner_carry_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   },
+                        "hand":  {
+                                     "x":  0.4173,
+                                     "y":  0.1865
+                                 }
+                    },
+                    {
+                        "key":  "char_cleaner_carry_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   },
+                        "hand":  {
+                                     "x":  0.7215,
+                                     "y":  0.2420
+                                 }
+                    },
+                    {
+                        "key":  "char_cleaner_hold_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   },
+                        "hand":  {
+                                     "x":  0.4104,
+                                     "y":  0.1929
+                                 }
+                    },
+                    {
+                        "key":  "char_cleaner_hold_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   },
+                        "hand":  {
+                                     "x":  0.7262,
+                                     "y":  0.2475
+                                 }
+                    },
+                    {
+                        "key":  "char_cleaner_idle_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_cleaner_idle_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_cleaner_cook_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_cleaner_cook_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_cleaner_sit_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_cleaner_sit_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_cleaner_eat_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_cleaner_eat_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_cleaner_clean_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_cleaner_clean_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_cleaner_fix_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_cleaner_fix_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_owner_walk_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_owner_walk_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_owner_carry_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   },
+                        "hand":  {
+                                     "x":  0.4173,
+                                     "y":  0.1865
+                                 }
+                    },
+                    {
+                        "key":  "char_owner_carry_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   },
+                        "hand":  {
+                                     "x":  0.7215,
+                                     "y":  0.2420
+                                 }
+                    },
+                    {
+                        "key":  "char_owner_hold_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   },
+                        "hand":  {
+                                     "x":  0.4104,
+                                     "y":  0.1929
+                                 }
+                    },
+                    {
+                        "key":  "char_owner_hold_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   },
+                        "hand":  {
+                                     "x":  0.7262,
+                                     "y":  0.2475
+                                 }
+                    },
+                    {
+                        "key":  "char_owner_idle_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_owner_idle_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_owner_cook_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_owner_cook_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_owner_sit_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_owner_sit_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_owner_eat_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_owner_eat_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_owner_clean_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_owner_clean_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_owner_fix_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_owner_fix_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_office_worker_walk_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_office_worker_walk_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_office_worker_carry_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   },
+                        "hand":  {
+                                     "x":  0.4173,
+                                     "y":  0.1865
+                                 }
+                    },
+                    {
+                        "key":  "char_office_worker_carry_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   },
+                        "hand":  {
+                                     "x":  0.7215,
+                                     "y":  0.2420
+                                 }
+                    },
+                    {
+                        "key":  "char_office_worker_hold_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   },
+                        "hand":  {
+                                     "x":  0.4104,
+                                     "y":  0.1929
+                                 }
+                    },
+                    {
+                        "key":  "char_office_worker_hold_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   },
+                        "hand":  {
+                                     "x":  0.7262,
+                                     "y":  0.2475
+                                 }
+                    },
+                    {
+                        "key":  "char_office_worker_idle_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_office_worker_idle_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_office_worker_cook_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_office_worker_cook_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_office_worker_sit_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_office_worker_sit_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_office_worker_eat_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_office_worker_eat_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_office_worker_clean_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_office_worker_clean_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_office_worker_fix_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_office_worker_fix_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_student_walk_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_student_walk_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_student_carry_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   },
+                        "hand":  {
+                                     "x":  0.4173,
+                                     "y":  0.1865
+                                 }
+                    },
+                    {
+                        "key":  "char_student_carry_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   },
+                        "hand":  {
+                                     "x":  0.7215,
+                                     "y":  0.2420
+                                 }
+                    },
+                    {
+                        "key":  "char_student_hold_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   },
+                        "hand":  {
+                                     "x":  0.4104,
+                                     "y":  0.1929
+                                 }
+                    },
+                    {
+                        "key":  "char_student_hold_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   },
+                        "hand":  {
+                                     "x":  0.7262,
+                                     "y":  0.2475
+                                 }
+                    },
+                    {
+                        "key":  "char_student_idle_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_student_idle_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_student_cook_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_student_cook_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_student_sit_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_student_sit_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_student_eat_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_student_eat_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_student_clean_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_student_clean_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_student_fix_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_student_fix_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_auntie_walk_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_auntie_walk_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_auntie_carry_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   },
+                        "hand":  {
+                                     "x":  0.4173,
+                                     "y":  0.1865
+                                 }
+                    },
+                    {
+                        "key":  "char_auntie_carry_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   },
+                        "hand":  {
+                                     "x":  0.7215,
+                                     "y":  0.2420
+                                 }
+                    },
+                    {
+                        "key":  "char_auntie_hold_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   },
+                        "hand":  {
+                                     "x":  0.4104,
+                                     "y":  0.1929
+                                 }
+                    },
+                    {
+                        "key":  "char_auntie_hold_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   },
+                        "hand":  {
+                                     "x":  0.7262,
+                                     "y":  0.2475
+                                 }
+                    },
+                    {
+                        "key":  "char_auntie_idle_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_auntie_idle_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_auntie_cook_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_auntie_cook_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_auntie_sit_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_auntie_sit_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_auntie_eat_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_auntie_eat_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_auntie_clean_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_auntie_clean_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_auntie_fix_f",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    },
+                    {
+                        "key":  "char_auntie_fix_b",
+                        "anchor":  {
+                                       "x":  0.5,
+                                       "y":  0.0750
+                                   }
+                    }
+                ]
+}

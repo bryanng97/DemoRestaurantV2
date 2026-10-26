@@ -1,0 +1,7 @@
+{
+  "customerTypes": [
+    { "id": "office_worker", "animKey": "char_office_worker", "nameKey": "customer.office_worker", "walkSpeed": 2.4, "patienceSeconds": 20, "foodPatienceSeconds": 30, "spawnWeight": 3, "minLevel": 1, "expectedStars": 1, "spriteFront": "customer01", "spriteSeatedFront": "customer01_seated_front", "spriteSeatedBack": "customer01_seated_back", "seatedHeight": 1.18, "seatedHipY": 0.19, "seatedHipX": 0.55, "placeholderColor": "#3C78D8", "legFraction": 0.22 },
+    { "id": "student",       "animKey": "char_student", "nameKey": "customer.student",       "walkSpeed": 2.8, "patienceSeconds": 30, "foodPatienceSeconds": 40, "spawnWeight": 3, "minLevel": 1, "expectedStars": 1, "spriteFront": "customer02", "spriteSeatedFront": "customer02_seated_front", "spriteSeatedBack": "customer02_seated_back", "seatedHeight": 1.18, "seatedHipY": 0.19, "seatedHipX": 0.55, "placeholderColor": "#E06666", "legFraction": 0.15 },
+    { "id": "auntie",        "animKey": "char_auntie", "nameKey": "customer.auntie",        "walkSpeed": 1.6, "patienceSeconds": 45, "foodPatienceSeconds": 55, "spawnWeight": 2, "minLevel": 2, "expectedStars": 2, "spriteFront": "customer03", "spriteSeatedFront": "customer03_seated_front", "spriteSeatedBack": "customer03_seated_back", "seatedHeight": 1.18, "seatedHipY": 0.19, "seatedHipX": 0.55, "placeholderColor": "#C27BA0", "legFraction": 0.14 }
+  ]
+}

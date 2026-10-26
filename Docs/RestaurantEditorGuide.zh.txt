@@ -1,0 +1,97 @@
+餐厅装修模式（第一版）
+
+打开 Assets/_Game/Scenes/StressTest.unity，等待编译完成后按 Play。
+点击左侧「建造」或「装饰」，进入游戏内装修模式。
+
+操作
+1. 在右侧选择地板、厨具、桌椅、装饰或买地。
+2. 家具：选择物品后预览跟随鼠标并吸附格子；左键点击、Enter 或「确认放置」即可落位，放下后自动结束选择，可直接保存。绿色有效，红色表示碰撞或越界。
+3. 已有家具：先「取消选择」，再点击现有家具；移动鼠标调整位置，按 R／旋转按钮转向，再确认。也可移除。
+4. 地板：选地板后逐格点击铺设，或者「铺满地板」。不影响寻路，家具下方也可以更换。
+5. 撤销／重做：按钮或 Ctrl+Z／Ctrl+Y；最多保留 60 步。
+6. 相机：右键或中键拖动，滚轮缩放。手机使用双指移动／缩放；无选中物品时也可单指拖动空地移动画面。
+7. Enter 确认；Delete 移除选中家具；Esc 取消当前选择。
+8. 「保存并营业」应用布局并保存到本机；「取消装修」恢复原布局和原营业状态。
+   移动中也可直接保存：有效预览会先确认落位；重叠或越界的预览会提示调整位置。仅选目录而未选择位置时不会额外添加家具。
+9. 手机家具：从目录选物品后，按住餐厅内的位置拖动，松手即放置。已有家具可直接按住拖动，松手确认；点按保留选择，可旋转或移除。
+10. 手机地板：选择地板后点按或拖动涂地板。触摸取消、双指操作、UI 上的触摸和红色无效位置不会放置物件。
+
+营业与存档
+装修时暂停营业，编辑的是独立草稿。
+保存时检查入口、排队区、通道、椅子、炉灶和备餐台能否正常使用。
+保存后保留员工，并重开当前顾客的用餐及订单；这一操作不结算金币、不扣人气。
+下次启动会读取当前内容包的布局。存档是 Application.persistentDataPath 下的 restaurant-layout-malaysia.json。
+这版家具仍可免费布置；买地需要金币，尚未接家具购买、家具库存或云端存档。
+已确认的金币随营业结算保存，与店面面积一起恢复；待确认收益不能用于买地。
+
+买地扩建
+点击「装饰」或「建造」→ 右侧「买地」。
+选择「向右下扩建」或「向左下扩建」，每次增加 3 格宽的一整条地块。
+新面积会立即进入装修草稿，可以铺地板、放家具，也可以撤销／重做。
+第一块 100 金币，之后每块依次增加 100；右侧显示当前金币及保存时的总费用。
+只有「保存并营业」成功时才扣款；取消、撤销或存档失败均不扣款。
+上限为 24 × 21 格。价格、步长和上限在 rules.json 的 expansion 中调整。
+本机测试通过 LocalEconomyServer 校验面积、价格与余额；正式联网版需接 Nakama RPC。
+顾客现在使用左侧墙上的门进出，门口及排队格子不能放家具。扩建时门的位置保持固定。
+旧版布局如有家具挡住新入口，会将这些家具移到附近空位，保留其他家具和地板。
+
+素材与扩展
+沿用项目已有 Art/Concept 素材，包括三种地板及 12 种家具，不是新绘制的最终美术。
+木椅现有正面及新增背面素材，通过镜像显示四方向，预览、放置和顾客坐向一致。
+三位顾客新增正面／背面坐姿，镜像后覆盖四个坐向；点餐、等餐、吃饭时使用坐姿，离席恢复原站姿。
+坐姿按人物实际轮廓缩放，以臀部对齐椅面；背向座位时椅背绘制在人物前方。
+坐姿文件为 Art/Concept/customer01～03_seated_front.png 与 customer01～03_seated_back.png。
+这些素材由内置 imagegen 补绘；完整提示和六个输出路径见 Docs/SeatedCustomerArtPrompts.txt。
+四方向效果图见 Docs/CustomerSeatedPreview.png。
+其他家具仍沿用原有镜像转向。完整的其他四向家具美术仍需制作。
+椅子背面素材：Resources/Art/Concept/chair01_back.png；由内置 imagegen 根据原椅子生成。
+生成提示：同一木椅与粉色坐垫，固定等距相机，椅子旋转 180 度朝右上，显示椅背，保持画风，透明背景。
+完整提示另存 Docs/ChairBackArtPrompt.txt。
+咖啡桌椅组仍是装饰物；真实可坐座位需要单独放置木椅。
+家具配置：Assets/_Game/Resources/Content/malaysia/furniture.json。
+地板配置：Assets/_Game/Resources/Content/malaysia/theme.json 的 floors 数组。
+家具可通过 category 指定 Kitchen、Furniture 或 Decoration；未填写时按用途分类。
+新素材放 Resources/Art/<theme>，在 JSON 填 sprite、占地及 nameKey，并补齐 en/ms/zh 翻译。
+
+验证
+Assets/_Game/Tests/EditMode/LayoutEditorTests.cs 覆盖占地、移动、旋转、草稿隔离、撤销、地板、存档及营业重启。
+ExpansionTests.cs 覆盖扩建、价格、扣款、存档失败不扣款、扩建后寻路、入口和旧版布局迁移。
+在 Unity 的 Window > General > Test Runner > EditMode 中 Run All。
+SeatedCustomerTests.cs 验证四种坐向的完整用餐过程，预订座位时仍走路，点餐／等餐／吃饭时坐下，离席回到地面。
+
+人流量
+rules.json 中各人气等级的 arrivalsPerMinute 调整为 9、12、16、20、22、24。
+初始等级由每分钟 6 位提高至 9 位（约每 6.7 秒一位）；每日上限由 30 位提高至 45 位。
+后续等级每日上限为 60、80、100、130、160，减少提前达到上限后的空档。
+
+障碍与绕行
+同一块地砖只能有一个家具／装饰物，包括大型物件占用的每一格；移动时原物件隐藏，仅显示移动预览。
+移到其他物件的占地时，只显示红色占地提示，禁止放置；确认原位置会结束选择，取消移动会恢复原物件。
+家具的完整占地（包括旋转后的占地）阻挡行走；普通寻路不能将家具格子作为终点。
+面包架改为完整 2 × 2 格占地，阻挡原先看似位于书架和墙之间的窄缝。默认靠近书架的一组桌椅右移一格，保留门口到厨房的走道。
+旧存档若有重叠或被书架切断通道，只移动书架到附近可用位置，保留其他家具、地板和金币。
+顾客只允许进入自己预订的椅子，离席后绕开其他桌椅；员工站在可到达的空格操作厨具、取餐、送餐。
+员工优先使用厨具朝向的工作位，该侧不可到达时改用其他可到达的边缘空位；找不到通路时等待。
+中途换路线时先沿当前通道回到格子中心再转向，避免斜切家具边角。
+ObstacleMovementTests.cs 验证桌椅及旋转书架绕行、工作位可达性和中途换路；角色脚下保留 0.2 格间距。
+遮挡顺序更新后立即刷新 Unity 的 SortingGroup 缓存，避免人物脚部使用上一帧顺序而显示在桌面上。
+Tests/RenderEditMode/FurnitureOcclusionTests.cs 对实际相机输出做像素回归，检查人物移到桌子后方时脚部被遮挡。
+Tests/RenderEditMode/FloorAndShelfTests.cs 检查平面地板接缝、书架阻挡、旧布局迁移，以及默认餐厅连续营业送餐。
+Tests/RenderEditMode/DecorationTouchTests.cs 用模拟触屏检查拖放、点选旋转、涂地板、重叠拒绝、UI 和双指手势。
+柜子、备餐台、炉灶、水槽、书架和桌子按实际底座对齐占地格；groundCorners 配置原图左、前、右三个底座角点（归一化坐标，Y 向上）。mirrorSprite 修正原图长边与网格长边相反的方向。
+预览与正式家具使用相同定位。FloorAndShelfTests.cs 检查四方向底座像素不越格，并模拟柜子紧邻椅子时全部角色的连续绕行与送餐。
+
+背景音乐
+自动循环播放你提供的 Restaurant City Music - Main Street.mp3，装修模式下继续播放。
+素材：Assets/_Game/Resources/Audio/Music/main_street.mp3（由 Git LFS 管理）。
+音量：theme.json 的 musicVolume，默认 0.35，范围 0–1。
+
+平面地板
+所有砖块共用同一个平面网格，只取原图的上表面，不重复绘制厚度侧面。
+theme.json 的 floors.surfaceCorners 配置上、右、下、左四个表面角点（原图归一化坐标，Y 向上），支持图集和 Android 压缩纹理。
+
+Android 本机原型测试包
+有临时 RefProto 素材时，使用 DemoRestaurant > Android > Build Private Prototype APK。
+输出：Builds/Android/DemoRestaurant-private-prototype.apk。这是 Development 测试包，默认不连接 Profiler。
+原来的 Build Stress Test APK / Build And Run On Phone 菜单检测到这些素材时，也会自动使用私有原型模式。
+普通 Build Profiles 构建仍会拦截临时素材；更换为自己的素材后，可正常构建发布包。

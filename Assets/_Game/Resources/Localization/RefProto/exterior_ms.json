@@ -1,0 +1,1208 @@
+{
+  "entries": [
+    {
+      "key": "exterior.item.ext_window_01",
+      "value": "Tingkap 1"
+    },
+    {
+      "key": "exterior.item.ext_window_02",
+      "value": "Tingkap 2"
+    },
+    {
+      "key": "exterior.item.ext_window_03",
+      "value": "Tingkap 3"
+    },
+    {
+      "key": "exterior.item.ext_window_04",
+      "value": "Tingkap 4"
+    },
+    {
+      "key": "exterior.item.ext_window_05",
+      "value": "Tingkap 5"
+    },
+    {
+      "key": "exterior.item.ext_window_06",
+      "value": "Tingkap 6"
+    },
+    {
+      "key": "exterior.item.ext_window_07",
+      "value": "Tingkap 7"
+    },
+    {
+      "key": "exterior.item.ext_window_08",
+      "value": "Tingkap 8"
+    },
+    {
+      "key": "exterior.item.ext_window_09",
+      "value": "Tingkap 9"
+    },
+    {
+      "key": "exterior.item.ext_window_10",
+      "value": "Tingkap 10"
+    },
+    {
+      "key": "exterior.item.ext_window_11",
+      "value": "Tingkap 11"
+    },
+    {
+      "key": "exterior.item.ext_window_12",
+      "value": "Tingkap 12"
+    },
+    {
+      "key": "exterior.item.ext_window_13",
+      "value": "Tingkap 13"
+    },
+    {
+      "key": "exterior.item.ext_window_14",
+      "value": "Tingkap 14"
+    },
+    {
+      "key": "exterior.item.ext_window_15",
+      "value": "Tingkap 15"
+    },
+    {
+      "key": "exterior.item.ext_window_16",
+      "value": "Tingkap 16"
+    },
+    {
+      "key": "exterior.item.ext_window_17",
+      "value": "Tingkap 17"
+    },
+    {
+      "key": "exterior.item.ext_window_18",
+      "value": "Tingkap 18"
+    },
+    {
+      "key": "exterior.item.ext_window_19",
+      "value": "Tingkap 19"
+    },
+    {
+      "key": "exterior.item.ext_window_20",
+      "value": "Tingkap 20"
+    },
+    {
+      "key": "exterior.item.ext_window_21",
+      "value": "Tingkap 21"
+    },
+    {
+      "key": "exterior.item.ext_window_22",
+      "value": "Tingkap 22"
+    },
+    {
+      "key": "exterior.item.ext_window_23",
+      "value": "Tingkap 23"
+    },
+    {
+      "key": "exterior.item.ext_window_24",
+      "value": "Tingkap 24"
+    },
+    {
+      "key": "exterior.item.ext_window_25",
+      "value": "Tingkap 25"
+    },
+    {
+      "key": "exterior.item.ext_window_26",
+      "value": "Tingkap 26"
+    },
+    {
+      "key": "exterior.item.ext_window_27",
+      "value": "Tingkap 27"
+    },
+    {
+      "key": "exterior.item.ext_window_28",
+      "value": "Tingkap 28"
+    },
+    {
+      "key": "exterior.item.ext_window_29",
+      "value": "Tingkap 29"
+    },
+    {
+      "key": "exterior.item.ext_window_30",
+      "value": "Tingkap 30"
+    },
+    {
+      "key": "exterior.item.ext_door_01",
+      "value": "Pintu 1"
+    },
+    {
+      "key": "exterior.item.ext_door_02",
+      "value": "Pintu 2"
+    },
+    {
+      "key": "exterior.item.ext_door_03",
+      "value": "Pintu 3"
+    },
+    {
+      "key": "exterior.item.ext_door_04",
+      "value": "Pintu 4"
+    },
+    {
+      "key": "exterior.item.ext_door_05",
+      "value": "Pintu 5"
+    },
+    {
+      "key": "exterior.item.ext_door_06",
+      "value": "Pintu 6"
+    },
+    {
+      "key": "exterior.item.ext_door_07",
+      "value": "Pintu 7"
+    },
+    {
+      "key": "exterior.item.ext_door_08",
+      "value": "Pintu 8"
+    },
+    {
+      "key": "exterior.item.ext_door_09",
+      "value": "Pintu 9"
+    },
+    {
+      "key": "exterior.item.ext_door_10",
+      "value": "Pintu 10"
+    },
+    {
+      "key": "exterior.item.ext_door_11",
+      "value": "Pintu 11"
+    },
+    {
+      "key": "exterior.item.ext_door_12",
+      "value": "Pintu 12"
+    },
+    {
+      "key": "exterior.item.ext_door_13",
+      "value": "Pintu 13"
+    },
+    {
+      "key": "exterior.item.ext_door_14",
+      "value": "Pintu 14"
+    },
+    {
+      "key": "exterior.item.ext_door_15",
+      "value": "Pintu 15"
+    },
+    {
+      "key": "exterior.item.ext_door_16",
+      "value": "Pintu 16"
+    },
+    {
+      "key": "exterior.item.ext_door_17",
+      "value": "Pintu 17"
+    },
+    {
+      "key": "exterior.item.ext_door_18",
+      "value": "Pintu 18"
+    },
+    {
+      "key": "exterior.item.ext_door_19",
+      "value": "Pintu 19"
+    },
+    {
+      "key": "exterior.item.ext_door_20",
+      "value": "Pintu 20"
+    },
+    {
+      "key": "exterior.item.ext_door_21",
+      "value": "Pintu 21"
+    },
+    {
+      "key": "exterior.item.ext_door_22",
+      "value": "Pintu 22"
+    },
+    {
+      "key": "exterior.item.ext_door_23",
+      "value": "Pintu 23"
+    },
+    {
+      "key": "exterior.item.ext_door_24",
+      "value": "Pintu 24"
+    },
+    {
+      "key": "exterior.item.ext_door_25",
+      "value": "Pintu 25"
+    },
+    {
+      "key": "exterior.item.ext_door_26",
+      "value": "Pintu 26"
+    },
+    {
+      "key": "exterior.item.ext_door_27",
+      "value": "Pintu 27"
+    },
+    {
+      "key": "exterior.item.ext_door_28",
+      "value": "Pintu 28"
+    },
+    {
+      "key": "exterior.item.ext_roof_01",
+      "value": "Bumbung 1"
+    },
+    {
+      "key": "exterior.item.ext_roof_02",
+      "value": "Bumbung 2"
+    },
+    {
+      "key": "exterior.item.ext_roof_03",
+      "value": "Bumbung 3"
+    },
+    {
+      "key": "exterior.item.ext_roof_04",
+      "value": "Bumbung 4"
+    },
+    {
+      "key": "exterior.item.ext_roof_05",
+      "value": "Bumbung 5"
+    },
+    {
+      "key": "exterior.item.ext_roof_06",
+      "value": "Bumbung 6"
+    },
+    {
+      "key": "exterior.item.ext_roof_07",
+      "value": "Bumbung 7"
+    },
+    {
+      "key": "exterior.item.ext_roof_08",
+      "value": "Bumbung 8"
+    },
+    {
+      "key": "exterior.item.ext_roof_09",
+      "value": "Bumbung 9"
+    },
+    {
+      "key": "exterior.item.ext_roof_10",
+      "value": "Bumbung 10"
+    },
+    {
+      "key": "exterior.item.ext_roof_11",
+      "value": "Bumbung 11"
+    },
+    {
+      "key": "exterior.item.ext_roof_12",
+      "value": "Bumbung 12"
+    },
+    {
+      "key": "exterior.item.ext_roof_13",
+      "value": "Bumbung 13"
+    },
+    {
+      "key": "exterior.item.ext_roof_14",
+      "value": "Bumbung 14"
+    },
+    {
+      "key": "exterior.item.ext_roof_15",
+      "value": "Bumbung 15"
+    },
+    {
+      "key": "exterior.item.ext_roof_16",
+      "value": "Bumbung 16"
+    },
+    {
+      "key": "exterior.item.ext_roof_17",
+      "value": "Bumbung 17"
+    },
+    {
+      "key": "exterior.item.ext_roof_18",
+      "value": "Bumbung 18"
+    },
+    {
+      "key": "exterior.item.ext_roof_19",
+      "value": "Bumbung 19"
+    },
+    {
+      "key": "exterior.item.ext_roof_20",
+      "value": "Bumbung 20"
+    },
+    {
+      "key": "exterior.item.ext_roof_21",
+      "value": "Bumbung 21"
+    },
+    {
+      "key": "exterior.item.ext_roof_22",
+      "value": "Bumbung 22"
+    },
+    {
+      "key": "exterior.item.ext_roof_23",
+      "value": "Bumbung 23"
+    },
+    {
+      "key": "exterior.item.ext_roof_24",
+      "value": "Bumbung 24"
+    },
+    {
+      "key": "exterior.item.ext_roof_25",
+      "value": "Bumbung 25"
+    },
+    {
+      "key": "exterior.item.ext_roof_26",
+      "value": "Bumbung 26"
+    },
+    {
+      "key": "exterior.item.ext_roof_27",
+      "value": "Bumbung 27"
+    },
+    {
+      "key": "exterior.item.ext_roof_28",
+      "value": "Bumbung 28"
+    },
+    {
+      "key": "exterior.item.ext_roof_29",
+      "value": "Bumbung 29"
+    },
+    {
+      "key": "exterior.item.ext_roof_30",
+      "value": "Bumbung 30"
+    },
+    {
+      "key": "exterior.item.ext_roof_31",
+      "value": "Bumbung 31"
+    },
+    {
+      "key": "exterior.item.ext_roof_32",
+      "value": "Bumbung 32"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_01",
+      "value": "Hiasan dinding 1"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_02",
+      "value": "Hiasan dinding 2"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_03",
+      "value": "Hiasan dinding 3"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_04",
+      "value": "Hiasan dinding 4"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_05",
+      "value": "Hiasan dinding 5"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_06",
+      "value": "Hiasan dinding 6"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_07",
+      "value": "Hiasan dinding 7"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_08",
+      "value": "Hiasan dinding 8"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_09",
+      "value": "Hiasan dinding 9"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_10",
+      "value": "Hiasan dinding 10"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_11",
+      "value": "Hiasan dinding 11"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_12",
+      "value": "Hiasan dinding 12"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_13",
+      "value": "Hiasan dinding 13"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_14",
+      "value": "Hiasan dinding 14"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_15",
+      "value": "Hiasan dinding 15"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_16",
+      "value": "Hiasan dinding 16"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_17",
+      "value": "Hiasan dinding 17"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_18",
+      "value": "Hiasan dinding 18"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_19",
+      "value": "Hiasan dinding 19"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_20",
+      "value": "Hiasan dinding 20"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_21",
+      "value": "Hiasan dinding 21"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_22",
+      "value": "Hiasan dinding 22"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_23",
+      "value": "Hiasan dinding 23"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_24",
+      "value": "Hiasan dinding 24"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_25",
+      "value": "Hiasan dinding 25"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_26",
+      "value": "Hiasan dinding 26"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_27",
+      "value": "Hiasan dinding 27"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_28",
+      "value": "Hiasan dinding 28"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_29",
+      "value": "Hiasan dinding 29"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_30",
+      "value": "Hiasan dinding 30"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_31",
+      "value": "Hiasan dinding 31"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_32",
+      "value": "Hiasan dinding 32"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_33",
+      "value": "Hiasan dinding 33"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_34",
+      "value": "Hiasan dinding 34"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_35",
+      "value": "Hiasan dinding 35"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_36",
+      "value": "Hiasan dinding 36"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_37",
+      "value": "Hiasan dinding 37"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_38",
+      "value": "Hiasan dinding 38"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_39",
+      "value": "Hiasan dinding 39"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_40",
+      "value": "Hiasan dinding 40"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_41",
+      "value": "Hiasan dinding 41"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_42",
+      "value": "Hiasan dinding 42"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_43",
+      "value": "Hiasan dinding 43"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_44",
+      "value": "Hiasan dinding 44"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_45",
+      "value": "Hiasan dinding 45"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_46",
+      "value": "Hiasan dinding 46"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_47",
+      "value": "Hiasan dinding 47"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_48",
+      "value": "Hiasan dinding 48"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_49",
+      "value": "Hiasan dinding 49"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_50",
+      "value": "Hiasan dinding 50"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_51",
+      "value": "Hiasan dinding 51"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_52",
+      "value": "Hiasan dinding 52"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_53",
+      "value": "Hiasan dinding 53"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_54",
+      "value": "Hiasan dinding 54"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_55",
+      "value": "Hiasan dinding 55"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_56",
+      "value": "Hiasan dinding 56"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_57",
+      "value": "Hiasan dinding 57"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_58",
+      "value": "Hiasan dinding 58"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_59",
+      "value": "Hiasan dinding 59"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_60",
+      "value": "Hiasan dinding 60"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_61",
+      "value": "Hiasan dinding 61"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_62",
+      "value": "Hiasan dinding 62"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_63",
+      "value": "Hiasan dinding 63"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_64",
+      "value": "Hiasan dinding 64"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_65",
+      "value": "Hiasan dinding 65"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_66",
+      "value": "Hiasan dinding 66"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_67",
+      "value": "Hiasan dinding 67"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_68",
+      "value": "Hiasan dinding 68"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_69",
+      "value": "Hiasan dinding 69"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_70",
+      "value": "Hiasan dinding 70"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_71",
+      "value": "Hiasan dinding 71"
+    },
+    {
+      "key": "exterior.item.ext_street_01",
+      "value": "Hiasan jalan 1"
+    },
+    {
+      "key": "exterior.item.ext_street_02",
+      "value": "Hiasan jalan 2"
+    },
+    {
+      "key": "exterior.item.ext_street_03",
+      "value": "Hiasan jalan 3"
+    },
+    {
+      "key": "exterior.item.ext_street_04",
+      "value": "Hiasan jalan 4"
+    },
+    {
+      "key": "exterior.item.ext_street_05",
+      "value": "Hiasan jalan 5"
+    },
+    {
+      "key": "exterior.item.ext_street_06",
+      "value": "Hiasan jalan 6"
+    },
+    {
+      "key": "exterior.item.ext_street_07",
+      "value": "Hiasan jalan 7"
+    },
+    {
+      "key": "exterior.item.ext_street_08",
+      "value": "Hiasan jalan 8"
+    },
+    {
+      "key": "exterior.item.ext_street_09",
+      "value": "Hiasan jalan 9"
+    },
+    {
+      "key": "exterior.item.ext_street_10",
+      "value": "Hiasan jalan 10"
+    },
+    {
+      "key": "exterior.item.ext_street_11",
+      "value": "Hiasan jalan 11"
+    },
+    {
+      "key": "exterior.item.ext_street_12",
+      "value": "Hiasan jalan 12"
+    },
+    {
+      "key": "exterior.item.ext_street_13",
+      "value": "Hiasan jalan 13"
+    },
+    {
+      "key": "exterior.item.ext_street_14",
+      "value": "Hiasan jalan 14"
+    },
+    {
+      "key": "exterior.item.ext_street_15",
+      "value": "Hiasan jalan 15"
+    },
+    {
+      "key": "exterior.item.ext_street_16",
+      "value": "Hiasan jalan 16"
+    },
+    {
+      "key": "exterior.item.ext_street_17",
+      "value": "Hiasan jalan 17"
+    },
+    {
+      "key": "exterior.item.ext_street_18",
+      "value": "Hiasan jalan 18"
+    },
+    {
+      "key": "exterior.item.ext_street_19",
+      "value": "Hiasan jalan 19"
+    },
+    {
+      "key": "exterior.item.ext_street_20",
+      "value": "Hiasan jalan 20"
+    },
+    {
+      "key": "exterior.item.ext_street_21",
+      "value": "Hiasan jalan 21"
+    },
+    {
+      "key": "exterior.item.ext_street_22",
+      "value": "Hiasan jalan 22"
+    },
+    {
+      "key": "exterior.item.ext_street_23",
+      "value": "Hiasan jalan 23"
+    },
+    {
+      "key": "exterior.item.ext_street_24",
+      "value": "Hiasan jalan 24"
+    },
+    {
+      "key": "exterior.item.ext_street_25",
+      "value": "Hiasan jalan 25"
+    },
+    {
+      "key": "exterior.item.ext_street_26",
+      "value": "Hiasan jalan 26"
+    },
+    {
+      "key": "exterior.item.ext_street_27",
+      "value": "Hiasan jalan 27"
+    },
+    {
+      "key": "exterior.item.ext_street_28",
+      "value": "Hiasan jalan 28"
+    },
+    {
+      "key": "exterior.item.ext_street_29",
+      "value": "Hiasan jalan 29"
+    },
+    {
+      "key": "exterior.item.ext_street_30",
+      "value": "Hiasan jalan 30"
+    },
+    {
+      "key": "exterior.item.ext_street_31",
+      "value": "Hiasan jalan 31"
+    },
+    {
+      "key": "exterior.item.ext_street_32",
+      "value": "Hiasan jalan 32"
+    },
+    {
+      "key": "exterior.item.ext_street_33",
+      "value": "Hiasan jalan 33"
+    },
+    {
+      "key": "exterior.item.ext_street_34",
+      "value": "Hiasan jalan 34"
+    },
+    {
+      "key": "exterior.item.ext_street_35",
+      "value": "Hiasan jalan 35"
+    },
+    {
+      "key": "exterior.item.ext_street_36",
+      "value": "Hiasan jalan 36"
+    },
+    {
+      "key": "exterior.item.ext_street_37",
+      "value": "Hiasan jalan 37"
+    },
+    {
+      "key": "exterior.item.ext_street_38",
+      "value": "Hiasan jalan 38"
+    },
+    {
+      "key": "exterior.item.ext_street_39",
+      "value": "Hiasan jalan 39"
+    },
+    {
+      "key": "exterior.item.ext_street_40",
+      "value": "Hiasan jalan 40"
+    },
+    {
+      "key": "exterior.item.ext_street_41",
+      "value": "Hiasan jalan 41"
+    },
+    {
+      "key": "exterior.item.ext_street_42",
+      "value": "Hiasan jalan 42"
+    },
+    {
+      "key": "exterior.item.ext_street_43",
+      "value": "Hiasan jalan 43"
+    },
+    {
+      "key": "exterior.item.ext_street_44",
+      "value": "Hiasan jalan 44"
+    },
+    {
+      "key": "exterior.item.ext_street_45",
+      "value": "Hiasan jalan 45"
+    },
+    {
+      "key": "exterior.item.ext_street_46",
+      "value": "Hiasan jalan 46"
+    },
+    {
+      "key": "exterior.item.ext_street_47",
+      "value": "Hiasan jalan 47"
+    },
+    {
+      "key": "exterior.item.ext_street_48",
+      "value": "Hiasan jalan 48"
+    },
+    {
+      "key": "exterior.item.ext_street_49",
+      "value": "Hiasan jalan 49"
+    },
+    {
+      "key": "exterior.item.ext_street_50",
+      "value": "Hiasan jalan 50"
+    },
+    {
+      "key": "exterior.item.ext_street_51",
+      "value": "Hiasan jalan 51"
+    },
+    {
+      "key": "exterior.item.ext_street_52",
+      "value": "Hiasan jalan 52"
+    },
+    {
+      "key": "exterior.item.ext_street_53",
+      "value": "Hiasan jalan 53"
+    },
+    {
+      "key": "exterior.item.ext_street_54",
+      "value": "Hiasan jalan 54"
+    },
+    {
+      "key": "exterior.item.ext_street_55",
+      "value": "Hiasan jalan 55"
+    },
+    {
+      "key": "exterior.item.ext_street_56",
+      "value": "Hiasan jalan 56"
+    },
+    {
+      "key": "exterior.item.ext_street_57",
+      "value": "Hiasan jalan 57"
+    },
+    {
+      "key": "exterior.item.ext_street_58",
+      "value": "Hiasan jalan 58"
+    },
+    {
+      "key": "exterior.item.ext_street_59",
+      "value": "Hiasan jalan 59"
+    },
+    {
+      "key": "exterior.item.ext_street_60",
+      "value": "Hiasan jalan 60"
+    },
+    {
+      "key": "exterior.item.ext_street_61",
+      "value": "Hiasan jalan 61"
+    },
+    {
+      "key": "exterior.item.ext_street_62",
+      "value": "Hiasan jalan 62"
+    },
+    {
+      "key": "exterior.item.ext_street_63",
+      "value": "Hiasan jalan 63"
+    },
+    {
+      "key": "exterior.item.ext_street_64",
+      "value": "Hiasan jalan 64"
+    },
+    {
+      "key": "exterior.item.ext_street_65",
+      "value": "Hiasan jalan 65"
+    },
+    {
+      "key": "exterior.item.ext_street_66",
+      "value": "Hiasan jalan 66"
+    },
+    {
+      "key": "exterior.item.ext_street_67",
+      "value": "Hiasan jalan 67"
+    },
+    {
+      "key": "exterior.item.ext_street_68",
+      "value": "Hiasan jalan 68"
+    },
+    {
+      "key": "exterior.item.ext_street_69",
+      "value": "Hiasan jalan 69"
+    },
+    {
+      "key": "exterior.item.ext_street_70",
+      "value": "Hiasan jalan 70"
+    },
+    {
+      "key": "exterior.item.ext_street_71",
+      "value": "Hiasan jalan 71"
+    },
+    {
+      "key": "exterior.item.ext_street_72",
+      "value": "Hiasan jalan 72"
+    },
+    {
+      "key": "exterior.item.ext_street_73",
+      "value": "Hiasan jalan 73"
+    },
+    {
+      "key": "exterior.item.ext_street_74",
+      "value": "Hiasan jalan 74"
+    },
+    {
+      "key": "exterior.item.ext_street_75",
+      "value": "Hiasan jalan 75"
+    },
+    {
+      "key": "exterior.item.ext_street_76",
+      "value": "Hiasan jalan 76"
+    },
+    {
+      "key": "exterior.item.ext_street_77",
+      "value": "Hiasan jalan 77"
+    },
+    {
+      "key": "exterior.item.ext_street_78",
+      "value": "Hiasan jalan 78"
+    },
+    {
+      "key": "exterior.item.ext_street_79",
+      "value": "Hiasan jalan 79"
+    },
+    {
+      "key": "exterior.item.ext_street_80",
+      "value": "Hiasan jalan 80"
+    },
+    {
+      "key": "exterior.item.ext_street_81",
+      "value": "Hiasan jalan 81"
+    },
+    {
+      "key": "exterior.item.ext_street_82",
+      "value": "Hiasan jalan 82"
+    },
+    {
+      "key": "exterior.item.ext_street_83",
+      "value": "Hiasan jalan 83"
+    },
+    {
+      "key": "exterior.item.ext_street_84",
+      "value": "Hiasan jalan 84"
+    },
+    {
+      "key": "exterior.item.ext_street_85",
+      "value": "Hiasan jalan 85"
+    },
+    {
+      "key": "exterior.item.ext_street_86",
+      "value": "Hiasan jalan 86"
+    },
+    {
+      "key": "exterior.item.ext_street_87",
+      "value": "Hiasan jalan 87"
+    },
+    {
+      "key": "exterior.item.ext_street_88",
+      "value": "Hiasan jalan 88"
+    },
+    {
+      "key": "exterior.item.ext_street_89",
+      "value": "Hiasan jalan 89"
+    },
+    {
+      "key": "exterior.item.ext_street_90",
+      "value": "Hiasan jalan 90"
+    },
+    {
+      "key": "exterior.item.ext_street_91",
+      "value": "Hiasan jalan 91"
+    },
+    {
+      "key": "exterior.item.ext_street_92",
+      "value": "Hiasan jalan 92"
+    },
+    {
+      "key": "exterior.item.ext_wall_01",
+      "value": "Dinding 1"
+    },
+    {
+      "key": "exterior.item.ext_wall_02",
+      "value": "Dinding 2"
+    },
+    {
+      "key": "exterior.item.ext_wall_03",
+      "value": "Dinding 3"
+    },
+    {
+      "key": "exterior.item.ext_wall_04",
+      "value": "Dinding 4"
+    },
+    {
+      "key": "exterior.item.ext_wall_05",
+      "value": "Dinding 5"
+    },
+    {
+      "key": "exterior.item.ext_wall_06",
+      "value": "Dinding 6"
+    },
+    {
+      "key": "exterior.item.ext_wall_07",
+      "value": "Dinding 7"
+    },
+    {
+      "key": "exterior.item.ext_wall_08",
+      "value": "Dinding 8"
+    },
+    {
+      "key": "exterior.item.ext_wall_09",
+      "value": "Dinding 9"
+    },
+    {
+      "key": "exterior.item.ext_wall_10",
+      "value": "Dinding 10"
+    },
+    {
+      "key": "exterior.item.ext_wall_11",
+      "value": "Dinding 11"
+    },
+    {
+      "key": "exterior.item.ext_wall_12",
+      "value": "Dinding 12"
+    },
+    {
+      "key": "exterior.item.ext_wall_13",
+      "value": "Dinding 13"
+    },
+    {
+      "key": "exterior.item.ext_wall_14",
+      "value": "Dinding 14"
+    },
+    {
+      "key": "exterior.item.ext_wall_15",
+      "value": "Dinding 15"
+    },
+    {
+      "key": "exterior.item.ext_wall_16",
+      "value": "Dinding 16"
+    },
+    {
+      "key": "exterior.item.ext_wall_17",
+      "value": "Dinding 17"
+    },
+    {
+      "key": "exterior.item.ext_wall_18",
+      "value": "Dinding 18"
+    },
+    {
+      "key": "exterior.item.ext_wall_19",
+      "value": "Dinding 19"
+    },
+    {
+      "key": "exterior.item.ext_wall_20",
+      "value": "Dinding 20"
+    },
+    {
+      "key": "exterior.item.ext_wall_21",
+      "value": "Dinding 21"
+    },
+    {
+      "key": "exterior.item.ext_wall_22",
+      "value": "Dinding 22"
+    },
+    {
+      "key": "exterior.item.ext_wall_23",
+      "value": "Dinding 23"
+    },
+    {
+      "key": "exterior.item.ext_wall_24",
+      "value": "Dinding 24"
+    },
+    {
+      "key": "exterior.item.ext_wall_25",
+      "value": "Dinding 25"
+    },
+    {
+      "key": "exterior.item.ext_wall_26",
+      "value": "Dinding 26"
+    },
+    {
+      "key": "exterior.item.ext_wall_27",
+      "value": "Dinding 27"
+    },
+    {
+      "key": "exterior.item.ext_sign_01",
+      "value": "Papan tanda 1"
+    },
+    {
+      "key": "exterior.item.ext_sign_02",
+      "value": "Papan tanda 2"
+    },
+    {
+      "key": "exterior.item.ext_sign_03",
+      "value": "Papan tanda 3"
+    },
+    {
+      "key": "exterior.item.ext_sign_04",
+      "value": "Papan tanda 4"
+    },
+    {
+      "key": "exterior.item.ext_sign_05",
+      "value": "Papan tanda 5"
+    },
+    {
+      "key": "exterior.item.ext_sign_06",
+      "value": "Papan tanda 6"
+    },
+    {
+      "key": "exterior.item.ext_sign_07",
+      "value": "Papan tanda 7"
+    },
+    {
+      "key": "exterior.item.ext_sign_08",
+      "value": "Papan tanda 8"
+    },
+    {
+      "key": "exterior.item.ext_sign_09",
+      "value": "Papan tanda 9"
+    },
+    {
+      "key": "exterior.item.ext_sign_10",
+      "value": "Papan tanda 10"
+    },
+    {
+      "key": "exterior.item.ext_sign_11",
+      "value": "Papan tanda 11"
+    },
+    {
+      "key": "exterior.item.ext_sign_12",
+      "value": "Papan tanda 12"
+    },
+    {
+      "key": "exterior.item.ext_sign_13",
+      "value": "Papan tanda 13"
+    },
+    {
+      "key": "exterior.item.ext_sign_14",
+      "value": "Papan tanda 14"
+    },
+    {
+      "key": "exterior.item.ext_sign_15",
+      "value": "Papan tanda 15"
+    },
+    {
+      "key": "exterior.item.ext_sign_16",
+      "value": "Papan tanda 16"
+    },
+    {
+      "key": "exterior.item.ext_sign_17",
+      "value": "Papan tanda 17"
+    },
+    {
+      "key": "exterior.item.ext_sign_18",
+      "value": "Papan tanda 18"
+    },
+    {
+      "key": "exterior.item.ext_sign_19",
+      "value": "Papan tanda 19"
+    },
+    {
+      "key": "exterior.item.ext_sign_20",
+      "value": "Papan tanda 20"
+    },
+    {
+      "key": "exterior.item.ext_sign_21",
+      "value": "Papan tanda 21"
+    }
+  ]
+}

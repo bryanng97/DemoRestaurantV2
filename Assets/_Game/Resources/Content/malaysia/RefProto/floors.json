@@ -1,0 +1,279 @@
+{
+ "floors": [
+  {
+   "id": "ref_floor_tile21",
+   "nameKey": "floor.ref_floor_tile21",
+   "sprite": "ref_floor_tile21"
+  },
+  {
+   "id": "ref_floor_tile",
+   "nameKey": "floor.ref_floor_tile",
+   "sprite": "ref_floor_tile"
+  },
+  {
+   "id": "ref_floor_tile2",
+   "nameKey": "floor.ref_floor_tile2",
+   "sprite": "ref_floor_tile2"
+  },
+  {
+   "id": "ref_floor_tile3",
+   "nameKey": "floor.ref_floor_tile3",
+   "sprite": "ref_floor_tile3"
+  },
+  {
+   "id": "ref_floor_tile4",
+   "nameKey": "floor.ref_floor_tile4",
+   "sprite": "ref_floor_tile4"
+  },
+  {
+   "id": "ref_floor_tile5",
+   "nameKey": "floor.ref_floor_tile5",
+   "sprite": "ref_floor_tile5"
+  },
+  {
+   "id": "ref_floor_tile6",
+   "nameKey": "floor.ref_floor_tile6",
+   "sprite": "ref_floor_tile6"
+  },
+  {
+   "id": "ref_floor_tile7",
+   "nameKey": "floor.ref_floor_tile7",
+   "sprite": "ref_floor_tile7"
+  },
+  {
+   "id": "ref_floor_tile8",
+   "nameKey": "floor.ref_floor_tile8",
+   "sprite": "ref_floor_tile8"
+  },
+  {
+   "id": "ref_floor_tile9",
+   "nameKey": "floor.ref_floor_tile9",
+   "sprite": "ref_floor_tile9"
+  },
+  {
+   "id": "ref_floor_tile10",
+   "nameKey": "floor.ref_floor_tile10",
+   "sprite": "ref_floor_tile10"
+  },
+  {
+   "id": "ref_floor_tile11",
+   "nameKey": "floor.ref_floor_tile11",
+   "sprite": "ref_floor_tile11"
+  },
+  {
+   "id": "ref_floor_tile12",
+   "nameKey": "floor.ref_floor_tile12",
+   "sprite": "ref_floor_tile12"
+  },
+  {
+   "id": "ref_floor_tile13",
+   "nameKey": "floor.ref_floor_tile13",
+   "sprite": "ref_floor_tile13"
+  },
+  {
+   "id": "ref_floor_tile14",
+   "nameKey": "floor.ref_floor_tile14",
+   "sprite": "ref_floor_tile14"
+  },
+  {
+   "id": "ref_floor_tile15",
+   "nameKey": "floor.ref_floor_tile15",
+   "sprite": "ref_floor_tile15"
+  },
+  {
+   "id": "ref_floor_tile16",
+   "nameKey": "floor.ref_floor_tile16",
+   "sprite": "ref_floor_tile16"
+  },
+  {
+   "id": "ref_floor_tile17",
+   "nameKey": "floor.ref_floor_tile17",
+   "sprite": "ref_floor_tile17"
+  },
+  {
+   "id": "ref_floor_tile18",
+   "nameKey": "floor.ref_floor_tile18",
+   "sprite": "ref_floor_tile18"
+  },
+  {
+   "id": "ref_floor_tile19",
+   "nameKey": "floor.ref_floor_tile19",
+   "sprite": "ref_floor_tile19"
+  },
+  {
+   "id": "ref_floor_tile20",
+   "nameKey": "floor.ref_floor_tile20",
+   "sprite": "ref_floor_tile20"
+  },
+  {
+   "id": "ref_floor_tile22",
+   "nameKey": "floor.ref_floor_tile22",
+   "sprite": "ref_floor_tile22"
+  },
+  {
+   "id": "ref_floor_tile23",
+   "nameKey": "floor.ref_floor_tile23",
+   "sprite": "ref_floor_tile23"
+  },
+  {
+   "id": "ref_floor_tile24",
+   "nameKey": "floor.ref_floor_tile24",
+   "sprite": "ref_floor_tile24"
+  },
+  {
+   "id": "ref_floor_tile25",
+   "nameKey": "floor.ref_floor_tile25",
+   "sprite": "ref_floor_tile25"
+  },
+  {
+   "id": "ref_floor_tile26",
+   "nameKey": "floor.ref_floor_tile26",
+   "sprite": "ref_floor_tile26"
+  },
+  {
+   "id": "ref_floor_tile27",
+   "nameKey": "floor.ref_floor_tile27",
+   "sprite": "ref_floor_tile27"
+  },
+  {
+   "id": "ref_floor_tile28",
+   "nameKey": "floor.ref_floor_tile28",
+   "sprite": "ref_floor_tile28"
+  },
+  {
+   "id": "ref_floor_tile29",
+   "nameKey": "floor.ref_floor_tile29",
+   "sprite": "ref_floor_tile29"
+  },
+  {
+   "id": "ref_floor_tile30",
+   "nameKey": "floor.ref_floor_tile30",
+   "sprite": "ref_floor_tile30"
+  },
+  {
+   "id": "ref_floor_tile31",
+   "nameKey": "floor.ref_floor_tile31",
+   "sprite": "ref_floor_tile31"
+  },
+  {
+   "id": "ref_floor_tile32",
+   "nameKey": "floor.ref_floor_tile32",
+   "sprite": "ref_floor_tile32"
+  },
+  {
+   "id": "ref_floor_tile33",
+   "nameKey": "floor.ref_floor_tile33",
+   "sprite": "ref_floor_tile33"
+  },
+  {
+   "id": "ref_floor_tile34",
+   "nameKey": "floor.ref_floor_tile34",
+   "sprite": "ref_floor_tile34"
+  },
+  {
+   "id": "ref_floor_tile35",
+   "nameKey": "floor.ref_floor_tile35",
+   "sprite": "ref_floor_tile35"
+  },
+  {
+   "id": "ref_floor_tile36",
+   "nameKey": "floor.ref_floor_tile36",
+   "sprite": "ref_floor_tile36"
+  },
+  {
+   "id": "ref_floor_tile37",
+   "nameKey": "floor.ref_floor_tile37",
+   "sprite": "ref_floor_tile37"
+  },
+  {
+   "id": "ref_floor_tile38",
+   "nameKey": "floor.ref_floor_tile38",
+   "sprite": "ref_floor_tile38"
+  },
+  {
+   "id": "ref_floor_tile39",
+   "nameKey": "floor.ref_floor_tile39",
+   "sprite": "ref_floor_tile39"
+  },
+  {
+   "id": "ref_floor_tile40",
+   "nameKey": "floor.ref_floor_tile40",
+   "sprite": "ref_floor_tile40"
+  },
+  {
+   "id": "ref_floor_tile41",
+   "nameKey": "floor.ref_floor_tile41",
+   "sprite": "ref_floor_tile41"
+  },
+  {
+   "id": "ref_floor_tile42",
+   "nameKey": "floor.ref_floor_tile42",
+   "sprite": "ref_floor_tile42"
+  },
+  {
+   "id": "ref_floor_tile43",
+   "nameKey": "floor.ref_floor_tile43",
+   "sprite": "ref_floor_tile43"
+  },
+  {
+   "id": "ref_floor_tile44",
+   "nameKey": "floor.ref_floor_tile44",
+   "sprite": "ref_floor_tile44"
+  },
+  {
+   "id": "ref_floor_tile45",
+   "nameKey": "floor.ref_floor_tile45",
+   "sprite": "ref_floor_tile45"
+  },
+  {
+   "id": "ref_floor_tile46",
+   "nameKey": "floor.ref_floor_tile46",
+   "sprite": "ref_floor_tile46"
+  },
+  {
+   "id": "ref_floor_tile47",
+   "nameKey": "floor.ref_floor_tile47",
+   "sprite": "ref_floor_tile47"
+  },
+  {
+   "id": "ref_floor_tile48",
+   "nameKey": "floor.ref_floor_tile48",
+   "sprite": "ref_floor_tile48"
+  },
+  {
+   "id": "ref_floor_tile49",
+   "nameKey": "floor.ref_floor_tile49",
+   "sprite": "ref_floor_tile49"
+  },
+  {
+   "id": "ref_floor_tile50",
+   "nameKey": "floor.ref_floor_tile50",
+   "sprite": "ref_floor_tile50"
+  },
+  {
+   "id": "ref_floor_tile51",
+   "nameKey": "floor.ref_floor_tile51",
+   "sprite": "ref_floor_tile51"
+  },
+  {
+   "id": "ref_floor_tile52",
+   "nameKey": "floor.ref_floor_tile52",
+   "sprite": "ref_floor_tile52"
+  },
+  {
+   "id": "ref_floor_tile53",
+   "nameKey": "floor.ref_floor_tile53",
+   "sprite": "ref_floor_tile53"
+  },
+  {
+   "id": "ref_floor_tile54",
+   "nameKey": "floor.ref_floor_tile54",
+   "sprite": "ref_floor_tile54"
+  },
+  {
+   "id": "ref_floor_tile55",
+   "nameKey": "floor.ref_floor_tile55",
+   "sprite": "ref_floor_tile55"
+  }
+ ]
+}

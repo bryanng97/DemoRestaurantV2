@@ -1,0 +1,30 @@
+fileFormatVersion: 2
+guid: 4c1ef58a68c61c749a0fb3b346d66582
+SpriteAtlasImporter:
+  externalObjects: {}
+  textureSettings:
+    serializedVersion: 2
+    anisoLevel: 0
+    compressionQuality: 0
+    maxTextureSize: 0
+    textureCompression: 0
+    filterMode: 1
+    generateMipMaps: 0
+    readable: 0
+    crunchedCompression: 0
+    sRGB: 1
+  platformSettings: []
+  packingSettings:
+    serializedVersion: 2
+    padding: 4
+    blockOffset: 0
+    allowAlphaSplitting: 0
+    enableRotation: 0
+    enableTightPacking: 0
+    enableAlphaDilation: 1
+  secondaryTextureSettings: {}
+  variantMultiplier: 1
+  bindAsDefault: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

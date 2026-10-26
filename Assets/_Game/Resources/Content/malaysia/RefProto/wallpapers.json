@@ -1,0 +1,244 @@
+{
+ "wallpapers": [
+  {
+   "id": "ref_wall1",
+   "nameKey": "wallpaper.ref_wall1",
+   "sprite": "ref_wall1"
+  },
+  {
+   "id": "ref_wall18",
+   "nameKey": "wallpaper.ref_wall18",
+   "sprite": "ref_wall18"
+  },
+  {
+   "id": "ref_wall19",
+   "nameKey": "wallpaper.ref_wall19",
+   "sprite": "ref_wall19"
+  },
+  {
+   "id": "ref_wall17",
+   "nameKey": "wallpaper.ref_wall17",
+   "sprite": "ref_wall17"
+  },
+  {
+   "id": "ref_wall3",
+   "nameKey": "wallpaper.ref_wall3",
+   "sprite": "ref_wall3"
+  },
+  {
+   "id": "ref_wall4",
+   "nameKey": "wallpaper.ref_wall4",
+   "sprite": "ref_wall4"
+  },
+  {
+   "id": "ref_wall5",
+   "nameKey": "wallpaper.ref_wall5",
+   "sprite": "ref_wall5"
+  },
+  {
+   "id": "ref_wall6",
+   "nameKey": "wallpaper.ref_wall6",
+   "sprite": "ref_wall6"
+  },
+  {
+   "id": "ref_wall7",
+   "nameKey": "wallpaper.ref_wall7",
+   "sprite": "ref_wall7"
+  },
+  {
+   "id": "ref_wall8",
+   "nameKey": "wallpaper.ref_wall8",
+   "sprite": "ref_wall8"
+  },
+  {
+   "id": "ref_wall9",
+   "nameKey": "wallpaper.ref_wall9",
+   "sprite": "ref_wall9"
+  },
+  {
+   "id": "ref_wall10",
+   "nameKey": "wallpaper.ref_wall10",
+   "sprite": "ref_wall10"
+  },
+  {
+   "id": "ref_wall11",
+   "nameKey": "wallpaper.ref_wall11",
+   "sprite": "ref_wall11"
+  },
+  {
+   "id": "ref_wall12",
+   "nameKey": "wallpaper.ref_wall12",
+   "sprite": "ref_wall12"
+  },
+  {
+   "id": "ref_wall13",
+   "nameKey": "wallpaper.ref_wall13",
+   "sprite": "ref_wall13"
+  },
+  {
+   "id": "ref_wall14",
+   "nameKey": "wallpaper.ref_wall14",
+   "sprite": "ref_wall14"
+  },
+  {
+   "id": "ref_wall15",
+   "nameKey": "wallpaper.ref_wall15",
+   "sprite": "ref_wall15"
+  },
+  {
+   "id": "ref_wall16",
+   "nameKey": "wallpaper.ref_wall16",
+   "sprite": "ref_wall16"
+  },
+  {
+   "id": "ref_wall20",
+   "nameKey": "wallpaper.ref_wall20",
+   "sprite": "ref_wall20"
+  },
+  {
+   "id": "ref_wall21",
+   "nameKey": "wallpaper.ref_wall21",
+   "sprite": "ref_wall21"
+  },
+  {
+   "id": "ref_wall22",
+   "nameKey": "wallpaper.ref_wall22",
+   "sprite": "ref_wall22"
+  },
+  {
+   "id": "ref_wall23",
+   "nameKey": "wallpaper.ref_wall23",
+   "sprite": "ref_wall23"
+  },
+  {
+   "id": "ref_wall24",
+   "nameKey": "wallpaper.ref_wall24",
+   "sprite": "ref_wall24"
+  },
+  {
+   "id": "ref_wall25",
+   "nameKey": "wallpaper.ref_wall25",
+   "sprite": "ref_wall25"
+  },
+  {
+   "id": "ref_wall26",
+   "nameKey": "wallpaper.ref_wall26",
+   "sprite": "ref_wall26"
+  },
+  {
+   "id": "ref_wall27",
+   "nameKey": "wallpaper.ref_wall27",
+   "sprite": "ref_wall27"
+  },
+  {
+   "id": "ref_wall28",
+   "nameKey": "wallpaper.ref_wall28",
+   "sprite": "ref_wall28"
+  },
+  {
+   "id": "ref_wall29",
+   "nameKey": "wallpaper.ref_wall29",
+   "sprite": "ref_wall29"
+  },
+  {
+   "id": "ref_wall30",
+   "nameKey": "wallpaper.ref_wall30",
+   "sprite": "ref_wall30"
+  },
+  {
+   "id": "ref_wall31",
+   "nameKey": "wallpaper.ref_wall31",
+   "sprite": "ref_wall31"
+  },
+  {
+   "id": "ref_wall32",
+   "nameKey": "wallpaper.ref_wall32",
+   "sprite": "ref_wall32"
+  },
+  {
+   "id": "ref_wall33",
+   "nameKey": "wallpaper.ref_wall33",
+   "sprite": "ref_wall33"
+  },
+  {
+   "id": "ref_wall34",
+   "nameKey": "wallpaper.ref_wall34",
+   "sprite": "ref_wall34"
+  },
+  {
+   "id": "ref_wall35",
+   "nameKey": "wallpaper.ref_wall35",
+   "sprite": "ref_wall35"
+  },
+  {
+   "id": "ref_wall36",
+   "nameKey": "wallpaper.ref_wall36",
+   "sprite": "ref_wall36"
+  },
+  {
+   "id": "ref_wall37",
+   "nameKey": "wallpaper.ref_wall37",
+   "sprite": "ref_wall37"
+  },
+  {
+   "id": "ref_wall38",
+   "nameKey": "wallpaper.ref_wall38",
+   "sprite": "ref_wall38"
+  },
+  {
+   "id": "ref_wall39",
+   "nameKey": "wallpaper.ref_wall39",
+   "sprite": "ref_wall39"
+  },
+  {
+   "id": "ref_wall41",
+   "nameKey": "wallpaper.ref_wall41",
+   "sprite": "ref_wall41"
+  },
+  {
+   "id": "ref_wall40",
+   "nameKey": "wallpaper.ref_wall40",
+   "sprite": "ref_wall40"
+  },
+  {
+   "id": "ref_wall42",
+   "nameKey": "wallpaper.ref_wall42",
+   "sprite": "ref_wall42"
+  },
+  {
+   "id": "ref_wall43",
+   "nameKey": "wallpaper.ref_wall43",
+   "sprite": "ref_wall43"
+  },
+  {
+   "id": "ref_wall44",
+   "nameKey": "wallpaper.ref_wall44",
+   "sprite": "ref_wall44"
+  },
+  {
+   "id": "ref_wall45",
+   "nameKey": "wallpaper.ref_wall45",
+   "sprite": "ref_wall45"
+  },
+  {
+   "id": "ref_wall46",
+   "nameKey": "wallpaper.ref_wall46",
+   "sprite": "ref_wall46"
+  },
+  {
+   "id": "ref_wall47",
+   "nameKey": "wallpaper.ref_wall47",
+   "sprite": "ref_wall47"
+  },
+  {
+   "id": "ref_wall48",
+   "nameKey": "wallpaper.ref_wall48",
+   "sprite": "ref_wall48"
+  },
+  {
+   "id": "ref_wall49",
+   "nameKey": "wallpaper.ref_wall49",
+   "sprite": "ref_wall49"
+  }
+ ]
+}

@@ -1,0 +1,22 @@
+{
+  "dishes": [
+    { "id": "roti_canai",       "nameKey": "dish.roti_canai",       "category": "starter", "unlockLevel": 1, "price": 10, "cookSeconds": 4, "eatSeconds": 6, "stars": 1, "knownAtStart": true, "icon": "food_bread", "servingSprite": "serve_roti_canai",
+      "recipe": [ { "id": "flour" }, { "id": "egg" }, { "id": "curry_spice" } ] },
+    { "id": "satay",            "nameKey": "dish.satay",            "category": "starter", "unlockLevel": 2, "price": 14, "cookSeconds": 6, "eatSeconds": 7, "stars": 2, "icon": "food_steak", "servingSprite": "serve_satay",
+      "recipe": [ { "id": "chicken" }, { "id": "peanut" }, { "id": "lemongrass" } ] },
+    { "id": "nasi_lemak",       "nameKey": "dish.nasi_lemak",       "category": "main",    "unlockLevel": 1, "price": 12, "cookSeconds": 5, "eatSeconds": 8, "stars": 1, "knownAtStart": true, "icon": "food_pasta", "servingSprite": "serve_nasi_lemak",
+      "recipe": [ { "id": "rice" }, { "id": "coconut_milk" }, { "id": "anchovy" } ] },
+    { "id": "mee_goreng_mamak", "nameKey": "dish.mee_goreng_mamak", "category": "main",    "unlockLevel": 3, "price": 13, "cookSeconds": 5, "eatSeconds": 7, "stars": 2, "icon": "food_pasta", "servingSprite": "serve_mee_goreng_mamak",
+      "recipe": [ { "id": "noodles" }, { "id": "egg" }, { "id": "chili" } ] },
+    { "id": "char_kway_teow",   "nameKey": "dish.char_kway_teow",   "category": "main",    "unlockLevel": 4, "price": 15, "cookSeconds": 6, "eatSeconds": 8, "stars": 3, "icon": "food_pasta", "servingSprite": "serve_char_kway_teow",
+      "recipe": [ { "id": "noodles" }, { "id": "prawn" }, { "id": "egg" } ] },
+    { "id": "nasi_kerabu",      "nameKey": "dish.nasi_kerabu",      "category": "main",    "unlockLevel": 7, "price": 16, "cookSeconds": 6, "eatSeconds": 8, "stars": 3, "icon": "food_bun", "servingSprite": "serve_nasi_kerabu",
+      "recipe": [ { "id": "rice" }, { "id": "chicken" }, { "id": "chili" } ] },
+    { "id": "laksa",            "nameKey": "dish.laksa",            "category": "main",    "unlockLevel": 9, "price": 17, "cookSeconds": 7, "eatSeconds": 9, "stars": 4, "icon": "food_soup", "servingSprite": "serve_laksa",
+      "recipe": [ { "id": "noodles" }, { "id": "coconut_milk" }, { "id": "prawn" } ] },
+    { "id": "cendol",           "nameKey": "dish.cendol",           "category": "dessert", "unlockLevel": 1, "price": 9,  "cookSeconds": 4, "eatSeconds": 5, "stars": 1, "knownAtStart": true, "icon": "food_dessert", "servingSprite": "serve_cendol",
+      "recipe": [ { "id": "coconut_milk" }, { "id": "palm_sugar" }, { "id": "pandan" } ] },
+    { "id": "teh_tarik",        "nameKey": "dish.teh_tarik",        "category": "drink", "unlockLevel": 5, "price": 8,  "cookSeconds": 3, "eatSeconds": 4, "stars": 2, "icon": "food_coffee", "servingSprite": "serve_teh_tarik",
+      "recipe": [ { "id": "tea_leaves" }, { "id": "condensed_milk" }, { "id": "palm_sugar" } ] }
+  ]
+}

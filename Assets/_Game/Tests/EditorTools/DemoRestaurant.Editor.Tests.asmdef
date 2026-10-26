@@ -1,0 +1,11 @@
+{
+    "name": "DemoRestaurant.Editor.Tests",
+    "rootNamespace": "DemoRestaurant.Editor.Tests",
+    "references": ["DemoRestaurant.Editor", "UnityEngine.TestRunner", "UnityEditor.TestRunner"],
+    "includePlatforms": ["Editor"],
+    "overrideReferences": true,
+    "precompiledReferences": ["nunit.framework.dll"],
+    "autoReferenced": false,
+    "defineConstraints": ["UNITY_INCLUDE_TESTS"],
+    "noEngineReferences": false
+}

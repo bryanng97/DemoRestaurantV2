@@ -1,0 +1,12 @@
+{
+  "staffTypes": [
+    { "id": "chef",    "animKey": "char_chef", "nameKey": "staff.chef",    "role": "Chef",    "walkSpeed": 2.7, "cookSpeed": 1.2, "spriteFront": "chef_q_right", "spriteBack": "chef_back", "placeholderColor": "#FFFFFF", "legFraction": 0.2 },
+    { "id": "waiter",  "animKey": "char_waiter", "nameKey": "staff.waiter",  "role": "Waiter",  "walkSpeed": 3.4, "placeholderColor": "#5B4636", "legFraction": 0.2,
+      "avatar": [ "Gender:female", "SkinTone:fair", "HairStyle:ponytail", "HairColor:brown", "Hat:headband", "Shirt:apron", "ShirtColor:brown", "Pants:trousers", "PantsColor:black" ] },
+    { "id": "cleaner", "animKey": "char_cleaner", "nameKey": "staff.cleaner", "role": "Cleaner", "walkSpeed": 3.0, "cookSpeed": 1.5, "legFraction": 0.2, "placeholderColor": "#F2C14E",
+      "avatar": [ "Gender:female", "SkinTone:fair", "HairStyle:ponytail", "HairColor:brown", "Hat:headband", "Shirt:apron", "ShirtColor:yellow", "Pants:trousers", "PantsColor:khaki" ] },
+    { "id": "owner_chef",    "animKey": "char_owner", "nameKey": "staff.owner", "role": "Chef",    "owner": true, "walkSpeed": 2.6, "cookSpeed": 1.0, "legFraction": 0.2 },
+    { "id": "owner_waiter",  "animKey": "char_owner", "nameKey": "staff.owner", "role": "Waiter",  "owner": true, "walkSpeed": 3.0, "legFraction": 0.2 },
+    { "id": "owner_cleaner", "animKey": "char_owner", "nameKey": "staff.owner", "role": "Cleaner", "owner": true, "walkSpeed": 2.8, "cookSpeed": 1.2, "legFraction": 0.2 }
+  ]
+}

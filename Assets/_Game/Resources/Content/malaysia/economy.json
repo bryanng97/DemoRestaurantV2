@@ -1,0 +1,1963 @@
+{
+  "sourceFile": "Global_FnB_City_Economy_v0.3.xlsx",
+  "settings": {
+    "startingCoins": 400,
+    "startingTables": 4,
+    "startingStaff": 2,
+    "startingRating": 3,
+    "xpCurveBase": 80,
+    "xpCurvePerLevel": 60,
+    "maxLevel": 65,
+    "levelUpCoins": 100,
+    "menuCategoriesAtStart": 3,
+    "drinksUnlockLevel": 15,
+    "dishesPerCategoryAtStart": 1,
+    "twoDishesFromLevel": 10,
+    "threeDishesFromLevel": 20,
+    "dishPriceStepPerLevel": 0.2,
+    "maxDishLevel": 10,
+    "ingredientSetsPerUpgrade": 1,
+    "xpServeBase": 6,
+    "xpServePerDishLevel": 2,
+    "xpUpgradeBase": 20,
+    "xpUpgradePerLevel": 10,
+    "patienceBaseSeconds": 40,
+    "patiencePerAmbience": 1.5,
+    "eatSeconds": 4,
+    "tipPerAmbience": 0.03,
+    "tipCap": 0.4,
+    "toiletsFromLevel": 8,
+    "arrivalBaseSeconds": 9,
+    "arrivalLessPerStar": 1.1,
+    "arrivalLessPerLevel": 0.25,
+    "arrivalMinSeconds": 2.2,
+    "ratingGainFast": 0.06,
+    "ratingGainSlow": 0.03,
+    "fastServiceThreshold": 0.5,
+    "ambienceBoostDivisor": 15,
+    "ratingLossAngry": 0.15,
+    "staffSlotsAtStart": 3,
+    "extraStaffSlotLevels": [
+      2,
+      5,
+      11,
+      14,
+      17,
+      21
+    ],
+    "staffEnergyHours": 3,
+    "snackRefill": 0.25,
+    "snackCost": 30,
+    "mealCost": 100,
+    "breakMinutes": 60,
+    "hireBase": 100,
+    "hirePerMember": 60,
+    "crateCooldownSeconds": 20,
+    "crateMenuChance": 0.75,
+    "guestDropChance": 0.25,
+    "dailyDealDiscount": 0.5,
+    "crateItems": 3,
+    "dailyDeals": 3,
+    "streakFirstDay": 1,
+    "streakMaxPerDay": 5,
+    "streakStepsLost": 1,
+    "quizReward": 1,
+    "quizSeconds": 10,
+    "visitRewards": [
+      100,
+      25,
+      10,
+      3
+    ],
+    "freeGiftsPerDay": 20,
+    "trashCoins": 1,
+    "surpriseVisitsPerDay": 2,
+    "surpriseChoices": 3,
+    "gardenPlotLevels": [
+      3,
+      6,
+      9,
+      13,
+      18,
+      22,
+      26,
+      30,
+      34
+    ],
+    "defaultGrowHours": 48,
+    "wateringHours": 9,
+    "seedCost": 300,
+    "funCoinsPerUse": 3,
+    "funUsesBeforeRepair": 8,
+    "funRepairCost": 40,
+    "sellBackFraction": 0.33333334,
+    "phase1MaxLevel": 10,
+    "themedSetBonus": 5,
+    "offlineCapHours": 4,
+    "offlineRate": 0.25
+  },
+  "levels": [
+    {
+      "level": 1,
+      "xpToNext": 140,
+      "totalXp": 0,
+      "coinsReward": 0,
+      "menuCategories": 3,
+      "dishesPerCategory": 1,
+      "menuSlots": 3,
+      "staffSlots": 3,
+      "gardenPlots": 0,
+      "inPhase1": true
+    },
+    {
+      "level": 2,
+      "xpToNext": 200,
+      "totalXp": 140,
+      "coinsReward": 100,
+      "menuCategories": 3,
+      "dishesPerCategory": 1,
+      "menuSlots": 3,
+      "staffSlots": 4,
+      "gardenPlots": 0,
+      "inPhase1": true
+    },
+    {
+      "level": 3,
+      "xpToNext": 260,
+      "totalXp": 340,
+      "coinsReward": 100,
+      "menuCategories": 3,
+      "dishesPerCategory": 1,
+      "menuSlots": 3,
+      "staffSlots": 4,
+      "gardenPlots": 1,
+      "inPhase1": true
+    },
+    {
+      "level": 4,
+      "xpToNext": 320,
+      "totalXp": 600,
+      "coinsReward": 100,
+      "menuCategories": 3,
+      "dishesPerCategory": 1,
+      "menuSlots": 3,
+      "staffSlots": 4,
+      "gardenPlots": 1,
+      "inPhase1": true
+    },
+    {
+      "level": 5,
+      "xpToNext": 380,
+      "totalXp": 920,
+      "coinsReward": 100,
+      "menuCategories": 3,
+      "dishesPerCategory": 1,
+      "menuSlots": 3,
+      "staffSlots": 5,
+      "gardenPlots": 1,
+      "inPhase1": true
+    },
+    {
+      "level": 6,
+      "xpToNext": 440,
+      "totalXp": 1300,
+      "coinsReward": 100,
+      "menuCategories": 3,
+      "dishesPerCategory": 1,
+      "menuSlots": 3,
+      "staffSlots": 5,
+      "gardenPlots": 2,
+      "inPhase1": true
+    },
+    {
+      "level": 7,
+      "xpToNext": 500,
+      "totalXp": 1740,
+      "coinsReward": 100,
+      "menuCategories": 3,
+      "dishesPerCategory": 1,
+      "menuSlots": 3,
+      "staffSlots": 5,
+      "gardenPlots": 2,
+      "inPhase1": true
+    },
+    {
+      "level": 8,
+      "xpToNext": 560,
+      "totalXp": 2240,
+      "coinsReward": 100,
+      "menuCategories": 3,
+      "dishesPerCategory": 1,
+      "menuSlots": 3,
+      "staffSlots": 5,
+      "gardenPlots": 2,
+      "inPhase1": true
+    },
+    {
+      "level": 9,
+      "xpToNext": 620,
+      "totalXp": 2800,
+      "coinsReward": 100,
+      "menuCategories": 3,
+      "dishesPerCategory": 1,
+      "menuSlots": 3,
+      "staffSlots": 5,
+      "gardenPlots": 3,
+      "inPhase1": true
+    },
+    {
+      "level": 10,
+      "xpToNext": 680,
+      "totalXp": 3420,
+      "coinsReward": 100,
+      "menuCategories": 3,
+      "dishesPerCategory": 2,
+      "menuSlots": 6,
+      "staffSlots": 5,
+      "gardenPlots": 3,
+      "inPhase1": true
+    },
+    {
+      "level": 11,
+      "xpToNext": 740,
+      "totalXp": 4100,
+      "coinsReward": 100,
+      "menuCategories": 3,
+      "dishesPerCategory": 2,
+      "menuSlots": 6,
+      "staffSlots": 6,
+      "gardenPlots": 3,
+      "inPhase1": false
+    },
+    {
+      "level": 12,
+      "xpToNext": 800,
+      "totalXp": 4840,
+      "coinsReward": 100,
+      "menuCategories": 3,
+      "dishesPerCategory": 2,
+      "menuSlots": 6,
+      "staffSlots": 6,
+      "gardenPlots": 3,
+      "inPhase1": false
+    },
+    {
+      "level": 13,
+      "xpToNext": 860,
+      "totalXp": 5640,
+      "coinsReward": 100,
+      "menuCategories": 3,
+      "dishesPerCategory": 2,
+      "menuSlots": 6,
+      "staffSlots": 6,
+      "gardenPlots": 4,
+      "inPhase1": false
+    },
+    {
+      "level": 14,
+      "xpToNext": 920,
+      "totalXp": 6500,
+      "coinsReward": 100,
+      "menuCategories": 3,
+      "dishesPerCategory": 2,
+      "menuSlots": 6,
+      "staffSlots": 7,
+      "gardenPlots": 4,
+      "inPhase1": false
+    },
+    {
+      "level": 15,
+      "xpToNext": 980,
+      "totalXp": 7420,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 2,
+      "menuSlots": 8,
+      "staffSlots": 7,
+      "gardenPlots": 4,
+      "inPhase1": false
+    },
+    {
+      "level": 16,
+      "xpToNext": 1040,
+      "totalXp": 8400,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 2,
+      "menuSlots": 8,
+      "staffSlots": 7,
+      "gardenPlots": 4,
+      "inPhase1": false
+    },
+    {
+      "level": 17,
+      "xpToNext": 1100,
+      "totalXp": 9440,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 2,
+      "menuSlots": 8,
+      "staffSlots": 8,
+      "gardenPlots": 4,
+      "inPhase1": false
+    },
+    {
+      "level": 18,
+      "xpToNext": 1160,
+      "totalXp": 10540,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 2,
+      "menuSlots": 8,
+      "staffSlots": 8,
+      "gardenPlots": 5,
+      "inPhase1": false
+    },
+    {
+      "level": 19,
+      "xpToNext": 1220,
+      "totalXp": 11700,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 2,
+      "menuSlots": 8,
+      "staffSlots": 8,
+      "gardenPlots": 5,
+      "inPhase1": false
+    },
+    {
+      "level": 20,
+      "xpToNext": 1280,
+      "totalXp": 12920,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 8,
+      "gardenPlots": 5,
+      "inPhase1": false
+    },
+    {
+      "level": 21,
+      "xpToNext": 1340,
+      "totalXp": 14200,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 5,
+      "inPhase1": false
+    },
+    {
+      "level": 22,
+      "xpToNext": 1400,
+      "totalXp": 15540,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 6,
+      "inPhase1": false
+    },
+    {
+      "level": 23,
+      "xpToNext": 1460,
+      "totalXp": 16940,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 6,
+      "inPhase1": false
+    },
+    {
+      "level": 24,
+      "xpToNext": 1520,
+      "totalXp": 18400,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 6,
+      "inPhase1": false
+    },
+    {
+      "level": 25,
+      "xpToNext": 1580,
+      "totalXp": 19920,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 6,
+      "inPhase1": false
+    },
+    {
+      "level": 26,
+      "xpToNext": 1640,
+      "totalXp": 21500,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 7,
+      "inPhase1": false
+    },
+    {
+      "level": 27,
+      "xpToNext": 1700,
+      "totalXp": 23140,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 7,
+      "inPhase1": false
+    },
+    {
+      "level": 28,
+      "xpToNext": 1760,
+      "totalXp": 24840,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 7,
+      "inPhase1": false
+    },
+    {
+      "level": 29,
+      "xpToNext": 1820,
+      "totalXp": 26600,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 7,
+      "inPhase1": false
+    },
+    {
+      "level": 30,
+      "xpToNext": 1880,
+      "totalXp": 28420,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 8,
+      "inPhase1": false
+    },
+    {
+      "level": 31,
+      "xpToNext": 1940,
+      "totalXp": 30300,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 8,
+      "inPhase1": false
+    },
+    {
+      "level": 32,
+      "xpToNext": 2000,
+      "totalXp": 32240,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 8,
+      "inPhase1": false
+    },
+    {
+      "level": 33,
+      "xpToNext": 2060,
+      "totalXp": 34240,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 8,
+      "inPhase1": false
+    },
+    {
+      "level": 34,
+      "xpToNext": 2120,
+      "totalXp": 36300,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 9,
+      "inPhase1": false
+    },
+    {
+      "level": 35,
+      "xpToNext": 2180,
+      "totalXp": 38420,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 9,
+      "inPhase1": false
+    },
+    {
+      "level": 36,
+      "xpToNext": 2240,
+      "totalXp": 40600,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 9,
+      "inPhase1": false
+    },
+    {
+      "level": 37,
+      "xpToNext": 2300,
+      "totalXp": 42840,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 9,
+      "inPhase1": false
+    },
+    {
+      "level": 38,
+      "xpToNext": 2360,
+      "totalXp": 45140,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 9,
+      "inPhase1": false
+    },
+    {
+      "level": 39,
+      "xpToNext": 2420,
+      "totalXp": 47500,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 9,
+      "inPhase1": false
+    },
+    {
+      "level": 40,
+      "xpToNext": 2480,
+      "totalXp": 49920,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 9,
+      "inPhase1": false
+    },
+    {
+      "level": 41,
+      "xpToNext": 2540,
+      "totalXp": 52400,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 9,
+      "inPhase1": false
+    },
+    {
+      "level": 42,
+      "xpToNext": 2600,
+      "totalXp": 54940,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 9,
+      "inPhase1": false
+    },
+    {
+      "level": 43,
+      "xpToNext": 2660,
+      "totalXp": 57540,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 9,
+      "inPhase1": false
+    },
+    {
+      "level": 44,
+      "xpToNext": 2720,
+      "totalXp": 60200,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 9,
+      "inPhase1": false
+    },
+    {
+      "level": 45,
+      "xpToNext": 2780,
+      "totalXp": 62920,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 9,
+      "inPhase1": false
+    },
+    {
+      "level": 46,
+      "xpToNext": 2840,
+      "totalXp": 65700,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 9,
+      "inPhase1": false
+    },
+    {
+      "level": 47,
+      "xpToNext": 2900,
+      "totalXp": 68540,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 9,
+      "inPhase1": false
+    },
+    {
+      "level": 48,
+      "xpToNext": 2960,
+      "totalXp": 71440,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 9,
+      "inPhase1": false
+    },
+    {
+      "level": 49,
+      "xpToNext": 3020,
+      "totalXp": 74400,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 9,
+      "inPhase1": false
+    },
+    {
+      "level": 50,
+      "xpToNext": 3080,
+      "totalXp": 77420,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 9,
+      "inPhase1": false
+    },
+    {
+      "level": 51,
+      "xpToNext": 3140,
+      "totalXp": 80500,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 9,
+      "inPhase1": false
+    },
+    {
+      "level": 52,
+      "xpToNext": 3200,
+      "totalXp": 83640,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 9,
+      "inPhase1": false
+    },
+    {
+      "level": 53,
+      "xpToNext": 3260,
+      "totalXp": 86840,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 9,
+      "inPhase1": false
+    },
+    {
+      "level": 54,
+      "xpToNext": 3320,
+      "totalXp": 90100,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 9,
+      "inPhase1": false
+    },
+    {
+      "level": 55,
+      "xpToNext": 3380,
+      "totalXp": 93420,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 9,
+      "inPhase1": false
+    },
+    {
+      "level": 56,
+      "xpToNext": 3440,
+      "totalXp": 96800,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 9,
+      "inPhase1": false
+    },
+    {
+      "level": 57,
+      "xpToNext": 3500,
+      "totalXp": 100240,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 9,
+      "inPhase1": false
+    },
+    {
+      "level": 58,
+      "xpToNext": 3560,
+      "totalXp": 103740,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 9,
+      "inPhase1": false
+    },
+    {
+      "level": 59,
+      "xpToNext": 3620,
+      "totalXp": 107300,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 9,
+      "inPhase1": false
+    },
+    {
+      "level": 60,
+      "xpToNext": 3680,
+      "totalXp": 110920,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 9,
+      "inPhase1": false
+    },
+    {
+      "level": 61,
+      "xpToNext": 3740,
+      "totalXp": 114600,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 9,
+      "inPhase1": false
+    },
+    {
+      "level": 62,
+      "xpToNext": 3800,
+      "totalXp": 118340,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 9,
+      "inPhase1": false
+    },
+    {
+      "level": 63,
+      "xpToNext": 3860,
+      "totalXp": 122140,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 9,
+      "inPhase1": false
+    },
+    {
+      "level": 64,
+      "xpToNext": 3920,
+      "totalXp": 126000,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 9,
+      "inPhase1": false
+    },
+    {
+      "level": 65,
+      "xpToNext": 3980,
+      "totalXp": 129920,
+      "coinsReward": 100,
+      "menuCategories": 4,
+      "dishesPerCategory": 3,
+      "menuSlots": 12,
+      "staffSlots": 9,
+      "gardenPlots": 9,
+      "inPhase1": false
+    }
+  ],
+  "dishes": [
+    {
+      "id": "nasi_lemak",
+      "cuisine": "Malaysia",
+      "category": "main",
+      "ingredients": [
+        "rice",
+        "coconut",
+        "chili"
+      ],
+      "basePrice": 12,
+      "unlockLevel": 1,
+      "cookSeconds": 5,
+      "inPhase1": true
+    },
+    {
+      "id": "roti_canai",
+      "cuisine": "Malaysia",
+      "category": "starter",
+      "ingredients": [
+        "flour",
+        "butter",
+        "curry_spice"
+      ],
+      "basePrice": 10,
+      "unlockLevel": 1,
+      "cookSeconds": 4,
+      "inPhase1": true
+    },
+    {
+      "id": "satay",
+      "cuisine": "Malaysia",
+      "category": "starter",
+      "ingredients": [
+        "chicken",
+        "peanut",
+        "lemongrass"
+      ],
+      "basePrice": 14,
+      "unlockLevel": 2,
+      "cookSeconds": 6,
+      "inPhase1": true
+    },
+    {
+      "id": "char_kway_teow",
+      "cuisine": "Malaysia",
+      "category": "main",
+      "ingredients": [
+        "noodles",
+        "shrimp",
+        "soy_sauce"
+      ],
+      "basePrice": 15,
+      "unlockLevel": 4,
+      "cookSeconds": 6,
+      "inPhase1": true
+    },
+    {
+      "id": "teh_tarik",
+      "cuisine": "Malaysia",
+      "category": "drink",
+      "ingredients": [
+        "tea",
+        "milk",
+        "sugar"
+      ],
+      "basePrice": 8,
+      "unlockLevel": 15,
+      "cookSeconds": 3,
+      "inPhase1": false
+    },
+    {
+      "id": "shoyu_ramen",
+      "cuisine": "Japan",
+      "category": "main",
+      "ingredients": [
+        "noodles",
+        "egg",
+        "soy_sauce"
+      ],
+      "basePrice": 16,
+      "unlockLevel": 2,
+      "cookSeconds": 6,
+      "inPhase1": false
+    },
+    {
+      "id": "sushi",
+      "cuisine": "Japan",
+      "category": "starter",
+      "ingredients": [
+        "rice",
+        "fish",
+        "seaweed"
+      ],
+      "basePrice": 18,
+      "unlockLevel": 3,
+      "cookSeconds": 7,
+      "inPhase1": false
+    },
+    {
+      "id": "tempura",
+      "cuisine": "Japan",
+      "category": "starter",
+      "ingredients": [
+        "shrimp",
+        "flour",
+        "egg"
+      ],
+      "basePrice": 17,
+      "unlockLevel": 5,
+      "cookSeconds": 6,
+      "inPhase1": false
+    },
+    {
+      "id": "matcha_parfait",
+      "cuisine": "Japan",
+      "category": "dessert",
+      "ingredients": [
+        "matcha",
+        "milk",
+        "sugar"
+      ],
+      "basePrice": 13,
+      "unlockLevel": 6,
+      "cookSeconds": 4,
+      "inPhase1": false
+    },
+    {
+      "id": "matcha_latte",
+      "cuisine": "Japan",
+      "category": "drink",
+      "ingredients": [
+        "matcha",
+        "milk",
+        "ice"
+      ],
+      "basePrice": 10,
+      "unlockLevel": 16,
+      "cookSeconds": 3,
+      "inPhase1": false
+    },
+    {
+      "id": "bibimbap",
+      "cuisine": "Korea",
+      "category": "main",
+      "ingredients": [
+        "rice",
+        "egg",
+        "gochujang"
+      ],
+      "basePrice": 16,
+      "unlockLevel": 3,
+      "cookSeconds": 6,
+      "inPhase1": false
+    },
+    {
+      "id": "tteokbokki",
+      "cuisine": "Korea",
+      "category": "starter",
+      "ingredients": [
+        "rice_cake",
+        "gochujang",
+        "sugar"
+      ],
+      "basePrice": 13,
+      "unlockLevel": 4,
+      "cookSeconds": 5,
+      "inPhase1": false
+    },
+    {
+      "id": "korean_fried_chicken",
+      "cuisine": "Korea",
+      "category": "main",
+      "ingredients": [
+        "chicken",
+        "flour",
+        "garlic"
+      ],
+      "basePrice": 19,
+      "unlockLevel": 7,
+      "cookSeconds": 7,
+      "inPhase1": false
+    },
+    {
+      "id": "kimchi_jjigae",
+      "cuisine": "Korea",
+      "category": "main",
+      "ingredients": [
+        "cabbage",
+        "tofu",
+        "chili"
+      ],
+      "basePrice": 15,
+      "unlockLevel": 8,
+      "cookSeconds": 6,
+      "inPhase1": false
+    },
+    {
+      "id": "banana_milk",
+      "cuisine": "Korea",
+      "category": "drink",
+      "ingredients": [
+        "banana",
+        "milk",
+        "sugar"
+      ],
+      "basePrice": 9,
+      "unlockLevel": 17,
+      "cookSeconds": 3,
+      "inPhase1": false
+    },
+    {
+      "id": "margherita",
+      "cuisine": "Italy",
+      "category": "main",
+      "ingredients": [
+        "flour",
+        "tomato",
+        "cheese"
+      ],
+      "basePrice": 18,
+      "unlockLevel": 1,
+      "cookSeconds": 7,
+      "inPhase1": true
+    },
+    {
+      "id": "carbonara",
+      "cuisine": "Italy",
+      "category": "main",
+      "ingredients": [
+        "pasta",
+        "egg",
+        "cheese"
+      ],
+      "basePrice": 17,
+      "unlockLevel": 5,
+      "cookSeconds": 6,
+      "inPhase1": false
+    },
+    {
+      "id": "mushroom_risotto",
+      "cuisine": "Italy",
+      "category": "main",
+      "ingredients": [
+        "rice",
+        "mushroom",
+        "butter"
+      ],
+      "basePrice": 19,
+      "unlockLevel": 9,
+      "cookSeconds": 8,
+      "inPhase1": false
+    },
+    {
+      "id": "tiramisu",
+      "cuisine": "Italy",
+      "category": "dessert",
+      "ingredients": [
+        "coffee",
+        "cream",
+        "sugar"
+      ],
+      "basePrice": 16,
+      "unlockLevel": 10,
+      "cookSeconds": 5,
+      "inPhase1": false
+    },
+    {
+      "id": "limonata",
+      "cuisine": "Italy",
+      "category": "drink",
+      "ingredients": [
+        "lemon",
+        "sugar",
+        "ice"
+      ],
+      "basePrice": 9,
+      "unlockLevel": 18,
+      "cookSeconds": 3,
+      "inPhase1": false
+    },
+    {
+      "id": "cheeseburger",
+      "cuisine": "USA",
+      "category": "main",
+      "ingredients": [
+        "beef",
+        "cheese",
+        "bun"
+      ],
+      "basePrice": 15,
+      "unlockLevel": 1,
+      "cookSeconds": 6,
+      "inPhase1": true
+    },
+    {
+      "id": "mac_and_cheese",
+      "cuisine": "USA",
+      "category": "main",
+      "ingredients": [
+        "pasta",
+        "cheese",
+        "milk"
+      ],
+      "basePrice": 12,
+      "unlockLevel": 2,
+      "cookSeconds": 5,
+      "inPhase1": false
+    },
+    {
+      "id": "pancakes",
+      "cuisine": "USA",
+      "category": "dessert",
+      "ingredients": [
+        "flour",
+        "egg",
+        "milk"
+      ],
+      "basePrice": 11,
+      "unlockLevel": 1,
+      "cookSeconds": 4,
+      "inPhase1": true
+    },
+    {
+      "id": "hot_dog",
+      "cuisine": "USA",
+      "category": "starter",
+      "ingredients": [
+        "sausage",
+        "bun",
+        "onion"
+      ],
+      "basePrice": 12,
+      "unlockLevel": 6,
+      "cookSeconds": 4,
+      "inPhase1": false
+    },
+    {
+      "id": "strawberry_shake",
+      "cuisine": "USA",
+      "category": "drink",
+      "ingredients": [
+        "strawberry",
+        "milk",
+        "ice"
+      ],
+      "basePrice": 10,
+      "unlockLevel": 20,
+      "cookSeconds": 3,
+      "inPhase1": false
+    }
+  ],
+  "ingredients": [
+    {
+      "id": "rice",
+      "source": "market",
+      "rarity": 1,
+      "growHours": 0,
+      "inPhase1": true
+    },
+    {
+      "id": "coconut",
+      "source": "market",
+      "rarity": 2,
+      "growHours": 0,
+      "inPhase1": true
+    },
+    {
+      "id": "chili",
+      "source": "garden",
+      "rarity": 1,
+      "growHours": 24,
+      "inPhase1": true
+    },
+    {
+      "id": "chicken",
+      "source": "market",
+      "rarity": 1,
+      "growHours": 0,
+      "inPhase1": true
+    },
+    {
+      "id": "peanut",
+      "source": "market",
+      "rarity": 1,
+      "growHours": 0,
+      "inPhase1": true
+    },
+    {
+      "id": "lemongrass",
+      "source": "garden",
+      "rarity": 2,
+      "growHours": 36,
+      "inPhase1": true
+    },
+    {
+      "id": "noodles",
+      "source": "market",
+      "rarity": 1,
+      "growHours": 0,
+      "inPhase1": true
+    },
+    {
+      "id": "shrimp",
+      "source": "market",
+      "rarity": 3,
+      "growHours": 0,
+      "inPhase1": true
+    },
+    {
+      "id": "soy_sauce",
+      "source": "market",
+      "rarity": 1,
+      "growHours": 0,
+      "inPhase1": true
+    },
+    {
+      "id": "flour",
+      "source": "market",
+      "rarity": 1,
+      "growHours": 0,
+      "inPhase1": true
+    },
+    {
+      "id": "butter",
+      "source": "market",
+      "rarity": 2,
+      "growHours": 0,
+      "inPhase1": true
+    },
+    {
+      "id": "curry_spice",
+      "source": "market",
+      "rarity": 2,
+      "growHours": 0,
+      "inPhase1": true
+    },
+    {
+      "id": "egg",
+      "source": "market",
+      "rarity": 1,
+      "growHours": 0,
+      "inPhase1": true
+    },
+    {
+      "id": "fish",
+      "source": "market",
+      "rarity": 3,
+      "growHours": 0,
+      "inPhase1": false
+    },
+    {
+      "id": "seaweed",
+      "source": "market",
+      "rarity": 3,
+      "growHours": 0,
+      "inPhase1": false
+    },
+    {
+      "id": "matcha",
+      "source": "market",
+      "rarity": 4,
+      "growHours": 0,
+      "inPhase1": false
+    },
+    {
+      "id": "milk",
+      "source": "market",
+      "rarity": 1,
+      "growHours": 0,
+      "inPhase1": true
+    },
+    {
+      "id": "sugar",
+      "source": "market",
+      "rarity": 1,
+      "growHours": 0,
+      "inPhase1": false
+    },
+    {
+      "id": "gochujang",
+      "source": "market",
+      "rarity": 3,
+      "growHours": 0,
+      "inPhase1": false
+    },
+    {
+      "id": "rice_cake",
+      "source": "market",
+      "rarity": 3,
+      "growHours": 0,
+      "inPhase1": false
+    },
+    {
+      "id": "garlic",
+      "source": "garden",
+      "rarity": 1,
+      "growHours": 24,
+      "inPhase1": false
+    },
+    {
+      "id": "cabbage",
+      "source": "garden",
+      "rarity": 2,
+      "growHours": 48,
+      "inPhase1": false
+    },
+    {
+      "id": "tofu",
+      "source": "market",
+      "rarity": 2,
+      "growHours": 0,
+      "inPhase1": false
+    },
+    {
+      "id": "tomato",
+      "source": "garden",
+      "rarity": 1,
+      "growHours": 36,
+      "inPhase1": true
+    },
+    {
+      "id": "cheese",
+      "source": "market",
+      "rarity": 2,
+      "growHours": 0,
+      "inPhase1": true
+    },
+    {
+      "id": "pasta",
+      "source": "market",
+      "rarity": 1,
+      "growHours": 0,
+      "inPhase1": false
+    },
+    {
+      "id": "mushroom",
+      "source": "garden",
+      "rarity": 3,
+      "growHours": 48,
+      "inPhase1": false
+    },
+    {
+      "id": "coffee",
+      "source": "market",
+      "rarity": 4,
+      "growHours": 0,
+      "inPhase1": false
+    },
+    {
+      "id": "cream",
+      "source": "market",
+      "rarity": 2,
+      "growHours": 0,
+      "inPhase1": false
+    },
+    {
+      "id": "beef",
+      "source": "market",
+      "rarity": 2,
+      "growHours": 0,
+      "inPhase1": true
+    },
+    {
+      "id": "bun",
+      "source": "market",
+      "rarity": 1,
+      "growHours": 0,
+      "inPhase1": true
+    },
+    {
+      "id": "sausage",
+      "source": "market",
+      "rarity": 2,
+      "growHours": 0,
+      "inPhase1": false
+    },
+    {
+      "id": "onion",
+      "source": "garden",
+      "rarity": 1,
+      "growHours": 24,
+      "inPhase1": false
+    },
+    {
+      "id": "tea",
+      "source": "garden",
+      "rarity": 2,
+      "growHours": 48,
+      "inPhase1": false
+    },
+    {
+      "id": "ice",
+      "source": "market",
+      "rarity": 1,
+      "growHours": 0,
+      "inPhase1": false
+    },
+    {
+      "id": "banana",
+      "source": "market",
+      "rarity": 1,
+      "growHours": 0,
+      "inPhase1": false
+    },
+    {
+      "id": "lemon",
+      "source": "garden",
+      "rarity": 2,
+      "growHours": 36,
+      "inPhase1": false
+    },
+    {
+      "id": "strawberry",
+      "source": "garden",
+      "rarity": 3,
+      "growHours": 48,
+      "inPhase1": false
+    }
+  ],
+  "furniture": [
+    {
+      "id": "table",
+      "category": "function",
+      "cost": 80,
+      "ambience": 0,
+      "unlockLevel": 1,
+      "themedSet": "",
+      "inPhase1": true
+    },
+    {
+      "id": "round_table",
+      "category": "function",
+      "cost": 120,
+      "ambience": 1,
+      "unlockLevel": 3,
+      "themedSet": "",
+      "inPhase1": true
+    },
+    {
+      "id": "stove",
+      "category": "function",
+      "cost": 200,
+      "ambience": 0,
+      "unlockLevel": 1,
+      "themedSet": "",
+      "inPhase1": true
+    },
+    {
+      "id": "serving_counter",
+      "category": "function",
+      "cost": 150,
+      "ambience": 0,
+      "unlockLevel": 2,
+      "themedSet": "",
+      "inPhase1": true
+    },
+    {
+      "id": "wok_burner",
+      "category": "function",
+      "cost": 280,
+      "ambience": 0,
+      "unlockLevel": 5,
+      "themedSet": "",
+      "inPhase1": true
+    },
+    {
+      "id": "booth",
+      "category": "function",
+      "cost": 180,
+      "ambience": 1,
+      "unlockLevel": 7,
+      "themedSet": "",
+      "inPhase1": true
+    },
+    {
+      "id": "toilet",
+      "category": "function",
+      "cost": 150,
+      "ambience": 0,
+      "unlockLevel": 8,
+      "themedSet": "",
+      "inPhase1": false
+    },
+    {
+      "id": "drinks_counter",
+      "category": "function",
+      "cost": 350,
+      "ambience": 0,
+      "unlockLevel": 15,
+      "themedSet": "",
+      "inPhase1": false
+    },
+    {
+      "id": "jukebox",
+      "category": "fun",
+      "cost": 250,
+      "ambience": 2,
+      "unlockLevel": 4,
+      "themedSet": "",
+      "inPhase1": false
+    },
+    {
+      "id": "arcade",
+      "category": "fun",
+      "cost": 300,
+      "ambience": 2,
+      "unlockLevel": 7,
+      "themedSet": "",
+      "inPhase1": false
+    },
+    {
+      "id": "potted_palm",
+      "category": "decor",
+      "cost": 40,
+      "ambience": 1,
+      "unlockLevel": 1,
+      "themedSet": "",
+      "inPhase1": true
+    },
+    {
+      "id": "wall_clock",
+      "category": "decor",
+      "cost": 50,
+      "ambience": 1,
+      "unlockLevel": 1,
+      "themedSet": "",
+      "inPhase1": true
+    },
+    {
+      "id": "lantern",
+      "category": "decor",
+      "cost": 90,
+      "ambience": 2,
+      "unlockLevel": 2,
+      "themedSet": "",
+      "inPhase1": true
+    },
+    {
+      "id": "chalkboard_menu",
+      "category": "decor",
+      "cost": 70,
+      "ambience": 1,
+      "unlockLevel": 2,
+      "themedSet": "",
+      "inPhase1": true
+    },
+    {
+      "id": "flower_vase",
+      "category": "decor",
+      "cost": 60,
+      "ambience": 1,
+      "unlockLevel": 3,
+      "themedSet": "",
+      "inPhase1": true
+    },
+    {
+      "id": "ceiling_fan",
+      "category": "decor",
+      "cost": 120,
+      "ambience": 2,
+      "unlockLevel": 4,
+      "themedSet": "",
+      "inPhase1": true
+    },
+    {
+      "id": "fountain",
+      "category": "decor",
+      "cost": 300,
+      "ambience": 5,
+      "unlockLevel": 4,
+      "themedSet": "",
+      "inPhase1": true
+    },
+    {
+      "id": "woven_rug",
+      "category": "decor",
+      "cost": 100,
+      "ambience": 2,
+      "unlockLevel": 5,
+      "themedSet": "",
+      "inPhase1": true
+    },
+    {
+      "id": "cookbook_shelf",
+      "category": "decor",
+      "cost": 160,
+      "ambience": 3,
+      "unlockLevel": 6,
+      "themedSet": "",
+      "inPhase1": true
+    },
+    {
+      "id": "koi_pond",
+      "category": "decor",
+      "cost": 450,
+      "ambience": 7,
+      "unlockLevel": 8,
+      "themedSet": "",
+      "inPhase1": true
+    },
+    {
+      "id": "kopitiam_poster",
+      "category": "decor",
+      "cost": 70,
+      "ambience": 1,
+      "unlockLevel": 2,
+      "themedSet": "Malaysia",
+      "inPhase1": true
+    },
+    {
+      "id": "bunga_raya_planter",
+      "category": "decor",
+      "cost": 80,
+      "ambience": 2,
+      "unlockLevel": 2,
+      "themedSet": "Malaysia",
+      "inPhase1": true
+    },
+    {
+      "id": "batik_wall_art",
+      "category": "decor",
+      "cost": 110,
+      "ambience": 2,
+      "unlockLevel": 3,
+      "themedSet": "Malaysia",
+      "inPhase1": true
+    },
+    {
+      "id": "songket_runner",
+      "category": "decor",
+      "cost": 90,
+      "ambience": 2,
+      "unlockLevel": 3,
+      "themedSet": "Malaysia",
+      "inPhase1": true
+    },
+    {
+      "id": "wau_kite",
+      "category": "decor",
+      "cost": 130,
+      "ambience": 2,
+      "unlockLevel": 4,
+      "themedSet": "Malaysia",
+      "inPhase1": true
+    },
+    {
+      "id": "rattan_lamp",
+      "category": "decor",
+      "cost": 120,
+      "ambience": 2,
+      "unlockLevel": 4,
+      "themedSet": "Malaysia",
+      "inPhase1": true
+    },
+    {
+      "id": "hawker_sign",
+      "category": "decor",
+      "cost": 150,
+      "ambience": 3,
+      "unlockLevel": 5,
+      "themedSet": "Malaysia",
+      "inPhase1": true
+    },
+    {
+      "id": "tiffin_stand",
+      "category": "decor",
+      "cost": 100,
+      "ambience": 2,
+      "unlockLevel": 5,
+      "themedSet": "Malaysia",
+      "inPhase1": true
+    },
+    {
+      "id": "kuih_display",
+      "category": "decor",
+      "cost": 200,
+      "ambience": 3,
+      "unlockLevel": 6,
+      "themedSet": "Malaysia",
+      "inPhase1": true
+    },
+    {
+      "id": "peranakan_screen",
+      "category": "decor",
+      "cost": 240,
+      "ambience": 4,
+      "unlockLevel": 7,
+      "themedSet": "Malaysia",
+      "inPhase1": true
+    },
+    {
+      "id": "floor_mint",
+      "category": "floor",
+      "cost": 0,
+      "ambience": 0,
+      "unlockLevel": 1,
+      "themedSet": "",
+      "inPhase1": true
+    },
+    {
+      "id": "floor_oak",
+      "category": "floor",
+      "cost": 120,
+      "ambience": 0,
+      "unlockLevel": 1,
+      "themedSet": "",
+      "inPhase1": true
+    },
+    {
+      "id": "floor_terrazzo",
+      "category": "floor",
+      "cost": 220,
+      "ambience": 0,
+      "unlockLevel": 1,
+      "themedSet": "",
+      "inPhase1": true
+    },
+    {
+      "id": "floor_sunset",
+      "category": "floor",
+      "cost": 260,
+      "ambience": 0,
+      "unlockLevel": 1,
+      "themedSet": "",
+      "inPhase1": true
+    },
+    {
+      "id": "wall_cream",
+      "category": "wallpaper",
+      "cost": 0,
+      "ambience": 0,
+      "unlockLevel": 1,
+      "themedSet": "",
+      "inPhase1": true
+    },
+    {
+      "id": "wall_sky",
+      "category": "wallpaper",
+      "cost": 100,
+      "ambience": 0,
+      "unlockLevel": 1,
+      "themedSet": "",
+      "inPhase1": true
+    },
+    {
+      "id": "wall_bamboo",
+      "category": "wallpaper",
+      "cost": 140,
+      "ambience": 0,
+      "unlockLevel": 2,
+      "themedSet": "",
+      "inPhase1": true
+    },
+    {
+      "id": "wall_peranakan",
+      "category": "wallpaper",
+      "cost": 180,
+      "ambience": 0,
+      "unlockLevel": 3,
+      "themedSet": "",
+      "inPhase1": true
+    }
+  ],
+  "expansions": [
+    {
+      "id": "indoor_1",
+      "type": "indoor",
+      "width": 10,
+      "height": 12,
+      "unlockLevel": 6,
+      "cost": 1500,
+      "inPhase1": true
+    },
+    {
+      "id": "indoor_2",
+      "type": "indoor",
+      "width": 12,
+      "height": 14,
+      "unlockLevel": 12,
+      "cost": 4000,
+      "inPhase1": false
+    },
+    {
+      "id": "indoor_3",
+      "type": "indoor",
+      "width": 14,
+      "height": 16,
+      "unlockLevel": 18,
+      "cost": 9000,
+      "inPhase1": false
+    },
+    {
+      "id": "terrace_1",
+      "type": "terrace",
+      "width": 6,
+      "height": 6,
+      "unlockLevel": 20,
+      "cost": 12000,
+      "inPhase1": false
+    },
+    {
+      "id": "terrace_2",
+      "type": "terrace",
+      "width": 8,
+      "height": 8,
+      "unlockLevel": 25,
+      "cost": 25000,
+      "inPhase1": false
+    },
+    {
+      "id": "terrace_3",
+      "type": "terrace",
+      "width": 10,
+      "height": 10,
+      "unlockLevel": 30,
+      "cost": 45000,
+      "inPhase1": false
+    },
+    {
+      "id": "terrace_4",
+      "type": "terrace",
+      "width": 12,
+      "height": 12,
+      "unlockLevel": 35,
+      "cost": 80000,
+      "inPhase1": false
+    },
+    {
+      "id": "terrace_5",
+      "type": "terrace",
+      "width": 14,
+      "height": 14,
+      "unlockLevel": 40,
+      "cost": 140000,
+      "inPhase1": false
+    },
+    {
+      "id": "terrace_6",
+      "type": "terrace",
+      "width": 16,
+      "height": 16,
+      "unlockLevel": 45,
+      "cost": 240000,
+      "inPhase1": false
+    },
+    {
+      "id": "terrace_7",
+      "type": "terrace",
+      "width": 18,
+      "height": 18,
+      "unlockLevel": 50,
+      "cost": 400000,
+      "inPhase1": false
+    },
+    {
+      "id": "second_city",
+      "type": "new restaurant",
+      "width": 8,
+      "height": 10,
+      "unlockLevel": 30,
+      "cost": 60000,
+      "inPhase1": false
+    }
+  ],
+  "staffRoles": [
+    {
+      "role": "chef",
+      "unlockLevel": 1,
+      "inPhase1": true
+    },
+    {
+      "role": "waiter",
+      "unlockLevel": 1,
+      "inPhase1": true
+    },
+    {
+      "role": "cleaner",
+      "unlockLevel": 6,
+      "inPhase1": false
+    }
+  ]
+}

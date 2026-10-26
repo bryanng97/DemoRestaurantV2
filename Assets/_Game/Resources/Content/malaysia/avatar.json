@@ -1,0 +1,72 @@
+{
+  "parts": [
+    { "slot": "Gender", "id": "female", "nameKey": "avatar.gender.female" },
+    { "slot": "Gender", "id": "male", "nameKey": "avatar.gender.male" },
+
+    { "slot": "SkinTone", "id": "fair", "nameKey": "avatar.skin.fair", "color": "#F6D6BE" },
+    { "slot": "SkinTone", "id": "light", "nameKey": "avatar.skin.light", "color": "#FBE3D2" },
+    { "slot": "SkinTone", "id": "tan", "nameKey": "avatar.skin.tan", "color": "#D29F76" },
+    { "slot": "SkinTone", "id": "brown", "nameKey": "avatar.skin.brown", "color": "#A8714A" },
+    { "slot": "SkinTone", "id": "deep", "nameKey": "avatar.skin.deep", "color": "#74482D" },
+
+    { "slot": "Eyes", "id": "round", "nameKey": "avatar.eyes.round" },
+    { "slot": "Eyes", "id": "happy", "nameKey": "avatar.eyes.happy" },
+    { "slot": "Eyes", "id": "sleepy", "nameKey": "avatar.eyes.sleepy" },
+    { "slot": "Eyes", "id": "sparkle", "nameKey": "avatar.eyes.sparkle", "unlockLevel": 3 },
+
+    { "slot": "Eyebrows", "id": "soft", "nameKey": "avatar.brows.soft" },
+    { "slot": "Eyebrows", "id": "bold", "nameKey": "avatar.brows.bold" },
+    { "slot": "Eyebrows", "id": "angled", "nameKey": "avatar.brows.angled" },
+    { "slot": "Eyebrows", "id": "none", "nameKey": "avatar.brows.none" },
+
+    { "slot": "HairStyle", "id": "bob", "nameKey": "avatar.hair.bob" },
+    { "slot": "HairStyle", "id": "short", "nameKey": "avatar.hair.short" },
+    { "slot": "HairStyle", "id": "spiky", "nameKey": "avatar.hair.spiky" },
+    { "slot": "HairStyle", "id": "long", "nameKey": "avatar.hair.long" },
+    { "slot": "HairStyle", "id": "ponytail", "nameKey": "avatar.hair.ponytail" },
+    { "slot": "HairStyle", "id": "bun", "nameKey": "avatar.hair.bun", "unlockLevel": 2 },
+
+    { "slot": "HairColor", "id": "brown", "nameKey": "avatar.color.brown", "color": "#7A4A2C" },
+    { "slot": "HairColor", "id": "black", "nameKey": "avatar.color.black", "color": "#2A211D" },
+    { "slot": "HairColor", "id": "chestnut", "nameKey": "avatar.color.chestnut", "color": "#9A5A2C" },
+    { "slot": "HairColor", "id": "blonde", "nameKey": "avatar.color.blonde", "color": "#E2BB6A" },
+    { "slot": "HairColor", "id": "pink", "nameKey": "avatar.color.pink", "color": "#F08DB0", "unlockLevel": 4 },
+
+    { "slot": "Hat", "id": "none", "nameKey": "avatar.hat.none" },
+    { "slot": "Hat", "id": "chef", "nameKey": "avatar.hat.chef" },
+    { "slot": "Hat", "id": "cap", "nameKey": "avatar.hat.cap" },
+    { "slot": "Hat", "id": "beanie", "nameKey": "avatar.hat.beanie", "unlockLevel": 2 },
+    { "slot": "Hat", "id": "headband", "nameKey": "avatar.hat.headband", "unlockLevel": 3 },
+    { "slot": "Hat", "id": "songkok", "nameKey": "avatar.hat.songkok", "unlockLevel": 5 },
+    { "slot": "Hat", "id": "tudung", "nameKey": "avatar.hat.tudung" },
+    { "slot": "Hat", "id": "straw_hat", "nameKey": "avatar.hat.straw_hat", "unlockLevel": 2 },
+    { "slot": "Hat", "id": "cat_hood", "nameKey": "avatar.hat.cat_hood", "unlockLevel": 3 },
+
+    { "slot": "Shirt", "id": "vest", "nameKey": "avatar.shirt.vest" },
+    { "slot": "Shirt", "id": "tee", "nameKey": "avatar.shirt.tee" },
+    { "slot": "Shirt", "id": "collared", "nameKey": "avatar.shirt.collared" },
+    { "slot": "Shirt", "id": "apron", "nameKey": "avatar.shirt.apron" },
+    { "slot": "Shirt", "id": "kurung", "nameKey": "avatar.shirt.kurung", "unlockLevel": 4 },
+    { "slot": "Shirt", "id": "melayu", "nameKey": "avatar.shirt.melayu", "unlockLevel": 4 },
+
+    { "slot": "ShirtColor", "id": "navy", "nameKey": "avatar.color.navy", "color": "#2F3B5E" },
+    { "slot": "ShirtColor", "id": "brown", "nameKey": "avatar.color.brown", "color": "#6C4A35" },
+    { "slot": "ShirtColor", "id": "teal", "nameKey": "avatar.color.teal", "color": "#2BA59C" },
+    { "slot": "ShirtColor", "id": "red", "nameKey": "avatar.color.red", "color": "#D9534F" },
+    { "slot": "ShirtColor", "id": "yellow", "nameKey": "avatar.color.yellow", "color": "#F2C14E" },
+    { "slot": "ShirtColor", "id": "blue", "nameKey": "avatar.color.blue", "color": "#4A7BD0" },
+    { "slot": "ShirtColor", "id": "white", "nameKey": "avatar.color.white", "color": "#F4F1EA" },
+    { "slot": "ShirtColor", "id": "purple", "nameKey": "avatar.color.purple", "color": "#8E62C4", "unlockLevel": 3 },
+
+    { "slot": "Pants", "id": "shorts", "nameKey": "avatar.pants.shorts" },
+    { "slot": "Pants", "id": "trousers", "nameKey": "avatar.pants.trousers" },
+    { "slot": "Pants", "id": "skirt", "nameKey": "avatar.pants.skirt" },
+    { "slot": "Pants", "id": "sarong", "nameKey": "avatar.pants.sarong", "unlockLevel": 3 },
+
+    { "slot": "PantsColor", "id": "navy", "nameKey": "avatar.color.navy", "color": "#2E3A5C" },
+    { "slot": "PantsColor", "id": "khaki", "nameKey": "avatar.color.khaki", "color": "#B49A6C" },
+    { "slot": "PantsColor", "id": "black", "nameKey": "avatar.color.black", "color": "#2A2A2E" },
+    { "slot": "PantsColor", "id": "denim", "nameKey": "avatar.color.denim", "color": "#5D7FA8" },
+    { "slot": "PantsColor", "id": "maroon", "nameKey": "avatar.color.maroon", "color": "#7D2E3A", "unlockLevel": 2 }
+  ]
+}

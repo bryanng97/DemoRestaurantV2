@@ -1,0 +1,5 @@
+{
+  "items": [
+    { "id": "kopi_o_kaw", "nameKey": "item.kopi_o_kaw", "energyRestore": 40, "price": 30, "icon": "food_coffee" }
+  ]
+}

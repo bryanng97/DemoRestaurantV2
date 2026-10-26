@@ -1,0 +1,1264 @@
+{
+  "sprites": [
+    {
+      "key": "serve_roti_canai_level01",
+      "group": "interface-and-game",
+      "symbol": "FoodItem25",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.355
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level01/DefineSprite_541_FoodItem25"
+    },
+    {
+      "key": "serve_satay_level01",
+      "group": "interface-and-game",
+      "symbol": "FoodItem42",
+      "frames": [
+        1,
+        5
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.48
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level01/DefineSprite_484_FoodItem42"
+    },
+    {
+      "key": "serve_nasi_lemak_level01",
+      "group": "interface-and-game",
+      "symbol": "FoodItem37",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level01/DefineSprite_636_FoodItem37"
+    },
+    {
+      "key": "serve_mee_goreng_mamak_level01",
+      "group": "interface-and-game",
+      "symbol": "FoodItem87",
+      "frames": [
+        1,
+        12
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level01/DefineSprite_215_FoodItem87"
+    },
+    {
+      "key": "serve_char_kway_teow_level01",
+      "group": "interface-and-game",
+      "symbol": "FoodItem11",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level01/DefineSprite_642_FoodItem11"
+    },
+    {
+      "key": "serve_nasi_kerabu_level01",
+      "group": "interface-and-game",
+      "symbol": "FoodItem51",
+      "frames": [
+        1,
+        8
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level01/DefineSprite_463_FoodItem51"
+    },
+    {
+      "key": "serve_laksa_level01",
+      "group": "interface-and-game",
+      "symbol": "FoodItem48",
+      "frames": [
+        1,
+        10
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.17
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level01/DefineSprite_176_FoodItem48"
+    },
+    {
+      "key": "serve_cendol_level01",
+      "group": "interface-and-game",
+      "symbol": "FoodItem30",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.263
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level01/DefineSprite_1595_FoodItem30"
+    },
+    {
+      "key": "serve_teh_tarik_level01",
+      "group": "interface-and-game",
+      "symbol": "DrinkItem04",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.292
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level01/DefineSprite_677_DrinkItem04"
+    },
+    {
+      "key": "serve_roti_canai_level02",
+      "group": "interface-and-game",
+      "symbol": "FoodItem25",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.355
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level02/DefineSprite_541_FoodItem25"
+    },
+    {
+      "key": "serve_satay_level02",
+      "group": "interface-and-game",
+      "symbol": "FoodItem42",
+      "frames": [
+        1,
+        5
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.48
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level02/DefineSprite_484_FoodItem42"
+    },
+    {
+      "key": "serve_nasi_lemak_level02",
+      "group": "interface-and-game",
+      "symbol": "FoodItem37",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level02/DefineSprite_636_FoodItem37"
+    },
+    {
+      "key": "serve_mee_goreng_mamak_level02",
+      "group": "interface-and-game",
+      "symbol": "FoodItem87",
+      "frames": [
+        1,
+        12
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level02/DefineSprite_215_FoodItem87"
+    },
+    {
+      "key": "serve_char_kway_teow_level02",
+      "group": "interface-and-game",
+      "symbol": "FoodItem11",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level02/DefineSprite_642_FoodItem11"
+    },
+    {
+      "key": "serve_nasi_kerabu_level02",
+      "group": "interface-and-game",
+      "symbol": "FoodItem51",
+      "frames": [
+        1,
+        8
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level02/DefineSprite_463_FoodItem51"
+    },
+    {
+      "key": "serve_laksa_level02",
+      "group": "interface-and-game",
+      "symbol": "FoodItem48",
+      "frames": [
+        1,
+        10
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.17
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level02/DefineSprite_176_FoodItem48"
+    },
+    {
+      "key": "serve_cendol_level02",
+      "group": "interface-and-game",
+      "symbol": "FoodItem30",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.263
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level02/DefineSprite_1595_FoodItem30"
+    },
+    {
+      "key": "serve_teh_tarik_level02",
+      "group": "interface-and-game",
+      "symbol": "DrinkItem04",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.292
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level02/DefineSprite_677_DrinkItem04"
+    },
+    {
+      "key": "serve_roti_canai_level03",
+      "group": "interface-and-game",
+      "symbol": "FoodItem25",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.355
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level03/DefineSprite_541_FoodItem25"
+    },
+    {
+      "key": "serve_satay_level03",
+      "group": "interface-and-game",
+      "symbol": "FoodItem42",
+      "frames": [
+        1,
+        5
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.48
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level03/DefineSprite_484_FoodItem42"
+    },
+    {
+      "key": "serve_nasi_lemak_level03",
+      "group": "interface-and-game",
+      "symbol": "FoodItem37",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level03/DefineSprite_636_FoodItem37"
+    },
+    {
+      "key": "serve_mee_goreng_mamak_level03",
+      "group": "interface-and-game",
+      "symbol": "FoodItem87",
+      "frames": [
+        1,
+        12
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level03/DefineSprite_215_FoodItem87"
+    },
+    {
+      "key": "serve_char_kway_teow_level03",
+      "group": "interface-and-game",
+      "symbol": "FoodItem11",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level03/DefineSprite_642_FoodItem11"
+    },
+    {
+      "key": "serve_nasi_kerabu_level03",
+      "group": "interface-and-game",
+      "symbol": "FoodItem51",
+      "frames": [
+        1,
+        8
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level03/DefineSprite_463_FoodItem51"
+    },
+    {
+      "key": "serve_laksa_level03",
+      "group": "interface-and-game",
+      "symbol": "FoodItem48",
+      "frames": [
+        1,
+        10
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.17
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level03/DefineSprite_176_FoodItem48"
+    },
+    {
+      "key": "serve_cendol_level03",
+      "group": "interface-and-game",
+      "symbol": "FoodItem30",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.263
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level03/DefineSprite_1595_FoodItem30"
+    },
+    {
+      "key": "serve_teh_tarik_level03",
+      "group": "interface-and-game",
+      "symbol": "DrinkItem04",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.292
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level03/DefineSprite_677_DrinkItem04"
+    },
+    {
+      "key": "serve_roti_canai_level04",
+      "group": "interface-and-game",
+      "symbol": "FoodItem25",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.355
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level04/DefineSprite_541_FoodItem25"
+    },
+    {
+      "key": "serve_satay_level04",
+      "group": "interface-and-game",
+      "symbol": "FoodItem42",
+      "frames": [
+        1,
+        5
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.48
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level04/DefineSprite_484_FoodItem42"
+    },
+    {
+      "key": "serve_nasi_lemak_level04",
+      "group": "interface-and-game",
+      "symbol": "FoodItem37",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level04/DefineSprite_636_FoodItem37"
+    },
+    {
+      "key": "serve_mee_goreng_mamak_level04",
+      "group": "interface-and-game",
+      "symbol": "FoodItem87",
+      "frames": [
+        1,
+        12
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level04/DefineSprite_215_FoodItem87"
+    },
+    {
+      "key": "serve_char_kway_teow_level04",
+      "group": "interface-and-game",
+      "symbol": "FoodItem11",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level04/DefineSprite_642_FoodItem11"
+    },
+    {
+      "key": "serve_nasi_kerabu_level04",
+      "group": "interface-and-game",
+      "symbol": "FoodItem51",
+      "frames": [
+        1,
+        8
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level04/DefineSprite_463_FoodItem51"
+    },
+    {
+      "key": "serve_laksa_level04",
+      "group": "interface-and-game",
+      "symbol": "FoodItem48",
+      "frames": [
+        1,
+        10
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.17
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level04/DefineSprite_176_FoodItem48"
+    },
+    {
+      "key": "serve_cendol_level04",
+      "group": "interface-and-game",
+      "symbol": "FoodItem30",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.263
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level04/DefineSprite_1595_FoodItem30"
+    },
+    {
+      "key": "serve_teh_tarik_level04",
+      "group": "interface-and-game",
+      "symbol": "DrinkItem04",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.292
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level04/DefineSprite_677_DrinkItem04"
+    },
+    {
+      "key": "serve_roti_canai_level05",
+      "group": "interface-and-game",
+      "symbol": "FoodItem25",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.355
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level05/DefineSprite_541_FoodItem25"
+    },
+    {
+      "key": "serve_satay_level05",
+      "group": "interface-and-game",
+      "symbol": "FoodItem42",
+      "frames": [
+        1,
+        5
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.48
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level05/DefineSprite_484_FoodItem42"
+    },
+    {
+      "key": "serve_nasi_lemak_level05",
+      "group": "interface-and-game",
+      "symbol": "FoodItem37",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level05/DefineSprite_636_FoodItem37"
+    },
+    {
+      "key": "serve_mee_goreng_mamak_level05",
+      "group": "interface-and-game",
+      "symbol": "FoodItem87",
+      "frames": [
+        1,
+        12
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level05/DefineSprite_215_FoodItem87"
+    },
+    {
+      "key": "serve_char_kway_teow_level05",
+      "group": "interface-and-game",
+      "symbol": "FoodItem11",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level05/DefineSprite_642_FoodItem11"
+    },
+    {
+      "key": "serve_nasi_kerabu_level05",
+      "group": "interface-and-game",
+      "symbol": "FoodItem51",
+      "frames": [
+        1,
+        8
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level05/DefineSprite_463_FoodItem51"
+    },
+    {
+      "key": "serve_laksa_level05",
+      "group": "interface-and-game",
+      "symbol": "FoodItem48",
+      "frames": [
+        1,
+        10
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.17
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level05/DefineSprite_176_FoodItem48"
+    },
+    {
+      "key": "serve_cendol_level05",
+      "group": "interface-and-game",
+      "symbol": "FoodItem30",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.263
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level05/DefineSprite_1595_FoodItem30"
+    },
+    {
+      "key": "serve_teh_tarik_level05",
+      "group": "interface-and-game",
+      "symbol": "DrinkItem04",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.292
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level05/DefineSprite_677_DrinkItem04"
+    },
+    {
+      "key": "serve_roti_canai_level06",
+      "group": "interface-and-game",
+      "symbol": "FoodItem25",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.355
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level06/DefineSprite_541_FoodItem25"
+    },
+    {
+      "key": "serve_satay_level06",
+      "group": "interface-and-game",
+      "symbol": "FoodItem42",
+      "frames": [
+        1,
+        5
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.48
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level06/DefineSprite_484_FoodItem42"
+    },
+    {
+      "key": "serve_nasi_lemak_level06",
+      "group": "interface-and-game",
+      "symbol": "FoodItem37",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level06/DefineSprite_636_FoodItem37"
+    },
+    {
+      "key": "serve_mee_goreng_mamak_level06",
+      "group": "interface-and-game",
+      "symbol": "FoodItem87",
+      "frames": [
+        1,
+        12
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level06/DefineSprite_215_FoodItem87"
+    },
+    {
+      "key": "serve_char_kway_teow_level06",
+      "group": "interface-and-game",
+      "symbol": "FoodItem11",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level06/DefineSprite_642_FoodItem11"
+    },
+    {
+      "key": "serve_nasi_kerabu_level06",
+      "group": "interface-and-game",
+      "symbol": "FoodItem51",
+      "frames": [
+        1,
+        8
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level06/DefineSprite_463_FoodItem51"
+    },
+    {
+      "key": "serve_laksa_level06",
+      "group": "interface-and-game",
+      "symbol": "FoodItem48",
+      "frames": [
+        1,
+        10
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.17
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level06/DefineSprite_176_FoodItem48"
+    },
+    {
+      "key": "serve_cendol_level06",
+      "group": "interface-and-game",
+      "symbol": "FoodItem30",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.263
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level06/DefineSprite_1595_FoodItem30"
+    },
+    {
+      "key": "serve_teh_tarik_level06",
+      "group": "interface-and-game",
+      "symbol": "DrinkItem04",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.292
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level06/DefineSprite_677_DrinkItem04"
+    },
+    {
+      "key": "serve_roti_canai_level07",
+      "group": "interface-and-game",
+      "symbol": "FoodItem25",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.355
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level07/DefineSprite_541_FoodItem25"
+    },
+    {
+      "key": "serve_satay_level07",
+      "group": "interface-and-game",
+      "symbol": "FoodItem42",
+      "frames": [
+        1,
+        5
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.48
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level07/DefineSprite_484_FoodItem42"
+    },
+    {
+      "key": "serve_nasi_lemak_level07",
+      "group": "interface-and-game",
+      "symbol": "FoodItem37",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level07/DefineSprite_636_FoodItem37"
+    },
+    {
+      "key": "serve_mee_goreng_mamak_level07",
+      "group": "interface-and-game",
+      "symbol": "FoodItem87",
+      "frames": [
+        1,
+        12
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level07/DefineSprite_215_FoodItem87"
+    },
+    {
+      "key": "serve_char_kway_teow_level07",
+      "group": "interface-and-game",
+      "symbol": "FoodItem11",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level07/DefineSprite_642_FoodItem11"
+    },
+    {
+      "key": "serve_nasi_kerabu_level07",
+      "group": "interface-and-game",
+      "symbol": "FoodItem51",
+      "frames": [
+        1,
+        8
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level07/DefineSprite_463_FoodItem51"
+    },
+    {
+      "key": "serve_laksa_level07",
+      "group": "interface-and-game",
+      "symbol": "FoodItem48",
+      "frames": [
+        1,
+        10
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.17
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level07/DefineSprite_176_FoodItem48"
+    },
+    {
+      "key": "serve_cendol_level07",
+      "group": "interface-and-game",
+      "symbol": "FoodItem30",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.263
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level07/DefineSprite_1595_FoodItem30"
+    },
+    {
+      "key": "serve_teh_tarik_level07",
+      "group": "interface-and-game",
+      "symbol": "DrinkItem04",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.292
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level07/DefineSprite_677_DrinkItem04"
+    },
+    {
+      "key": "serve_roti_canai_level08",
+      "group": "interface-and-game",
+      "symbol": "FoodItem25",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.355
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level08/DefineSprite_541_FoodItem25"
+    },
+    {
+      "key": "serve_satay_level08",
+      "group": "interface-and-game",
+      "symbol": "FoodItem42",
+      "frames": [
+        1,
+        5
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.48
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level08/DefineSprite_484_FoodItem42"
+    },
+    {
+      "key": "serve_nasi_lemak_level08",
+      "group": "interface-and-game",
+      "symbol": "FoodItem37",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level08/DefineSprite_636_FoodItem37"
+    },
+    {
+      "key": "serve_mee_goreng_mamak_level08",
+      "group": "interface-and-game",
+      "symbol": "FoodItem87",
+      "frames": [
+        1,
+        12
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level08/DefineSprite_215_FoodItem87"
+    },
+    {
+      "key": "serve_char_kway_teow_level08",
+      "group": "interface-and-game",
+      "symbol": "FoodItem11",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level08/DefineSprite_642_FoodItem11"
+    },
+    {
+      "key": "serve_nasi_kerabu_level08",
+      "group": "interface-and-game",
+      "symbol": "FoodItem51",
+      "frames": [
+        1,
+        8
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level08/DefineSprite_463_FoodItem51"
+    },
+    {
+      "key": "serve_laksa_level08",
+      "group": "interface-and-game",
+      "symbol": "FoodItem48",
+      "frames": [
+        1,
+        10
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.17
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level08/DefineSprite_176_FoodItem48"
+    },
+    {
+      "key": "serve_cendol_level08",
+      "group": "interface-and-game",
+      "symbol": "FoodItem30",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.263
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level08/DefineSprite_1595_FoodItem30"
+    },
+    {
+      "key": "serve_teh_tarik_level08",
+      "group": "interface-and-game",
+      "symbol": "DrinkItem04",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.292
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level08/DefineSprite_677_DrinkItem04"
+    },
+    {
+      "key": "serve_roti_canai_level09",
+      "group": "interface-and-game",
+      "symbol": "FoodItem25",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.355
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level09/DefineSprite_541_FoodItem25"
+    },
+    {
+      "key": "serve_satay_level09",
+      "group": "interface-and-game",
+      "symbol": "FoodItem42",
+      "frames": [
+        1,
+        5
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.48
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level09/DefineSprite_484_FoodItem42"
+    },
+    {
+      "key": "serve_nasi_lemak_level09",
+      "group": "interface-and-game",
+      "symbol": "FoodItem37",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level09/DefineSprite_636_FoodItem37"
+    },
+    {
+      "key": "serve_mee_goreng_mamak_level09",
+      "group": "interface-and-game",
+      "symbol": "FoodItem87",
+      "frames": [
+        1,
+        12
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level09/DefineSprite_215_FoodItem87"
+    },
+    {
+      "key": "serve_char_kway_teow_level09",
+      "group": "interface-and-game",
+      "symbol": "FoodItem11",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level09/DefineSprite_642_FoodItem11"
+    },
+    {
+      "key": "serve_nasi_kerabu_level09",
+      "group": "interface-and-game",
+      "symbol": "FoodItem51",
+      "frames": [
+        1,
+        8
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level09/DefineSprite_463_FoodItem51"
+    },
+    {
+      "key": "serve_laksa_level09",
+      "group": "interface-and-game",
+      "symbol": "FoodItem48",
+      "frames": [
+        1,
+        10
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.17
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level09/DefineSprite_176_FoodItem48"
+    },
+    {
+      "key": "serve_cendol_level09",
+      "group": "interface-and-game",
+      "symbol": "FoodItem30",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.263
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level09/DefineSprite_1595_FoodItem30"
+    },
+    {
+      "key": "serve_teh_tarik_level09",
+      "group": "interface-and-game",
+      "symbol": "DrinkItem04",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.292
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level09/DefineSprite_677_DrinkItem04"
+    },
+    {
+      "key": "serve_roti_canai_level10",
+      "group": "interface-and-game",
+      "symbol": "FoodItem25",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.355
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level10/DefineSprite_541_FoodItem25"
+    },
+    {
+      "key": "serve_satay_level10",
+      "group": "interface-and-game",
+      "symbol": "FoodItem42",
+      "frames": [
+        1,
+        5
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.48
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level10/DefineSprite_484_FoodItem42"
+    },
+    {
+      "key": "serve_nasi_lemak_level10",
+      "group": "interface-and-game",
+      "symbol": "FoodItem37",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level10/DefineSprite_636_FoodItem37"
+    },
+    {
+      "key": "serve_mee_goreng_mamak_level10",
+      "group": "interface-and-game",
+      "symbol": "FoodItem87",
+      "frames": [
+        1,
+        12
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level10/DefineSprite_215_FoodItem87"
+    },
+    {
+      "key": "serve_char_kway_teow_level10",
+      "group": "interface-and-game",
+      "symbol": "FoodItem11",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level10/DefineSprite_642_FoodItem11"
+    },
+    {
+      "key": "serve_nasi_kerabu_level10",
+      "group": "interface-and-game",
+      "symbol": "FoodItem51",
+      "frames": [
+        1,
+        8
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level10/DefineSprite_463_FoodItem51"
+    },
+    {
+      "key": "serve_laksa_level10",
+      "group": "interface-and-game",
+      "symbol": "FoodItem48",
+      "frames": [
+        1,
+        10
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.17
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level10/DefineSprite_176_FoodItem48"
+    },
+    {
+      "key": "serve_cendol_level10",
+      "group": "interface-and-game",
+      "symbol": "FoodItem30",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.263
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level10/DefineSprite_1595_FoodItem30"
+    },
+    {
+      "key": "serve_teh_tarik_level10",
+      "group": "interface-and-game",
+      "symbol": "DrinkItem04",
+      "frames": [
+        1,
+        7
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.292
+      },
+      "sourceDir": "Builds/ReferenceAssets/ServingFrames/level10/DefineSprite_677_DrinkItem04"
+    }
+  ]
+}

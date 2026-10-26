@@ -1,0 +1,88 @@
+# ---------------------------------------------------------------- Unity generated
+# Rebuilt by Unity from Assets/, Packages/ and ProjectSettings/. Never commit these.
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/[Mm]emoryCaptures/
+/[Rr]ecordings/
+/.utmp/
+
+# Builds (APK/AAB, Xcode projects, standalone players)
+/[Bb]uild/
+/[Bb]uilds/
+*.apk
+*.aab
+*.ipa
+*.app
+*.symbols.zip
+crashlytics-build.properties
+/[Aa]ssets/[Ss]treamingAssets/aa/
+/[Aa]ssets/[Ss]treamingAssets/aa.meta
+
+# Unity crash / diagnostic files
+sysinfo.txt
+mono_crash.*
+*.stackdump
+
+# Asset Store tools and JetBrains Rider plugin (installed per machine)
+/[Aa]ssets/AssetStoreTools*
+/[Aa]ssets/Plugins/Editor/JetBrains*
+/[Aa]ssets/Plugins/Editor/JetBrains*.meta
+
+# Exported packages
+*.unitypackage
+*.unitypackage.meta
+
+# ---------------------------------------------------------------- IDE / solution files
+# Unity regenerates these from the .asmdef files.
+.vs/
+.vscode/
+.idea/
+.consulo/
+*.csproj
+*.unityproj
+*.sln
+*.slnx
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+ExportedObj/
+
+# ---------------------------------------------------------------- Android / Gradle
+.gradle/
+/[Aa]ssets/Plugins/Android/*.keystore
+*.keystore
+*.jks
+local.properties
+
+# ---------------------------------------------------------------- Tools
+Tools/**/bin/
+Tools/**/obj/
+
+# ---------------------------------------------------------------- Local / OS
+.claude/settings.local.json
+*.tmp
+*.swp
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Online config holds the per-developer project key (DemoRestaurant > Online > Create Online Config)
+/Assets/_Game/Resources/Online/OnlineConfig.asset
+/Assets/_Game/Resources/Online/OnlineConfig.asset.meta
+
+# Imported prototype Resources and sprite maps are tracked for team development.
+# Images use Git LFS through .gitattributes; release checks remain in RefProtoBuildGuard.
+# Source archives and extraction tools remain under ignored Builds/.

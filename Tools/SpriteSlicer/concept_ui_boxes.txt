@@ -1,0 +1,14 @@
+# name, x0, y0, x1, y1 [, bg tolerance [, circle]]   (pixel boxes on the 1536x1024 concept UI screenshot)
+# Left toolbar icons (cropped inside the cream buttons, above the labels)
+icon_build,     36, 457, 116, 517
+icon_menu,      36, 555, 116, 613
+icon_staff,     36, 652, 116, 710
+icon_decor,     36, 749, 116, 806
+icon_events,    40, 846, 100, 903
+# Bottom-right icons
+icon_worldmap,  1238, 902, 1308, 955
+icon_shop,      1343, 902, 1404, 955
+icon_friends,   1440, 902, 1497, 955
+# Top-left cards
+icon_goal,      30, 143, 78, 199
+avatar_chef,    16, 25, 117, 126, 2, circle

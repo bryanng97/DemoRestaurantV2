@@ -1,0 +1,1208 @@
+{
+  "entries": [
+    {
+      "key": "exterior.item.ext_window_01",
+      "value": "Window 1"
+    },
+    {
+      "key": "exterior.item.ext_window_02",
+      "value": "Window 2"
+    },
+    {
+      "key": "exterior.item.ext_window_03",
+      "value": "Window 3"
+    },
+    {
+      "key": "exterior.item.ext_window_04",
+      "value": "Window 4"
+    },
+    {
+      "key": "exterior.item.ext_window_05",
+      "value": "Window 5"
+    },
+    {
+      "key": "exterior.item.ext_window_06",
+      "value": "Window 6"
+    },
+    {
+      "key": "exterior.item.ext_window_07",
+      "value": "Window 7"
+    },
+    {
+      "key": "exterior.item.ext_window_08",
+      "value": "Window 8"
+    },
+    {
+      "key": "exterior.item.ext_window_09",
+      "value": "Window 9"
+    },
+    {
+      "key": "exterior.item.ext_window_10",
+      "value": "Window 10"
+    },
+    {
+      "key": "exterior.item.ext_window_11",
+      "value": "Window 11"
+    },
+    {
+      "key": "exterior.item.ext_window_12",
+      "value": "Window 12"
+    },
+    {
+      "key": "exterior.item.ext_window_13",
+      "value": "Window 13"
+    },
+    {
+      "key": "exterior.item.ext_window_14",
+      "value": "Window 14"
+    },
+    {
+      "key": "exterior.item.ext_window_15",
+      "value": "Window 15"
+    },
+    {
+      "key": "exterior.item.ext_window_16",
+      "value": "Window 16"
+    },
+    {
+      "key": "exterior.item.ext_window_17",
+      "value": "Window 17"
+    },
+    {
+      "key": "exterior.item.ext_window_18",
+      "value": "Window 18"
+    },
+    {
+      "key": "exterior.item.ext_window_19",
+      "value": "Window 19"
+    },
+    {
+      "key": "exterior.item.ext_window_20",
+      "value": "Window 20"
+    },
+    {
+      "key": "exterior.item.ext_window_21",
+      "value": "Window 21"
+    },
+    {
+      "key": "exterior.item.ext_window_22",
+      "value": "Window 22"
+    },
+    {
+      "key": "exterior.item.ext_window_23",
+      "value": "Window 23"
+    },
+    {
+      "key": "exterior.item.ext_window_24",
+      "value": "Window 24"
+    },
+    {
+      "key": "exterior.item.ext_window_25",
+      "value": "Window 25"
+    },
+    {
+      "key": "exterior.item.ext_window_26",
+      "value": "Window 26"
+    },
+    {
+      "key": "exterior.item.ext_window_27",
+      "value": "Window 27"
+    },
+    {
+      "key": "exterior.item.ext_window_28",
+      "value": "Window 28"
+    },
+    {
+      "key": "exterior.item.ext_window_29",
+      "value": "Window 29"
+    },
+    {
+      "key": "exterior.item.ext_window_30",
+      "value": "Window 30"
+    },
+    {
+      "key": "exterior.item.ext_door_01",
+      "value": "Door 1"
+    },
+    {
+      "key": "exterior.item.ext_door_02",
+      "value": "Door 2"
+    },
+    {
+      "key": "exterior.item.ext_door_03",
+      "value": "Door 3"
+    },
+    {
+      "key": "exterior.item.ext_door_04",
+      "value": "Door 4"
+    },
+    {
+      "key": "exterior.item.ext_door_05",
+      "value": "Door 5"
+    },
+    {
+      "key": "exterior.item.ext_door_06",
+      "value": "Door 6"
+    },
+    {
+      "key": "exterior.item.ext_door_07",
+      "value": "Door 7"
+    },
+    {
+      "key": "exterior.item.ext_door_08",
+      "value": "Door 8"
+    },
+    {
+      "key": "exterior.item.ext_door_09",
+      "value": "Door 9"
+    },
+    {
+      "key": "exterior.item.ext_door_10",
+      "value": "Door 10"
+    },
+    {
+      "key": "exterior.item.ext_door_11",
+      "value": "Door 11"
+    },
+    {
+      "key": "exterior.item.ext_door_12",
+      "value": "Door 12"
+    },
+    {
+      "key": "exterior.item.ext_door_13",
+      "value": "Door 13"
+    },
+    {
+      "key": "exterior.item.ext_door_14",
+      "value": "Door 14"
+    },
+    {
+      "key": "exterior.item.ext_door_15",
+      "value": "Door 15"
+    },
+    {
+      "key": "exterior.item.ext_door_16",
+      "value": "Door 16"
+    },
+    {
+      "key": "exterior.item.ext_door_17",
+      "value": "Door 17"
+    },
+    {
+      "key": "exterior.item.ext_door_18",
+      "value": "Door 18"
+    },
+    {
+      "key": "exterior.item.ext_door_19",
+      "value": "Door 19"
+    },
+    {
+      "key": "exterior.item.ext_door_20",
+      "value": "Door 20"
+    },
+    {
+      "key": "exterior.item.ext_door_21",
+      "value": "Door 21"
+    },
+    {
+      "key": "exterior.item.ext_door_22",
+      "value": "Door 22"
+    },
+    {
+      "key": "exterior.item.ext_door_23",
+      "value": "Door 23"
+    },
+    {
+      "key": "exterior.item.ext_door_24",
+      "value": "Door 24"
+    },
+    {
+      "key": "exterior.item.ext_door_25",
+      "value": "Door 25"
+    },
+    {
+      "key": "exterior.item.ext_door_26",
+      "value": "Door 26"
+    },
+    {
+      "key": "exterior.item.ext_door_27",
+      "value": "Door 27"
+    },
+    {
+      "key": "exterior.item.ext_door_28",
+      "value": "Door 28"
+    },
+    {
+      "key": "exterior.item.ext_roof_01",
+      "value": "Roof 1"
+    },
+    {
+      "key": "exterior.item.ext_roof_02",
+      "value": "Roof 2"
+    },
+    {
+      "key": "exterior.item.ext_roof_03",
+      "value": "Roof 3"
+    },
+    {
+      "key": "exterior.item.ext_roof_04",
+      "value": "Roof 4"
+    },
+    {
+      "key": "exterior.item.ext_roof_05",
+      "value": "Roof 5"
+    },
+    {
+      "key": "exterior.item.ext_roof_06",
+      "value": "Roof 6"
+    },
+    {
+      "key": "exterior.item.ext_roof_07",
+      "value": "Roof 7"
+    },
+    {
+      "key": "exterior.item.ext_roof_08",
+      "value": "Roof 8"
+    },
+    {
+      "key": "exterior.item.ext_roof_09",
+      "value": "Roof 9"
+    },
+    {
+      "key": "exterior.item.ext_roof_10",
+      "value": "Roof 10"
+    },
+    {
+      "key": "exterior.item.ext_roof_11",
+      "value": "Roof 11"
+    },
+    {
+      "key": "exterior.item.ext_roof_12",
+      "value": "Roof 12"
+    },
+    {
+      "key": "exterior.item.ext_roof_13",
+      "value": "Roof 13"
+    },
+    {
+      "key": "exterior.item.ext_roof_14",
+      "value": "Roof 14"
+    },
+    {
+      "key": "exterior.item.ext_roof_15",
+      "value": "Roof 15"
+    },
+    {
+      "key": "exterior.item.ext_roof_16",
+      "value": "Roof 16"
+    },
+    {
+      "key": "exterior.item.ext_roof_17",
+      "value": "Roof 17"
+    },
+    {
+      "key": "exterior.item.ext_roof_18",
+      "value": "Roof 18"
+    },
+    {
+      "key": "exterior.item.ext_roof_19",
+      "value": "Roof 19"
+    },
+    {
+      "key": "exterior.item.ext_roof_20",
+      "value": "Roof 20"
+    },
+    {
+      "key": "exterior.item.ext_roof_21",
+      "value": "Roof 21"
+    },
+    {
+      "key": "exterior.item.ext_roof_22",
+      "value": "Roof 22"
+    },
+    {
+      "key": "exterior.item.ext_roof_23",
+      "value": "Roof 23"
+    },
+    {
+      "key": "exterior.item.ext_roof_24",
+      "value": "Roof 24"
+    },
+    {
+      "key": "exterior.item.ext_roof_25",
+      "value": "Roof 25"
+    },
+    {
+      "key": "exterior.item.ext_roof_26",
+      "value": "Roof 26"
+    },
+    {
+      "key": "exterior.item.ext_roof_27",
+      "value": "Roof 27"
+    },
+    {
+      "key": "exterior.item.ext_roof_28",
+      "value": "Roof 28"
+    },
+    {
+      "key": "exterior.item.ext_roof_29",
+      "value": "Roof 29"
+    },
+    {
+      "key": "exterior.item.ext_roof_30",
+      "value": "Roof 30"
+    },
+    {
+      "key": "exterior.item.ext_roof_31",
+      "value": "Roof 31"
+    },
+    {
+      "key": "exterior.item.ext_roof_32",
+      "value": "Roof 32"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_01",
+      "value": "Wall decor 1"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_02",
+      "value": "Wall decor 2"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_03",
+      "value": "Wall decor 3"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_04",
+      "value": "Wall decor 4"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_05",
+      "value": "Wall decor 5"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_06",
+      "value": "Wall decor 6"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_07",
+      "value": "Wall decor 7"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_08",
+      "value": "Wall decor 8"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_09",
+      "value": "Wall decor 9"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_10",
+      "value": "Wall decor 10"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_11",
+      "value": "Wall decor 11"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_12",
+      "value": "Wall decor 12"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_13",
+      "value": "Wall decor 13"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_14",
+      "value": "Wall decor 14"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_15",
+      "value": "Wall decor 15"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_16",
+      "value": "Wall decor 16"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_17",
+      "value": "Wall decor 17"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_18",
+      "value": "Wall decor 18"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_19",
+      "value": "Wall decor 19"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_20",
+      "value": "Wall decor 20"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_21",
+      "value": "Wall decor 21"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_22",
+      "value": "Wall decor 22"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_23",
+      "value": "Wall decor 23"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_24",
+      "value": "Wall decor 24"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_25",
+      "value": "Wall decor 25"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_26",
+      "value": "Wall decor 26"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_27",
+      "value": "Wall decor 27"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_28",
+      "value": "Wall decor 28"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_29",
+      "value": "Wall decor 29"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_30",
+      "value": "Wall decor 30"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_31",
+      "value": "Wall decor 31"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_32",
+      "value": "Wall decor 32"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_33",
+      "value": "Wall decor 33"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_34",
+      "value": "Wall decor 34"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_35",
+      "value": "Wall decor 35"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_36",
+      "value": "Wall decor 36"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_37",
+      "value": "Wall decor 37"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_38",
+      "value": "Wall decor 38"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_39",
+      "value": "Wall decor 39"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_40",
+      "value": "Wall decor 40"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_41",
+      "value": "Wall decor 41"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_42",
+      "value": "Wall decor 42"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_43",
+      "value": "Wall decor 43"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_44",
+      "value": "Wall decor 44"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_45",
+      "value": "Wall decor 45"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_46",
+      "value": "Wall decor 46"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_47",
+      "value": "Wall decor 47"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_48",
+      "value": "Wall decor 48"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_49",
+      "value": "Wall decor 49"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_50",
+      "value": "Wall decor 50"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_51",
+      "value": "Wall decor 51"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_52",
+      "value": "Wall decor 52"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_53",
+      "value": "Wall decor 53"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_54",
+      "value": "Wall decor 54"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_55",
+      "value": "Wall decor 55"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_56",
+      "value": "Wall decor 56"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_57",
+      "value": "Wall decor 57"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_58",
+      "value": "Wall decor 58"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_59",
+      "value": "Wall decor 59"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_60",
+      "value": "Wall decor 60"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_61",
+      "value": "Wall decor 61"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_62",
+      "value": "Wall decor 62"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_63",
+      "value": "Wall decor 63"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_64",
+      "value": "Wall decor 64"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_65",
+      "value": "Wall decor 65"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_66",
+      "value": "Wall decor 66"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_67",
+      "value": "Wall decor 67"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_68",
+      "value": "Wall decor 68"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_69",
+      "value": "Wall decor 69"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_70",
+      "value": "Wall decor 70"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_71",
+      "value": "Wall decor 71"
+    },
+    {
+      "key": "exterior.item.ext_street_01",
+      "value": "Street decor 1"
+    },
+    {
+      "key": "exterior.item.ext_street_02",
+      "value": "Street decor 2"
+    },
+    {
+      "key": "exterior.item.ext_street_03",
+      "value": "Street decor 3"
+    },
+    {
+      "key": "exterior.item.ext_street_04",
+      "value": "Street decor 4"
+    },
+    {
+      "key": "exterior.item.ext_street_05",
+      "value": "Street decor 5"
+    },
+    {
+      "key": "exterior.item.ext_street_06",
+      "value": "Street decor 6"
+    },
+    {
+      "key": "exterior.item.ext_street_07",
+      "value": "Street decor 7"
+    },
+    {
+      "key": "exterior.item.ext_street_08",
+      "value": "Street decor 8"
+    },
+    {
+      "key": "exterior.item.ext_street_09",
+      "value": "Street decor 9"
+    },
+    {
+      "key": "exterior.item.ext_street_10",
+      "value": "Street decor 10"
+    },
+    {
+      "key": "exterior.item.ext_street_11",
+      "value": "Street decor 11"
+    },
+    {
+      "key": "exterior.item.ext_street_12",
+      "value": "Street decor 12"
+    },
+    {
+      "key": "exterior.item.ext_street_13",
+      "value": "Street decor 13"
+    },
+    {
+      "key": "exterior.item.ext_street_14",
+      "value": "Street decor 14"
+    },
+    {
+      "key": "exterior.item.ext_street_15",
+      "value": "Street decor 15"
+    },
+    {
+      "key": "exterior.item.ext_street_16",
+      "value": "Street decor 16"
+    },
+    {
+      "key": "exterior.item.ext_street_17",
+      "value": "Street decor 17"
+    },
+    {
+      "key": "exterior.item.ext_street_18",
+      "value": "Street decor 18"
+    },
+    {
+      "key": "exterior.item.ext_street_19",
+      "value": "Street decor 19"
+    },
+    {
+      "key": "exterior.item.ext_street_20",
+      "value": "Street decor 20"
+    },
+    {
+      "key": "exterior.item.ext_street_21",
+      "value": "Street decor 21"
+    },
+    {
+      "key": "exterior.item.ext_street_22",
+      "value": "Street decor 22"
+    },
+    {
+      "key": "exterior.item.ext_street_23",
+      "value": "Street decor 23"
+    },
+    {
+      "key": "exterior.item.ext_street_24",
+      "value": "Street decor 24"
+    },
+    {
+      "key": "exterior.item.ext_street_25",
+      "value": "Street decor 25"
+    },
+    {
+      "key": "exterior.item.ext_street_26",
+      "value": "Street decor 26"
+    },
+    {
+      "key": "exterior.item.ext_street_27",
+      "value": "Street decor 27"
+    },
+    {
+      "key": "exterior.item.ext_street_28",
+      "value": "Street decor 28"
+    },
+    {
+      "key": "exterior.item.ext_street_29",
+      "value": "Street decor 29"
+    },
+    {
+      "key": "exterior.item.ext_street_30",
+      "value": "Street decor 30"
+    },
+    {
+      "key": "exterior.item.ext_street_31",
+      "value": "Street decor 31"
+    },
+    {
+      "key": "exterior.item.ext_street_32",
+      "value": "Street decor 32"
+    },
+    {
+      "key": "exterior.item.ext_street_33",
+      "value": "Street decor 33"
+    },
+    {
+      "key": "exterior.item.ext_street_34",
+      "value": "Street decor 34"
+    },
+    {
+      "key": "exterior.item.ext_street_35",
+      "value": "Street decor 35"
+    },
+    {
+      "key": "exterior.item.ext_street_36",
+      "value": "Street decor 36"
+    },
+    {
+      "key": "exterior.item.ext_street_37",
+      "value": "Street decor 37"
+    },
+    {
+      "key": "exterior.item.ext_street_38",
+      "value": "Street decor 38"
+    },
+    {
+      "key": "exterior.item.ext_street_39",
+      "value": "Street decor 39"
+    },
+    {
+      "key": "exterior.item.ext_street_40",
+      "value": "Street decor 40"
+    },
+    {
+      "key": "exterior.item.ext_street_41",
+      "value": "Street decor 41"
+    },
+    {
+      "key": "exterior.item.ext_street_42",
+      "value": "Street decor 42"
+    },
+    {
+      "key": "exterior.item.ext_street_43",
+      "value": "Street decor 43"
+    },
+    {
+      "key": "exterior.item.ext_street_44",
+      "value": "Street decor 44"
+    },
+    {
+      "key": "exterior.item.ext_street_45",
+      "value": "Street decor 45"
+    },
+    {
+      "key": "exterior.item.ext_street_46",
+      "value": "Street decor 46"
+    },
+    {
+      "key": "exterior.item.ext_street_47",
+      "value": "Street decor 47"
+    },
+    {
+      "key": "exterior.item.ext_street_48",
+      "value": "Street decor 48"
+    },
+    {
+      "key": "exterior.item.ext_street_49",
+      "value": "Street decor 49"
+    },
+    {
+      "key": "exterior.item.ext_street_50",
+      "value": "Street decor 50"
+    },
+    {
+      "key": "exterior.item.ext_street_51",
+      "value": "Street decor 51"
+    },
+    {
+      "key": "exterior.item.ext_street_52",
+      "value": "Street decor 52"
+    },
+    {
+      "key": "exterior.item.ext_street_53",
+      "value": "Street decor 53"
+    },
+    {
+      "key": "exterior.item.ext_street_54",
+      "value": "Street decor 54"
+    },
+    {
+      "key": "exterior.item.ext_street_55",
+      "value": "Street decor 55"
+    },
+    {
+      "key": "exterior.item.ext_street_56",
+      "value": "Street decor 56"
+    },
+    {
+      "key": "exterior.item.ext_street_57",
+      "value": "Street decor 57"
+    },
+    {
+      "key": "exterior.item.ext_street_58",
+      "value": "Street decor 58"
+    },
+    {
+      "key": "exterior.item.ext_street_59",
+      "value": "Street decor 59"
+    },
+    {
+      "key": "exterior.item.ext_street_60",
+      "value": "Street decor 60"
+    },
+    {
+      "key": "exterior.item.ext_street_61",
+      "value": "Street decor 61"
+    },
+    {
+      "key": "exterior.item.ext_street_62",
+      "value": "Street decor 62"
+    },
+    {
+      "key": "exterior.item.ext_street_63",
+      "value": "Street decor 63"
+    },
+    {
+      "key": "exterior.item.ext_street_64",
+      "value": "Street decor 64"
+    },
+    {
+      "key": "exterior.item.ext_street_65",
+      "value": "Street decor 65"
+    },
+    {
+      "key": "exterior.item.ext_street_66",
+      "value": "Street decor 66"
+    },
+    {
+      "key": "exterior.item.ext_street_67",
+      "value": "Street decor 67"
+    },
+    {
+      "key": "exterior.item.ext_street_68",
+      "value": "Street decor 68"
+    },
+    {
+      "key": "exterior.item.ext_street_69",
+      "value": "Street decor 69"
+    },
+    {
+      "key": "exterior.item.ext_street_70",
+      "value": "Street decor 70"
+    },
+    {
+      "key": "exterior.item.ext_street_71",
+      "value": "Street decor 71"
+    },
+    {
+      "key": "exterior.item.ext_street_72",
+      "value": "Street decor 72"
+    },
+    {
+      "key": "exterior.item.ext_street_73",
+      "value": "Street decor 73"
+    },
+    {
+      "key": "exterior.item.ext_street_74",
+      "value": "Street decor 74"
+    },
+    {
+      "key": "exterior.item.ext_street_75",
+      "value": "Street decor 75"
+    },
+    {
+      "key": "exterior.item.ext_street_76",
+      "value": "Street decor 76"
+    },
+    {
+      "key": "exterior.item.ext_street_77",
+      "value": "Street decor 77"
+    },
+    {
+      "key": "exterior.item.ext_street_78",
+      "value": "Street decor 78"
+    },
+    {
+      "key": "exterior.item.ext_street_79",
+      "value": "Street decor 79"
+    },
+    {
+      "key": "exterior.item.ext_street_80",
+      "value": "Street decor 80"
+    },
+    {
+      "key": "exterior.item.ext_street_81",
+      "value": "Street decor 81"
+    },
+    {
+      "key": "exterior.item.ext_street_82",
+      "value": "Street decor 82"
+    },
+    {
+      "key": "exterior.item.ext_street_83",
+      "value": "Street decor 83"
+    },
+    {
+      "key": "exterior.item.ext_street_84",
+      "value": "Street decor 84"
+    },
+    {
+      "key": "exterior.item.ext_street_85",
+      "value": "Street decor 85"
+    },
+    {
+      "key": "exterior.item.ext_street_86",
+      "value": "Street decor 86"
+    },
+    {
+      "key": "exterior.item.ext_street_87",
+      "value": "Street decor 87"
+    },
+    {
+      "key": "exterior.item.ext_street_88",
+      "value": "Street decor 88"
+    },
+    {
+      "key": "exterior.item.ext_street_89",
+      "value": "Street decor 89"
+    },
+    {
+      "key": "exterior.item.ext_street_90",
+      "value": "Street decor 90"
+    },
+    {
+      "key": "exterior.item.ext_street_91",
+      "value": "Street decor 91"
+    },
+    {
+      "key": "exterior.item.ext_street_92",
+      "value": "Street decor 92"
+    },
+    {
+      "key": "exterior.item.ext_wall_01",
+      "value": "Wall 1"
+    },
+    {
+      "key": "exterior.item.ext_wall_02",
+      "value": "Wall 2"
+    },
+    {
+      "key": "exterior.item.ext_wall_03",
+      "value": "Wall 3"
+    },
+    {
+      "key": "exterior.item.ext_wall_04",
+      "value": "Wall 4"
+    },
+    {
+      "key": "exterior.item.ext_wall_05",
+      "value": "Wall 5"
+    },
+    {
+      "key": "exterior.item.ext_wall_06",
+      "value": "Wall 6"
+    },
+    {
+      "key": "exterior.item.ext_wall_07",
+      "value": "Wall 7"
+    },
+    {
+      "key": "exterior.item.ext_wall_08",
+      "value": "Wall 8"
+    },
+    {
+      "key": "exterior.item.ext_wall_09",
+      "value": "Wall 9"
+    },
+    {
+      "key": "exterior.item.ext_wall_10",
+      "value": "Wall 10"
+    },
+    {
+      "key": "exterior.item.ext_wall_11",
+      "value": "Wall 11"
+    },
+    {
+      "key": "exterior.item.ext_wall_12",
+      "value": "Wall 12"
+    },
+    {
+      "key": "exterior.item.ext_wall_13",
+      "value": "Wall 13"
+    },
+    {
+      "key": "exterior.item.ext_wall_14",
+      "value": "Wall 14"
+    },
+    {
+      "key": "exterior.item.ext_wall_15",
+      "value": "Wall 15"
+    },
+    {
+      "key": "exterior.item.ext_wall_16",
+      "value": "Wall 16"
+    },
+    {
+      "key": "exterior.item.ext_wall_17",
+      "value": "Wall 17"
+    },
+    {
+      "key": "exterior.item.ext_wall_18",
+      "value": "Wall 18"
+    },
+    {
+      "key": "exterior.item.ext_wall_19",
+      "value": "Wall 19"
+    },
+    {
+      "key": "exterior.item.ext_wall_20",
+      "value": "Wall 20"
+    },
+    {
+      "key": "exterior.item.ext_wall_21",
+      "value": "Wall 21"
+    },
+    {
+      "key": "exterior.item.ext_wall_22",
+      "value": "Wall 22"
+    },
+    {
+      "key": "exterior.item.ext_wall_23",
+      "value": "Wall 23"
+    },
+    {
+      "key": "exterior.item.ext_wall_24",
+      "value": "Wall 24"
+    },
+    {
+      "key": "exterior.item.ext_wall_25",
+      "value": "Wall 25"
+    },
+    {
+      "key": "exterior.item.ext_wall_26",
+      "value": "Wall 26"
+    },
+    {
+      "key": "exterior.item.ext_wall_27",
+      "value": "Wall 27"
+    },
+    {
+      "key": "exterior.item.ext_sign_01",
+      "value": "Sign 1"
+    },
+    {
+      "key": "exterior.item.ext_sign_02",
+      "value": "Sign 2"
+    },
+    {
+      "key": "exterior.item.ext_sign_03",
+      "value": "Sign 3"
+    },
+    {
+      "key": "exterior.item.ext_sign_04",
+      "value": "Sign 4"
+    },
+    {
+      "key": "exterior.item.ext_sign_05",
+      "value": "Sign 5"
+    },
+    {
+      "key": "exterior.item.ext_sign_06",
+      "value": "Sign 6"
+    },
+    {
+      "key": "exterior.item.ext_sign_07",
+      "value": "Sign 7"
+    },
+    {
+      "key": "exterior.item.ext_sign_08",
+      "value": "Sign 8"
+    },
+    {
+      "key": "exterior.item.ext_sign_09",
+      "value": "Sign 9"
+    },
+    {
+      "key": "exterior.item.ext_sign_10",
+      "value": "Sign 10"
+    },
+    {
+      "key": "exterior.item.ext_sign_11",
+      "value": "Sign 11"
+    },
+    {
+      "key": "exterior.item.ext_sign_12",
+      "value": "Sign 12"
+    },
+    {
+      "key": "exterior.item.ext_sign_13",
+      "value": "Sign 13"
+    },
+    {
+      "key": "exterior.item.ext_sign_14",
+      "value": "Sign 14"
+    },
+    {
+      "key": "exterior.item.ext_sign_15",
+      "value": "Sign 15"
+    },
+    {
+      "key": "exterior.item.ext_sign_16",
+      "value": "Sign 16"
+    },
+    {
+      "key": "exterior.item.ext_sign_17",
+      "value": "Sign 17"
+    },
+    {
+      "key": "exterior.item.ext_sign_18",
+      "value": "Sign 18"
+    },
+    {
+      "key": "exterior.item.ext_sign_19",
+      "value": "Sign 19"
+    },
+    {
+      "key": "exterior.item.ext_sign_20",
+      "value": "Sign 20"
+    },
+    {
+      "key": "exterior.item.ext_sign_21",
+      "value": "Sign 21"
+    }
+  ]
+}

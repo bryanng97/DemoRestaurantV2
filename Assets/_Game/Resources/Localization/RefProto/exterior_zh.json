@@ -1,0 +1,1208 @@
+{
+  "entries": [
+    {
+      "key": "exterior.item.ext_window_01",
+      "value": "窗户 1"
+    },
+    {
+      "key": "exterior.item.ext_window_02",
+      "value": "窗户 2"
+    },
+    {
+      "key": "exterior.item.ext_window_03",
+      "value": "窗户 3"
+    },
+    {
+      "key": "exterior.item.ext_window_04",
+      "value": "窗户 4"
+    },
+    {
+      "key": "exterior.item.ext_window_05",
+      "value": "窗户 5"
+    },
+    {
+      "key": "exterior.item.ext_window_06",
+      "value": "窗户 6"
+    },
+    {
+      "key": "exterior.item.ext_window_07",
+      "value": "窗户 7"
+    },
+    {
+      "key": "exterior.item.ext_window_08",
+      "value": "窗户 8"
+    },
+    {
+      "key": "exterior.item.ext_window_09",
+      "value": "窗户 9"
+    },
+    {
+      "key": "exterior.item.ext_window_10",
+      "value": "窗户 10"
+    },
+    {
+      "key": "exterior.item.ext_window_11",
+      "value": "窗户 11"
+    },
+    {
+      "key": "exterior.item.ext_window_12",
+      "value": "窗户 12"
+    },
+    {
+      "key": "exterior.item.ext_window_13",
+      "value": "窗户 13"
+    },
+    {
+      "key": "exterior.item.ext_window_14",
+      "value": "窗户 14"
+    },
+    {
+      "key": "exterior.item.ext_window_15",
+      "value": "窗户 15"
+    },
+    {
+      "key": "exterior.item.ext_window_16",
+      "value": "窗户 16"
+    },
+    {
+      "key": "exterior.item.ext_window_17",
+      "value": "窗户 17"
+    },
+    {
+      "key": "exterior.item.ext_window_18",
+      "value": "窗户 18"
+    },
+    {
+      "key": "exterior.item.ext_window_19",
+      "value": "窗户 19"
+    },
+    {
+      "key": "exterior.item.ext_window_20",
+      "value": "窗户 20"
+    },
+    {
+      "key": "exterior.item.ext_window_21",
+      "value": "窗户 21"
+    },
+    {
+      "key": "exterior.item.ext_window_22",
+      "value": "窗户 22"
+    },
+    {
+      "key": "exterior.item.ext_window_23",
+      "value": "窗户 23"
+    },
+    {
+      "key": "exterior.item.ext_window_24",
+      "value": "窗户 24"
+    },
+    {
+      "key": "exterior.item.ext_window_25",
+      "value": "窗户 25"
+    },
+    {
+      "key": "exterior.item.ext_window_26",
+      "value": "窗户 26"
+    },
+    {
+      "key": "exterior.item.ext_window_27",
+      "value": "窗户 27"
+    },
+    {
+      "key": "exterior.item.ext_window_28",
+      "value": "窗户 28"
+    },
+    {
+      "key": "exterior.item.ext_window_29",
+      "value": "窗户 29"
+    },
+    {
+      "key": "exterior.item.ext_window_30",
+      "value": "窗户 30"
+    },
+    {
+      "key": "exterior.item.ext_door_01",
+      "value": "大门 1"
+    },
+    {
+      "key": "exterior.item.ext_door_02",
+      "value": "大门 2"
+    },
+    {
+      "key": "exterior.item.ext_door_03",
+      "value": "大门 3"
+    },
+    {
+      "key": "exterior.item.ext_door_04",
+      "value": "大门 4"
+    },
+    {
+      "key": "exterior.item.ext_door_05",
+      "value": "大门 5"
+    },
+    {
+      "key": "exterior.item.ext_door_06",
+      "value": "大门 6"
+    },
+    {
+      "key": "exterior.item.ext_door_07",
+      "value": "大门 7"
+    },
+    {
+      "key": "exterior.item.ext_door_08",
+      "value": "大门 8"
+    },
+    {
+      "key": "exterior.item.ext_door_09",
+      "value": "大门 9"
+    },
+    {
+      "key": "exterior.item.ext_door_10",
+      "value": "大门 10"
+    },
+    {
+      "key": "exterior.item.ext_door_11",
+      "value": "大门 11"
+    },
+    {
+      "key": "exterior.item.ext_door_12",
+      "value": "大门 12"
+    },
+    {
+      "key": "exterior.item.ext_door_13",
+      "value": "大门 13"
+    },
+    {
+      "key": "exterior.item.ext_door_14",
+      "value": "大门 14"
+    },
+    {
+      "key": "exterior.item.ext_door_15",
+      "value": "大门 15"
+    },
+    {
+      "key": "exterior.item.ext_door_16",
+      "value": "大门 16"
+    },
+    {
+      "key": "exterior.item.ext_door_17",
+      "value": "大门 17"
+    },
+    {
+      "key": "exterior.item.ext_door_18",
+      "value": "大门 18"
+    },
+    {
+      "key": "exterior.item.ext_door_19",
+      "value": "大门 19"
+    },
+    {
+      "key": "exterior.item.ext_door_20",
+      "value": "大门 20"
+    },
+    {
+      "key": "exterior.item.ext_door_21",
+      "value": "大门 21"
+    },
+    {
+      "key": "exterior.item.ext_door_22",
+      "value": "大门 22"
+    },
+    {
+      "key": "exterior.item.ext_door_23",
+      "value": "大门 23"
+    },
+    {
+      "key": "exterior.item.ext_door_24",
+      "value": "大门 24"
+    },
+    {
+      "key": "exterior.item.ext_door_25",
+      "value": "大门 25"
+    },
+    {
+      "key": "exterior.item.ext_door_26",
+      "value": "大门 26"
+    },
+    {
+      "key": "exterior.item.ext_door_27",
+      "value": "大门 27"
+    },
+    {
+      "key": "exterior.item.ext_door_28",
+      "value": "大门 28"
+    },
+    {
+      "key": "exterior.item.ext_roof_01",
+      "value": "屋顶 1"
+    },
+    {
+      "key": "exterior.item.ext_roof_02",
+      "value": "屋顶 2"
+    },
+    {
+      "key": "exterior.item.ext_roof_03",
+      "value": "屋顶 3"
+    },
+    {
+      "key": "exterior.item.ext_roof_04",
+      "value": "屋顶 4"
+    },
+    {
+      "key": "exterior.item.ext_roof_05",
+      "value": "屋顶 5"
+    },
+    {
+      "key": "exterior.item.ext_roof_06",
+      "value": "屋顶 6"
+    },
+    {
+      "key": "exterior.item.ext_roof_07",
+      "value": "屋顶 7"
+    },
+    {
+      "key": "exterior.item.ext_roof_08",
+      "value": "屋顶 8"
+    },
+    {
+      "key": "exterior.item.ext_roof_09",
+      "value": "屋顶 9"
+    },
+    {
+      "key": "exterior.item.ext_roof_10",
+      "value": "屋顶 10"
+    },
+    {
+      "key": "exterior.item.ext_roof_11",
+      "value": "屋顶 11"
+    },
+    {
+      "key": "exterior.item.ext_roof_12",
+      "value": "屋顶 12"
+    },
+    {
+      "key": "exterior.item.ext_roof_13",
+      "value": "屋顶 13"
+    },
+    {
+      "key": "exterior.item.ext_roof_14",
+      "value": "屋顶 14"
+    },
+    {
+      "key": "exterior.item.ext_roof_15",
+      "value": "屋顶 15"
+    },
+    {
+      "key": "exterior.item.ext_roof_16",
+      "value": "屋顶 16"
+    },
+    {
+      "key": "exterior.item.ext_roof_17",
+      "value": "屋顶 17"
+    },
+    {
+      "key": "exterior.item.ext_roof_18",
+      "value": "屋顶 18"
+    },
+    {
+      "key": "exterior.item.ext_roof_19",
+      "value": "屋顶 19"
+    },
+    {
+      "key": "exterior.item.ext_roof_20",
+      "value": "屋顶 20"
+    },
+    {
+      "key": "exterior.item.ext_roof_21",
+      "value": "屋顶 21"
+    },
+    {
+      "key": "exterior.item.ext_roof_22",
+      "value": "屋顶 22"
+    },
+    {
+      "key": "exterior.item.ext_roof_23",
+      "value": "屋顶 23"
+    },
+    {
+      "key": "exterior.item.ext_roof_24",
+      "value": "屋顶 24"
+    },
+    {
+      "key": "exterior.item.ext_roof_25",
+      "value": "屋顶 25"
+    },
+    {
+      "key": "exterior.item.ext_roof_26",
+      "value": "屋顶 26"
+    },
+    {
+      "key": "exterior.item.ext_roof_27",
+      "value": "屋顶 27"
+    },
+    {
+      "key": "exterior.item.ext_roof_28",
+      "value": "屋顶 28"
+    },
+    {
+      "key": "exterior.item.ext_roof_29",
+      "value": "屋顶 29"
+    },
+    {
+      "key": "exterior.item.ext_roof_30",
+      "value": "屋顶 30"
+    },
+    {
+      "key": "exterior.item.ext_roof_31",
+      "value": "屋顶 31"
+    },
+    {
+      "key": "exterior.item.ext_roof_32",
+      "value": "屋顶 32"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_01",
+      "value": "墙饰 1"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_02",
+      "value": "墙饰 2"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_03",
+      "value": "墙饰 3"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_04",
+      "value": "墙饰 4"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_05",
+      "value": "墙饰 5"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_06",
+      "value": "墙饰 6"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_07",
+      "value": "墙饰 7"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_08",
+      "value": "墙饰 8"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_09",
+      "value": "墙饰 9"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_10",
+      "value": "墙饰 10"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_11",
+      "value": "墙饰 11"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_12",
+      "value": "墙饰 12"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_13",
+      "value": "墙饰 13"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_14",
+      "value": "墙饰 14"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_15",
+      "value": "墙饰 15"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_16",
+      "value": "墙饰 16"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_17",
+      "value": "墙饰 17"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_18",
+      "value": "墙饰 18"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_19",
+      "value": "墙饰 19"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_20",
+      "value": "墙饰 20"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_21",
+      "value": "墙饰 21"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_22",
+      "value": "墙饰 22"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_23",
+      "value": "墙饰 23"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_24",
+      "value": "墙饰 24"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_25",
+      "value": "墙饰 25"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_26",
+      "value": "墙饰 26"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_27",
+      "value": "墙饰 27"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_28",
+      "value": "墙饰 28"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_29",
+      "value": "墙饰 29"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_30",
+      "value": "墙饰 30"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_31",
+      "value": "墙饰 31"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_32",
+      "value": "墙饰 32"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_33",
+      "value": "墙饰 33"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_34",
+      "value": "墙饰 34"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_35",
+      "value": "墙饰 35"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_36",
+      "value": "墙饰 36"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_37",
+      "value": "墙饰 37"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_38",
+      "value": "墙饰 38"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_39",
+      "value": "墙饰 39"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_40",
+      "value": "墙饰 40"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_41",
+      "value": "墙饰 41"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_42",
+      "value": "墙饰 42"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_43",
+      "value": "墙饰 43"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_44",
+      "value": "墙饰 44"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_45",
+      "value": "墙饰 45"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_46",
+      "value": "墙饰 46"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_47",
+      "value": "墙饰 47"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_48",
+      "value": "墙饰 48"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_49",
+      "value": "墙饰 49"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_50",
+      "value": "墙饰 50"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_51",
+      "value": "墙饰 51"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_52",
+      "value": "墙饰 52"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_53",
+      "value": "墙饰 53"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_54",
+      "value": "墙饰 54"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_55",
+      "value": "墙饰 55"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_56",
+      "value": "墙饰 56"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_57",
+      "value": "墙饰 57"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_58",
+      "value": "墙饰 58"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_59",
+      "value": "墙饰 59"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_60",
+      "value": "墙饰 60"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_61",
+      "value": "墙饰 61"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_62",
+      "value": "墙饰 62"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_63",
+      "value": "墙饰 63"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_64",
+      "value": "墙饰 64"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_65",
+      "value": "墙饰 65"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_66",
+      "value": "墙饰 66"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_67",
+      "value": "墙饰 67"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_68",
+      "value": "墙饰 68"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_69",
+      "value": "墙饰 69"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_70",
+      "value": "墙饰 70"
+    },
+    {
+      "key": "exterior.item.ext_walldecor_71",
+      "value": "墙饰 71"
+    },
+    {
+      "key": "exterior.item.ext_street_01",
+      "value": "街边装饰 1"
+    },
+    {
+      "key": "exterior.item.ext_street_02",
+      "value": "街边装饰 2"
+    },
+    {
+      "key": "exterior.item.ext_street_03",
+      "value": "街边装饰 3"
+    },
+    {
+      "key": "exterior.item.ext_street_04",
+      "value": "街边装饰 4"
+    },
+    {
+      "key": "exterior.item.ext_street_05",
+      "value": "街边装饰 5"
+    },
+    {
+      "key": "exterior.item.ext_street_06",
+      "value": "街边装饰 6"
+    },
+    {
+      "key": "exterior.item.ext_street_07",
+      "value": "街边装饰 7"
+    },
+    {
+      "key": "exterior.item.ext_street_08",
+      "value": "街边装饰 8"
+    },
+    {
+      "key": "exterior.item.ext_street_09",
+      "value": "街边装饰 9"
+    },
+    {
+      "key": "exterior.item.ext_street_10",
+      "value": "街边装饰 10"
+    },
+    {
+      "key": "exterior.item.ext_street_11",
+      "value": "街边装饰 11"
+    },
+    {
+      "key": "exterior.item.ext_street_12",
+      "value": "街边装饰 12"
+    },
+    {
+      "key": "exterior.item.ext_street_13",
+      "value": "街边装饰 13"
+    },
+    {
+      "key": "exterior.item.ext_street_14",
+      "value": "街边装饰 14"
+    },
+    {
+      "key": "exterior.item.ext_street_15",
+      "value": "街边装饰 15"
+    },
+    {
+      "key": "exterior.item.ext_street_16",
+      "value": "街边装饰 16"
+    },
+    {
+      "key": "exterior.item.ext_street_17",
+      "value": "街边装饰 17"
+    },
+    {
+      "key": "exterior.item.ext_street_18",
+      "value": "街边装饰 18"
+    },
+    {
+      "key": "exterior.item.ext_street_19",
+      "value": "街边装饰 19"
+    },
+    {
+      "key": "exterior.item.ext_street_20",
+      "value": "街边装饰 20"
+    },
+    {
+      "key": "exterior.item.ext_street_21",
+      "value": "街边装饰 21"
+    },
+    {
+      "key": "exterior.item.ext_street_22",
+      "value": "街边装饰 22"
+    },
+    {
+      "key": "exterior.item.ext_street_23",
+      "value": "街边装饰 23"
+    },
+    {
+      "key": "exterior.item.ext_street_24",
+      "value": "街边装饰 24"
+    },
+    {
+      "key": "exterior.item.ext_street_25",
+      "value": "街边装饰 25"
+    },
+    {
+      "key": "exterior.item.ext_street_26",
+      "value": "街边装饰 26"
+    },
+    {
+      "key": "exterior.item.ext_street_27",
+      "value": "街边装饰 27"
+    },
+    {
+      "key": "exterior.item.ext_street_28",
+      "value": "街边装饰 28"
+    },
+    {
+      "key": "exterior.item.ext_street_29",
+      "value": "街边装饰 29"
+    },
+    {
+      "key": "exterior.item.ext_street_30",
+      "value": "街边装饰 30"
+    },
+    {
+      "key": "exterior.item.ext_street_31",
+      "value": "街边装饰 31"
+    },
+    {
+      "key": "exterior.item.ext_street_32",
+      "value": "街边装饰 32"
+    },
+    {
+      "key": "exterior.item.ext_street_33",
+      "value": "街边装饰 33"
+    },
+    {
+      "key": "exterior.item.ext_street_34",
+      "value": "街边装饰 34"
+    },
+    {
+      "key": "exterior.item.ext_street_35",
+      "value": "街边装饰 35"
+    },
+    {
+      "key": "exterior.item.ext_street_36",
+      "value": "街边装饰 36"
+    },
+    {
+      "key": "exterior.item.ext_street_37",
+      "value": "街边装饰 37"
+    },
+    {
+      "key": "exterior.item.ext_street_38",
+      "value": "街边装饰 38"
+    },
+    {
+      "key": "exterior.item.ext_street_39",
+      "value": "街边装饰 39"
+    },
+    {
+      "key": "exterior.item.ext_street_40",
+      "value": "街边装饰 40"
+    },
+    {
+      "key": "exterior.item.ext_street_41",
+      "value": "街边装饰 41"
+    },
+    {
+      "key": "exterior.item.ext_street_42",
+      "value": "街边装饰 42"
+    },
+    {
+      "key": "exterior.item.ext_street_43",
+      "value": "街边装饰 43"
+    },
+    {
+      "key": "exterior.item.ext_street_44",
+      "value": "街边装饰 44"
+    },
+    {
+      "key": "exterior.item.ext_street_45",
+      "value": "街边装饰 45"
+    },
+    {
+      "key": "exterior.item.ext_street_46",
+      "value": "街边装饰 46"
+    },
+    {
+      "key": "exterior.item.ext_street_47",
+      "value": "街边装饰 47"
+    },
+    {
+      "key": "exterior.item.ext_street_48",
+      "value": "街边装饰 48"
+    },
+    {
+      "key": "exterior.item.ext_street_49",
+      "value": "街边装饰 49"
+    },
+    {
+      "key": "exterior.item.ext_street_50",
+      "value": "街边装饰 50"
+    },
+    {
+      "key": "exterior.item.ext_street_51",
+      "value": "街边装饰 51"
+    },
+    {
+      "key": "exterior.item.ext_street_52",
+      "value": "街边装饰 52"
+    },
+    {
+      "key": "exterior.item.ext_street_53",
+      "value": "街边装饰 53"
+    },
+    {
+      "key": "exterior.item.ext_street_54",
+      "value": "街边装饰 54"
+    },
+    {
+      "key": "exterior.item.ext_street_55",
+      "value": "街边装饰 55"
+    },
+    {
+      "key": "exterior.item.ext_street_56",
+      "value": "街边装饰 56"
+    },
+    {
+      "key": "exterior.item.ext_street_57",
+      "value": "街边装饰 57"
+    },
+    {
+      "key": "exterior.item.ext_street_58",
+      "value": "街边装饰 58"
+    },
+    {
+      "key": "exterior.item.ext_street_59",
+      "value": "街边装饰 59"
+    },
+    {
+      "key": "exterior.item.ext_street_60",
+      "value": "街边装饰 60"
+    },
+    {
+      "key": "exterior.item.ext_street_61",
+      "value": "街边装饰 61"
+    },
+    {
+      "key": "exterior.item.ext_street_62",
+      "value": "街边装饰 62"
+    },
+    {
+      "key": "exterior.item.ext_street_63",
+      "value": "街边装饰 63"
+    },
+    {
+      "key": "exterior.item.ext_street_64",
+      "value": "街边装饰 64"
+    },
+    {
+      "key": "exterior.item.ext_street_65",
+      "value": "街边装饰 65"
+    },
+    {
+      "key": "exterior.item.ext_street_66",
+      "value": "街边装饰 66"
+    },
+    {
+      "key": "exterior.item.ext_street_67",
+      "value": "街边装饰 67"
+    },
+    {
+      "key": "exterior.item.ext_street_68",
+      "value": "街边装饰 68"
+    },
+    {
+      "key": "exterior.item.ext_street_69",
+      "value": "街边装饰 69"
+    },
+    {
+      "key": "exterior.item.ext_street_70",
+      "value": "街边装饰 70"
+    },
+    {
+      "key": "exterior.item.ext_street_71",
+      "value": "街边装饰 71"
+    },
+    {
+      "key": "exterior.item.ext_street_72",
+      "value": "街边装饰 72"
+    },
+    {
+      "key": "exterior.item.ext_street_73",
+      "value": "街边装饰 73"
+    },
+    {
+      "key": "exterior.item.ext_street_74",
+      "value": "街边装饰 74"
+    },
+    {
+      "key": "exterior.item.ext_street_75",
+      "value": "街边装饰 75"
+    },
+    {
+      "key": "exterior.item.ext_street_76",
+      "value": "街边装饰 76"
+    },
+    {
+      "key": "exterior.item.ext_street_77",
+      "value": "街边装饰 77"
+    },
+    {
+      "key": "exterior.item.ext_street_78",
+      "value": "街边装饰 78"
+    },
+    {
+      "key": "exterior.item.ext_street_79",
+      "value": "街边装饰 79"
+    },
+    {
+      "key": "exterior.item.ext_street_80",
+      "value": "街边装饰 80"
+    },
+    {
+      "key": "exterior.item.ext_street_81",
+      "value": "街边装饰 81"
+    },
+    {
+      "key": "exterior.item.ext_street_82",
+      "value": "街边装饰 82"
+    },
+    {
+      "key": "exterior.item.ext_street_83",
+      "value": "街边装饰 83"
+    },
+    {
+      "key": "exterior.item.ext_street_84",
+      "value": "街边装饰 84"
+    },
+    {
+      "key": "exterior.item.ext_street_85",
+      "value": "街边装饰 85"
+    },
+    {
+      "key": "exterior.item.ext_street_86",
+      "value": "街边装饰 86"
+    },
+    {
+      "key": "exterior.item.ext_street_87",
+      "value": "街边装饰 87"
+    },
+    {
+      "key": "exterior.item.ext_street_88",
+      "value": "街边装饰 88"
+    },
+    {
+      "key": "exterior.item.ext_street_89",
+      "value": "街边装饰 89"
+    },
+    {
+      "key": "exterior.item.ext_street_90",
+      "value": "街边装饰 90"
+    },
+    {
+      "key": "exterior.item.ext_street_91",
+      "value": "街边装饰 91"
+    },
+    {
+      "key": "exterior.item.ext_street_92",
+      "value": "街边装饰 92"
+    },
+    {
+      "key": "exterior.item.ext_wall_01",
+      "value": "墙面 1"
+    },
+    {
+      "key": "exterior.item.ext_wall_02",
+      "value": "墙面 2"
+    },
+    {
+      "key": "exterior.item.ext_wall_03",
+      "value": "墙面 3"
+    },
+    {
+      "key": "exterior.item.ext_wall_04",
+      "value": "墙面 4"
+    },
+    {
+      "key": "exterior.item.ext_wall_05",
+      "value": "墙面 5"
+    },
+    {
+      "key": "exterior.item.ext_wall_06",
+      "value": "墙面 6"
+    },
+    {
+      "key": "exterior.item.ext_wall_07",
+      "value": "墙面 7"
+    },
+    {
+      "key": "exterior.item.ext_wall_08",
+      "value": "墙面 8"
+    },
+    {
+      "key": "exterior.item.ext_wall_09",
+      "value": "墙面 9"
+    },
+    {
+      "key": "exterior.item.ext_wall_10",
+      "value": "墙面 10"
+    },
+    {
+      "key": "exterior.item.ext_wall_11",
+      "value": "墙面 11"
+    },
+    {
+      "key": "exterior.item.ext_wall_12",
+      "value": "墙面 12"
+    },
+    {
+      "key": "exterior.item.ext_wall_13",
+      "value": "墙面 13"
+    },
+    {
+      "key": "exterior.item.ext_wall_14",
+      "value": "墙面 14"
+    },
+    {
+      "key": "exterior.item.ext_wall_15",
+      "value": "墙面 15"
+    },
+    {
+      "key": "exterior.item.ext_wall_16",
+      "value": "墙面 16"
+    },
+    {
+      "key": "exterior.item.ext_wall_17",
+      "value": "墙面 17"
+    },
+    {
+      "key": "exterior.item.ext_wall_18",
+      "value": "墙面 18"
+    },
+    {
+      "key": "exterior.item.ext_wall_19",
+      "value": "墙面 19"
+    },
+    {
+      "key": "exterior.item.ext_wall_20",
+      "value": "墙面 20"
+    },
+    {
+      "key": "exterior.item.ext_wall_21",
+      "value": "墙面 21"
+    },
+    {
+      "key": "exterior.item.ext_wall_22",
+      "value": "墙面 22"
+    },
+    {
+      "key": "exterior.item.ext_wall_23",
+      "value": "墙面 23"
+    },
+    {
+      "key": "exterior.item.ext_wall_24",
+      "value": "墙面 24"
+    },
+    {
+      "key": "exterior.item.ext_wall_25",
+      "value": "墙面 25"
+    },
+    {
+      "key": "exterior.item.ext_wall_26",
+      "value": "墙面 26"
+    },
+    {
+      "key": "exterior.item.ext_wall_27",
+      "value": "墙面 27"
+    },
+    {
+      "key": "exterior.item.ext_sign_01",
+      "value": "招牌 1"
+    },
+    {
+      "key": "exterior.item.ext_sign_02",
+      "value": "招牌 2"
+    },
+    {
+      "key": "exterior.item.ext_sign_03",
+      "value": "招牌 3"
+    },
+    {
+      "key": "exterior.item.ext_sign_04",
+      "value": "招牌 4"
+    },
+    {
+      "key": "exterior.item.ext_sign_05",
+      "value": "招牌 5"
+    },
+    {
+      "key": "exterior.item.ext_sign_06",
+      "value": "招牌 6"
+    },
+    {
+      "key": "exterior.item.ext_sign_07",
+      "value": "招牌 7"
+    },
+    {
+      "key": "exterior.item.ext_sign_08",
+      "value": "招牌 8"
+    },
+    {
+      "key": "exterior.item.ext_sign_09",
+      "value": "招牌 9"
+    },
+    {
+      "key": "exterior.item.ext_sign_10",
+      "value": "招牌 10"
+    },
+    {
+      "key": "exterior.item.ext_sign_11",
+      "value": "招牌 11"
+    },
+    {
+      "key": "exterior.item.ext_sign_12",
+      "value": "招牌 12"
+    },
+    {
+      "key": "exterior.item.ext_sign_13",
+      "value": "招牌 13"
+    },
+    {
+      "key": "exterior.item.ext_sign_14",
+      "value": "招牌 14"
+    },
+    {
+      "key": "exterior.item.ext_sign_15",
+      "value": "招牌 15"
+    },
+    {
+      "key": "exterior.item.ext_sign_16",
+      "value": "招牌 16"
+    },
+    {
+      "key": "exterior.item.ext_sign_17",
+      "value": "招牌 17"
+    },
+    {
+      "key": "exterior.item.ext_sign_18",
+      "value": "招牌 18"
+    },
+    {
+      "key": "exterior.item.ext_sign_19",
+      "value": "招牌 19"
+    },
+    {
+      "key": "exterior.item.ext_sign_20",
+      "value": "招牌 20"
+    },
+    {
+      "key": "exterior.item.ext_sign_21",
+      "value": "招牌 21"
+    }
+  ]
+}

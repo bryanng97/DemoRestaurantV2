@@ -1,0 +1,1948 @@
+{
+ "entries": [
+  {
+   "key": "furniture.ref_window_inside",
+   "value": "Simple Window"
+  },
+  {
+   "key": "furniture.ref_window_inside11",
+   "value": "Basic Window"
+  },
+  {
+   "key": "furniture.ref_window_inside2",
+   "value": "Blue Classic Window"
+  },
+  {
+   "key": "furniture.ref_window_inside3",
+   "value": "Pink Classic Window"
+  },
+  {
+   "key": "furniture.ref_window_inside4",
+   "value": "Green Simple Window"
+  },
+  {
+   "key": "furniture.ref_window_inside5",
+   "value": "Oak Window"
+  },
+  {
+   "key": "furniture.ref_window_inside6",
+   "value": "Elegant Window"
+  },
+  {
+   "key": "furniture.ref_window_inside7",
+   "value": "Large Glass Window"
+  },
+  {
+   "key": "furniture.ref_window_inside8",
+   "value": "Porthole Window"
+  },
+  {
+   "key": "furniture.ref_window_inside9",
+   "value": "Chinese Window"
+  },
+  {
+   "key": "furniture.ref_window_inside10",
+   "value": "Arced Bamboo Window"
+  },
+  {
+   "key": "furniture.ref_picture",
+   "value": "Blue Clock"
+  },
+  {
+   "key": "furniture.ref_chili_peppers_picture",
+   "value": "Spicy Picture"
+  },
+  {
+   "key": "furniture.ref_window_inside12",
+   "value": "Morrocan Window"
+  },
+  {
+   "key": "furniture.ref_window_inside13",
+   "value": "Noren Window"
+  },
+  {
+   "key": "furniture.ref_specials_chalkboard",
+   "value": "Specials Chalkboard"
+  },
+  {
+   "key": "furniture.ref_dart_board",
+   "value": "Dart Board"
+  },
+  {
+   "key": "furniture.ref_bamboo_wall_scroll",
+   "value": "Bamboo Wall Scroll"
+  },
+  {
+   "key": "furniture.ref_classic_fireplace",
+   "value": "Classic Fireplace"
+  },
+  {
+   "key": "furniture.ref_silver_mirror",
+   "value": "Silver Mirror"
+  },
+  {
+   "key": "furniture.ref_female_toilet_sign",
+   "value": "Female Toilet Sign"
+  },
+  {
+   "key": "furniture.ref_male_toilet_sign",
+   "value": "Male Toilet Sign"
+  },
+  {
+   "key": "furniture.ref_red_drapery",
+   "value": "Red Drapery"
+  },
+  {
+   "key": "furniture.ref_blue_drapery",
+   "value": "Blue Drapery"
+  },
+  {
+   "key": "furniture.ref_white_drapery",
+   "value": "White Drapery"
+  },
+  {
+   "key": "furniture.ref_black_drapery",
+   "value": "Black Drapery"
+  },
+  {
+   "key": "furniture.ref_green_drapery",
+   "value": "Green Drapery"
+  },
+  {
+   "key": "furniture.ref_brown_drapery",
+   "value": "Brown Drapery"
+  },
+  {
+   "key": "furniture.ref_ship_wheel_decor",
+   "value": "Ship Wheel Decor"
+  },
+  {
+   "key": "furniture.ref_tribal_mask",
+   "value": "Tribal Mask"
+  },
+  {
+   "key": "furniture.ref_tribal_shield",
+   "value": "Tribal Shield"
+  },
+  {
+   "key": "furniture.ref_knight_shield",
+   "value": "Knight's Shield"
+  },
+  {
+   "key": "furniture.ref_wall_tri_candle_holder",
+   "value": "Wall Candles"
+  },
+  {
+   "key": "furniture.ref_persian_wall_rug",
+   "value": "Persian Wall Rug"
+  },
+  {
+   "key": "furniture.ref_vent",
+   "value": "Vent"
+  },
+  {
+   "key": "furniture.ref_wall_oil_lamp",
+   "value": "Wall Oil Lamp"
+  },
+  {
+   "key": "furniture.ref_classic_white_fireplace",
+   "value": "White Classic Fireplace"
+  },
+  {
+   "key": "furniture.ref_window_inside14",
+   "value": "Red Retail Window"
+  },
+  {
+   "key": "furniture.ref_large_sheild",
+   "value": "Large Shield"
+  },
+  {
+   "key": "furniture.ref_large_ocean_painting",
+   "value": "Large Ocean Painting"
+  },
+  {
+   "key": "furniture.ref_chestnut_picture",
+   "value": "Chestnut Picture"
+  },
+  {
+   "key": "furniture.ref_fall_wreath",
+   "value": "Fall Wreath"
+  },
+  {
+   "key": "furniture.ref_window_inside16",
+   "value": "Gingerbread Window"
+  },
+  {
+   "key": "furniture.ref_window_inside17",
+   "value": "Igloo Window"
+  },
+  {
+   "key": "furniture.ref_egyptian_painting",
+   "value": "Egyptian Painting"
+  },
+  {
+   "key": "furniture.ref_king_tut_wall_decor",
+   "value": "King Tut Wall Decor"
+  },
+  {
+   "key": "furniture.ref_egyptian_wall_decor",
+   "value": "Egyptian Wall Decor"
+  },
+  {
+   "key": "furniture.ref_window_inside18",
+   "value": "Saloon Window"
+  },
+  {
+   "key": "furniture.ref_wall_mounted_oil_lamp",
+   "value": "Wall Mounted Oil Lamp"
+  },
+  {
+   "key": "furniture.ref_wall_mounted_cow_skull",
+   "value": "Cow Skull"
+  },
+  {
+   "key": "furniture.ref_wagon_wheel",
+   "value": "Wagon Wheel"
+  },
+  {
+   "key": "furniture.ref_pirate_flag",
+   "value": "Pirate Flag"
+  },
+  {
+   "key": "furniture.ref_swords_wall_decor",
+   "value": "Swords Wall Decor"
+  },
+  {
+   "key": "furniture.ref_window_inside19",
+   "value": "Pirate Porthole"
+  },
+  {
+   "key": "furniture.ref_bullet_holes",
+   "value": "Bullet Holes"
+  },
+  {
+   "key": "furniture.ref_lucky_wall_sticker",
+   "value": "Lucky Wall Sticker"
+  },
+  {
+   "key": "furniture.ref_good_fortune_calligraphy",
+   "value": "Good Fortune Calligraphy"
+  },
+  {
+   "key": "furniture.ref_heart_wreath",
+   "value": "Heart Wreath"
+  },
+  {
+   "key": "furniture.ref_pink_drapery",
+   "value": "Pink Drapery"
+  },
+  {
+   "key": "furniture.ref_window_inside20",
+   "value": "Pink Heart Window"
+  },
+  {
+   "key": "furniture.ref_window_inside21",
+   "value": "White Heart Window"
+  },
+  {
+   "key": "furniture.ref_blooming_bush",
+   "value": "Blooming Bush"
+  },
+  {
+   "key": "furniture.ref_lush_bush",
+   "value": "LushBush"
+  },
+  {
+   "key": "furniture.ref_elegant_pine",
+   "value": "ElegantPine"
+  },
+  {
+   "key": "furniture.ref_delicate_bush",
+   "value": "DelicateBush"
+  },
+  {
+   "key": "furniture.ref_pleasant_palm",
+   "value": "PleasantPalm"
+  },
+  {
+   "key": "furniture.ref_cat_tails",
+   "value": "CatTails"
+  },
+  {
+   "key": "furniture.ref_flourishing_pine",
+   "value": "FlourishingPine"
+  },
+  {
+   "key": "furniture.ref_fish_tank_small",
+   "value": "Tiny Fish Tank"
+  },
+  {
+   "key": "furniture.ref_speaker",
+   "value": "Speaker"
+  },
+  {
+   "key": "furniture.ref_table_lamp",
+   "value": "White Table Lamp"
+  },
+  {
+   "key": "furniture.ref_table_lamp_blue",
+   "value": "Blue Table Lamp"
+  },
+  {
+   "key": "furniture.ref_table_lamp_pink",
+   "value": "Pink Table Lamp"
+  },
+  {
+   "key": "furniture.ref_bubble_tube_silver",
+   "value": "Silver Bubble Tube"
+  },
+  {
+   "key": "furniture.ref_bubble_tube_gold",
+   "value": "Gold Bubble Tube"
+  },
+  {
+   "key": "furniture.ref_pink_block",
+   "value": "White Room Divider Block"
+  },
+  {
+   "key": "furniture.ref_pink_wall",
+   "value": "White Room Divider"
+  },
+  {
+   "key": "furniture.ref_wooden_block",
+   "value": "Oak Room Divider Block"
+  },
+  {
+   "key": "furniture.ref_wooden_wall",
+   "value": "Oak Room Divider"
+  },
+  {
+   "key": "furniture.ref_luxurious_block",
+   "value": "Luxurious Room Divider Block"
+  },
+  {
+   "key": "furniture.ref_luxurious_wall",
+   "value": "Luxurious Room Divider"
+  },
+  {
+   "key": "furniture.ref_chrome_block",
+   "value": "Chrome Room Divider Block"
+  },
+  {
+   "key": "furniture.ref_chrome_wall",
+   "value": "Chrome Room Divider"
+  },
+  {
+   "key": "furniture.ref_chrome_glass_wall",
+   "value": "Chrome Glass Room Divider"
+  },
+  {
+   "key": "furniture.ref_classic_block",
+   "value": "Classic Room Divider Block"
+  },
+  {
+   "key": "furniture.ref_classic_wall",
+   "value": "Classic Room Divider"
+  },
+  {
+   "key": "furniture.ref_barrel",
+   "value": "Barrel"
+  },
+  {
+   "key": "furniture.ref_barrel_with_tap",
+   "value": "Barrel with Tap"
+  },
+  {
+   "key": "furniture.ref_greek_column",
+   "value": "Greek Column"
+  },
+  {
+   "key": "furniture.ref_brick_pillar",
+   "value": "Red Brick Pillar"
+  },
+  {
+   "key": "furniture.ref_wooden_pillar",
+   "value": "WoodenPillar"
+  },
+  {
+   "key": "furniture.ref_white_trash_cabinet",
+   "value": "White Trash Cabinet"
+  },
+  {
+   "key": "furniture.ref_wooden_trash_cabinet",
+   "value": "Wooden Trash Cabinet"
+  },
+  {
+   "key": "furniture.ref_rustic_fireplace",
+   "value": "Rustic Fireplace"
+  },
+  {
+   "key": "furniture.ref_modern_fireplace",
+   "value": "Modern Fireplace"
+  },
+  {
+   "key": "furniture.ref_traditional_brick_fireplace",
+   "value": "Traditional Brick Fireplace"
+  },
+  {
+   "key": "furniture.ref_ming_vase",
+   "value": "Ming Vase"
+  },
+  {
+   "key": "furniture.ref_dragon_vase",
+   "value": "Dragon Vase"
+  },
+  {
+   "key": "furniture.ref_white_ceramic_vase",
+   "value": "White Ceramic Vase"
+  },
+  {
+   "key": "furniture.ref_black_ceramic_vase",
+   "value": "Black Ceramic Vase"
+  },
+  {
+   "key": "furniture.ref_brown_ceramic_vase",
+   "value": "Brown Ceramic Vase"
+  },
+  {
+   "key": "furniture.ref_blue_power_core_base",
+   "value": "Blue Power Core"
+  },
+  {
+   "key": "furniture.ref_green_power_core_base",
+   "value": "Green Power Core"
+  },
+  {
+   "key": "furniture.ref_yellow_power_core_base",
+   "value": "Yellow Power Core"
+  },
+  {
+   "key": "furniture.ref_red_power_core_base",
+   "value": "Red Power Core"
+  },
+  {
+   "key": "furniture.ref_giant_cactus",
+   "value": "Giant Cactus"
+  },
+  {
+   "key": "furniture.ref_white_wall",
+   "value": "White Wall"
+  },
+  {
+   "key": "furniture.ref_white_wall_corner",
+   "value": "White Wall Corner"
+  },
+  {
+   "key": "furniture.ref_white_wall_cross",
+   "value": "White Wall Cross"
+  },
+  {
+   "key": "furniture.ref_white_wall_t",
+   "value": "White wall T"
+  },
+  {
+   "key": "furniture.ref_japanese_lamp",
+   "value": "Japanese Lamp"
+  },
+  {
+   "key": "furniture.ref_sake_keg",
+   "value": "Sake Keg"
+  },
+  {
+   "key": "furniture.ref_classic_white_divider_block",
+   "value": "Classic White Block"
+  },
+  {
+   "key": "furniture.ref_classic_white_divider",
+   "value": "Classic White Divider"
+  },
+  {
+   "key": "furniture.ref_red_rope_barrier",
+   "value": "Red Rope Barrier"
+  },
+  {
+   "key": "furniture.ref_flat_screen_tv",
+   "value": "Flat Screen TV"
+  },
+  {
+   "key": "furniture.ref_red_rose",
+   "value": "Red Rose"
+  },
+  {
+   "key": "furniture.ref_blue_iris",
+   "value": "Blue Iris"
+  },
+  {
+   "key": "furniture.ref_calla_lily",
+   "value": "Calla Lily"
+  },
+  {
+   "key": "furniture.ref_white_round_side_table",
+   "value": "White Round Side Table"
+  },
+  {
+   "key": "furniture.ref_black_round_side_table",
+   "value": "Black Round Side Table"
+  },
+  {
+   "key": "furniture.ref_bamboo_plant",
+   "value": "Bamboo Plant"
+  },
+  {
+   "key": "furniture.ref_golden_fan_decor",
+   "value": "Golden Fan Decor"
+  },
+  {
+   "key": "furniture.ref_stainless_steel_kitchen_counter",
+   "value": "Stainless Steel Counter"
+  },
+  {
+   "key": "furniture.ref_stainless_steel_kitchen_cabinet",
+   "value": "Stainless Steel Cabinet"
+  },
+  {
+   "key": "furniture.ref_stainless_steel_kitchen_drawer",
+   "value": "Stainless Steel Drawer"
+  },
+  {
+   "key": "furniture.ref_party_balloons",
+   "value": "Party Balloons"
+  },
+  {
+   "key": "furniture.ref_fish_tank_large",
+   "value": "Large Fish Tank"
+  },
+  {
+   "key": "furniture.ref_shoji_folding_screen",
+   "value": "Shoji Folding Screen"
+  },
+  {
+   "key": "furniture.ref_djembe_drum",
+   "value": "Djembe Drum"
+  },
+  {
+   "key": "furniture.ref_allamanda_flower_basket",
+   "value": "Allamanda Flower Basket"
+  },
+  {
+   "key": "furniture.ref_white_orchid",
+   "value": "White Orchid"
+  },
+  {
+   "key": "furniture.ref_classic_floor_lamp",
+   "value": "Classic Floor Lamp"
+  },
+  {
+   "key": "furniture.ref_classic_bookshelf",
+   "value": "Classic Bookshelf"
+  },
+  {
+   "key": "furniture.ref_inside_palmtree",
+   "value": "Palmtree"
+  },
+  {
+   "key": "furniture.ref_japanese_light",
+   "value": "Japanese Garden Lamp"
+  },
+  {
+   "key": "furniture.ref_red_vase",
+   "value": "Red Vase"
+  },
+  {
+   "key": "furniture.ref_tall_vase",
+   "value": "Tall Vase"
+  },
+  {
+   "key": "furniture.ref_flower_pot",
+   "value": "Red Rose Trellis"
+  },
+  {
+   "key": "furniture.ref_flower_pot1",
+   "value": "Yellow Rose Trellis"
+  },
+  {
+   "key": "furniture.ref_water_fountain",
+   "value": "Water Fountain"
+  },
+  {
+   "key": "furniture.ref_fish_tank_huge",
+   "value": "Huge Fish Tank"
+  },
+  {
+   "key": "furniture.ref_potted_palmtree",
+   "value": "Potted Palm"
+  },
+  {
+   "key": "furniture.ref_large_flower_pot",
+   "value": "Large Flower Pot"
+  },
+  {
+   "key": "furniture.ref_candle_holder",
+   "value": "Candle Holder"
+  },
+  {
+   "key": "furniture.ref_small_water_fountain",
+   "value": "Small Water Fountain"
+  },
+  {
+   "key": "furniture.ref_lucky_cat_decor",
+   "value": "Lucky Cat Decor"
+  },
+  {
+   "key": "furniture.ref_camel_figurine",
+   "value": "Camel Figurine"
+  },
+  {
+   "key": "furniture.ref_elephant_figurine",
+   "value": "Elephant Figurine"
+  },
+  {
+   "key": "furniture.ref_dark_greek_column",
+   "value": "Dark Greek Column"
+  },
+  {
+   "key": "furniture.ref_folding_screen2",
+   "value": "Ornate Folding Screen"
+  },
+  {
+   "key": "furniture.ref_classic_white_bookshelf",
+   "value": "Classic White Bookshelf"
+  },
+  {
+   "key": "furniture.ref_greenlocker",
+   "value": "Green Locker"
+  },
+  {
+   "key": "furniture.ref_grey_fireplace",
+   "value": "Grey Fireplace"
+  },
+  {
+   "key": "furniture.ref_black_piano",
+   "value": "Black Piano"
+  },
+  {
+   "key": "furniture.ref_rocking_horse_decor",
+   "value": "Rocking Horse Decor"
+  },
+  {
+   "key": "furniture.ref_greek_pot",
+   "value": "Greek Pot"
+  },
+  {
+   "key": "furniture.ref_golden_greek_column",
+   "value": "Golden Column"
+  },
+  {
+   "key": "furniture.ref_column_divider_block",
+   "value": "Column Divider Block"
+  },
+  {
+   "key": "furniture.ref_column_divider",
+   "value": "Column Divider"
+  },
+  {
+   "key": "furniture.ref_floating_fish01",
+   "value": "Sardine"
+  },
+  {
+   "key": "furniture.ref_floating_fish02",
+   "value": "Butterflyfish"
+  },
+  {
+   "key": "furniture.ref_floating_fish03",
+   "value": "Pinkfish"
+  },
+  {
+   "key": "furniture.ref_treasure_chest",
+   "value": "Treasure Chest"
+  },
+  {
+   "key": "furniture.ref_seaweed1",
+   "value": "Brown Seaweed"
+  },
+  {
+   "key": "furniture.ref_seaweed2",
+   "value": "Green Seaweed"
+  },
+  {
+   "key": "furniture.ref_seaweed3",
+   "value": "Purple Seaweed"
+  },
+  {
+   "key": "furniture.ref_turkey_decor",
+   "value": "Turkey Decor"
+  },
+  {
+   "key": "furniture.ref_candy_jar",
+   "value": "Candy Jar"
+  },
+  {
+   "key": "furniture.ref_festive_tree",
+   "value": "Festive Tree"
+  },
+  {
+   "key": "furniture.ref_giant_festive_tree",
+   "value": "Giant Festive Tree"
+  },
+  {
+   "key": "furniture.ref_red_present",
+   "value": "Red Present"
+  },
+  {
+   "key": "furniture.ref_white_present",
+   "value": "White Present"
+  },
+  {
+   "key": "furniture.ref_blue_present",
+   "value": "Blue Present"
+  },
+  {
+   "key": "furniture.ref_green_present",
+   "value": "Green Present"
+  },
+  {
+   "key": "furniture.ref_gold_present",
+   "value": "Gold Present"
+  },
+  {
+   "key": "furniture.ref_pink_present",
+   "value": "Pink Present"
+  },
+  {
+   "key": "furniture.ref_giant_present",
+   "value": "Giant Present"
+  },
+  {
+   "key": "furniture.ref_candy_cane_pole",
+   "value": "Candy Pole"
+  },
+  {
+   "key": "furniture.ref_gingerbread_divider_block",
+   "value": "Gingerbread Divider Block"
+  },
+  {
+   "key": "furniture.ref_gingerbread_divider",
+   "value": "Gingerbread Divider"
+  },
+  {
+   "key": "furniture.ref_ice_sculpture",
+   "value": "Ice Sculpture"
+  },
+  {
+   "key": "furniture.ref_festive_fireplace",
+   "value": "Festive FirePlace"
+  },
+  {
+   "key": "furniture.ref_santas_boot",
+   "value": "Santa's Boot"
+  },
+  {
+   "key": "furniture.ref_ice_tree",
+   "value": "Ice Tree"
+  },
+  {
+   "key": "furniture.ref_glow_tube_pink",
+   "value": "Pink Glow Tube"
+  },
+  {
+   "key": "furniture.ref_glow_tube_blue",
+   "value": "Blue Glow Tube"
+  },
+  {
+   "key": "furniture.ref_glow_tube_green",
+   "value": "Green Glow Tube"
+  },
+  {
+   "key": "furniture.ref_golden_hat_decor",
+   "value": "Golden Hat Decor"
+  },
+  {
+   "key": "furniture.ref_rocket_decor",
+   "value": "Rocket Decor"
+  },
+  {
+   "key": "furniture.ref_bottle_decor",
+   "value": "Bottle Decor"
+  },
+  {
+   "key": "furniture.ref_egyptian_divider_block",
+   "value": "Egyptian Divider Block"
+  },
+  {
+   "key": "furniture.ref_egyptian_divider",
+   "value": "Egyptian Divider"
+  },
+  {
+   "key": "furniture.ref_eqyptian_pillar",
+   "value": "Egyptian Pillar"
+  },
+  {
+   "key": "furniture.ref_eqyptian_candle_stand",
+   "value": "Egyptian Candle Stand"
+  },
+  {
+   "key": "furniture.ref_golden_cobra_candlelight",
+   "value": "Golden Cobra Candlelight"
+  },
+  {
+   "key": "furniture.ref_egyptian_pot",
+   "value": "Egyptian Pot"
+  },
+  {
+   "key": "furniture.ref_jackal_statue",
+   "value": "Jackal Statue"
+  },
+  {
+   "key": "furniture.ref_old_piano",
+   "value": "Old Piano"
+  },
+  {
+   "key": "furniture.ref_spit_jar",
+   "value": "Spit Jar"
+  },
+  {
+   "key": "furniture.ref_saloon_divider",
+   "value": "Saloon Divider"
+  },
+  {
+   "key": "furniture.ref_saloon_divider_block",
+   "value": "Saloon Divider Block"
+  },
+  {
+   "key": "furniture.ref_cacti_joe",
+   "value": "Cacti Joe"
+  },
+  {
+   "key": "furniture.ref_old_oil_lamp",
+   "value": "Old Oil Lamp"
+  },
+  {
+   "key": "furniture.ref_cannon",
+   "value": "Cannon"
+  },
+  {
+   "key": "furniture.ref_ship_railing",
+   "value": "Ship Railing"
+  },
+  {
+   "key": "furniture.ref_ship_railing_block",
+   "value": "Ship Railing Block"
+  },
+  {
+   "key": "furniture.ref_gold_doubloons",
+   "value": "Gold Doubloons"
+  },
+  {
+   "key": "furniture.ref_fake_skeleton_decor",
+   "value": "Fake Skeleton Decor"
+  },
+  {
+   "key": "furniture.ref_miniture_ship_model",
+   "value": "Miniture Ship Model"
+  },
+  {
+   "key": "furniture.ref_cannon_balls",
+   "value": "Cannon Balls"
+  },
+  {
+   "key": "furniture.ref_digsite",
+   "value": "Dig Site"
+  },
+  {
+   "key": "furniture.ref_pirate_decor",
+   "value": "Pirate Decoration"
+  },
+  {
+   "key": "furniture.ref_classic_black_bookshelf",
+   "value": "Classic Black Bookshelf"
+  },
+  {
+   "key": "furniture.ref_poker_cards_decor",
+   "value": "Poker Cards Decor"
+  },
+  {
+   "key": "furniture.ref_goldbars",
+   "value": "Gold Bars"
+  },
+  {
+   "key": "furniture.ref_money_bag",
+   "value": "Money Bag"
+  },
+  {
+   "key": "furniture.ref_crate",
+   "value": "Crate"
+  },
+  {
+   "key": "furniture.ref_white_brick_pillar",
+   "value": "White Brick Pillar"
+  },
+  {
+   "key": "furniture.ref_black_side_table",
+   "value": "Black Sidetable"
+  },
+  {
+   "key": "furniture.ref_violin_case",
+   "value": "Violin Case"
+  },
+  {
+   "key": "furniture.ref_classic_black_wall",
+   "value": "Black Divider"
+  },
+  {
+   "key": "furniture.ref_classic_black_block",
+   "value": "Black Divider Block"
+  },
+  {
+   "key": "furniture.ref_classy_table_lamp",
+   "value": "Classy Table Lamp"
+  },
+  {
+   "key": "furniture.ref_classy_plant",
+   "value": "Classy Plant"
+  },
+  {
+   "key": "furniture.ref_classy_bush",
+   "value": "Classy Bush"
+  },
+  {
+   "key": "furniture.ref_elegant_rope_barrier",
+   "value": "Elegant Rope Barrier"
+  },
+  {
+   "key": "furniture.ref_fu_orange_basket",
+   "value": "Fu Orange Basket"
+  },
+  {
+   "key": "furniture.ref_wealth_statue",
+   "value": "Wealth Statue"
+  },
+  {
+   "key": "furniture.ref_dragon_decor",
+   "value": "Dragon Decor"
+  },
+  {
+   "key": "furniture.ref_gold_ingot",
+   "value": "Gold Ingot"
+  },
+  {
+   "key": "furniture.ref_flowering_bonsai",
+   "value": "Flowering Bonsai"
+  },
+  {
+   "key": "furniture.ref_tiger",
+   "value": "Tiger"
+  },
+  {
+   "key": "furniture.ref_tiger_cub",
+   "value": "Tiger Cub"
+  },
+  {
+   "key": "furniture.ref_red_valentines_present",
+   "value": "Red Valentine Present"
+  },
+  {
+   "key": "furniture.ref_turquoise_valentines_present",
+   "value": "Turquoise Valentine Present"
+  },
+  {
+   "key": "furniture.ref_fu_orange_tree",
+   "value": "Fu Orange Tree"
+  },
+  {
+   "key": "furniture.ref_heart_balloon_purple",
+   "value": "Purple Heart Balloon"
+  },
+  {
+   "key": "furniture.ref_rose_bucket",
+   "value": "Rose Bucket"
+  },
+  {
+   "key": "furniture.ref_rose_bunch",
+   "value": "Rose Bunch"
+  },
+  {
+   "key": "furniture.ref_single_rose",
+   "value": "Single Rose"
+  },
+  {
+   "key": "furniture.ref_vday_decor_heart",
+   "value": "Valentine Decor"
+  },
+  {
+   "key": "furniture.ref_romantic_cats",
+   "value": "Romantic Cats"
+  },
+  {
+   "key": "furniture.ref_romantic_swans",
+   "value": "Romantic Swans"
+  },
+  {
+   "key": "furniture.ref_romantic_table_lamp",
+   "value": "Romantic Table Lamp"
+  },
+  {
+   "key": "furniture.ref_vday_present",
+   "value": "Valentine Present"
+  },
+  {
+   "key": "furniture.ref_heart_divider_block",
+   "value": "Heart Divider Block"
+  },
+  {
+   "key": "furniture.ref_heart_divider",
+   "value": "Heart Divider"
+  },
+  {
+   "key": "furniture.ref_heart_divider_corner",
+   "value": "Heart Divider Corner"
+  },
+  {
+   "key": "furniture.ref_table",
+   "value": "Simple Table"
+  },
+  {
+   "key": "furniture.ref_bench",
+   "value": "Oak Table"
+  },
+  {
+   "key": "furniture.ref_white_table1x1",
+   "value": "White Table"
+  },
+  {
+   "key": "furniture.ref_blue_table",
+   "value": "Blue Table"
+  },
+  {
+   "key": "furniture.ref_black_table",
+   "value": "Black Table"
+  },
+  {
+   "key": "furniture.ref_princess_table",
+   "value": "Princess Table"
+  },
+  {
+   "key": "furniture.ref_chrome_table",
+   "value": "Astro Table"
+  },
+  {
+   "key": "furniture.ref_glass_table",
+   "value": "Glass Table"
+  },
+  {
+   "key": "furniture.ref_chinese_table",
+   "value": "Chinese Table"
+  },
+  {
+   "key": "furniture.ref_pink_table_cloth",
+   "value": "Princess Table"
+  },
+  {
+   "key": "furniture.ref_white_table_cloth",
+   "value": "White Cloth Table"
+  },
+  {
+   "key": "furniture.ref_round_glass_table",
+   "value": "Round Glass Table"
+  },
+  {
+   "key": "furniture.ref_round_antique_table",
+   "value": "Round Antique Table"
+  },
+  {
+   "key": "furniture.ref_wooden_table",
+   "value": "Wooden Table"
+  },
+  {
+   "key": "furniture.ref_wooden_table_pink",
+   "value": "Pink Wooden Table"
+  },
+  {
+   "key": "furniture.ref_wooden_table_blue",
+   "value": "Blue Wooden Table"
+  },
+  {
+   "key": "furniture.ref_red_eastern_table",
+   "value": "Red Eastern Table"
+  },
+  {
+   "key": "furniture.ref_purple_eastern_table",
+   "value": "Purple Eastern Table"
+  },
+  {
+   "key": "furniture.ref_white_diner_table",
+   "value": "White Diner Table"
+  },
+  {
+   "key": "furniture.ref_green_table_cloth",
+   "value": "Green Cloth Table"
+  },
+  {
+   "key": "furniture.ref_golden_table_cloth",
+   "value": "Golden Cloth Table"
+  },
+  {
+   "key": "furniture.ref_picnic_table_cloth",
+   "value": "Picnic Cloth Table"
+  },
+  {
+   "key": "furniture.ref_white_pink_table",
+   "value": "Pink Cloth Table"
+  },
+  {
+   "key": "furniture.ref_black_table_cloth",
+   "value": "Black Cloth Table"
+  },
+  {
+   "key": "furniture.ref_mushroom_table",
+   "value": "Mushroom Table"
+  },
+  {
+   "key": "furniture.ref_orange_slice_table",
+   "value": "Orange Table"
+  },
+  {
+   "key": "furniture.ref_kiwi_slice_table",
+   "value": "Kiwi Table"
+  },
+  {
+   "key": "furniture.ref_greek_table",
+   "value": "Greek Table"
+  },
+  {
+   "key": "furniture.ref_rock_table",
+   "value": "Rock Table"
+  },
+  {
+   "key": "furniture.ref_autumn_table",
+   "value": "Autumn Table"
+  },
+  {
+   "key": "furniture.ref_festive_table",
+   "value": "Festive Table"
+  },
+  {
+   "key": "furniture.ref_candy_table",
+   "value": "Candy Table"
+  },
+  {
+   "key": "furniture.ref_tree_trunk_table",
+   "value": "Tree Trunk Table"
+  },
+  {
+   "key": "furniture.ref_ice_table",
+   "value": "Icy Table"
+  },
+  {
+   "key": "furniture.ref_red_and_green_table",
+   "value": "Red Fancy Table"
+  },
+  {
+   "key": "furniture.ref_egyptian_table",
+   "value": "Egyptian Table"
+  },
+  {
+   "key": "furniture.ref_saloon_table",
+   "value": "Saloon Table"
+  },
+  {
+   "key": "furniture.ref_pirate_table",
+   "value": "Pirate Table"
+  },
+  {
+   "key": "furniture.ref_classy_black_table",
+   "value": "Classy Black Table"
+  },
+  {
+   "key": "furniture.ref_lucky_chinese_table",
+   "value": "Lucky Chinese Table"
+  },
+  {
+   "key": "furniture.ref_vday_red_table",
+   "value": "Red Valentine Table"
+  },
+  {
+   "key": "furniture.ref_vday_white_table",
+   "value": "White Valentine Table"
+  },
+  {
+   "key": "furniture.ref_romantic_table",
+   "value": "Romantic Table"
+  },
+  {
+   "key": "furniture.ref_chair01",
+   "value": "Oak Chair"
+  },
+  {
+   "key": "furniture.ref_chair02",
+   "value": "Classic Chair"
+  },
+  {
+   "key": "furniture.ref_chair03",
+   "value": "Elegant Chair"
+  },
+  {
+   "key": "furniture.ref_chair04",
+   "value": "Luxurious Chair"
+  },
+  {
+   "key": "furniture.ref_chair05",
+   "value": "Princess Chair"
+  },
+  {
+   "key": "furniture.ref_chair06",
+   "value": "Modern Chair"
+  },
+  {
+   "key": "furniture.ref_chair07",
+   "value": "Astro Chair"
+  },
+  {
+   "key": "furniture.ref_chair08",
+   "value": "Chinese Chair"
+  },
+  {
+   "key": "furniture.ref_chair09",
+   "value": "Natural Wooden Chair"
+  },
+  {
+   "key": "furniture.ref_chair10",
+   "value": "Pink Wooden Chair"
+  },
+  {
+   "key": "furniture.ref_chair11",
+   "value": "Blue Wooden Chair"
+  },
+  {
+   "key": "furniture.ref_chair12",
+   "value": "Red Chinese Chair"
+  },
+  {
+   "key": "furniture.ref_chair13",
+   "value": "Purple Chinese Chair"
+  },
+  {
+   "key": "furniture.ref_chair14",
+   "value": "White Modern Chair"
+  },
+  {
+   "key": "furniture.ref_chair15",
+   "value": "Black Modern Chair"
+  },
+  {
+   "key": "furniture.ref_chair17",
+   "value": "Red Diner Chair"
+  },
+  {
+   "key": "furniture.ref_chair16",
+   "value": "Chrome Chair"
+  },
+  {
+   "key": "furniture.ref_chair18",
+   "value": "Red Diner Sofa"
+  },
+  {
+   "key": "furniture.ref_chair19",
+   "value": "White Modern Sofa"
+  },
+  {
+   "key": "furniture.ref_chair20",
+   "value": "Black Modern Sofa"
+  },
+  {
+   "key": "furniture.ref_chair21",
+   "value": "Purple Chair"
+  },
+  {
+   "key": "furniture.ref_chair22",
+   "value": "Mushroom Chair"
+  },
+  {
+   "key": "furniture.ref_chair24",
+   "value": "Kiwi Green Chair"
+  },
+  {
+   "key": "furniture.ref_chair25",
+   "value": "Orange Chair"
+  },
+  {
+   "key": "furniture.ref_chair26",
+   "value": "Greek Chair"
+  },
+  {
+   "key": "furniture.ref_chair27",
+   "value": "Clam Chair"
+  },
+  {
+   "key": "furniture.ref_chair28",
+   "value": "Autumn Chair"
+  },
+  {
+   "key": "furniture.ref_chair29",
+   "value": "Festive Chair"
+  },
+  {
+   "key": "furniture.ref_chair30",
+   "value": "Festive Bench"
+  },
+  {
+   "key": "furniture.ref_chair31",
+   "value": "Candy Chair"
+  },
+  {
+   "key": "furniture.ref_chair32",
+   "value": "Tree Stump Chair"
+  },
+  {
+   "key": "furniture.ref_chair35",
+   "value": "Icy Chair"
+  },
+  {
+   "key": "furniture.ref_chair33",
+   "value": "Fancy Red Chair"
+  },
+  {
+   "key": "furniture.ref_chair34",
+   "value": "Pink Bench"
+  },
+  {
+   "key": "furniture.ref_chair36",
+   "value": "Egyptian Chair"
+  },
+  {
+   "key": "furniture.ref_chair37",
+   "value": "Stool"
+  },
+  {
+   "key": "furniture.ref_chair38",
+   "value": "Saloon Chair"
+  },
+  {
+   "key": "furniture.ref_chair39",
+   "value": "Buffalo Chair"
+  },
+  {
+   "key": "furniture.ref_chair41",
+   "value": "Captain's Chair"
+  },
+  {
+   "key": "furniture.ref_chair40",
+   "value": "Pirate Chair"
+  },
+  {
+   "key": "furniture.ref_chair42",
+   "value": "Classy Black Chair"
+  },
+  {
+   "key": "furniture.ref_chair43",
+   "value": "Lucky Chinese Chair"
+  },
+  {
+   "key": "furniture.ref_chair44",
+   "value": "Red Valentine Chair"
+  },
+  {
+   "key": "furniture.ref_chair45",
+   "value": "White Valentine Chair"
+  },
+  {
+   "key": "furniture.ref_chair46",
+   "value": "Romantic Chair"
+  },
+  {
+   "key": "furniture.ref_arcade_machine_snake",
+   "value": "Retro Arcade Machine"
+  },
+  {
+   "key": "furniture.ref_toilet05",
+   "value": "Basic Toilet"
+  },
+  {
+   "key": "furniture.ref_toilet01",
+   "value": "White Toilet"
+  },
+  {
+   "key": "furniture.ref_toilet02",
+   "value": "Red Toilet"
+  },
+  {
+   "key": "furniture.ref_toilet03",
+   "value": "Black Toilet"
+  },
+  {
+   "key": "furniture.ref_toilet04",
+   "value": "Pink Toilet"
+  },
+  {
+   "key": "furniture.ref_white_sink",
+   "value": "White Sink"
+  },
+  {
+   "key": "furniture.ref_basin_cabinet",
+   "value": "Basin Cabinet"
+  },
+  {
+   "key": "furniture.ref_red_sink",
+   "value": "Red Sink"
+  },
+  {
+   "key": "furniture.ref_black_basin_cabinet",
+   "value": "Black Basin Cabinet"
+  },
+  {
+   "key": "furniture.ref_pinball_machine",
+   "value": "Crazy Planets Pinball"
+  },
+  {
+   "key": "furniture.ref_wishing_well",
+   "value": "Wishing Well"
+  },
+  {
+   "key": "furniture.ref_gingerbread_basin",
+   "value": "Gingerbread Basin"
+  },
+  {
+   "key": "floor.ref_floor_tile21",
+   "value": "White Flooring"
+  },
+  {
+   "key": "floor.ref_floor_tile",
+   "value": "Wood Panel"
+  },
+  {
+   "key": "floor.ref_floor_tile2",
+   "value": "Checker"
+  },
+  {
+   "key": "floor.ref_floor_tile3",
+   "value": "Black Tiles"
+  },
+  {
+   "key": "floor.ref_floor_tile4",
+   "value": "White Tiles"
+  },
+  {
+   "key": "floor.ref_floor_tile5",
+   "value": "Red Brick"
+  },
+  {
+   "key": "floor.ref_floor_tile6",
+   "value": "Red Carpet"
+  },
+  {
+   "key": "floor.ref_floor_tile7",
+   "value": "White Wicker Pattern"
+  },
+  {
+   "key": "floor.ref_floor_tile8",
+   "value": "Metal Flooring"
+  },
+  {
+   "key": "floor.ref_floor_tile9",
+   "value": "Ceramic Tiles"
+  },
+  {
+   "key": "floor.ref_floor_tile10",
+   "value": "Yellow Carpet"
+  },
+  {
+   "key": "floor.ref_floor_tile11",
+   "value": "Pink Brick"
+  },
+  {
+   "key": "floor.ref_floor_tile12",
+   "value": "Aqua Blue"
+  },
+  {
+   "key": "floor.ref_floor_tile13",
+   "value": "Green Twirl Carpet"
+  },
+  {
+   "key": "floor.ref_floor_tile14",
+   "value": "Mahogany Wood"
+  },
+  {
+   "key": "floor.ref_floor_tile15",
+   "value": "Classy Tiles"
+  },
+  {
+   "key": "floor.ref_floor_tile16",
+   "value": "Cheesy Pattern"
+  },
+  {
+   "key": "floor.ref_floor_tile17",
+   "value": "Blue Star Pattern"
+  },
+  {
+   "key": "floor.ref_floor_tile18",
+   "value": "Pink Flower Pattern"
+  },
+  {
+   "key": "floor.ref_floor_tile19",
+   "value": "White Stripes"
+  },
+  {
+   "key": "floor.ref_floor_tile20",
+   "value": "Glass Flooring"
+  },
+  {
+   "key": "floor.ref_floor_tile22",
+   "value": "Metal Deck Flooring"
+  },
+  {
+   "key": "floor.ref_floor_tile23",
+   "value": "Simple Terracotta Tile"
+  },
+  {
+   "key": "floor.ref_floor_tile24",
+   "value": "Red Checker"
+  },
+  {
+   "key": "floor.ref_floor_tile25",
+   "value": "Grey Brick"
+  },
+  {
+   "key": "floor.ref_floor_tile26",
+   "value": "Rubble"
+  },
+  {
+   "key": "floor.ref_floor_tile27",
+   "value": "Sand"
+  },
+  {
+   "key": "floor.ref_floor_tile28",
+   "value": "Dirt"
+  },
+  {
+   "key": "floor.ref_floor_tile29",
+   "value": "Grass"
+  },
+  {
+   "key": "floor.ref_floor_tile30",
+   "value": "Water"
+  },
+  {
+   "key": "floor.ref_floor_tile31",
+   "value": "Pink Tile"
+  },
+  {
+   "key": "floor.ref_floor_tile32",
+   "value": "Blue Tile"
+  },
+  {
+   "key": "floor.ref_floor_tile33",
+   "value": "Green Tile"
+  },
+  {
+   "key": "floor.ref_floor_tile34",
+   "value": "Wooden Flooring"
+  },
+  {
+   "key": "floor.ref_floor_tile35",
+   "value": "Orange Tile"
+  },
+  {
+   "key": "floor.ref_floor_tile36",
+   "value": "White Stone Tile"
+  },
+  {
+   "key": "floor.ref_floor_tile37",
+   "value": "Ocean Floor Tile"
+  },
+  {
+   "key": "floor.ref_floor_tile38",
+   "value": "Autumn Tile"
+  },
+  {
+   "key": "floor.ref_floor_tile39",
+   "value": "Snowy Floor"
+  },
+  {
+   "key": "floor.ref_floor_tile40",
+   "value": "Gingerbread Floor"
+  },
+  {
+   "key": "floor.ref_floor_tile41",
+   "value": "Icy Floor"
+  },
+  {
+   "key": "floor.ref_floor_tile42",
+   "value": "Glossy Star Tile"
+  },
+  {
+   "key": "floor.ref_floor_tile43",
+   "value": "Stone Flooring"
+  },
+  {
+   "key": "floor.ref_floor_tile44",
+   "value": "Wooden Planks"
+  },
+  {
+   "key": "floor.ref_floor_tile45",
+   "value": "Classy White Tiles"
+  },
+  {
+   "key": "floor.ref_floor_tile46",
+   "value": "Classy Grey Tiles"
+  },
+  {
+   "key": "floor.ref_floor_tile47",
+   "value": "Yellow Glossy Tile"
+  },
+  {
+   "key": "floor.ref_floor_tile48",
+   "value": "Red Lucky Tile"
+  },
+  {
+   "key": "floor.ref_floor_tile49",
+   "value": "Grey Lucky Tile"
+  },
+  {
+   "key": "floor.ref_floor_tile50",
+   "value": "Pink Lucky Tile"
+  },
+  {
+   "key": "floor.ref_floor_tile51",
+   "value": "Beige Carpet"
+  },
+  {
+   "key": "floor.ref_floor_tile52",
+   "value": "Pink Carpet"
+  },
+  {
+   "key": "floor.ref_floor_tile53",
+   "value": "Red Carpet"
+  },
+  {
+   "key": "floor.ref_floor_tile54",
+   "value": "Purple Carpet"
+  },
+  {
+   "key": "floor.ref_floor_tile55",
+   "value": "Hearts Tile"
+  },
+  {
+   "key": "wallpaper.ref_wall1",
+   "value": "Green Wallpaper"
+  },
+  {
+   "key": "wallpaper.ref_wall18",
+   "value": "Neutral Green"
+  },
+  {
+   "key": "wallpaper.ref_wall19",
+   "value": "Neutral Beige"
+  },
+  {
+   "key": "wallpaper.ref_wall17",
+   "value": "Neutral Blue"
+  },
+  {
+   "key": "wallpaper.ref_wall3",
+   "value": "Grey Stripes"
+  },
+  {
+   "key": "wallpaper.ref_wall4",
+   "value": "Wooden Planks"
+  },
+  {
+   "key": "wallpaper.ref_wall5",
+   "value": "Cement Wall"
+  },
+  {
+   "key": "wallpaper.ref_wall6",
+   "value": "Large Grey Brickwall"
+  },
+  {
+   "key": "wallpaper.ref_wall7",
+   "value": "Ceramic Tiles"
+  },
+  {
+   "key": "wallpaper.ref_wall8",
+   "value": "Pink Stripes"
+  },
+  {
+   "key": "wallpaper.ref_wall9",
+   "value": "Cream Wallpaper"
+  },
+  {
+   "key": "wallpaper.ref_wall10",
+   "value": "Dark Brown Wallpaper"
+  },
+  {
+   "key": "wallpaper.ref_wall11",
+   "value": "White and Blue Stripes"
+  },
+  {
+   "key": "wallpaper.ref_wall12",
+   "value": "Metal Plating"
+  },
+  {
+   "key": "wallpaper.ref_wall13",
+   "value": "Brown Stripes"
+  },
+  {
+   "key": "wallpaper.ref_wall14",
+   "value": "Pink Brickwall"
+  },
+  {
+   "key": "wallpaper.ref_wall15",
+   "value": "Wood panel Wall"
+  },
+  {
+   "key": "wallpaper.ref_wall16",
+   "value": "Grey"
+  },
+  {
+   "key": "wallpaper.ref_wall20",
+   "value": "Dark Red"
+  },
+  {
+   "key": "wallpaper.ref_wall21",
+   "value": "Charcoal Black"
+  },
+  {
+   "key": "wallpaper.ref_wall22",
+   "value": "Dark Green"
+  },
+  {
+   "key": "wallpaper.ref_wall23",
+   "value": "Dark Blue"
+  },
+  {
+   "key": "wallpaper.ref_wall24",
+   "value": "Dark Pink"
+  },
+  {
+   "key": "wallpaper.ref_wall25",
+   "value": "Metal Panel"
+  },
+  {
+   "key": "wallpaper.ref_wall26",
+   "value": "White Brick"
+  },
+  {
+   "key": "wallpaper.ref_wall27",
+   "value": "White Wood Panel wall"
+  },
+  {
+   "key": "wallpaper.ref_wall28",
+   "value": "Taco House"
+  },
+  {
+   "key": "wallpaper.ref_wall29",
+   "value": "Drive-in Diner Wallpaper"
+  },
+  {
+   "key": "wallpaper.ref_wall30",
+   "value": "Red Brick Wall"
+  },
+  {
+   "key": "wallpaper.ref_wall31",
+   "value": "Ornate Wall"
+  },
+  {
+   "key": "wallpaper.ref_wall32",
+   "value": "Black Brick"
+  },
+  {
+   "key": "wallpaper.ref_wall33",
+   "value": "Blue Stripes"
+  },
+  {
+   "key": "wallpaper.ref_wall34",
+   "value": "Red and White Stripes"
+  },
+  {
+   "key": "wallpaper.ref_wall35",
+   "value": "Greek Wallpaper"
+  },
+  {
+   "key": "wallpaper.ref_wall36",
+   "value": "Seabed Wallpaper"
+  },
+  {
+   "key": "wallpaper.ref_wall37",
+   "value": "Autumn Wallpaper"
+  },
+  {
+   "key": "wallpaper.ref_wall38",
+   "value": "Festive Wallpaper"
+  },
+  {
+   "key": "wallpaper.ref_wall39",
+   "value": "Gingerbread Wall"
+  },
+  {
+   "key": "wallpaper.ref_wall41",
+   "value": "Iceblock Wallpaper"
+  },
+  {
+   "key": "wallpaper.ref_wall40",
+   "value": "Tinsel Wallpaper"
+  },
+  {
+   "key": "wallpaper.ref_wall42",
+   "value": "Glyph Wallpaper"
+  },
+  {
+   "key": "wallpaper.ref_wall43",
+   "value": "Wooden Walls"
+  },
+  {
+   "key": "wallpaper.ref_wall44",
+   "value": "Ship Walls"
+  },
+  {
+   "key": "wallpaper.ref_wall45",
+   "value": "Classy Black Wallpaper"
+  },
+  {
+   "key": "wallpaper.ref_wall46",
+   "value": "Lucky Wallpaper"
+  },
+  {
+   "key": "wallpaper.ref_wall47",
+   "value": "Hearts Wallpaper"
+  },
+  {
+   "key": "wallpaper.ref_wall48",
+   "value": "Red Bow Wallpaper"
+  },
+  {
+   "key": "wallpaper.ref_wall49",
+   "value": "Pink Bow Wallpaper"
+  },
+  {
+   "key": "furniture.ref_stove01",
+   "value": "Stove"
+  },
+  {
+   "key": "furniture.ref_stove02",
+   "value": "Ruby Stove"
+  },
+  {
+   "key": "furniture.ref_stove5",
+   "value": "Grill"
+  },
+  {
+   "key": "furniture.ref_stove7",
+   "value": "Hot Plate"
+  },
+  {
+   "key": "furniture.ref_stove04",
+   "value": "TelePort Stove"
+  },
+  {
+   "key": "furniture.ref_stove03",
+   "value": "Atomic Stove"
+  },
+  {
+   "key": "furniture.ref_stove10",
+   "value": "Cauldron Stove"
+  },
+  {
+   "key": "furniture.ref_soda_dispenser",
+   "value": "Soda Dispenser"
+  },
+  {
+   "key": "furniture.ref_drinks_fridge",
+   "value": "Drinks Fridge"
+  },
+  {
+   "key": "furniture.ref_drinks_shelf",
+   "value": "Saloon Drinks Dispenser"
+  },
+  {
+   "key": "furniture.ref_stove13",
+   "value": "Grill"
+  },
+  {
+   "key": "furniture.ref_green_bush",
+   "value": "Green Bush"
+  },
+  {
+   "key": "furniture.ref_red_berry_bush",
+   "value": "Red Berry Bush"
+  },
+  {
+   "key": "furniture.ref_white_flower_bush",
+   "value": "WhiteFlower Bush"
+  },
+  {
+   "key": "furniture.ref_iris",
+   "value": "Iris"
+  },
+  {
+   "key": "furniture.ref_pink_tulips",
+   "value": "Pink Tulips"
+  },
+  {
+   "key": "furniture.ref_sunflowers",
+   "value": "Sunflowers"
+  },
+  {
+   "key": "furniture.ref_blueflowers",
+   "value": "Blue Daisy"
+  },
+  {
+   "key": "furniture.ref_pine_tree",
+   "value": "Pine Tree"
+  },
+  {
+   "key": "furniture.ref_snowy_pine_tree",
+   "value": "Snowy Pine Tree"
+  },
+  {
+   "key": "furniture.ref_daffodils",
+   "value": "Daffodils"
+  },
+  {
+   "key": "furniture.ref_white_flowers",
+   "value": "White Flowers"
+  },
+  {
+   "key": "furniture.ref_mushrooms",
+   "value": "Mushrooms"
+  },
+  {
+   "key": "furniture.ref_vriesea",
+   "value": "Vriesea"
+  },
+  {
+   "key": "furniture.ref_anthurium",
+   "value": "Anthurium"
+  },
+  {
+   "key": "furniture.ref_yellow_daisy",
+   "value": "Yellow Daisy"
+  },
+  {
+   "key": "furniture.ref_pansy",
+   "value": "Pansy"
+  },
+  {
+   "key": "furniture.ref_balsamine",
+   "value": "Balsamine"
+  },
+  {
+   "key": "furniture.ref_blooming_cactus",
+   "value": "Blooming Cactus"
+  },
+  {
+   "key": "furniture.ref_palm_tree_garden",
+   "value": "Palm Tree"
+  },
+  {
+   "key": "furniture.ref_desert_palm",
+   "value": "Desert Plant"
+  },
+  {
+   "key": "furniture.ref_romantic_tree",
+   "value": "Romantic Tree"
+  },
+  {
+   "key": "furniture.ref_heart_tree",
+   "value": "Heart Tree"
+  }
+ ]
+}

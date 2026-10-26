@@ -1,0 +1,16 @@
+{
+  "furniture": [
+    { "id": "dining_table",  "nameKey": "furniture.dining_table",  "kind": "Table",   "sizeX": 1, "sizeY": 1, "height": 0.75, "price": 80,  "sprite": "table01",     "groundCorners": [{"x":0.04,"y":0.25},{"x":0.50,"y":0.01},{"x":0.96,"y":0.28}], "placeholderColor": "#B07A4A" },
+    { "id": "wooden_chair",  "nameKey": "furniture.wooden_chair",  "kind": "Chair",   "sizeX": 1, "sizeY": 1, "height": 0.9,  "seatHeight": 0.35, "price": 20, "sprite": "chair01", "spriteBack": "chair01_back", "artScale": 0.62, "placeholderColor": "#C4874E" },
+    { "id": "jar_cabinet",   "nameKey": "furniture.jar_cabinet",   "kind": "Counter", "surface": true, "sizeX": 1, "sizeY": 1, "height": 1.2,  "price": 90, "unlockLevel": 3,  "sprite": "cabinet01",   "mirrorSprite": true, "groundCorners": [{"x":0.018,"y":0.18},{"x":0.26,"y":0.015},{"x":0.982,"y":0.385}], "placeholderColor": "#8E6A4F" },
+    { "id": "potted_palm",   "nameKey": "furniture.potted_palm",   "kind": "Plant",   "sizeX": 1, "sizeY": 1, "height": 1.8,  "price": 30,  "sprite": "plant01",     "artScale": 0.85, "placeholderColor": "#4F9A55" },
+    { "id": "menu_board",    "nameKey": "furniture.menu_board",    "kind": "WallDecor", "sizeX": 1, "sizeY": 1, "height": 1.2,  "price": 0,   "sprite": "signboard01", "tapAction": "menu", "placeholderColor": "#5B4636" },
+    { "id": "window_basic",  "nameKey": "furniture.window_basic",  "kind": "WallDecor", "sizeX": 1, "sizeY": 1, "height": 1.0,  "price": 150, "sprite": "window02", "placeholderColor": "#BFE3EE" },
+    { "id": "window_classic", "nameKey": "furniture.window_classic", "kind": "WallDecor", "sizeX": 1, "sizeY": 1, "height": 1.0, "price": 600, "unlockLevel": 2, "sprite": "window01", "placeholderColor": "#A9D8E8" },
+    { "id": "clay_oven",     "nameKey": "furniture.clay_oven",     "kind": "Stove",   "sizeX": 1, "sizeY": 1, "height": 1.6,  "price": 250, "unlockLevel": 3, "sprite": "oven01", "spriteBack": "oven01_back",      "placeholderColor": "#D9824B" },
+    { "id": "gas_stove",     "nameKey": "furniture.gas_stove",     "kind": "Stove",   "sizeX": 1, "sizeY": 1, "height": 1.1,  "price": 120, "sprite": "stove01", "spriteBack": "stove01_back",     "mirrorSprite": true, "groundCorners": [{"x":0.027,"y":0.215},{"x":0.345,"y":0.015},{"x":0.965,"y":0.30}], "placeholderColor": "#9AA3AD" },
+    { "id": "sink",          "nameKey": "furniture.sink",          "kind": "Sink",    "sizeX": 1, "sizeY": 1, "height": 1.1,  "price": 90, "unlockLevel": 2,  "sprite": "sink01",      "mirrorSprite": true, "groundCorners": [{"x":0.06,"y":0.20},{"x":0.355,"y":0.015},{"x":0.965,"y":0.35}], "placeholderColor": "#A7B0B8" },
+    { "id": "fridge",        "nameKey": "furniture.fridge",        "kind": "DrinkMachine", "sizeX": 1, "sizeY": 1, "height": 2.2,  "price": 150, "category": "Kitchen", "sprite": "fridge01",    "artScale": 0.95, "placeholderColor": "#D5D8DC" },
+    { "id": "bread_shelf",   "nameKey": "furniture.bread_shelf",   "kind": "Decor",   "sizeX": 2, "sizeY": 1, "height": 2.4,  "price": 90, "unlockLevel": 2,  "category": "Kitchen", "sprite": "shelf01", "artScale": 1, "mirrorSprite": true, "groundCorners": [{"x":0.02,"y":0.14},{"x":0.29,"y":0.012},{"x":0.98,"y":0.30}], "placeholderColor": "#8E6A4F" }
+  ]
+}

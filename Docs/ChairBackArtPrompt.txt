@@ -1,0 +1,5 @@
+Built-in image_gen, transparent_background=true.
+Reference: Assets/_Game/Resources/Art/Concept/chair01.png.
+Output: Assets/_Game/Resources/Art/Concept/chair01_back.png.
+
+Use case: precise-object-edit. Asset type: Unity isometric restaurant chair sprite, transparent PNG. Input image is the existing chair sprite, identity and style reference. Create the SAME honey-brown wooden restaurant chair with salmon pink seat cushion, rotate the CHAIR 180 degrees on the floor, keeping the camera fixed at the same isometric 2:1 downward angle. It now faces AWAY toward the UPPER RIGHT (north east), so viewer sees the BACK exterior of the wooden slatted backrest in the lower-left/foreground, and the seat recedes toward upper-right behind the backrest. Preserve wooden posts, four legs, cozy hand-painted outlined game-art style, proportions, lighting and palette. Single entire chair centered with small transparent padding, no floor, no cast shadow beyond chair, no text, no other objects. True transparent background. Do not return the original front-facing chair: the backside of the backrest MUST face viewer.

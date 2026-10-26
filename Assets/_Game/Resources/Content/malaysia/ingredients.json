@@ -1,0 +1,20 @@
+{
+  "ingredients": [
+    { "id": "rice",           "nameKey": "ingredient.rice",           "rarity": 1, "source": "market", "color": "#F4F1E8" },
+    { "id": "egg",            "nameKey": "ingredient.egg",            "rarity": 1, "source": "market", "color": "#F7D774" },
+    { "id": "flour",          "nameKey": "ingredient.flour",          "rarity": 1, "source": "market", "color": "#EDE3CF" },
+    { "id": "noodles",        "nameKey": "ingredient.noodles",        "rarity": 1, "source": "market", "color": "#E8C46A" },
+    { "id": "chicken",        "nameKey": "ingredient.chicken",        "rarity": 1, "source": "market", "color": "#E9B98A" },
+    { "id": "peanut",         "nameKey": "ingredient.peanut",         "rarity": 1, "source": "market", "color": "#C08A4B" },
+    { "id": "condensed_milk", "nameKey": "ingredient.condensed_milk", "rarity": 1, "source": "market", "color": "#F2E6C9" },
+    { "id": "coconut_milk",   "nameKey": "ingredient.coconut_milk",   "rarity": 2, "source": "market", "color": "#FFFFFF" },
+    { "id": "anchovy",        "nameKey": "ingredient.anchovy",        "rarity": 2, "source": "market", "color": "#B9B4A6" },
+    { "id": "palm_sugar",     "nameKey": "ingredient.palm_sugar",     "rarity": 2, "source": "market", "color": "#7A4A26" },
+    { "id": "tea_leaves",     "nameKey": "ingredient.tea_leaves",     "rarity": 2, "source": "market", "color": "#6B8E3A" },
+    { "id": "curry_spice",    "nameKey": "ingredient.curry_spice",    "rarity": 2, "source": "market", "color": "#D9902B" },
+    { "id": "prawn",          "nameKey": "ingredient.prawn",          "rarity": 3, "source": "market", "color": "#F08A5D" },
+    { "id": "chili",          "nameKey": "ingredient.chili",          "rarity": 1, "source": "garden", "growHours": 24, "color": "#D9412B" },
+    { "id": "lemongrass",     "nameKey": "ingredient.lemongrass",     "rarity": 2, "source": "garden", "growHours": 36, "color": "#B7C96A" },
+    { "id": "pandan",         "nameKey": "ingredient.pandan",         "rarity": 2, "source": "garden", "growHours": 36, "color": "#3E9A4B" }
+  ]
+}

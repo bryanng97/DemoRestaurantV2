@@ -1,0 +1,28 @@
+{
+  "skins": ["Art/RefProto"],
+  "artFolder": "Art/Concept",
+  "floorTile": "floor_wood",
+  "floors": [
+    { "id": "wood", "nameKey": "floor.wood", "sprite": "floor_wood", "surfaceCorners": [{"x":0.5,"y":0.95},{"x":0.95,"y":0.58},{"x":0.5,"y":0.2},{"x":0.05,"y":0.58}] },
+    { "id": "stone", "nameKey": "floor.stone", "sprite": "floor_stone", "surfaceCorners": [{"x":0.5,"y":0.95},{"x":0.95,"y":0.58},{"x":0.5,"y":0.2},{"x":0.05,"y":0.58}] },
+    { "id": "pattern", "nameKey": "floor.pattern", "sprite": "floor_pattern", "surfaceCorners": [{"x":0.5,"y":0.95},{"x":0.94,"y":0.56},{"x":0.5,"y":0.18},{"x":0.06,"y":0.56}] }
+  ],
+  "wall": "wall01",
+  "wallpapers": [
+    { "id": "classic", "nameKey": "wallpaper.classic", "sprite": "wall01" }
+  ],
+  "wallCellsPerSegment": 3,
+  "window": "window01",
+  "door": "door01",
+  "entranceX": 0, "entranceY": 10,
+  "characterHeight": 1.2,
+  "coinIcon": "ui_coin",
+  "backgroundMusic": "Audio/Music/main_street",
+  "musicVolume": 1.0,
+  "restaurantMusic": ["Audio/RefProto/Music/restaurant", "Audio/Music/main_street"],
+  "streetMusic": ["Audio/RefProto/Music/street", "Audio/Music/main_street"],
+  "editorMusic": ["Audio/RefProto/Music/restaurant", "Audio/Music/main_street"],
+  "supportUrl": "",
+  "privacyUrl": "",
+  "termsUrl": ""
+}
