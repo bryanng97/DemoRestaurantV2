@@ -265,11 +265,14 @@ namespace DemoRestaurant.Game.StressTest
                 _content.Theme.wallpapers.Length > 0 ? _content.Theme.wallpapers[0].id : null);
             _ui.BindOnline(_online);
             _online.AdoptionNeeded += AdoptServerState;
+            _online.AskKeepDeviceRestaurant = () => _ui.Ask("ui.online.choose.title", "ui.online.choose.body",
+                "ui.online.choose.keep", "ui.online.choose.fresh");
             if (!_online.IsConfigured) return;
             _online.StateChanged += () =>
             {
-                if (_online.State == Logic.Online.OnlineState.Online)
-                    _ui.Toast(Loc.Format("ui.online.connected", _session.Wallet.DisplayCoins), 2.6f);
+                if (_online.State != Logic.Online.OnlineState.Online) return;
+                _ui.Toast(s_showAdopted ? Loc.Get("ui.online.synced") : Loc.Format("ui.online.connected", _session.Wallet.DisplayCoins), 2.6f);
+                s_showAdopted = false;
             };
             await _online.Run();
             if (_online.State == Logic.Online.OnlineState.SignedOut || _online.State == Logic.Online.OnlineState.NeedsVerification)
@@ -284,8 +287,11 @@ namespace DemoRestaurant.Game.StressTest
             return new ServerIdMap(JsonUtility.FromJson<ServerIdMap.File>(text.text)?.ids);
         }
 
-        // Adopting a server restaurant reloads the scene; once a run is enough (a second mismatch waits for a restart).
-        private static int s_adoptions;
+        // The last server restaurant adopted (it survives the scene reload). Adopting the very same state again
+        // means it can't be shown locally, so the local one is kept instead of reloading in a loop; a different
+        // state (another account, a later change) is adopted as usual.
+        private static string s_lastAdoption;
+        private static bool s_showAdopted;
 
         /// <summary>
         /// The server's restaurant differs from ours in a way that can't be patched in place (another device, a
@@ -294,13 +300,17 @@ namespace DemoRestaurant.Game.StressTest
         /// </summary>
         private void AdoptServerState(JsonValue state, string reason)
         {
-            if (!UsesSave || _builder == null || _builder.IsEditing || (_ui.Exterior != null && _ui.Exterior.IsEditing)) return;
-            if (s_adoptions >= 1)
+            if (!UsesSave || _builder == null || _builder.IsEditing || (_ui.Exterior != null && _ui.Exterior.IsEditing))
             {
-                Debug.LogWarning($"Online: the server restaurant still differs ({reason}); keeping the local one until the next start.");
+                Debug.Log($"Online: the server restaurant differs ({reason}); it loads after the editor closes.");
                 return;
             }
-            s_adoptions++;
+            string key = AdoptionKey(state);
+            if (key == s_lastAdoption)
+            {
+                Debug.LogWarning($"Online: the server restaurant was already loaded but still differs ({reason}); keeping the local one.");
+                return;
+            }
             var ids = _online.Sync.Ids;
             var floors = new System.Collections.Generic.HashSet<string>();
             foreach (var f in _content.Theme.floors) floors.Add(f.id);
@@ -309,13 +319,38 @@ namespace DemoRestaurant.Game.StressTest
             var snapshot = ServerLayoutCodec.Decode(state["layout"], ids, floors.Contains, wallpapers.Contains);
             snapshot.SetOwned(_session.MergeOwned((_session.Economy as ILandPurchaseServer)?.OwnedFurniture, state, ids));
             var save = _session.SaveFromServer(state);
-            if (!LayoutSaveStore.TrySave(snapshot, _content, save.coins)) return;
+            // Write the server layout, then check it loads like a start-up would; otherwise put ours back.
+            var previous = LayoutSnapshot.Capture(_session.Layout);
+            previous.SetOwned((_session.Economy as ILandPurchaseServer)?.OwnedFurniture);
+            if (!LayoutSaveStore.TrySave(snapshot, _content, save.coins))
+            {
+                Debug.LogWarning("Online: could not write the server restaurant to this device.");
+                return;
+            }
+            if (!LayoutSaveStore.TryLoad(new RestaurantLayout(snapshot.width, snapshot.height, new GridPos(0, 1)), _content))
+            {
+                Debug.LogWarning($"Online: the server restaurant ({reason}) doesn't load on this device; keeping the local one.");
+                LayoutSaveStore.TrySave(previous, _content, _session.Wallet.ConfirmedCoins);
+                s_lastAdoption = key;
+                return;
+            }
+            s_lastAdoption = key;
             _store.Save(save);
             _online.Sync.Adopted(state);
             _online.SaveSync();
             Debug.Log($"Online: adopted the server restaurant ({reason}).");
+            s_showAdopted = true;
             _resetting = true; // nothing else may overwrite the adopted saves before the reload
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+
+        private static string AdoptionKey(JsonValue state)
+        {
+            var staff = new System.Collections.Generic.List<string>();
+            foreach (var s in state["staff"].Items) staff.Add(s["id"].AsString() + ":" + s["role"].AsString());
+            staff.Sort(string.CompareOrdinal);
+            return state["restaurantId"].AsString() + "|" + string.Join(",", staff) + "|" +
+                   (state["layout"].Kind == JsonKind.Object ? ServerLayoutCodec.Fingerprint(state["layout"]) : "");
         }
 
         /// <summary>Writes the restaurant layout save and the game save (progress, staff, offline ledger).</summary>

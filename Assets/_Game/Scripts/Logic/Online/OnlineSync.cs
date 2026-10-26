@@ -23,6 +23,18 @@ namespace DemoRestaurant.Logic.Online
         public string instanceId;
     }
 
+    /// <summary>What a sign-in means for the restaurant already on this device.</summary>
+    public enum AccountChange
+    {
+        /// <summary>The device's restaurant is this account's: carry on.</summary>
+        SameAccount,
+        /// <summary>A brand-new account on a device with guest play: ask whether to keep this device's restaurant.</summary>
+        AskKeepDevice,
+        /// <summary>The account already has a restaurant (or the device has nothing): drop the device's queued
+        /// actions and load the account's.</summary>
+        LoadAccount,
+    }
+
     /// <summary>What one sync round decided.</summary>
     public sealed class SyncRound
     {
@@ -90,6 +102,42 @@ namespace DemoRestaurant.Logic.Online
             if (save.exteriorIds != null)
                 foreach (var r in save.exteriorIds)
                     if (r != null && !string.IsNullOrEmpty(r.instanceId)) _exteriorIds[r.instance] = r.instanceId;
+        }
+
+        // ---------------------------------------------------------------- sign-in
+
+        /// <summary>
+        /// Who wins when <paramref name="user"/> signs in on a device last synced by <paramref name="deviceOwner"/>
+        /// (null: never synced, guest play). An account that already has progress always wins; only a brand-new
+        /// account may take over the device's guest restaurant.
+        /// </summary>
+        public static AccountChange OnSignIn(string deviceOwner, string user, JsonValue state, bool deviceHasPlay)
+        {
+            if (deviceOwner == user) return AccountChange.SameAccount;
+            return string.IsNullOrEmpty(deviceOwner) && deviceHasPlay && IsNewAccount(state)
+                ? AccountChange.AskKeepDevice : AccountChange.LoadAccount;
+        }
+
+        /// <summary>Nothing played on the server yet: no XP and the starter layout.</summary>
+        public static bool IsNewAccount(JsonValue state) =>
+            state["xp"].AsLong() == 0 && state["layoutRevision"].AsInt(1) == 1;
+
+        /// <summary>The device has played: queued actions, served guests or progress.</summary>
+        public bool DeviceHasPlay =>
+            Log.Count > 0 || _session.TotalCustomersServed > 0 || _session.Progress.Level > 1 || _session.Progress.Xp > 0;
+
+        /// <summary>Drops the device's queued actions and ids; the next sync loads the account's restaurant.</summary>
+        public void ForgetDevice()
+        {
+            Restore(new OnlineSyncSave());
+            _session.ServerRestaurantId = null;
+        }
+
+        /// <summary>Keeps the device's restaurant for a new account: its layout and menu go up with the queued actions.</summary>
+        public void KeepDevice()
+        {
+            _session.RecordLayoutSaved(0);
+            _session.RecordMenuChanged();
         }
 
         // ---------------------------------------------------------------- state

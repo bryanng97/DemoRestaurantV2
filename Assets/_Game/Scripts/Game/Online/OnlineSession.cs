@@ -44,6 +44,13 @@ namespace DemoRestaurant.Game.Online
         /// <summary>Actions the server turned down in the last round (type and reason), for a toast or the log.</summary>
         public event Action<string, string> ActionRejected;
 
+        /// <summary>
+        /// First sign-in of a brand-new account on a device that already has play: true keeps this device's
+        /// restaurant (its queued actions and layout go to the account), false starts from the account's.
+        /// Null (no UI) loads the account's.
+        /// </summary>
+        public Func<Awaitable<bool>> AskKeepDeviceRestaurant { get; set; }
+
         public OnlineSession(OnlineConfig config, RestaurantSession game, string packId, ServerIdMap ids, string defaultWallpaper = null)
         {
             _game = game ?? throw new ArgumentNullException(nameof(game));
@@ -180,9 +187,9 @@ namespace DemoRestaurant.Game.Online
             {
                 case StartupStep.Bootstrap:
                 {
-                    ForgetOtherAccount();
                     var r = await Api.Bootstrap();
                     if (!Check(r)) return false;
+                    await ClaimOrForget(r.Data);
                     DisplayName = r.Data["profile"]["displayName"].AsString();
                     _game.ServerRestaurantId = r.Data["restaurantId"].AsString() ?? _game.ServerRestaurantId;
                     _facts.Bootstrapped = true;
@@ -298,14 +305,29 @@ namespace DemoRestaurant.Game.Online
             catch (Exception e) { Debug.LogWarning($"Online: could not read the sync save ({e.Message})."); }
         }
 
-        // The device save belongs to whoever played on it last: another account never receives those actions.
-        private void ForgetOtherAccount()
+        /// <summary>
+        /// The device's restaurant belongs to whoever synced it last. When another account signs in:
+        /// an account that already has progress always wins (the device's queued actions are dropped and the
+        /// first sync loads the account's restaurant); a brand-new account on a device with guest play asks the
+        /// player whether to keep this device's restaurant.
+        /// </summary>
+        private async Awaitable ClaimOrForget(JsonValue state)
         {
             string user = Auth.UserId;
-            if (string.IsNullOrEmpty(_savedPlayer) || _savedPlayer == user) { _savedPlayer = user; return; }
-            Debug.Log("Online: a different account signed in; the queued actions of the previous one are dropped.");
-            Sync.Restore(new OnlineSyncSave());
-            _game.ServerRestaurantId = null;
+            var change = OnlineSync.OnSignIn(_savedPlayer, user, state, Sync.DeviceHasPlay);
+            if (change == AccountChange.SameAccount) return;
+            if (change == AccountChange.AskKeepDevice && AskKeepDeviceRestaurant != null && await AskKeepDeviceRestaurant())
+            {
+                Debug.Log("Online: keeping this device's restaurant for the new account.");
+                Sync.KeepDevice();
+            }
+            else
+            {
+                Debug.Log(string.IsNullOrEmpty(_savedPlayer)
+                    ? "Online: loading the account's restaurant; this device's unsent play is dropped."
+                    : "Online: a different account signed in; the previous account's unsent actions are dropped.");
+                Sync.ForgetDevice();
+            }
             _savedPlayer = user;
             SaveSync();
         }

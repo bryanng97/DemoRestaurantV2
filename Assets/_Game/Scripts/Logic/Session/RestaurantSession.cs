@@ -242,7 +242,8 @@ namespace DemoRestaurant.Logic.Session
                 return true;
             else
                 Sim.ChangeType(owner, type, home);
-            RecordAction("owner_role", Body().Set("role", RoleId(role)));
+            // Placing the owner on a new game is local setup (the server creates its own); a job change is an action.
+            if (owner != null) RecordAction("owner_role", Body().Set("role", RoleId(role)));
             Ledger.Record(LedgerKind.OwnerJobChanged, 0, type.Id, _utcNow());
             return true;
         }

@@ -146,6 +146,42 @@ public static class Program
 
         var fresh = Call("GET", "/state", null);
         Check(fresh["coins"].AsLong() == after["coins"].AsLong(), "GET /state agrees");
+
+        // ---- A fresh device (guest play, never synced) signs into this account, which now has progress.
+        var device = new RestaurantSession(pack, StarterLayout(pack, start), seed: 11, startingCoins: start["coins"].AsLong());
+        device.BuyItem(pack.GetItem("kopi_o_kaw"));
+        for (int i = 0; i < 20 * 600 && device.ServerLog.Count < 4; i++) device.Tick(0.05f);
+        var deviceSync = new OnlineSync(device, ids) { Catalog = catalog, DefaultWallpaper = "classic" };
+        Check(deviceSync.DeviceHasPlay, $"the fresh device has guest play ({device.ServerLog.Count} queued)");
+        var boot2 = Call("POST", "/players/bootstrap", "{}");
+        var change = OnlineSync.OnSignIn(null, "player", boot2, deviceSync.DeviceHasPlay);
+        Check(change == AccountChange.LoadAccount, $"an account with progress wins ({change})");
+        deviceSync.ForgetDevice();
+        var serverBefore = Call("GET", "/state", null);
+        round = Ledger(deviceSync, evenIfEmpty: true);
+        Check(round.Outcome.Accepted.Count + round.Outcome.Rejected.Count == 0, "no guest action reaches the account");
+        Check(round.AdoptReason != null, $"the device loads the account's restaurant (reason: {round.AdoptReason})");
+        state = deviceSync.LastState;
+        Check(state["coins"].AsLong() == serverBefore["coins"].AsLong() &&
+              state["inventory"]["items"]["kopi_o_kaw"].AsInt() == serverBefore["inventory"]["items"]["kopi_o_kaw"].AsInt() &&
+              state["layout"]["revision"].AsInt() == serverBefore["layout"]["revision"].AsInt(),
+            "the account's coins, items and layout are untouched");
+        snapshot = ServerLayoutCodec.Decode(state["layout"], ids, id => id == "wood", id => id == "classic");
+        save = device.SaveFromServer(state);
+        var deviceLayout = new RestaurantLayout(4, 4, new GridPos(0, 1));
+        Check(snapshot.TryRestore(deviceLayout, pack), "the account's layout restores on the device");
+        var reloaded = new RestaurantSession(pack, deviceLayout, seed: 13, startingCoins: save.coins);
+        (reloaded.Economy as ILandPurchaseServer)?.RestoreOwnedFurniture(reloaded.MergeOwned(null, state, ids));
+        reloaded.ApplySave(save);
+        var reloadedSync = new OnlineSync(reloaded, ids) { Catalog = catalog, DefaultWallpaper = "classic" };
+        reloadedSync.Restore(deviceSync.Capture("player"));
+        reloadedSync.Adopted(state);
+        Check(OnlineSync.OnSignIn("player", "player", state, true) == AccountChange.SameAccount, "the reload is the same account");
+        round = Ledger(reloadedSync, evenIfEmpty: true);
+        Check(round.AdoptReason == null, $"after the reload the device shows the account's restaurant (adoption: {round.AdoptReason ?? "none"})");
+        Check(reloaded.Wallet.DisplayCoins == serverBefore["coins"].AsLong() && reloaded.Progress.Level == serverBefore["level"].AsInt(),
+            $"coins {reloaded.Wallet.DisplayCoins} and level {reloaded.Progress.Level} are the account's");
+        Check(reloaded.Layout.Furniture.Count == serverBefore["layout"]["furniture"].Count, "the bought chair is in the room");
     }
 
     // ---------------------------------------------------------------- helpers

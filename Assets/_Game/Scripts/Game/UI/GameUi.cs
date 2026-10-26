@@ -31,6 +31,7 @@ namespace DemoRestaurant.Game.UI
         private ProfileDialog _profile;
         private SettingsDialog _settings;
         private LoginDialog _login;
+        private ChoiceDialog _choice;
         private RectTransform _canvas;
         private Text _toast, _language;
         private CanvasGroup _toastGroup;
@@ -69,7 +70,17 @@ namespace DemoRestaurant.Game.UI
             Online = online;
             if (online == null || !online.IsConfigured) return;
             _login = new LoginDialog(this, _canvas, online);
+            _choice = new ChoiceDialog(_canvas);
             _toastGroup.transform.SetAsLastSibling();
+        }
+
+        /// <summary>A yes/no question above everything (localized keys); false when online UI is not set up.</summary>
+        public Awaitable<bool> Ask(string titleKey, string bodyKey, string yesKey, string noKey)
+        {
+            if (_choice != null) return _choice.Ask(titleKey, bodyKey, yesKey, noKey);
+            var none = new AwaitableCompletionSource<bool>();
+            none.SetResult(false);
+            return none.Awaitable;
         }
 
         /// <summary>Sign-in screen (start-up while signed out, or the profile's account button).</summary>

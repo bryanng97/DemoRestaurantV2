@@ -363,6 +363,50 @@ namespace DemoRestaurant.Logic.Tests
             Assert.AreEqual(90f, chef.Energy, 1e-3);
         }
 
+        [TestCase("a", "a", 500, 3, true, AccountChange.SameAccount)]
+        [TestCase(null, "a", 0, 1, true, AccountChange.AskKeepDevice)]
+        [TestCase(null, "a", 0, 1, false, AccountChange.LoadAccount)]
+        [TestCase(null, "a", 500, 1, true, AccountChange.LoadAccount)]
+        [TestCase(null, "a", 0, 4, true, AccountChange.LoadAccount)]
+        [TestCase("b", "a", 0, 1, true, AccountChange.LoadAccount)]
+        public void SignIn_AnAccountWithProgressAlwaysWins(string deviceOwner, string user, int xp, int layoutRevision,
+            bool deviceHasPlay, AccountChange expected)
+        {
+            var state = JsonValue.Parse("{\"xp\":" + xp + ",\"layoutRevision\":" + layoutRevision + "}");
+            Assert.AreEqual(expected, OnlineSync.OnSignIn(deviceOwner, user, state, deviceHasPlay));
+        }
+
+        [Test]
+        public void ForgetDevice_DropsQueuedPlay_KeepDevice_QueuesTheRestaurant()
+        {
+            var s = Session();
+            var sync = new OnlineSync(s);
+            s.ServerRestaurantId = "bd2cd2fe-187f-4ad3-b85b-39767ab556f4";
+            s.Hire(Chef, new GridPos(3, 3), out _);
+            Assert.IsTrue(sync.DeviceHasPlay);
+            sync.ForgetDevice();
+            Assert.AreEqual(0, s.ServerLog.Count);
+            Assert.IsNull(s.ServerRestaurantId);
+            sync.KeepDevice();
+            CollectionAssert.AreEqual(new[] { "layout", "menu" }, new List<ServerAction>(s.ServerLog.Items).ConvertAll(a => a.type));
+        }
+
+        [Test]
+        public void PlacingTheOwnerOnANewGame_IsNotSentAsAnAction()
+        {
+            var owner = new StaffTypeDef("owner_waiter", "staff.owner", StaffRole.Waiter, 4f, isOwner: true);
+            var ownerChef = new StaffTypeDef("owner_chef", "staff.owner", StaffRole.Chef, 4f, isOwner: true);
+            var pack = new ContentPack("test", TestContent.Dishes, new[] { Chair, Stove }, new CustomerTypeDef[0],
+                new[] { Chef, Waiter, owner, ownerChef }, TestContent.AllIngredients, TestContent.Rules()).WithEconomy();
+            var layout = new RestaurantLayout(8, 8, new GridPos(0, 4));
+            layout.TryPlace(Stove, new GridPos(2, 0), Facing.SouthWest, out _);
+            var s = new RestaurantSession(pack, layout, seed: 3);
+            Assert.IsTrue(s.AssignOwner(StaffRole.Waiter, new GridPos(4, 4)));
+            Assert.AreEqual(0, s.ServerLog.Count, "the server creates its own owner");
+            Assert.IsTrue(s.AssignOwner(StaffRole.Chef, new GridPos(4, 5)));
+            Assert.AreEqual("owner_role", s.ServerLog.Items[0].type, "a job change is an action");
+        }
+
         [Test]
         public void SyncSave_RestoresTheLogAndRestaurant()
         {
