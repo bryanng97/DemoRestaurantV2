@@ -348,6 +348,29 @@ namespace DemoRestaurant.Logic.Online
             return sb.ToString();
         }
 
+        /// <summary>What two fingerprints disagree on, for the log: "room 14x13 → 12x11", "+f:sink@2,3/0", "-w:…".</summary>
+        public static string Difference(string local, string server, int max = 4)
+        {
+            if (local == server) return "";
+            var a = (local ?? "").Split('|');
+            var b = (server ?? "").Split('|');
+            var parts = new List<string>();
+            string[] heads = { "room", "terrace", "entrance", "floor", "terrace floor", "left wallpaper", "right wallpaper" };
+            for (int i = 0; i < heads.Length; i++)
+            {
+                string x = i < a.Length ? a[i] : "", y = i < b.Length ? b[i] : "";
+                if (x != y) parts.Add($"{heads[i]} {x} → {y}");
+            }
+            var serverPieces = new List<string>();
+            for (int i = heads.Length; i < b.Length; i++) serverPieces.Add(b[i]);
+            for (int i = heads.Length; i < a.Length; i++)
+                if (!serverPieces.Remove(a[i])) parts.Add("+" + a[i]);
+            foreach (var p in serverPieces) parts.Add("-" + p);
+            int extra = parts.Count - max;
+            if (extra > 0) parts.RemoveRange(max, extra);
+            return string.Join(", ", parts) + (extra > 0 ? $" (+{extra} more)" : "");
+        }
+
         private static JsonValue Paint(GridPos cell, string id) =>
             JsonValue.Object().Set("x", cell.X).Set("y", cell.Y).Set("id", id);
 

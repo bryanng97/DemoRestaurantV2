@@ -189,6 +189,34 @@ public static class Program
         Check(reloaded.Profile.PlayerId == game.Profile.PlayerId && reloaded.Profile.GuestId != game.Profile.GuestId,
             "the new device shows the same player id (its own guest id kept aside)");
         Check(reloaded.Profile.DisplayName == "Kedai Live", "and the account's name");
+
+        // ---- Another fresh device renovates while signed out, signs in, and the player keeps that layout.
+        var guest = new RestaurantSession(pack, StarterLayout(pack, start), seed: 17, startingCoins: start["coins"].AsLong());
+        guest.BuyItem(pack.GetItem("kopi_o_kaw"));
+        int extra = 0;
+        for (int i = 0; i < 3; i++) if (guest.Layout.TryPlace(chair, FreeCell(guest.Layout, chair), Facing.SouthWest, out _)) extra++;
+        guest.RecordLayoutSaved(chair.Price * extra);
+        var guestSync = new OnlineSync(guest, ids) { Catalog = catalog, DefaultWallpaper = "classic" };
+        var boot3 = Call("POST", "/players/bootstrap", "{}");
+        change = OnlineSync.OnSignIn(null, "player", boot3, guestSync.DeviceHasPlay, guestSync.DeviceHasRenovation);
+        Check(change == AccountChange.AskKeepDeviceLayout, $"an unsent guest renovation asks the player ({change})");
+        guestSync.KeepDeviceLayout(boot3);
+        guest.ServerRestaurantId = boot3["restaurantId"].AsString();
+        serverBefore = Call("GET", "/state", null);
+        round = Ledger(guestSync, evenIfEmpty: true);
+        Check(round.Outcome.Accepted.Count == 1 && round.Outcome.Accepted[0].type == "layout" && round.Outcome.Rejected.Count == 0,
+            "only the layout is sent, and accepted");
+        state = guestSync.LastState;
+        int chairsBefore = serverBefore["inventory"]["furniture"]["wooden_chair"].AsInt();
+        int chairsNow = 0;
+        foreach (var f in state["layout"]["furniture"].Items) if (f["id"].AsString() == "wooden_chair") chairsNow++;
+        int bought = Math.Max(0, chairsNow - chairsBefore);
+        Check(chairsNow == 4 + extra, $"the account now has this device's layout ({chairsNow} chairs placed)");
+        Check(state["coins"].AsLong() == serverBefore["coins"].AsLong() - bought * chair.Price,
+            $"only the {bought} chair(s) the account lacked were paid ({serverBefore["coins"].AsLong()} → {state["coins"].AsLong()})");
+        Check(state["inventory"]["items"]["kopi_o_kaw"].AsInt() == serverBefore["inventory"]["items"]["kopi_o_kaw"].AsInt(),
+            "the guest's other play is not added");
+        Check(round.AdoptReason != "layout", $"the device's layout now matches the account (adoption: {round.AdoptReason ?? "none"})");
     }
 
     // ---------------------------------------------------------------- helpers

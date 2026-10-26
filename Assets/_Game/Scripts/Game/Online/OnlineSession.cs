@@ -45,11 +45,12 @@ namespace DemoRestaurant.Game.Online
         public event Action<string, string> ActionRejected;
 
         /// <summary>
-        /// First sign-in of a brand-new account on a device that already has play: true keeps this device's
-        /// restaurant (its queued actions and layout go to the account), false starts from the account's.
-        /// Null (no UI) loads the account's.
+        /// Asks the player at sign-in whether to keep this device's restaurant (true) or load the account's (false),
+        /// for <see cref="AccountChange.AskKeepDevice"/> (a brand-new account: the device's queued play and layout go
+        /// to it) and <see cref="AccountChange.AskKeepDeviceLayout"/> (an account with progress: only the device's
+        /// unsent renovation goes to it). Null (no UI) loads the account's.
         /// </summary>
-        public Func<Awaitable<bool>> AskKeepDeviceRestaurant { get; set; }
+        public Func<AccountChange, Awaitable<bool>> AskKeepDeviceRestaurant { get; set; }
 
         public OnlineSession(OnlineConfig config, RestaurantSession game, string packId, ServerIdMap ids, string defaultWallpaper = null)
         {
@@ -315,12 +316,21 @@ namespace DemoRestaurant.Game.Online
         private async Awaitable ClaimOrForget(JsonValue state)
         {
             string user = Auth.UserId;
-            var change = OnlineSync.OnSignIn(_savedPlayer, user, state, Sync.DeviceHasPlay);
+            var change = OnlineSync.OnSignIn(_savedPlayer, user, state, Sync.DeviceHasPlay, Sync.DeviceHasRenovation);
             if (change == AccountChange.SameAccount) return;
-            if (change == AccountChange.AskKeepDevice && AskKeepDeviceRestaurant != null && await AskKeepDeviceRestaurant())
+            bool asked = change == AccountChange.AskKeepDevice || change == AccountChange.AskKeepDeviceLayout;
+            if (asked && AskKeepDeviceRestaurant != null && await AskKeepDeviceRestaurant(change))
             {
-                Debug.Log("Online: keeping this device's restaurant for the new account.");
-                Sync.KeepDevice();
+                if (change == AccountChange.AskKeepDevice)
+                {
+                    Debug.Log("Online: keeping this device's restaurant for the new account.");
+                    Sync.KeepDevice(state);
+                }
+                else
+                {
+                    Debug.Log("Online: keeping this device's layout for the account; its other unsent play is dropped.");
+                    Sync.KeepDeviceLayout(state);
+                }
             }
             else
             {

@@ -30,6 +30,9 @@ namespace DemoRestaurant.Logic.Online
         SameAccount,
         /// <summary>A brand-new account on a device with guest play: ask whether to keep this device's restaurant.</summary>
         AskKeepDevice,
+        /// <summary>An account with progress on a device with an unsent renovation: ask whether to keep this device's
+        /// layout (its other unsent play is dropped either way).</summary>
+        AskKeepDeviceLayout,
         /// <summary>The account already has a restaurant (or the device has nothing): drop the device's queued
         /// actions and load the account's.</summary>
         LoadAccount,
@@ -108,15 +111,21 @@ namespace DemoRestaurant.Logic.Online
 
         /// <summary>
         /// Who wins when <paramref name="user"/> signs in on a device last synced by <paramref name="deviceOwner"/>
-        /// (null: never synced, guest play). An account that already has progress always wins; only a brand-new
-        /// account may take over the device's guest restaurant.
+        /// (null: never synced, guest play). A brand-new account may take over the device's guest restaurant. An account
+        /// that already has progress keeps its own, except that the player may keep an unsent guest renovation as the
+        /// account's layout. Another account's device play never moves to this one.
         /// </summary>
-        public static AccountChange OnSignIn(string deviceOwner, string user, JsonValue state, bool deviceHasPlay)
+        public static AccountChange OnSignIn(string deviceOwner, string user, JsonValue state, bool deviceHasPlay,
+            bool deviceHasRenovation = false)
         {
             if (deviceOwner == user) return AccountChange.SameAccount;
-            return string.IsNullOrEmpty(deviceOwner) && deviceHasPlay && IsNewAccount(state)
-                ? AccountChange.AskKeepDevice : AccountChange.LoadAccount;
+            if (!string.IsNullOrEmpty(deviceOwner)) return AccountChange.LoadAccount;
+            if (deviceHasPlay && IsNewAccount(state)) return AccountChange.AskKeepDevice;
+            return deviceHasRenovation ? AccountChange.AskKeepDeviceLayout : AccountChange.LoadAccount;
         }
+
+        /// <summary>The player saved a renovation that has not reached the server.</summary>
+        public bool DeviceHasRenovation => Log.HasPending("layout");
 
         /// <summary>Nothing played on the server yet: no XP and the starter layout.</summary>
         public static bool IsNewAccount(JsonValue state) =>
@@ -133,11 +142,32 @@ namespace DemoRestaurant.Logic.Online
             _session.ServerRestaurantId = null;
         }
 
-        /// <summary>Keeps the device's restaurant for a new account: its layout and menu go up with the queued actions.</summary>
-        public void KeepDevice()
+        /// <summary>
+        /// Keeps the device's restaurant for a new account: its layout and menu go up with the queued actions.
+        /// <paramref name="state"/> is the account's state, so the starter furniture it owns isn't bought again.
+        /// </summary>
+        public void KeepDevice(JsonValue state = null)
         {
+            Seen(state);
             _session.RecordLayoutSaved(0);
             _session.RecordMenuChanged();
+        }
+
+        /// <summary>
+        /// Keeps only this device's layout for an account with progress: the rest of the unsent play is dropped and
+        /// the layout goes up as the account's renovation (the server checks it and charges the account for pieces
+        /// it doesn't own). <paramref name="state"/> is the account's state, so ownership is counted from it.
+        /// </summary>
+        public void KeepDeviceLayout(JsonValue state)
+        {
+            ForgetDevice();
+            Seen(state);
+            _session.RecordLayoutSaved(0);
+        }
+
+        private void Seen(JsonValue state)
+        {
+            if (state != null && state.Kind == JsonKind.Object) LastState = state;
         }
 
         // ---------------------------------------------------------------- state
@@ -170,15 +200,20 @@ namespace DemoRestaurant.Logic.Online
         /// <summary>Why the local restaurant can't simply continue (null when it matches the server).</summary>
         public string AdoptionReason(JsonValue state)
         {
-            if (Catalog != null && state["layout"].Kind == JsonKind.Object && !Log.HasPending("layout", "terrace"))
-            {
-                var scratch = new InstanceIdBook();
-                scratch.Restore(Instances.ToList());
-                var local = ServerLayoutCodec.Encode(_session.Layout, Catalog, Ids, scratch, _newId, null, DefaultWallpaper);
-                if (ServerLayoutCodec.Fingerprint(local) != ServerLayoutCodec.Fingerprint(state["layout"])) return "layout";
-            }
+            if (Catalog != null && state["layout"].Kind == JsonKind.Object && !Log.HasPending("layout", "terrace") &&
+                LocalFingerprint() != ServerLayoutCodec.Fingerprint(state["layout"]))
+                return "layout";
             if (!Log.HasPending("hire", "dismiss", "owner_role") && _session.StaffDiffersFrom(state)) return "staff";
             return null;
+        }
+
+        /// <summary>The fingerprint of the local layout as the server would see it (null before the config loads).</summary>
+        public string LocalFingerprint()
+        {
+            if (Catalog == null) return null;
+            var scratch = new InstanceIdBook();
+            scratch.Restore(Instances.ToList());
+            return ServerLayoutCodec.Fingerprint(ServerLayoutCodec.Encode(_session.Layout, Catalog, Ids, scratch, _newId, null, DefaultWallpaper));
         }
 
         /// <summary>After the game adopted the server state: the instance ids are the server's.</summary>

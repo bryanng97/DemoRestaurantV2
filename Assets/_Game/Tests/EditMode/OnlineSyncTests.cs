@@ -276,6 +276,21 @@ namespace DemoRestaurant.Logic.Tests
             var again = ServerLayoutCodec.Encode(target, Catalog(), Ids, new InstanceIdBook(), Uuids());
             Assert.AreEqual(ServerLayoutCodec.Fingerprint(doc), ServerLayoutCodec.Fingerprint(again));
         }
+
+        [Test]
+        public void Difference_NamesTheRoomAndThePiecesThatDisagree()
+        {
+            string server = ServerLayoutCodec.Fingerprint(ServerLayoutCodec.Encode(Room(), Catalog(), Ids, new InstanceIdBook(), Uuids()));
+            var grown = new RestaurantLayout(7, 5, new GridPos(0, 3)); // e.g. a room grown by a test-mode level-up
+            grown.TryPlace(Stove, new GridPos(1, 1), Facing.SouthWest, out _);
+            grown.TryPlace(Table, new GridPos(3, 2), Facing.SouthWest, out _);
+            grown.TryPlace(Chair, new GridPos(2, 2), Facing.SouthEast, out _);
+            grown.TryPlace(Chair, new GridPos(6, 4), Facing.SouthWest, out _);
+            grown.TryHang(Window, WallSide.Right, 2, out _);
+            string local = ServerLayoutCodec.Fingerprint(ServerLayoutCodec.Encode(grown, Catalog(), Ids, new InstanceIdBook(), Uuids()));
+            Assert.AreEqual("room 7x5 → 6x5, +f:wooden_chair@6,4/0, -f:table_lamp@3,2/0s", ServerLayoutCodec.Difference(local, server));
+            Assert.AreEqual("", ServerLayoutCodec.Difference(server, server));
+        }
     }
 
     public class OnlineSessionSyncTests
@@ -410,17 +425,50 @@ namespace DemoRestaurant.Logic.Tests
             Assert.AreEqual(s.Profile.GuestId, save.playerId);
         }
 
-        [TestCase("a", "a", 500, 3, true, AccountChange.SameAccount)]
-        [TestCase(null, "a", 0, 1, true, AccountChange.AskKeepDevice)]
-        [TestCase(null, "a", 0, 1, false, AccountChange.LoadAccount)]
-        [TestCase(null, "a", 500, 1, true, AccountChange.LoadAccount)]
-        [TestCase(null, "a", 0, 4, true, AccountChange.LoadAccount)]
-        [TestCase("b", "a", 0, 1, true, AccountChange.LoadAccount)]
-        public void SignIn_AnAccountWithProgressAlwaysWins(string deviceOwner, string user, int xp, int layoutRevision,
-            bool deviceHasPlay, AccountChange expected)
+        [TestCase("a", "a", 500, 3, true, true, AccountChange.SameAccount)]
+        [TestCase(null, "a", 0, 1, true, false, AccountChange.AskKeepDevice)]
+        [TestCase(null, "a", 0, 1, true, true, AccountChange.AskKeepDevice)]
+        [TestCase(null, "a", 0, 1, false, false, AccountChange.LoadAccount)]
+        [TestCase(null, "a", 500, 1, true, false, AccountChange.LoadAccount)]
+        [TestCase(null, "a", 0, 4, true, false, AccountChange.LoadAccount)]
+        [TestCase(null, "a", 500, 3, true, true, AccountChange.AskKeepDeviceLayout)]
+        [TestCase("b", "a", 0, 1, true, false, AccountChange.LoadAccount)]
+        [TestCase("b", "a", 500, 3, true, true, AccountChange.LoadAccount)]
+        public void SignIn_AnAccountWithProgressKeepsItsOwn_UnlessThePlayerKeepsAGuestRenovation(string deviceOwner, string user,
+            int xp, int layoutRevision, bool deviceHasPlay, bool deviceHasRenovation, AccountChange expected)
         {
             var state = JsonValue.Parse("{\"xp\":" + xp + ",\"layoutRevision\":" + layoutRevision + "}");
-            Assert.AreEqual(expected, OnlineSync.OnSignIn(deviceOwner, user, state, deviceHasPlay));
+            Assert.AreEqual(expected, OnlineSync.OnSignIn(deviceOwner, user, state, deviceHasPlay, deviceHasRenovation));
+        }
+
+        [Test]
+        public void KeepDeviceLayout_SendsOnlyTheLayout_AndBuysOnlyWhatTheAccountLacks()
+        {
+            var s = Session();
+            var sync = new OnlineSync(s, newId: Uuids()) { Catalog = Catalog() };
+            s.Hire(Chef, new GridPos(3, 3), out _);
+            s.RecordLayoutSaved(120);
+            Assert.IsTrue(sync.DeviceHasRenovation);
+            // The account owns the stove already, and not the chair.
+            var account = JsonValue.Parse("{\"restaurantId\":\"bd2cd2fe-187f-4ad3-b85b-39767ab556f4\",\"inventory\":{\"furniture\":{\"gas_stove\":1}}}");
+            sync.KeepDeviceLayout(account);
+            s.ServerRestaurantId = account["restaurantId"].AsString();
+            CollectionAssert.AreEqual(new[] { "layout" }, new List<ServerAction>(s.ServerLog.Items).ConvertAll(a => a.type),
+                "the guest hire is dropped");
+            var payload = sync.NextRequest(out _)["entries"][0]["payload"];
+            Assert.AreEqual("{\"wooden_chair\":1}", payload["buy"].ToString());
+        }
+
+        private static ServerCatalog Catalog() => ServerCatalog.FromConfig(JsonValue.Parse(
+            "{\"rulesetId\":\"malaysia\",\"version\":2,\"body\":{\"catalog\":{\"furniture\":[" +
+            "{\"id\":\"gas_stove\",\"placement\":\"floor\",\"price\":120},{\"id\":\"wooden_chair\",\"placement\":\"floor\",\"price\":20}," +
+            "{\"id\":\"floor_wood\",\"placement\":\"floorTile\",\"price\":0}]," +
+            "\"exterior\":[],\"items\":[]},\"rules\":{\"street\":{\"cells\":[]}}}}"));
+
+        private static Func<string> Uuids()
+        {
+            int n = 0;
+            return () => "22222222-2222-4222-8222-" + (++n).ToString("000000000000");
         }
 
         [Test]

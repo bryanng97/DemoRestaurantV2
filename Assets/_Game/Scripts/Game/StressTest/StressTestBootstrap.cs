@@ -265,8 +265,10 @@ namespace DemoRestaurant.Game.StressTest
                 _content.Theme.wallpapers.Length > 0 ? _content.Theme.wallpapers[0].id : null);
             _ui.BindOnline(_online);
             _online.AdoptionNeeded += AdoptServerState;
-            _online.AskKeepDeviceRestaurant = () => _ui.Ask("ui.online.choose.title", "ui.online.choose.body",
-                "ui.online.choose.keep", "ui.online.choose.fresh");
+            _online.AskKeepDeviceRestaurant = change => change == Logic.Online.AccountChange.AskKeepDeviceLayout
+                ? _ui.Ask("ui.online.choose_layout.title", "ui.online.choose_layout.body",
+                    "ui.online.choose_layout.keep", "ui.online.choose_layout.account")
+                : _ui.Ask("ui.online.choose.title", "ui.online.choose.body", "ui.online.choose.keep", "ui.online.choose.fresh");
             if (!_online.IsConfigured) return;
             _online.StateChanged += () =>
             {
@@ -287,11 +289,20 @@ namespace DemoRestaurant.Game.StressTest
             return new ServerIdMap(JsonUtility.FromJson<ServerIdMap.File>(text.text)?.ids);
         }
 
-        // The last server restaurant adopted (it survives the scene reload). Adopting the very same state again
-        // means it can't be shown locally, so the local one is kept instead of reloading in a loop; a different
-        // state (another account, a later change) is adopted as usual.
+        // The last adoption: the server restaurant and the local layout it replaced (it survives the scene reload).
+        // Being asked to adopt the same server state onto the same local layout again means the server's can't be
+        // shown here, so the local one is kept instead of reloading in a loop. Any change on either side (another
+        // account, a later renovation, a room grown by test mode) is adopted as usual.
         private static string s_lastAdoption;
         private static bool s_showAdopted;
+
+        // Play mode starts with domain reload off, so statics would otherwise outlive the previous session.
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void ResetStatics()
+        {
+            s_lastAdoption = null;
+            s_showAdopted = false;
+        }
 
         /// <summary>
         /// The server's restaurant differs from ours in a way that can't be patched in place (another device, a
@@ -305,10 +316,13 @@ namespace DemoRestaurant.Game.StressTest
                 Debug.Log($"Online: the server restaurant differs ({reason}); it loads after the editor closes.");
                 return;
             }
-            string key = AdoptionKey(state);
+            string local = _online.Sync.LocalFingerprint();
+            string detail = reason == "layout" && state["layout"].Kind == JsonKind.Object
+                ? ": " + ServerLayoutCodec.Difference(local, ServerLayoutCodec.Fingerprint(state["layout"])) : "";
+            string key = AdoptionKey(state) + "#" + local;
             if (key == s_lastAdoption)
             {
-                Debug.LogWarning($"Online: the server restaurant was already loaded but still differs ({reason}); keeping the local one.");
+                Debug.LogWarning($"Online: the server restaurant was already loaded but still differs ({reason}{detail}); keeping the local one.");
                 return;
             }
             var ids = _online.Sync.Ids;
@@ -338,7 +352,7 @@ namespace DemoRestaurant.Game.StressTest
             _store.Save(save);
             _online.Sync.Adopted(state);
             _online.SaveSync();
-            Debug.Log($"Online: adopted the server restaurant ({reason}).");
+            Debug.Log($"Online: adopted the server restaurant ({reason}{detail}).");
             s_showAdopted = true;
             _resetting = true; // nothing else may overwrite the adopted saves before the reload
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
