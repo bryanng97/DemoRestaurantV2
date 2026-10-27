@@ -277,6 +277,19 @@ namespace DemoRestaurant.Game.UI
             }
         }
 
+        private void LateUpdate()
+        {
+            if (_actions == null) return;
+            bool panelVisible = false;
+            foreach (var panel in _panels)
+            {
+                // Keep Actions hidden until the last panel's closing animation has finished.
+                if (panel.IsOpen || panel.Root.gameObject.activeSelf) { panelVisible = true; break; }
+            }
+            if (_actions.gameObject.activeSelf == panelVisible)
+                _actions.gameObject.SetActive(!panelVisible);
+        }
+
         private T AddPanel<T>(RectTransform root) where T : SlidePanel
         {
             var panel = new GameObject(typeof(T).Name).AddComponent<T>();
@@ -284,6 +297,8 @@ namespace DemoRestaurant.Game.UI
             panel.Build(this, root);
             panel.Opened += opened =>
             {
+                _actions?.SetExpanded(false);
+                if (_actions != null) _actions.gameObject.SetActive(false);
                 foreach (var other in _panels)
                     if (other != opened) other.SetOpen(false);
             };

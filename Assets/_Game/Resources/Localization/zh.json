@@ -1,5 +1,22 @@
 {
   "entries": [
+    {"key": "exterior.exit_editor", "value": "退出编辑"},
+    {"key": "exterior.undo_icon", "value": "↶"},
+    {"key": "exterior.done", "value": "完成"},
+    {"key": "exterior.edit_cost", "value": "花费 {0} 金币"},
+    {"key": "exterior.unsaved_title", "value": "有未保存的修改"},
+    {"key": "exterior.unsaved_body", "value": "离开前是否保存本次外观修改？"},
+    {"key": "exterior.keep_editing", "value": "继续编辑"},
+    {"key": "exterior.discard", "value": "放弃修改"},
+    {"key": "exterior.save_changes", "value": "保存修改"},
+
+    {"key": "ui.build.category_previous", "value": "<"},
+    {"key": "ui.build.category_next", "value": ">"},
+    {"key": "ui.build.category_swipe", "value": "左右滑动分类"},
+
+    {"key": "ui.build.more", "value": "更多"},
+    {"key": "ui.build.done", "value": "完成装修"},
+
     { "key": "avatar.native.gender.female", "value": "开心" },
     { "key": "avatar.native.gender.male", "value": "淡然" },
     { "key": "avatar.native.eyes.round", "value": "英气眼" },
@@ -524,10 +541,10 @@
     { "key": "ui.build.store", "value": "收起" },
     { "key": "ui.build.store_all", "value": "全部收起" },
     { "key": "ui.build.free", "value": "免费" },
-    { "key": "ui.build.holding_hint", "value": "点一下放到那里。拖回下方商店栏就收进仓库。" },
-    { "key": "ui.build.pick_hint", "value": "点家具把它拿起来，或从商店拿新的。沿着墙拖动门就能移动门。" },
-    { "key": "ui.build.holding_hint_mouse", "value": "左键放下 · 右键或 R 旋转 · 放到下方商店栏或按 Delete 收起" },
-    { "key": "ui.build.pick_hint_mouse", "value": "点家具拿起（也可以直接拖）。把商店卡片往上拖出来就能摆放。按住右键拖动画面。" },
+    {"key": "ui.build.holding_hint", "value": "点一下放置，用下方按钮旋转或收起。"},
+    {"key": "ui.build.pick_hint", "value": "上下滑动浏览，向右拖入餐厅，或点选家具后放置。"},
+    {"key": "ui.build.holding_hint_mouse", "value": "左键放置 · R 旋转 · Delete 收起"},
+    {"key": "ui.build.pick_hint_mouse", "value": "上下滚动列表，向右拖入餐厅；按住右键平移画面。"},
     { "key": "ui.build.stored", "value": "已收进仓库。" },
     { "key": "ui.build.stored_all", "value": "全部收进仓库了。" },
     { "key": "ui.build.door_cant_store", "value": "门只能移动，不能收起。" },

@@ -1,5 +1,22 @@
 {
   "entries": [
+    {"key": "exterior.exit_editor", "value": "Keluar"},
+    {"key": "exterior.undo_icon", "value": "↶"},
+    {"key": "exterior.done", "value": "Selesai"},
+    {"key": "exterior.edit_cost", "value": "Kos: {0} syiling"},
+    {"key": "exterior.unsaved_title", "value": "Perubahan belum disimpan"},
+    {"key": "exterior.unsaved_body", "value": "Simpan perubahan luaran sebelum keluar?"},
+    {"key": "exterior.keep_editing", "value": "Terus sunting"},
+    {"key": "exterior.discard", "value": "Buang"},
+    {"key": "exterior.save_changes", "value": "Simpan"},
+
+    {"key": "ui.build.category_previous", "value": "<"},
+    {"key": "ui.build.category_next", "value": ">"},
+    {"key": "ui.build.category_swipe", "value": "Leret kategori"},
+
+    {"key": "ui.build.more", "value": "Lagi"},
+    {"key": "ui.build.done", "value": "Selesai"},
+
     { "key": "avatar.native.gender.female", "value": "Happy" },
     { "key": "avatar.native.gender.male", "value": "Indifferent" },
     { "key": "avatar.native.eyes.round", "value": "Dashing Eyes" },
@@ -524,10 +541,10 @@
     { "key": "ui.build.store", "value": "Simpan" },
     { "key": "ui.build.store_all", "value": "Simpan semua" },
     { "key": "ui.build.free", "value": "Percuma" },
-    { "key": "ui.build.holding_hint", "value": "Ketik tempatnya. Lepaskan di bar kedai untuk menyimpan." },
-    { "key": "ui.build.pick_hint", "value": "Ketik perabot untuk mengangkatnya, atau ambil dari kedai. Seret pintu di sepanjang dinding untuk mengalihkannya." },
-    { "key": "ui.build.holding_hint_mouse", "value": "Klik kiri untuk letak · Klik kanan atau R untuk putar · Lepas di bar kedai atau tekan Delete untuk simpan." },
-    { "key": "ui.build.pick_hint_mouse", "value": "Klik perabot untuk angkat (atau seret). Seret kad keluar dari kedai untuk meletakkannya. Seret klik kanan untuk menatal." },
+    {"key": "ui.build.holding_hint", "value": "Ketik untuk letak. Gunakan Putar atau Simpan di bawah."},
+    {"key": "ui.build.pick_hint", "value": "Tatal atas/bawah. Seret kad ke kanan ke restoran, atau ketik untuk pilih."},
+    {"key": "ui.build.holding_hint_mouse", "value": "Klik untuk letak · R untuk putar · Delete untuk simpan"},
+    {"key": "ui.build.pick_hint_mouse", "value": "Tatal senarai; seret kad ke kanan ke restoran. Seret klik kanan untuk alih paparan."},
     { "key": "ui.build.stored", "value": "Disimpan di stor." },
     { "key": "ui.build.stored_all", "value": "Semua telah disimpan." },
     { "key": "ui.build.door_cant_store", "value": "Pintu boleh dialihkan, bukan disimpan." },

@@ -83,7 +83,14 @@ namespace DemoRestaurant.Tests
                 Capture(root, "hud-actions");
                 Tap((RectTransform)actions.Content.GetChild(1)); // Menu action still receives a real touch.
                 Assert.IsFalse(actions.Expanded); Assert.IsTrue(ui.MenuPanel.IsOpen);
+                Assert.IsFalse(actions.gameObject.activeSelf, "The menu replaces the left Actions drawer.");
+                yield return new WaitForSecondsRealtime(.25f);
+                Assert.That(ui.MenuPanel.Root.anchoredPosition.x, Is.InRange(15f, 17f), "Panels use the same small safe-area inset.");
                 ui.MenuPanel.Toggle();
+                yield return new WaitForSecondsRealtime(.25f);
+                yield return null; // Allow LateUpdate to restore Actions after the closing animation.
+                Assert.IsTrue(actions.gameObject.activeSelf);
+                Assert.IsFalse(actions.Expanded);
                 Tap((RectTransform)places.transform.Find("Toggle"));
                 Assert.IsTrue(places.Expanded);
                 yield return null; Canvas.ForceUpdateCanvases();

@@ -26,6 +26,7 @@ namespace DemoRestaurant.Game.Controls
             maxSize = Mathf.Max(minSize, max);
             if (_camera != null)
                 _camera.orthographicSize = Mathf.Clamp(_camera.orthographicSize, minSize, maxSize);
+            Clamp();
         }
         [SerializeField] private float scrollZoomStep = 0.1f;
 
@@ -60,8 +61,10 @@ namespace DemoRestaurant.Game.Controls
             Vector2 right = IsoProjection.GridToWorld(maxX, minY);
             Vector2 top = IsoProjection.GridToWorld(minX, minY, 3f);
             Vector2 bottom = IsoProjection.GridToWorld(maxX, maxY);
-            maxSize = Mathf.Max(9f, (top.y - bottom.y) * 0.65f);
-            SetBounds(Rect.MinMaxRect(left.x, bottom.y, right.x, top.y));
+            maxSize = Mathf.Max(6f, (top.y - bottom.y) * .6f);
+            // Lawn around the playable area allows close-up panning without exposing scenery ends.
+            const float margin = 6f;
+            SetBounds(Rect.MinMaxRect(left.x - margin, bottom.y - margin, right.x + margin, top.y + margin));
         }
 
         private void Awake()
@@ -80,6 +83,7 @@ namespace DemoRestaurant.Game.Controls
             else
                 HandleMouse();
             _lastTouchCount = Touch.activeTouches.Count;
+            Clamp(); // Also re-fit after aspect-ratio changes or an external camera-size update.
         }
 
         private void HandleTouches()
@@ -168,10 +172,26 @@ namespace DemoRestaurant.Game.Controls
 
         private void Clamp()
         {
+            if (_camera == null) return;
+            _camera.orthographicSize = ClampZoom(_bounds, _camera.orthographicSize, minSize, maxSize, _camera.aspect);
             Vector3 p = transform.position;
-            p.x = Mathf.Clamp(p.x, _bounds.xMin, _bounds.xMax);
-            p.y = Mathf.Clamp(p.y, _bounds.yMin, _bounds.yMax);
-            transform.position = p;
+            Vector2 center = ClampViewportCenter(_bounds, p, _camera.orthographicSize, _camera.aspect);
+            transform.position = new Vector3(center.x, center.y, p.z);
+        }
+
+        private static Vector2 ClampViewportCenter(Rect bounds, Vector2 position, float halfHeight, float aspect)
+        {
+            float x = Mathf.Min(halfHeight * aspect, bounds.width * .5f);
+            float y = Mathf.Min(halfHeight, bounds.height * .5f);
+            return new Vector2(Mathf.Clamp(position.x, bounds.xMin + x, bounds.xMax - x),
+                Mathf.Clamp(position.y, bounds.yMin + y, bounds.yMax - y));
+        }
+
+        private static float ClampZoom(Rect bounds, float size, float min, float max, float aspect)
+        {
+            float limit = Mathf.Max(.1f, Mathf.Min(max, bounds.height * .5f,
+                bounds.width / (2f * Mathf.Max(.1f, aspect))));
+            return Mathf.Clamp(size, Mathf.Min(min, limit), limit);
         }
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 namespace DemoRestaurant.Game.UI
 {
     /// <summary>
-    /// A panel that slides in from the left next to the toolbar, with a title and a close button.
+    /// A panel that slides in just inside the left safe edge, with a title and a close button.
     /// Subclasses build their content once and refresh it while visible.
     /// </summary>
     public abstract class SlidePanel : MonoBehaviour
@@ -14,7 +14,7 @@ namespace DemoRestaurant.Game.UI
         private const float SlideSeconds = 0.22f;
         protected const float Width = 840f;
         protected const float Height = 960f;
-        private const float OpenX = 150f; // just right of the left button column
+        private const float OpenX = 16f; // small inset inside the safe area; Actions hides while panels are visible
 
         private bool _open;
         private float _slide;

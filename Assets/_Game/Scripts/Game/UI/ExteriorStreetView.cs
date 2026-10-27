@@ -20,7 +20,10 @@ namespace DemoRestaurant.Game.UI
         private RectTransform _movingRect;
         private Image _movingImage;
         private Text _balance, _hint, _saveLabel;
-        private Button _saveButton;
+        private Button _saveButton, _undoButton, _flipButton, _storeButton;
+        private RectTransform _selectionTools;
+        private Text _costLabel;
+        private GameObject _exitPrompt;
         private readonly Dictionary<string, Sprite> _sprites = new Dictionary<string, Sprite>();
         private readonly List<(Text label,string key)> _localized = new List<(Text,string)>();
         private readonly Stack<ExteriorSave> _undo = new Stack<ExteriorSave>();
@@ -33,6 +36,7 @@ namespace DemoRestaurant.Game.UI
         private bool _placingNew, _cameraWasEnabled;
         private CameraController _camera;
         private GameObject _browseButtons, _editButtons;
+        private RectTransform _enterButton;
         public bool IsOpen => _root != null && _root.gameObject.activeSelf;
         public bool IsEditing { get; private set; }
         public Func<SaveData, bool> Persist { get; set; }
@@ -81,8 +85,9 @@ namespace DemoRestaurant.Game.UI
             _balance = Label(safe, "ExteriorBalance", 27, Color.white, TextAnchor.MiddleLeft);
             UiKit.Place(_balance.rectTransform, 35, 22, 380, 60);
             var back = Button(safe, "Enter", "exterior.enter", 235, Close);
+            _enterButton = back;
             back.anchorMin = back.anchorMax = back.pivot = new Vector2(1, 1);
-            back.anchoredPosition = new Vector2(-30, -20);
+            back.anchoredPosition = new Vector2(-30, -20); back.sizeDelta = new Vector2(300, 104);
 
             _stage = UiKit.NewRect("StreetStage", safe);
             _stage.anchorMin = _stage.anchorMax = _stage.pivot = new Vector2(.5f, .5f);
@@ -100,28 +105,52 @@ namespace DemoRestaurant.Game.UI
             var browse = (RectTransform)_browseButtons.transform;
             browse.anchorMin = browse.anchorMax = new Vector2(.5f, 0); browse.sizeDelta = new Vector2(700, 100);
             browse.anchoredPosition = new Vector2(0, 135);
-            UiKit.Place(Button(browse, "EditExterior", "exterior.edit", 320, BeginEdit), 190, 0, 320, 72);
+            UiKit.Place(Button(browse, "EditExterior", "exterior.edit", 320, BeginEdit), 135, 0, 430, 128);
 
             _editButtons = UiKit.NewRect("EditorControls", safe).gameObject;
             var edit = (RectTransform)_editButtons.transform;
             UiKit.Stretch(edit);
             var toolbar = UiKit.NewRect("EditToolbar", edit);
-            toolbar.anchorMin = toolbar.anchorMax = toolbar.pivot = new Vector2(.5f, 1);
-            toolbar.anchoredPosition = new Vector2(0, -90); toolbar.sizeDelta = new Vector2(1080, 60);
-            UiKit.Place(Button(toolbar, "Cancel", "exterior.cancel", 170, CancelEdit), 0, 0, 170, 58);
-            UiKit.Place(Button(toolbar, "Undo", "exterior.undo", 150, Undo), 182, 0, 150, 58);
-            UiKit.Place(Button(toolbar, "Flip", "exterior.flip", 150, Flip), 344, 0, 150, 58);
-            UiKit.Place(Button(toolbar, "Store", "exterior.remove", 230, StoreSelected), 506, 0, 230, 58);
-            _saveButton = UiKit.TextButton(toolbar, "SaveExterior", UiKit.Green, 23, Save, out _saveLabel);
-            UiKit.Place((RectTransform)_saveButton.transform, 750, 0, 330, 58);
+            UiKit.Stretch(toolbar);
+            var exit = Button(toolbar, "ExitEditor", "exterior.exit_editor", 230, RequestExitEdit);
+            AnchorTop(exit, false, 30, 22, 230, 104);
+            var undo = Button(toolbar, "Undo", "exterior.undo_icon", 104, Undo);
+            _undoButton = undo.GetComponent<Button>();
+            AnchorTop(undo, true, 266, 22, 104, 104);
+            _saveButton = UiKit.TextButton(toolbar, "SaveExterior", UiKit.Green, 32, Save, out _saveLabel);
+            _saveLabel.text = Loc.Get("exterior.done"); _localized.Add((_saveLabel, "exterior.done"));
+            AnchorTop((RectTransform)_saveButton.transform, true, 30, 22, 220, 104);
+            _costLabel = Label(toolbar, "RenovationCost", 26, UiKit.Cream, TextAnchor.MiddleRight);
+            AnchorTop(_costLabel.rectTransform, true, 30, 132, 350, 44);
+            FitLabel(_costLabel, 22, 26);
+
+            _selectionTools = UiKit.Box(edit, "SelectionTools", UiKit.CardRim, UiKit.Cream, 3);
+            _selectionTools.anchorMin = _selectionTools.anchorMax = _selectionTools.pivot = new Vector2(1, 0);
+            _selectionTools.anchoredPosition = new Vector2(-30, 352); _selectionTools.sizeDelta = new Vector2(440, 112);
+            var flip = Button(_selectionTools, "Flip", "exterior.flip", 190, Flip);
+            UiKit.Place(flip, 8, 8, 190, 96); _flipButton = flip.GetComponent<Button>();
+            var store = Button(_selectionTools, "Store", "exterior.store_short", 222, StoreSelected);
+            UiKit.Place(store, 210, 8, 222, 96); _storeButton = store.GetComponent<Button>();
+            _selectionTools.gameObject.SetActive(false);
             _shop = UiKit.Box(edit, "ExteriorShop", UiKit.Wood, UiKit.Cream, 4);
             _shop.anchorMin = new Vector2(0, 0); _shop.anchorMax = new Vector2(1, 0);
-            _shop.pivot = new Vector2(.5f, 0); _shop.sizeDelta = new Vector2(-30, 240);
+            _shop.pivot = new Vector2(.5f, 0); _shop.sizeDelta = new Vector2(-30, 336);
             _shop.anchoredPosition = new Vector2(0, 8);
             _hint = Label(safe, "StreetHint", 22, UiKit.Cream, TextAnchor.MiddleCenter);
             _hint.rectTransform.anchorMin = new Vector2(.05f, 0); _hint.rectTransform.anchorMax = new Vector2(.95f, 0);
             _hint.rectTransform.pivot = new Vector2(.5f, 0); _hint.rectTransform.sizeDelta = new Vector2(0, 55);
-            _hint.rectTransform.anchoredPosition = new Vector2(0, 250);
+            _hint.rectTransform.anchoredPosition = new Vector2(0, 346);
+            var promptCard = UiKit.Modal(_canvas, "UnsavedExterior", new Vector2(980, 450), out _exitPrompt);
+            var promptTitle = UiKit.Label(promptCard, "Title", 40, 28, 900, 62, 36, TextAnchor.MiddleCenter, UiKit.DarkText);
+            _localized.Add((promptTitle, "exterior.unsaved_title"));
+            var promptBody = UiKit.Label(promptCard, "Body", 60, 110, 860, 120, 28, TextAnchor.MiddleCenter, UiKit.DarkText, true);
+            _localized.Add((promptBody, "exterior.unsaved_body"));
+            UiKit.Place(Button(promptCard, "ContinueEditing", "exterior.keep_editing", 280, HideExitPrompt), 40, 302, 280, 104);
+            UiKit.Place(Button(promptCard, "Discard", "exterior.discard", 280, () => { HideExitPrompt(); CancelEdit(); }), 350, 302, 280, 104);
+            var savePrompt = UiKit.TextButton(promptCard, "SaveChanges", UiKit.Green, 30,
+                () => { HideExitPrompt(); Save(); }, out var promptSaveLabel);
+            _localized.Add((promptSaveLabel, "exterior.save_changes"));
+            FitLabel(promptSaveLabel, 24, 30); UiKit.Place((RectTransform)savePrompt.transform, 660, 302, 280, 104);
             _root.gameObject.SetActive(false);
         }
 
@@ -144,6 +173,7 @@ namespace DemoRestaurant.Game.UI
         {
             // Leaving an open editor is an explicit cancel; only Save commits the draft.
             IsEditing = false; _moving = null; _activePointer = null;
+            HideExitPrompt();
             _root.gameObject.SetActive(false);
             _ui.SetGameplayVisible(true);
             if (_camera != null) _camera.enabled = _cameraWasEnabled;
@@ -151,14 +181,38 @@ namespace DemoRestaurant.Game.UI
 
         private void BeginEdit()
         {
-            IsEditing = true;
+            IsEditing = true; HideExitPrompt();
             _activePointer = null;
             _draft = _ui.Session.CaptureExterior();
+            _undo.Clear();
             _nextInstance = 1;
             foreach (var p in _draft.pieces) _nextInstance = Math.Max(_nextInstance, p.instance + 1);
             Refresh();
         }
-        private void CancelEdit() { IsEditing = false; _moving = null; _selected = 0; _activePointer = null; _draft = _ui.Session.CaptureExterior(); Refresh(); }
+        private void HideExitPrompt() => _exitPrompt.SetActive(false);
+
+        private void RequestExitEdit()
+        {
+            if (!HasExteriorChanges(_ui.Session.CaptureExterior(), _draft, _moving)) { CancelEdit(); return; }
+            _exitPrompt.transform.SetAsLastSibling(); _exitPrompt.SetActive(true);
+        }
+
+        private static bool HasExteriorChanges(ExteriorSave original, ExteriorSave draft, ExteriorPiece moving)
+        {
+            int count = draft.pieces.Count;
+            if (moving != null && !draft.pieces.Exists(p => p.instance == moving.instance)) count++;
+            if (original.pieces.Count != count) return true;
+            foreach (var saved in original.pieces)
+            {
+                var piece = moving != null && moving.instance == saved.instance
+                    ? moving : draft.pieces.Find(p => p.instance == saved.instance);
+                if (piece == null || piece.itemId != saved.itemId || piece.x != saved.x || piece.y != saved.y || piece.flipped != saved.flipped)
+                    return true;
+            }
+            return false;
+        }
+
+        private void CancelEdit() { HideExitPrompt(); IsEditing = false; _moving = null; _selected = 0; _activePointer = null; _draft = _ui.Session.CaptureExterior(); Refresh(); }
         private void Undo()
         {
             _moving = null; _selected = 0;
@@ -169,11 +223,14 @@ namespace DemoRestaurant.Game.UI
         private ExteriorPiece Selected() => _draft.pieces.Find(p => p.instance == _selected);
         private void StoreSelected()
         {
-            _moving = null;
-            var p = Selected(); if (p == null) return;
+            var p = _moving ?? Selected(); if (p == null) return;
             var kind = Catalog.Get(p.itemId).kind;
             if (ExteriorCatalog.Fixed(kind) || kind == ExteriorKind.Door) { _hint.text = Loc.Get("exterior.required"); return; }
-            Checkpoint(); _draft.pieces.Remove(p); _selected = 0; Refresh();
+            if (_draft.pieces.Exists(piece => piece.instance == p.instance))
+            {
+                Checkpoint(); _draft.pieces.RemoveAll(piece => piece.instance == p.instance);
+            }
+            _moving = null; _placingNew = false; _activePointer = null; _selected = 0; Refresh();
         }
         private void Flip()
         {
@@ -320,11 +377,12 @@ namespace DemoRestaurant.Game.UI
         private void Update()
         {
             if (!IsOpen) return;
-            _stage.localScale = Vector3.one * Mathf.Min(1, _root.rect.width / 1450f);
+            ApplyStreetFraming();
+            RefreshSelectionTools();
             _balance.text = Loc.Format("exterior.cost", _ui.Session.Wallet.DisplayCoins);
             if (_markerArrow != null) _markerArrow.anchoredPosition = new Vector2(0f, Mathf.Abs(Mathf.Sin(Time.unscaledTime * 5f)) * 12f);
             // Mouse previews follow the pointer immediately. Touch places on the next tap/drag.
-            if (IsEditing && _moving != null && _placingNew && UnityEngine.InputSystem.Mouse.current != null &&
+            if (!_exitPrompt.activeSelf && IsEditing && _moving != null && _placingNew && UnityEngine.InputSystem.Mouse.current != null &&
                 UnityEngine.InputSystem.Mouse.current.delta.ReadValue().sqrMagnitude > 0)
             {
                 var mouse = new PointerEventData(EventSystem.current) { position = UnityEngine.InputSystem.Mouse.current.position.ReadValue() };
@@ -336,9 +394,12 @@ namespace DemoRestaurant.Game.UI
         private void Refresh()
         {
             _editButtons.SetActive(IsEditing); _browseButtons.SetActive(!IsEditing);
+            _enterButton.gameObject.SetActive(!IsEditing);
+            UiKit.Place(_balance.rectTransform, 35, IsEditing ? 138 : 22, 300, 60);
+            _hint.rectTransform.anchorMax = new Vector2(IsEditing ? .68f : .95f, 0);
             _hint.text = Loc.Get(IsEditing ? "exterior.hint" : "exterior.street_hint");
             if (IsEditing) DrawShop();
-            DrawBuilding(); RefreshCost();
+            DrawBuilding(); RefreshCost(); RefreshSelectionTools();
         }
         private void RefreshCost()
         {
@@ -350,24 +411,39 @@ namespace DemoRestaurant.Game.UI
                 proposed.pieces.Add(_moving.Copy());
             }
             bool valid = Catalog.TryQuote(_ui.Session.CaptureExterior(), proposed.pieces, _ui.Session.Progress.Level, out long cost, out _);
-            _saveLabel.text = Loc.Format("exterior.save", cost);
+            _costLabel.text = Loc.Format("exterior.edit_cost", cost);
             _saveButton.interactable = valid;
         }
 
         private void DrawShop()
         {
             Clear(_shop);
+            var categoryViewport = UiKit.NewRect("CategoryViewport", _shop);
+            categoryViewport.anchorMin = new Vector2(0, 1); categoryViewport.anchorMax = Vector2.one;
+            categoryViewport.offsetMin = new Vector2(12, -106); categoryViewport.offsetMax = new Vector2(-12, -10);
+            categoryViewport.gameObject.AddComponent<Image>().color = new Color(1, 1, 1, .01f);
+            categoryViewport.gameObject.AddComponent<RectMask2D>();
+            var categoryScroll = categoryViewport.gameObject.AddComponent<ScrollRect>();
+            categoryScroll.horizontal = true; categoryScroll.vertical = false;
+            categoryScroll.movementType = ScrollRect.MovementType.Clamped;
+            var categoryRow = UiKit.NewRect("Categories", categoryViewport);
+            categoryRow.anchorMin = categoryRow.anchorMax = categoryRow.pivot = new Vector2(0, 1);
+            categoryScroll.viewport = categoryViewport; categoryScroll.content = categoryRow;
             int categoryIndex = 0;
             foreach (ExteriorKind kind in Enum.GetValues(typeof(ExteriorKind)))
             {
                 var k = kind;
-                var button = UiKit.TextButton(_shop, kind.ToString(), k == _category ? UiKit.Green : UiKit.WoodLight,
-                    19, () => { _category = k; DrawShop(); }, out var label);
+                var button = UiKit.TextButton(categoryRow, kind.ToString(), k == _category ? UiKit.Green : UiKit.WoodLight,
+                    30, () => { _category = k; DrawShop(); }, out var label);
                 label.text = Loc.Get("exterior." + k);
-                UiKit.Place((RectTransform)button.transform, 14 + categoryIndex++ * 185, 10, 177, 43);
+                FitLabel(label, 24, 30);
+                UiKit.Place((RectTransform)button.transform, categoryIndex++ * 240, 0, 228, 96);
             }
+            categoryRow.sizeDelta = new Vector2(categoryIndex * 240, 96);
+            categoryScroll.horizontalNormalizedPosition = Mathf.Clamp01(((int)_category * 240f - 240f) /
+                Mathf.Max(1, categoryIndex * 240 - _root.rect.width + 54));
             var viewport = UiKit.NewRect("ShopViewport", _shop);
-            UiKit.Stretch(viewport, 12, 62, 12, 8);
+            UiKit.Stretch(viewport, 12, 116, 12, 8);
             viewport.gameObject.AddComponent<RectMask2D>();
             var scroll = viewport.gameObject.AddComponent<ScrollRect>();
             scroll.horizontal = true; scroll.vertical = false; scroll.movementType = ScrollRect.MovementType.Clamped;
@@ -381,21 +457,21 @@ namespace DemoRestaurant.Game.UI
                 if (d.kind != _category) continue;
                 var item = d;
                 var card = UiKit.Box(content, d.id, UiKit.CardRim, UiKit.CardFill, 2);
-                UiKit.Place(card, i++ * 220, 0, 208, 163);
+                UiKit.Place(card, i++ * 252, 0, 240, 208);
                 UiKit.AddButton(card, () => Choose(item));
                 // Drag a card up out of the bar to carry the piece straight to the building; sideways still scrolls.
                 var pull = card.gameObject.AddComponent<ExteriorCardDrag>();
                 pull.Owner = this; pull.Item = item; pull.Scroll = scroll;
-                var icon = UiKit.NewRect("Art", card); UiKit.Place(icon, 44, 4, 120, 82);
+                var icon = UiKit.NewRect("Art", card); UiKit.Place(icon, 60, 6, 120, 92);
                 UiKit.AddImage(icon, Sprite(d));
-                var name = Label(card, "ItemName", 18, UiKit.DarkText, TextAnchor.MiddleCenter);
-                UiKit.Place(name.rectTransform, 3, 85, 202, 30); name.text = Loc.Get(d.nameKey);
-                var price = Label(card, "Price", 17, UiKit.SoftText, TextAnchor.MiddleCenter);
-                UiKit.Place(price.rectTransform, 3, 115, 202, 42);
+                var name = Label(card, "ItemName", 28, UiKit.DarkText, TextAnchor.MiddleCenter);
+                UiKit.Place(name.rectTransform, 8, 100, 224, 54); name.text = Loc.Get(d.nameKey); FitLabel(name, 22, 28);
+                var price = Label(card, "Price", 23, UiKit.SoftText, TextAnchor.MiddleCenter);
+                UiKit.Place(price.rectTransform, 8, 156, 224, 50);
                 int count = owned.Find(o => o.itemId == d.id)?.count ?? 0;
                 price.text = Loc.Format("exterior.cost", d.price) + "\n" + Loc.Format("exterior.owned", count);
             }
-            content.sizeDelta = new Vector2(i * 220, 163);
+            content.sizeDelta = new Vector2(i * 252, 208);
         }
 
         private void DrawBuilding()
@@ -418,8 +494,36 @@ namespace DemoRestaurant.Game.UI
             float s = Mathf.Min(1f, 960f / frameWidth, 530f / (frameBox.Height + roofHeight));
             _building.localScale = new Vector3(s, s, 1f);
             _building.anchoredPosition = new Vector2(0f, -280f * (1f - s)); // keep the pavement line in place
+            ApplyStreetFraming();
             DrawFacade(_building, _draft, true, _box);
             DrawHandTools();
+        }
+
+        private void ApplyStreetFraming()
+        {
+            if (_stage == null || _draft == null) return;
+            foreach (Transform child in _stage)
+                if (child.name == "StreetExample") child.gameObject.SetActive(!IsEditing);
+            _stage.localScale = Vector3.one * (IsEditing ? 1f : Mathf.Min(1, _root.rect.width / 1450f));
+            if (!IsEditing) return; // DrawBuilding restores the fixed street framing on leaving edit mode.
+            var box = Catalog.BoxFor(Level);
+            var safe = (RectTransform)_stage.parent;
+            float baseline = _shop.anchoredPosition.y + _shop.sizeDelta.y + 60;
+            float ceiling = safe.rect.height - 212;
+            // RC WorldCustomiseBuilding uses a fixed 1.2 zoom. Fit the body and ordinary roof
+            // headroom to the mobile work area, never the bounds of every roof in the catalog.
+            float scale = EditZoom(box, safe.rect.width, Mathf.Max(120, ceiling - baseline));
+            _building.localScale = Vector3.one * scale;
+            _building.anchoredPosition = new Vector2(0,
+                baseline - safe.rect.height * .5f - _stage.anchoredPosition.y + (box.Bottom - 340) * scale);
+        }
+
+        private static float EditZoom(ExteriorBox box, float width, float height)
+        {
+            const float referenceZoom = 1.2f;
+            float roofHeadroom = 120f * box.Width / ExteriorCatalog.BaseWidth;
+            return Mathf.Min(referenceZoom, Mathf.Max(120, width - 160) / box.Width,
+                height / (box.Height + roofHeadroom));
         }
 
         private void OnRestaurantLevelUp(int level,int coins)
@@ -453,15 +557,20 @@ namespace DemoRestaurant.Game.UI
             var arrow = _markerArrow.gameObject.AddComponent<Image>();
             arrow.sprite = MarkerSprite(); arrow.raycastTarget = false;
             PlaceMarker(p, d);
-            if (_moving != null) return;
-            float top = d.kind == ExteriorKind.Roof ? RoofBounds(d,_box).y : p.y - d.height;
-            var flip = UiKit.TextButton(_building, "HandFlip", UiKit.WoodLight, 22, Flip, out var flipLabel);
-            flipLabel.text = Loc.Get("exterior.flip");
-            UiKit.Place((RectTransform)flip.transform, p.x - 140, top - 116, 130, 58);
-            if (d.kind == ExteriorKind.Door) return; // the door can't be stored
-            var store = UiKit.TextButton(_building, "HandStore", UiKit.Red, 22, StoreSelected, out var storeLabel);
-            storeLabel.text = Loc.Get("exterior.store_short");
-            UiKit.Place((RectTransform)store.transform, p.x + 10, top - 116, 130, 58);
+            RefreshSelectionTools();
+        }
+
+        private void RefreshSelectionTools()
+        {
+            if (_selectionTools == null) return;
+            var selected = _moving ?? Selected();
+            bool show = IsEditing && selected != null;
+            _selectionTools.gameObject.SetActive(show);
+            _undoButton.interactable = _undo.Count > 0;
+            if (!show) return;
+            var kind = Catalog.Get(selected.itemId).kind;
+            _flipButton.interactable = kind != ExteriorKind.Wall;
+            _storeButton.interactable = !ExteriorCatalog.Fixed(kind) && kind != ExteriorKind.Door;
         }
 
         private void PlaceMarker(ExteriorPiece p, ExteriorItemDef d)
@@ -616,10 +725,23 @@ namespace DemoRestaurant.Game.UI
             UiKit.AddText(UiKit.NewRect(name, parent), size, anchor, color);
         private RectTransform Button(Transform parent, string name, string key, float width, Action clicked)
         {
-            var b = UiKit.TextButton(parent, name, UiKit.WoodLight, 24, clicked, out var label);
-            label.text = Loc.Get(key); _localized.Add((label,key));
+            var b = UiKit.TextButton(parent, name, UiKit.WoodLight, 32, clicked, out var label);
+            label.text = Loc.Get(key); FitLabel(label, 24, 32); _localized.Add((label,key));
             var rect = (RectTransform)b.transform; rect.sizeDelta = new Vector2(width, 64); return rect;
         }
+        private static void AnchorTop(RectTransform rect, bool right, float inset, float top, float width, float height)
+        {
+            rect.anchorMin = rect.anchorMax = rect.pivot = new Vector2(right ? 1 : 0, 1);
+            rect.anchoredPosition = new Vector2(right ? -inset : inset, -top);
+            rect.sizeDelta = new Vector2(width, height);
+        }
+
+        private static void FitLabel(Text text, int min, int max)
+        {
+            text.resizeTextForBestFit = true; text.resizeTextMinSize = min; text.resizeTextMaxSize = max;
+            text.horizontalOverflow = HorizontalWrapMode.Wrap; text.verticalOverflow = VerticalWrapMode.Truncate;
+        }
+
         private static void Clear(Transform root)
         {
             foreach (Transform child in root) { child.gameObject.SetActive(false); Destroy(child.gameObject); }

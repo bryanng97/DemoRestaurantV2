@@ -22,6 +22,76 @@ namespace DemoRestaurant.Render.Tests
         private static void Call(object target, string method) => target.GetType()
             .GetMethod(method, BindingFlags.Instance | BindingFlags.NonPublic).Invoke(target, null);
 
+        [Test]
+        public void CatalogGesture_VerticalScrollCannotTurnIntoFurniturePlacement()
+        {
+            var resolve = typeof(RestaurantEditorController).GetMethod("ResolveCatalogGesture", BindingFlags.Static | BindingFlags.NonPublic);
+            System.Action select = () => { };
+            object[] scroll = { new Vector2(3, 40), select, false };
+            resolve.Invoke(null, scroll);
+            Assert.IsNull(scroll[1], "A vertical scroll must release the pending card, even before leaving the drawer.");
+            Assert.IsFalse((bool)scroll[2]);
+            object[] drag = { new Vector2(40, 3), select, false };
+            resolve.Invoke(null, drag);
+            Assert.IsNotNull(drag[1]); Assert.IsTrue((bool)drag[2]);
+            drag[0] = new Vector2(45, 100);
+            resolve.Invoke(null, drag);
+            Assert.IsNotNull(drag[1], "Once dragging right, later vertical movement keeps holding the furniture.");
+            object[] tap = { new Vector2(2, 2), select, false };
+            resolve.Invoke(null, tap);
+            Assert.IsNotNull(tap[1]); Assert.IsFalse((bool)tap[2]);
+            object[] left = { new Vector2(-40, 2), select, false };
+            resolve.Invoke(null, left);
+            Assert.IsNull(left[1], "Leaving the drawer to the left must not pick up furniture.");
+        }
+
+        [Test]
+        public void CameraBoundsContainTheWholeViewportAfterZoomPanAndAspectChanges()
+        {
+            var flags = BindingFlags.Static | BindingFlags.NonPublic;
+            var zoom = typeof(CameraController).GetMethod("ClampZoom", flags);
+            var pan = typeof(CameraController).GetMethod("ClampViewportCenter", flags);
+            var bounds = new Rect(-20, -16, 40, 32);
+            foreach (float aspect in new[] { 4f/3, 16f/9, 21f/9, 2.8f, 9f/16 })
+                foreach (float requested in new[] { .01f, 3f, 9f, 100f })
+                    foreach (float edge in new[] { -1000f, 0f, 1000f })
+                    {
+                        float height = (float)zoom.Invoke(null, new object[] { bounds, requested, 1.6f, 14f, aspect });
+                        var center = (Vector2)pan.Invoke(null, new object[] { bounds, new Vector2(edge, -edge), height, aspect });
+                        Assert.That(height, Is.InRange(1.6f, 14f));
+                        Assert.GreaterOrEqual(center.x - height * aspect, bounds.xMin - .001f);
+                        Assert.LessOrEqual(center.x + height * aspect, bounds.xMax + .001f);
+                        Assert.GreaterOrEqual(center.y - height, bounds.yMin - .001f);
+                        Assert.LessOrEqual(center.y + height, bounds.yMax + .001f);
+                    }
+        }
+
+        [Test]
+        public void StreetRepeatsCoverAllVisibleCornersEvenFarFromTheRestaurant()
+        {
+            var range = typeof(RestaurantView).GetMethod("StreetSegmentRange", BindingFlags.Static | BindingFlags.NonPublic);
+            foreach (float aspect in new[] { 4f/3, 16f/9, 21f/9, 2.8f })
+                foreach (float height in new[] { 2f, 9f, 14f })
+                    foreach (float offset in new[] { -100f, 0f, 100f })
+                    {
+                        float min = float.PositiveInfinity, max = float.NegativeInfinity;
+                        for (int x = -1; x <= 1; x += 2)
+                            for (int y = -1; y <= 1; y += 2)
+                            {
+                                float gridY = IsoProjection.WorldToGrid(new Vector2(offset + x * height * aspect, -offset + y * height)).Y;
+                                min = Mathf.Min(min, gridY); max = Mathf.Max(max, gridY);
+                            }
+                        const float step = 16;
+                        object[] args = { min, max, step, 0, 0 };
+                        range.Invoke(null, args);
+                        int first = (int)args[3], count = (int)args[4];
+                        Assert.LessOrEqual(first * step, min - step);
+                        Assert.GreaterOrEqual((first + count - 1) * step, max + step);
+                        Assert.LessOrEqual(count, Mathf.CeilToInt((max - min) / step) + 7,
+                            "Repeats should follow the viewport, not accumulate from the restaurant origin.");
+                    }
+        }
+
         [UnityTest]
         public IEnumerator Touchscreen_PaintsDragsPlacesAndRejectsOccupiedUiAndPinchGestures()
         {
@@ -136,6 +206,9 @@ namespace DemoRestaurant.Render.Tests
                 Touch(7, UnityEngine.InputSystem.TouchPhase.Canceled, Point(9, 6)); Flush();
                 Assert.That(controller.Editor.Draft.Furniture.Count, Is.EqualTo(count));
 
+                var panel = root.GetComponentInChildren<RestaurantEditorPanel>(true);
+                panel.SetCatalogOpen(true);
+                Canvas.ForceUpdateCanvases();
                 var shopBar = root.transform.Find("RestaurantEditorPanel/BuildCanvas/SafeArea/ShopBar") as RectTransform;
                 var uiPoint = RectTransformUtility.WorldToScreenPoint(null, shopBar.TransformPoint(shopBar.rect.center));
                 Assert.That(UiInput.IsPointerOverUi(uiPoint), Is.True);
@@ -147,6 +220,7 @@ namespace DemoRestaurant.Render.Tests
                 // Picking a placed piece up and lifting the finger over the shop bar puts it in storage.
                 controller.ClearSelection();
                 Touch(12, UnityEngine.InputSystem.TouchPhase.Began, Point(7, 6));
+                panel.SetCatalogOpen(true);
                 Touch(12, UnityEngine.InputSystem.TouchPhase.Moved, uiPoint);
                 Touch(12, UnityEngine.InputSystem.TouchPhase.Ended, uiPoint); Flush();
                 Assert.That(controller.Editor.Draft.Furniture.Count, Is.EqualTo(count - 1));

@@ -10,22 +10,26 @@ using UnityEngine.UI;
 
 namespace DemoRestaurant.Game.UI
 {
-    /// <summary>
-    /// The decorate screen in the reference game's layout: the shop bar docked along the bottom (Shop / Storage tabs,
-    /// category filters and a sliding row of cards), Save and Cancel at its right end, a small toolbar above it, and
-    /// rotate / store buttons that float beside a piece held on a touch screen. Everything sits in the safe area and
-    /// stretches with the screen width, so it works on phones of any aspect.
-    /// </summary>
+    /// <summary>Touch-sized decoration dock with a left-side catalog and contextual furniture actions.</summary>
     public sealed class RestaurantEditorPanel : MonoBehaviour
     {
-        private const float BarHeight = 250f, ButtonColumn = 230f;
+        private const float DockHeight = 116f;
+        private GridLayoutGroup _cardGrid;
+        private RectTransform _cardsViewport;
+        private ScrollRect _categoryScroll;
+        private RectTransform _categoryNavigation, _categoryTrack, _categoryThumb;
+        private Button _categoryPrevious, _categoryNext;
+        private RectTransform _dock, _more, _statusBox;
+        private Button _moreButton;
+        private bool _catalogOpen = true, _lastSelection;
+        private FloorArt _lastPaintTool;
 
         private RestaurantEditorController _controller;
         private LoadedContentPack _content;
         private ArtLibrary _art;
-        private RectTransform _root, _bar, _cards, _hand;
+        private RectTransform _root, _bar, _cards;
         private Text _status;
-        private Button _rotate, _store, _undo, _redo, _fill, _storeAll, _handRotate, _handStore;
+        private Button _rotate, _store, _undo, _redo, _fill, _storeAll;
         private Text _fillLabel;
         // "Laying: <floor or wallpaper>" with its picture and a close button, so the chosen tool is always clear.
         private RectTransform _chip;
@@ -48,111 +52,177 @@ namespace DemoRestaurant.Game.UI
             _root = canvas;
             var safe = SafeArea.Create(canvas);
 
-            // The shop bar along the bottom.
-            _bar = UiKit.Box(safe, "ShopBar", UiKit.Wood, UiKit.Cream, 6f);
-            _bar.anchorMin = new Vector2(0, 0); _bar.anchorMax = new Vector2(1, 0); _bar.pivot = new Vector2(0.5f, 0);
-            _bar.offsetMin = new Vector2(12, 10); _bar.offsetMax = new Vector2(-12, 10 + BarHeight);
+            // A separate decoration scale keeps the touch controls readable without enlarging the game HUD.
+            canvas.GetComponent<CanvasScaler>().referenceResolution = new Vector2(1280, 720);
+            _dock = UiKit.Box(safe, "DecorationDock", UiKit.Wood, UiKit.Cream, 4f);
+            _dock.anchorMin = Vector2.zero; _dock.anchorMax = new Vector2(1, 0); _dock.pivot = Vector2.zero;
+            _dock.offsetMin = new Vector2(8, 8); _dock.offsetMax = new Vector2(-8, DockHeight);
+            // The decorative fill must stay stretched behind the buttons, outside the layout row.
+            _dock.Find("Fill").gameObject.AddComponent<LayoutElement>().ignoreLayout = true;
+            var dockRow = _dock.gameObject.AddComponent<HorizontalLayoutGroup>();
+            dockRow.padding = new RectOffset(8, 8, 6, 6); dockRow.spacing = 12;
+            dockRow.childControlWidth = dockRow.childControlHeight = true;
+            dockRow.childForceExpandWidth = true; dockRow.childForceExpandHeight = true;
+            _shopTab = DockButton("ui.build.tab_shop", UiKit.WoodLight, () => ToggleCatalog(false));
+            _storageTab = DockButton("ui.build.tab_storage", UiKit.WoodLight, () => ToggleCatalog(true));
+            _undo = DockButton("ui.build.undo", UiKit.WoodLight, _controller.Undo);
+            _rotate = DockButton("ui.build.rotate", UiKit.WoodLight, _controller.Rotate);
+            _store = DockButton("ui.build.store", UiKit.Red, _controller.Remove);
+            _moreButton = DockButton("ui.build.more", UiKit.WoodLight, () => {
+                bool open = !_more.gameObject.activeSelf;
+                if (open) SetCatalogOpen(false);
+                SetMoreOpen(open);
+            });
+            DockButton("ui.build.done", UiKit.Green, _controller.Save);
 
-            // Tool chip, top centre: what floor or wallpaper is being laid, with an X to put it down.
-            _chip = UiKit.Box(safe, "ToolChip", UiKit.Gold, UiKit.GoldFill, 4f);
-            _chip.anchorMin = _chip.anchorMax = new Vector2(0.5f, 1f); _chip.pivot = new Vector2(0.5f, 1f);
-            _chip.sizeDelta = new Vector2(560, 84); _chip.anchoredPosition = new Vector2(0, -96);
-            var chipIcon = UiKit.NewRect("Icon", _chip);
-            chipIcon.anchorMin = chipIcon.anchorMax = new Vector2(0, 0.5f); chipIcon.pivot = new Vector2(0, 0.5f);
-            chipIcon.sizeDelta = new Vector2(68, 68); chipIcon.anchoredPosition = new Vector2(10, 0);
-            _chipIcon = UiKit.AddImage(chipIcon, null);
-            _chipText = UiKit.AddText(UiKit.NewRect("Text", _chip), 24, TextAnchor.MiddleLeft, UiKit.DarkText);
-            _chipText.rectTransform.anchorMin = new Vector2(0, 0); _chipText.rectTransform.anchorMax = new Vector2(1, 1);
-            _chipText.rectTransform.offsetMin = new Vector2(90, 6); _chipText.rectTransform.offsetMax = new Vector2(-84, -6);
-            _chipText.resizeTextForBestFit = true; _chipText.resizeTextMinSize = 14; _chipText.resizeTextMaxSize = 24;
-            var close = UiKit.TextButton(_chip, "Close", UiKit.Red, 28, () => { _controller.ClearSelection(); RefreshState(); }, out var closeLabel);
-            closeLabel.text = "X";
-            var closeRect = (RectTransform)close.transform;
-            closeRect.anchorMin = closeRect.anchorMax = new Vector2(1, 0.5f); closeRect.pivot = new Vector2(1, 0.5f);
-            closeRect.sizeDelta = new Vector2(64, 64); closeRect.anchoredPosition = new Vector2(-10, 0);
-            _chip.gameObject.SetActive(false);
-
-            _shopTab = TabButton(_bar, "ui.build.tab_shop", 14, () => ShowStorage(false));
-            _storageTab = TabButton(_bar, "ui.build.tab_storage", 154, () => ShowStorage(true));
+            _bar = UiKit.Box(safe, "ShopBar", UiKit.Wood, UiKit.Cream, 4f);
+            _bar.anchorMin = Vector2.zero; _bar.anchorMax = new Vector2(.3f, 1); _bar.pivot = Vector2.zero;
+            _bar.offsetMin = new Vector2(8, DockHeight + 8);
+            _bar.offsetMax = new Vector2(-8, -8);
+            var categoriesView = UiKit.NewRect("CategoriesViewport", _bar);
+            categoriesView.anchorMin = new Vector2(0, 1); categoriesView.anchorMax = Vector2.one;
+            categoriesView.pivot = new Vector2(0, 1);
+            categoriesView.offsetMin = new Vector2(52, -88); categoriesView.offsetMax = new Vector2(-52, -8);
+            categoriesView.gameObject.AddComponent<Image>().color = new Color(1, 1, 1, .01f);
+            categoriesView.gameObject.AddComponent<RectMask2D>();
+            var categoriesScroll = categoriesView.gameObject.AddComponent<ScrollRect>();
+            var categoriesRow = UiKit.NewRect("Categories", categoriesView);
+            categoriesRow.anchorMin = Vector2.zero; categoriesRow.anchorMax = new Vector2(0, 1);
+            categoriesRow.pivot = new Vector2(0, .5f); categoriesRow.sizeDelta = Vector2.zero;
             var categories = new[]
             {
                 (BuildCategory.Kitchen, "ui.build.kitchen"), (BuildCategory.Table, "ui.build.table"),
                 (BuildCategory.Chair, "ui.build.chair"), (BuildCategory.Decoration, "ui.build.decoration"),
                 (BuildCategory.Functional, "ui.build.functional"), (BuildCategory.Outdoor, "ui.build.outdoor"),
-                (BuildCategory.Wall, "ui.build.wall"), (BuildCategory.Wallpaper, "ui.build.wallpaper"), (BuildCategory.Floor, "ui.build.floor"), (BuildCategory.Land, "ui.build.land"),
+                (BuildCategory.Wall, "ui.build.wall"), (BuildCategory.Wallpaper, "ui.build.wallpaper"),
+                (BuildCategory.Floor, "ui.build.floor"), (BuildCategory.Land, "ui.build.land"),
             };
-            int x = 316;
+            int x = 0;
             foreach (var (category, key) in categories)
             {
-                // Land is only sold where the room doesn't simply grow with the level.
                 if (category == BuildCategory.Land && content.Pack.Rules.Expansion == null) continue;
-                _filters.Add((category, TabButton(_bar, key, x, () => { _storage = false; _controller.SetCategory(category); }, width: 104, small: true)));
-                x += 110;
+                _filters.Add((category, AddButton(categoriesRow, key, x, 0, 128, 80, 26, UiKit.Cream,
+                    () => { _storage = false; _controller.SetCategory(category); })));
+                var tab = _filters[_filters.Count - 1].button;
+                foreach (var outline in tab.GetComponentsInChildren<Outline>()) outline.enabled = false;
+                var tabText = tab.GetComponentInChildren<Text>();
+                tabText.color = UiKit.DarkText; tabText.resizeTextMinSize = 20;
+                tabText.horizontalOverflow = HorizontalWrapMode.Wrap;
+                var selectedMark = UiKit.NewRect("SelectedMark", tab.transform);
+                selectedMark.anchorMin = Vector2.zero; selectedMark.anchorMax = new Vector2(1, 0);
+                selectedMark.offsetMin = new Vector2(12, 5); selectedMark.offsetMax = new Vector2(-12, 11);
+                var markImage = selectedMark.gameObject.AddComponent<Image>();
+                markImage.color = UiKit.Wood; markImage.raycastTarget = false;
+                x += 136;
             }
+            categoriesRow.sizeDelta = new Vector2(x, 0);
+            categoriesScroll.viewport = categoriesView; categoriesScroll.content = categoriesRow;
+            categoriesScroll.vertical = false; categoriesScroll.movementType = ScrollRect.MovementType.Clamped;
+            _categoryScroll = categoriesScroll;
+            _categoryNavigation = UiKit.NewRect("CategoryNavigation", _bar);
+            _categoryNavigation.anchorMin = new Vector2(0, 1); _categoryNavigation.anchorMax = Vector2.one;
+            _categoryNavigation.pivot = new Vector2(0, 1);
+            _categoryNavigation.offsetMin = new Vector2(8, -96); _categoryNavigation.offsetMax = new Vector2(-8, -8);
+            _categoryPrevious = CategoryArrow(_categoryNavigation, "ui.build.category_previous", () => ScrollCategories(-1));
+            _categoryNext = CategoryArrow(_categoryNavigation, "ui.build.category_next", () => ScrollCategories(1));
+            var nextRect = (RectTransform)_categoryNext.transform;
+            nextRect.anchorMin = nextRect.anchorMax = nextRect.pivot = new Vector2(1, 1);
+            nextRect.anchoredPosition = Vector2.zero;
+            _categoryTrack = UiKit.NewRect("ScrollTrack", _categoryNavigation);
+            _categoryTrack.anchorMin = new Vector2(0, 0); _categoryTrack.anchorMax = new Vector2(1, 0);
+            _categoryTrack.pivot = Vector2.zero;
+            _categoryTrack.offsetMin = new Vector2(44, 0); _categoryTrack.offsetMax = new Vector2(-44, 4);
+            var trackImage = _categoryTrack.gameObject.AddComponent<Image>();
+            trackImage.color = new Color(.69f, .55f, .4f, .2f); trackImage.raycastTarget = false;
+            _categoryThumb = UiKit.NewRect("ScrollThumb", _categoryTrack);
+            var thumbImage = _categoryThumb.gameObject.AddComponent<Image>();
+            thumbImage.color = UiKit.Gold; thumbImage.raycastTarget = false;
+            categoriesScroll.onValueChanged.AddListener(_ => RefreshCategoryNavigation());
 
-            // The sliding row of cards.
             var viewport = UiKit.NewRect("CardsViewport", _bar);
-            viewport.anchorMin = new Vector2(0, 0); viewport.anchorMax = new Vector2(1, 1);
-            viewport.offsetMin = new Vector2(14, 12); viewport.offsetMax = new Vector2(-ButtonColumn - 14, -72);
-            viewport.gameObject.AddComponent<Image>().color = new Color(1, 1, 1, 0.01f);
+            _cardsViewport = viewport;
+            viewport.anchorMin = Vector2.zero; viewport.anchorMax = Vector2.one;
+            viewport.offsetMin = new Vector2(8, 8); viewport.offsetMax = new Vector2(-8, -104);
+            viewport.gameObject.AddComponent<Image>().color = new Color(1, 1, 1, .01f);
             viewport.gameObject.AddComponent<RectMask2D>();
             var scroll = viewport.gameObject.AddComponent<ScrollRect>();
             _cards = UiKit.NewRect("Cards", viewport);
-            _cards.anchorMin = new Vector2(0, 0); _cards.anchorMax = new Vector2(0, 1); _cards.pivot = new Vector2(0, 0.5f);
+            _cards.anchorMin = new Vector2(0, 1); _cards.anchorMax = Vector2.one; _cards.pivot = new Vector2(0, 1);
             _cards.sizeDelta = Vector2.zero;
-            scroll.viewport = viewport; scroll.content = _cards; scroll.vertical = false;
+            scroll.viewport = viewport; scroll.content = _cards; scroll.horizontal = false; scroll.vertical = true;
             scroll.movementType = ScrollRect.MovementType.Clamped;
-            var row = _cards.gameObject.AddComponent<HorizontalLayoutGroup>();
-            row.spacing = 10; row.childForceExpandWidth = false; row.childForceExpandHeight = true;
-            row.childControlWidth = false; row.childControlHeight = true; row.padding = new RectOffset(4, 4, 4, 4);
-            _cards.gameObject.AddComponent<ContentSizeFitter>().horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+            _cardGrid = _cards.gameObject.AddComponent<GridLayoutGroup>();
+            _cardGrid.spacing = new Vector2(12, 12); _cardGrid.padding = new RectOffset(4, 4, 4, 4);
+            _cardGrid.constraint = GridLayoutGroup.Constraint.FixedColumnCount; _cardGrid.constraintCount = 2;
+            _cardGrid.cellSize = new Vector2(164, 208);
+            _cards.gameObject.AddComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
 
-            // Save / Cancel at the right end of the bar.
-            var save = AddButton(_bar, "ui.build.save", 0, 0, ButtonColumn - 24, 92, 28, UiKit.Green, _controller.Save);
-            AnchorRight((RectTransform)save.transform, 12, 18, ButtonColumn - 24, 92);
-            var cancel = AddButton(_bar, "ui.build.cancel", 0, 0, ButtonColumn - 24, 70, 24, UiKit.Wood, _controller.Cancel);
-            AnchorRight((RectTransform)cancel.transform, 12, 120, ButtonColumn - 24, 70);
-
-            // Toolbar above the bar, right side: hand actions (for mouse users), undo / redo, fill floor, store all.
-            var tools = UiKit.NewRect("Toolbar", safe);
-            tools.anchorMin = tools.anchorMax = tools.pivot = new Vector2(1, 0);
-            tools.anchoredPosition = new Vector2(-12, BarHeight + 22); tools.sizeDelta = new Vector2(6 * 128, 64);
-            _rotate = AddButton(tools, "ui.build.rotate", 0, 0, 120, 60, 20, UiKit.WoodLight, _controller.Rotate);
-            _store = AddButton(tools, "ui.build.store", 128, 0, 120, 60, 20, UiKit.Red, _controller.Remove);
-            _undo = AddButton(tools, "ui.build.undo", 256, 0, 120, 60, 20, UiKit.WoodLight, _controller.Undo);
-            _redo = AddButton(tools, "ui.build.redo", 384, 0, 120, 60, 20, UiKit.WoodLight, _controller.Redo);
-            _fill = AddButton(tools, "ui.build.fill", 512, 0, 120, 60, 20, UiKit.WoodLight, _controller.FillFloor);
+            _more = UiKit.Box(safe, "MoreActions", UiKit.Wood, UiKit.Cream, 4f);
+            _more.anchorMin = _more.anchorMax = _more.pivot = new Vector2(1, 0);
+            _more.anchoredPosition = new Vector2(-8, DockHeight + 8); _more.sizeDelta = new Vector2(480, 332);
+            _redo = AddButton(_more, "ui.build.redo", 12, 12, 222, 96, 30, UiKit.WoodLight, () => MoreAction(_controller.Redo));
+            _fill = AddButton(_more, "ui.build.fill", 246, 12, 222, 96, 30, UiKit.WoodLight, () => MoreAction(_controller.FillFloor));
             _fillLabel = _fill.GetComponentInChildren<Text>();
-            _storeAll = AddButton(tools, "ui.build.store_all", 640, 0, 120, 60, 18, UiKit.Wood, _controller.StoreAll);
+            _storeAll = AddButton(_more, "ui.build.store_all", 12, 120, 456, 96, 30, UiKit.Wood, () => MoreAction(_controller.StoreAll));
+            AddButton(_more, "ui.build.cancel", 12, 228, 456, 92, 30, UiKit.Red, _controller.Cancel);
+            SetMoreOpen(false);
 
-            // Status / hint line above the bar, left side.
-            var statusBox = UiKit.Box(safe, "Status", new Color(0, 0, 0, 0), new Color(0.15f, 0.1f, 0.07f, 0.7f), 0f);
-            statusBox.anchorMin = statusBox.anchorMax = statusBox.pivot = new Vector2(0, 0);
-            statusBox.anchoredPosition = new Vector2(12, BarHeight + 22); statusBox.sizeDelta = new Vector2(900, 64);
-            _status = UiKit.Label(statusBox, "Text", 14, 4, 872, 56, 20, TextAnchor.MiddleLeft, Color.white, true);
+            _statusBox = UiKit.Box(safe, "Status", Color.clear, new Color(.15f, .1f, .07f, .8f), 0);
+            _statusBox.anchorMin = Vector2.zero; _statusBox.anchorMax = new Vector2(1, 0); _statusBox.pivot = Vector2.zero;
+            _status = UiKit.AddText(UiKit.NewRect("Text", _statusBox), 26, TextAnchor.MiddleLeft, Color.white);
+            _status.rectTransform.anchorMin = Vector2.zero; _status.rectTransform.anchorMax = Vector2.one;
+            _status.rectTransform.offsetMin = new Vector2(12, 2); _status.rectTransform.offsetMax = new Vector2(-12, -2);
+            _status.resizeTextForBestFit = true; _status.resizeTextMinSize = 22; _status.resizeTextMaxSize = 26;
 
-            // Floating rotate / store buttons beside a piece held on a touch screen.
-            _hand = UiKit.NewRect("HandButtons", safe);
-            _hand.anchorMin = _hand.anchorMax = new Vector2(0, 0); _hand.pivot = new Vector2(0.5f, 0);
-            _hand.sizeDelta = new Vector2(260, 84);
-            _handRotate = AddButton(_hand, "ui.build.rotate_touch", 0, 0, 124, 84, 24, UiKit.WoodLight, _controller.Rotate);
-            _handStore = AddButton(_hand, "ui.build.store", 136, 0, 124, 84, 24, UiKit.Red, _controller.Remove);
-            _hand.gameObject.SetActive(false);
+            _chip = UiKit.Box(safe, "ToolChip", UiKit.Gold, UiKit.GoldFill, 4f);
+            _chip.anchorMin = _chip.anchorMax = _chip.pivot = new Vector2(.5f, 1);
+            _chip.anchoredPosition = new Vector2(0, -12); _chip.sizeDelta = new Vector2(560, 96);
+            _chipIcon = UiKit.AddImage(UiKit.Place(UiKit.NewRect("Icon", _chip), 8, 8, 80, 80), null);
+            _chipText = UiKit.Label(_chip, "Text", 100, 8, 344, 80, 28, TextAnchor.MiddleLeft, UiKit.DarkText, true);
+            var close = AddButton(_chip, "ui.build.deselect", 456, 0, 104, 96, 26, UiKit.WoodLight,
+                () => { _controller.ClearSelection(); RefreshState(); });
+            _chip.gameObject.SetActive(false);
+            SetCatalogOpen(true);
 
             Loc.LanguageChanged += RefreshLanguage;
             RefreshLanguage(); SetVisible(false);
         }
 
-        private static void AnchorRight(RectTransform rect, float right, float top, float width, float height)
+        private Button DockButton(string key, Color color, Action action)
         {
-            rect.anchorMin = rect.anchorMax = rect.pivot = new Vector2(1, 1);
-            rect.anchoredPosition = new Vector2(-right, -top); rect.sizeDelta = new Vector2(width, height);
+            var button = AddButton(_dock, key, 0, 0, 144, 96, 30, color, action);
+            var layout = button.gameObject.AddComponent<LayoutElement>();
+            layout.minWidth = 96; layout.preferredWidth = 144; layout.flexibleWidth = 1;
+            return button;
         }
 
-        private Button TabButton(Transform parent, string key, float x, Action action, float width = 132, bool small = false)
+        private void SetMoreOpen(bool open)
         {
-            var button = AddButton(parent, key, x, 10, width, small ? 50 : 56, small ? 18 : 22, UiKit.WoodLight, action);
-            return button;
+            _more.gameObject.SetActive(open);
+            if (_statusBox != null) _statusBox.gameObject.SetActive(!open);
+            UiKit.SetButtonColor(_moreButton, open ? UiKit.Gold : UiKit.WoodLight);
+        }
+
+        private void MoreAction(Action action) { SetMoreOpen(false); action(); }
+
+        private void ToggleCatalog(bool storage)
+        {
+            bool open = !_catalogOpen || _storage != storage;
+            SetMoreOpen(false);
+            ShowStorage(storage);
+            SetCatalogOpen(open);
+        }
+
+        public void SetCatalogOpen(bool open)
+        {
+            _catalogOpen = open;
+            _bar.gameObject.SetActive(open);
+            float top = DockHeight + 8;
+            _statusBox.anchorMin = new Vector2(open ? .3f : 0, 0);
+            _statusBox.offsetMin = new Vector2(8, top);
+            _statusBox.offsetMax = new Vector2(-8, top + 48);
+            if (_shopTab != null) UiKit.SetButtonColor(_shopTab, open && !_storage ? UiKit.Green : UiKit.WoodLight);
+            if (_storageTab != null) UiKit.SetButtonColor(_storageTab, open && _storage ? UiKit.Green : UiKit.WoodLight);
         }
 
         private Button AddButton(Transform parent, string key, float x, float y, float w, float h, int size, Color color, Action action)
@@ -160,20 +230,24 @@ namespace DemoRestaurant.Game.UI
             var button = UiKit.TextButton(parent, key, color, size, action, out var text);
             button.gameObject.AddComponent<CanvasGroup>();
             UiKit.Place((RectTransform)button.transform, x, y, w, h);
-            text.resizeTextForBestFit = true; text.resizeTextMinSize = 12; text.resizeTextMaxSize = size;
+            text.resizeTextForBestFit = true; text.resizeTextMinSize = 26; text.resizeTextMaxSize = size;
             _labels.Add((text, key)); return button;
         }
 
-        public void SetVisible(bool visible) { _root.gameObject.SetActive(visible); if (visible) RefreshState(); }
+        public void SetVisible(bool visible)
+        {
+            _root.gameObject.SetActive(visible);
+            if (visible) { _lastSelection = false; _lastPaintTool = null; SetMoreOpen(false); SetCatalogOpen(true); RefreshState(); }
+        }
 
         /// <summary>True when a screen point is over the shop bar (dropping a held piece there stores it).</summary>
         public bool IsOverShopBar(Vector2 screen) =>
-            _bar != null && _root.gameObject.activeInHierarchy && RectTransformUtility.RectangleContainsScreenPoint(_bar, screen, null);
+            _bar != null && _bar.gameObject.activeInHierarchy && RectTransformUtility.RectangleContainsScreenPoint(_bar, screen, null);
 
         /// <summary>What choosing the card under <paramref name="screen"/> does, or null when it isn't over a card.</summary>
         public Action CardAt(Vector2 screen)
         {
-            if (!IsOverShopBar(screen)) return null;
+            if (!IsOverShopBar(screen) || !RectTransformUtility.RectangleContainsScreenPoint(_cardsViewport, screen, null)) return null;
             foreach (var (card, select) in _cardPicks)
                 if (card != null && card.gameObject.activeInHierarchy && RectTransformUtility.RectangleContainsScreenPoint(card, screen, null))
                     return select;
@@ -185,28 +259,69 @@ namespace DemoRestaurant.Game.UI
         {
             if (_bar == null || !_root.gameObject.activeInHierarchy) return 0f;
             var corners = new Vector3[4];
-            _bar.GetWorldCorners(corners);
+            _dock.GetWorldCorners(corners);
             return corners[1].y; // screen-space overlay canvas: world corners are screen pixels
         }
 
-        /// <summary>Shows the floating hand buttons just above <paramref name="screen"/> (the held piece's top).</summary>
-        public void SetHandButtons(bool visible, Vector2 screen, bool freezePosition = false)
+        /// <summary>Only leaving the right edge hands a catalog gesture over to world placement.</summary>
+        public bool IsRightOfCatalog(Vector2 screen)
         {
-            if (_hand == null) return;
-            if (_hand.gameObject.activeSelf != visible) _hand.gameObject.SetActive(visible);
-            if (!visible) return;
-            SetEnabled(_handRotate, _controller.CanRotate);
-            SetEnabled(_handStore, _controller.CanRemove);
-            if (freezePosition) return;
-            var parent = (RectTransform)_hand.parent;
-            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(parent, screen, null, out var local))
-            {
-                var position = local - parent.rect.min + new Vector2(0, 12);
-                position.x = Mathf.Clamp(position.x, _hand.sizeDelta.x * .5f, Mathf.Max(_hand.sizeDelta.x * .5f, parent.rect.width - _hand.sizeDelta.x * .5f));
-                position.y = Mathf.Clamp(position.y, BarHeight + 90, Mathf.Max(BarHeight + 90, parent.rect.height - _hand.sizeDelta.y));
-                _hand.anchoredPosition = position;
-            }
+            var corners = new Vector3[4];
+            _bar.GetWorldCorners(corners);
+            return screen.x > corners[2].x;
         }
+
+        private void LateUpdate()
+        {
+            if (_cardGrid == null || !_catalogOpen) return;
+            RefreshCategoryNavigation();
+            float width = Mathf.Max(1, (_cardsViewport.rect.width - 20) * .5f);
+            var size = new Vector2(width, 208);
+            if ((_cardGrid.cellSize - size).sqrMagnitude > .01f) _cardGrid.cellSize = size;
+        }
+
+        private Button CategoryArrow(Transform parent, string key, Action action)
+        {
+            var rect = UiKit.Place(UiKit.NewRect(key, parent), 0, 0, 44, 80);
+            rect.gameObject.AddComponent<Image>().color = Color.clear;
+            var button = UiKit.AddButton(rect, action);
+            button.gameObject.AddComponent<CanvasGroup>();
+            var label = UiKit.AddText(UiKit.NewRect("Label", rect), 32, TextAnchor.MiddleCenter, UiKit.SoftText);
+            UiKit.Stretch(label.rectTransform, 0, 0, 0, 0);
+            _labels.Add((label, key));
+            return button;
+        }
+
+        private void ScrollCategories(int direction)
+        {
+            float overflow = _categoryScroll.content.rect.width - _categoryScroll.viewport.rect.width;
+            if (overflow <= 1f) return;
+            _categoryScroll.StopMovement();
+            _categoryScroll.horizontalNormalizedPosition = Mathf.Clamp01(
+                _categoryScroll.horizontalNormalizedPosition + direction * 136f / overflow);
+            RefreshCategoryNavigation();
+        }
+
+        private void RefreshCategoryNavigation()
+        {
+            if (_categoryNavigation == null) return;
+            bool overflow = _categoryScroll.content.rect.width > _categoryScroll.viewport.rect.width + 1f;
+            bool show = !_storage && overflow;
+            _categoryNavigation.gameObject.SetActive(show);
+            if (_cardsViewport != null)
+                _cardsViewport.offsetMax = new Vector2(-8, _storage ? -8 : -104);
+            if (_storage || !overflow) return;
+            float position = Mathf.Clamp01(_categoryScroll.horizontalNormalizedPosition);
+            float fraction = Mathf.Clamp(_categoryScroll.viewport.rect.width / _categoryScroll.content.rect.width, .08f, 1f);
+            _categoryThumb.anchorMin = new Vector2(position * (1f - fraction), 0);
+            _categoryThumb.anchorMax = new Vector2(position * (1f - fraction) + fraction, 1);
+            _categoryThumb.offsetMin = _categoryThumb.offsetMax = Vector2.zero;
+            SetEnabled(_categoryPrevious, position > .001f);
+            SetEnabled(_categoryNext, position < .999f);
+        }
+
+        /// <summary>Hand actions remain in the dock, away from the finger and the furniture preview.</summary>
+        public void SetHandButtons(bool visible, Vector2 screen, bool freezePosition = false) { }
 
         private void ShowStorage(bool storage)
         {
@@ -293,26 +408,32 @@ namespace DemoRestaurant.Game.UI
         private Button Card(string id, string key, string sprite, string info, Action select)
         {
             var card = UiKit.Box(_cards, id, UiKit.CardRim, UiKit.CardFill, 4, out var rim, out _);
-            card.sizeDelta = new Vector2(150, 0);
-            var button = UiKit.AddButton(card, () => { select(); RefreshState(); });
+            card.sizeDelta = new Vector2(200, 0);
+            Action choose = () => {
+                select();
+                if (_controller.HasSelection || _controller.HasFloor) SetCatalogOpen(false);
+                RefreshState();
+            };
+            var button = UiKit.AddButton(card, choose);
             var icon = UiKit.AddImage(UiKit.NewRect("Icon", card), _art.Get(sprite));
-            icon.rectTransform.anchorMin = new Vector2(0, 0.42f); icon.rectTransform.anchorMax = new Vector2(1, 1);
-            icon.rectTransform.offsetMin = new Vector2(12, 0); icon.rectTransform.offsetMax = new Vector2(-12, -8);
-            var name = UiKit.AddText(UiKit.NewRect("Name", card), 18, TextAnchor.MiddleCenter, UiKit.DarkText);
-            name.rectTransform.anchorMin = new Vector2(0, 0.17f); name.rectTransform.anchorMax = new Vector2(1, 0.42f);
-            name.rectTransform.offsetMin = new Vector2(6, 0); name.rectTransform.offsetMax = new Vector2(-6, 0);
+            icon.rectTransform.anchorMin = new Vector2(0, 0); icon.rectTransform.anchorMax = new Vector2(1, 1);
+            icon.rectTransform.offsetMin = new Vector2(12, 96); icon.rectTransform.offsetMax = new Vector2(-12, -8);
+            var name = UiKit.AddText(UiKit.NewRect("Name", card), 28, TextAnchor.MiddleCenter, UiKit.DarkText);
+            name.rectTransform.anchorMin = Vector2.zero; name.rectTransform.anchorMax = new Vector2(1, 0);
+            name.rectTransform.offsetMin = new Vector2(8, 42); name.rectTransform.offsetMax = new Vector2(-8, 96);
             // Long names (e.g. "White Cloth Table") wrap onto two lines and shrink to fit, never past the card.
             name.horizontalOverflow = HorizontalWrapMode.Wrap; name.verticalOverflow = VerticalWrapMode.Truncate;
-            name.lineSpacing = 0.85f;
-            name.resizeTextForBestFit = true; name.resizeTextMinSize = 10; name.resizeTextMaxSize = 18;
+            name.lineSpacing = 1f;
+            name.resizeTextForBestFit = true; name.resizeTextMinSize = 24; name.resizeTextMaxSize = 28;
             name.text = Loc.Get(key);
-            var infoText = UiKit.AddText(UiKit.NewRect("Info", card), 15, TextAnchor.MiddleCenter, UiKit.SoftText);
-            infoText.rectTransform.anchorMin = new Vector2(0, 0); infoText.rectTransform.anchorMax = new Vector2(1, 0.18f);
-            infoText.rectTransform.offsetMin = new Vector2(4, 4); infoText.rectTransform.offsetMax = new Vector2(-4, 0);
-            infoText.resizeTextForBestFit = true; infoText.resizeTextMinSize = 10; infoText.resizeTextMaxSize = 15;
+            var infoText = UiKit.AddText(UiKit.NewRect("Info", card), 26, TextAnchor.MiddleCenter, UiKit.SoftText);
+            infoText.rectTransform.anchorMin = Vector2.zero; infoText.rectTransform.anchorMax = new Vector2(1, 0);
+            infoText.rectTransform.offsetMin = new Vector2(8, 8); infoText.rectTransform.offsetMax = new Vector2(-8, 38);
+            infoText.horizontalOverflow = HorizontalWrapMode.Wrap; infoText.verticalOverflow = VerticalWrapMode.Truncate;
+            infoText.resizeTextForBestFit = true; infoText.resizeTextMinSize = 24; infoText.resizeTextMaxSize = 26;
             infoText.text = info;
             _cardRims.Add((id, rim));
-            _cardPicks.Add((card, select));
+            _cardPicks.Add((card, choose));
             return button;
         }
 
@@ -322,6 +443,15 @@ namespace DemoRestaurant.Game.UI
         public void RefreshState()
         {
             if (_controller.Editor == null) return;
+            bool selected = _controller.HasSelection;
+            if ((selected && !_lastSelection) || (_controller.PaintTool != null && _controller.PaintTool != _lastPaintTool))
+            {
+                SetCatalogOpen(false);
+                SetMoreOpen(false);
+            }
+            _lastSelection = selected; _lastPaintTool = _controller.PaintTool;
+            _rotate.gameObject.SetActive(selected);
+            _store.gameObject.SetActive(selected);
             SetEnabled(_rotate, _controller.CanRotate);
             SetEnabled(_store, _controller.CanRemove);
             SetEnabled(_undo, _controller.Editor.CanUndo);
@@ -354,12 +484,14 @@ namespace DemoRestaurant.Game.UI
                 info.color = locked ? UiKit.Disabled : storage > 0 ? UiKit.Green : UiKit.DarkText;
                 icon.color = locked ? new Color(1f, 1f, 1f, 0.35f) : Color.white;
             }
-            UiKit.SetButtonColor(_shopTab, _storage ? UiKit.WoodLight : UiKit.Green);
-            UiKit.SetButtonColor(_storageTab, _storage ? UiKit.Green : UiKit.WoodLight);
+            UiKit.SetButtonColor(_shopTab, _catalogOpen && !_storage ? UiKit.Green : UiKit.WoodLight);
+            UiKit.SetButtonColor(_storageTab, _catalogOpen && _storage ? UiKit.Green : UiKit.WoodLight);
             foreach (var (category, button) in _filters)
             {
                 button.gameObject.SetActive(!_storage);
-                UiKit.SetButtonColor(button, category == _controller.Category ? UiKit.Gold : UiKit.WoodLight);
+                UiKit.SetButtonColor(button, category == _controller.Category ? UiKit.Gold : UiKit.Cream);
+                button.GetComponent<Image>().color = Color.clear;
+                button.transform.Find("SelectedMark").gameObject.SetActive(category == _controller.Category);
             }
             foreach (var (id, rim) in _cardRims) rim.color = id == _controller.SelectedId ? UiKit.Gold : UiKit.CardRim;
         }

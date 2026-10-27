@@ -76,7 +76,12 @@ namespace DemoRestaurant.Render.Tests
                         Call(street,"Flip");yield return null;Check();CheckAttachment(building,roof);
                     }
                     Call(street,"Undo");yield return null;Check();
-                    Call(street,"Save");yield return null;Assert.IsFalse(street.IsEditing);Check();
+                    Call(street,"Save");yield return null;Assert.IsFalse(street.IsEditing);
+                    // Leaving edit mode intentionally restores the wider street view.
+                    // Reopening the street must keep that browsing frame stable.
+                    initialWall=WorldRect(Part(Building(street),"Front"));
+                    initialFixtures=fixtures.ToDictionary(p=>p.instance,p=>WorldRect(Part(Building(street),p.itemId+"#"+p.instance)));
+                    Check();
                     street.Close();street.Show();yield return null;Check();
                     street.Close();
                 }
@@ -133,6 +138,35 @@ namespace DemoRestaurant.Render.Tests
             }
             finally { UnityEngine.Object.DestroyImmediate(root);if(oldMain!=null) oldMain.tag="MainCamera";Loc.SetLanguage(oldLanguage); }
             yield return new ExitPlayMode();
+        }
+
+        [Test] public void EditZoomKeepsStarterFacadeLargeWithoutFittingUnrelatedRoofArtwork()
+        {
+            var zoom=typeof(ExteriorStreetView).GetMethod("EditZoom",BindingFlags.NonPublic|BindingFlags.Static);
+            var starter=new ExteriorBox(100,900,302,620);
+            float scale=(float)zoom.Invoke(null,new object[]{starter,1920f,464f});
+            Assert.That(scale,Is.GreaterThan(1f),"The starter wall should fill the edit work area, not become a street thumbnail.");
+            Assert.That(scale,Is.LessThanOrEqualTo(1.2f));
+            Assert.That(starter.Width*scale,Is.LessThanOrEqualTo(1760f));
+            float spacious=(float)zoom.Invoke(null,new object[]{starter,1920f,800f});
+            Assert.That(spacious,Is.EqualTo(1.2f).Within(.001f),"Use RC's zoom when the work area permits it.");
+        }
+
+        [Test] public void ExitGuardDetectsPendingAndPlacedChangesWithoutTreatingPickupAsAnEdit()
+        {
+            var method=typeof(ExteriorStreetView).GetMethod("HasExteriorChanges",BindingFlags.NonPublic|BindingFlags.Static);
+            var original=new DemoRestaurant.Logic.Layout.ExteriorSave();
+            original.pieces.Add(new DemoRestaurant.Logic.Layout.ExteriorPiece { instance=1,itemId="window",x=100,y=400 });
+            var draft=original.Copy();
+            bool Changed(DemoRestaurant.Logic.Layout.ExteriorPiece moving=null) =>
+                (bool)method.Invoke(null,new object[]{original,draft,moving});
+            Assert.IsFalse(Changed());
+            var held=draft.pieces[0].Copy();
+            Assert.IsFalse(Changed(held),"Picking up an unchanged piece does not lose any changes on exit.");
+            held.x+=5; Assert.IsTrue(Changed(held));
+            Assert.IsTrue(Changed(new DemoRestaurant.Logic.Layout.ExteriorPiece { instance=2,itemId="window",x=200,y=400 }));
+            draft.pieces[0].flipped=true; Assert.IsTrue(Changed());
+            draft=original.Copy(); draft.pieces.Clear(); Assert.IsTrue(Changed());
         }
 
         [Test] public void NativeNestUsesItsInternalRegistrationPoint()

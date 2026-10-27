@@ -1,5 +1,22 @@
 {
   "entries": [
+    {"key": "exterior.exit_editor", "value": "Exit"},
+    {"key": "exterior.undo_icon", "value": "↶"},
+    {"key": "exterior.done", "value": "Done"},
+    {"key": "exterior.edit_cost", "value": "Cost: {0} coins"},
+    {"key": "exterior.unsaved_title", "value": "Unsaved changes"},
+    {"key": "exterior.unsaved_body", "value": "Save your exterior changes before leaving?"},
+    {"key": "exterior.keep_editing", "value": "Keep editing"},
+    {"key": "exterior.discard", "value": "Discard"},
+    {"key": "exterior.save_changes", "value": "Save changes"},
+
+    {"key": "ui.build.category_previous", "value": "<"},
+    {"key": "ui.build.category_next", "value": ">"},
+    {"key": "ui.build.category_swipe", "value": "Swipe categories"},
+
+    {"key": "ui.build.more", "value": "More"},
+    {"key": "ui.build.done", "value": "Done"},
+
     { "key": "avatar.native.gender.female", "value": "Happy" },
     { "key": "avatar.native.gender.male", "value": "Indifferent" },
     { "key": "avatar.native.eyes.round", "value": "Dashing Eyes" },
@@ -524,10 +541,10 @@
     { "key": "ui.build.store", "value": "Store" },
     { "key": "ui.build.store_all", "value": "Store all" },
     { "key": "ui.build.free", "value": "Free" },
-    { "key": "ui.build.holding_hint", "value": "Tap where it goes. Drop it on the shop bar to store it." },
-    { "key": "ui.build.pick_hint", "value": "Tap a piece to pick it up, or take one from the shop. Drag the door along the wall to move it." },
-    { "key": "ui.build.holding_hint_mouse", "value": "Left click to put it down · Right click or R to rotate · Drop on the shop bar or press Delete to store." },
-    { "key": "ui.build.pick_hint_mouse", "value": "Click a piece to pick it up (or drag it). Drag a card up out of the shop to place it. Right-drag to scroll." },
+    {"key": "ui.build.holding_hint", "value": "Tap to place. Use Rotate or Store below."},
+    {"key": "ui.build.pick_hint", "value": "Scroll up/down to browse. Drag a card right into the room, or tap to select."},
+    {"key": "ui.build.holding_hint_mouse", "value": "Click to place · R to rotate · Delete to store"},
+    {"key": "ui.build.pick_hint_mouse", "value": "Scroll the list; drag a card right into the room. Right-drag to pan."},
     { "key": "ui.build.stored", "value": "Put in storage." },
     { "key": "ui.build.stored_all", "value": "Everything is in storage." },
     { "key": "ui.build.door_cant_store", "value": "The door can be moved, not stored." },

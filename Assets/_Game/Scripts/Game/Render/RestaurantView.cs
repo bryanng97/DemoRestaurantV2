@@ -81,6 +81,11 @@ namespace DemoRestaurant.Game.Render
         private IReadOnlyList<int> _windowSegments;
         private Sprite _waitingRug;
         private Transform _wallRoot, _waitingRoot, _outdoorRoot;
+        private readonly List<Transform> _streetSegments = new List<Transform>();
+        private Sprite _streetTile;
+        private float _streetStep, _streetScale;
+        private Vector2 _streetAnchorOffset;
+        private int _streetFirst = int.MinValue, _streetCount;
         private readonly Dictionary<string, Sprite> _sidewalkSprites = new Dictionary<string, Sprite>();
 
         /// <summary>Milliseconds spent in the depth sort last frame (shown in the perf HUD).</summary>
@@ -150,6 +155,7 @@ namespace DemoRestaurant.Game.Render
         {
             if (_sim == null)
                 return;
+            RefreshStreetCoverage();
             if (_floorDirty && _floor != null) { _floorDirty = false; _floor.Refresh(); }
             if (_wallsDirty) { _wallsDirty = false; RebuildWallsNow(); }
 
@@ -832,56 +838,104 @@ namespace DemoRestaurant.Game.Render
         }
 
         /// <summary>
-        /// Paving for the street outside the door: <see cref="RestaurantLayout.StreetWidth"/> cells beyond the back-left
-        /// wall, the length of the room plus the overhang at each end. Drawn behind the walls.
+        /// Builds reusable street segments behind the walls. Their coverage follows the camera so the road and
+        /// pavements continue beyond both visible ends independently of the playable guest route.
         /// </summary>
         private void BuildStreet()
         {
             var layout = _activeLayout;
-            int length = layout.StreetMaxY - layout.StreetMinY + 1;
             _outdoorRoot = new GameObject("Outside").transform;
             _outdoorRoot.SetParent(transform, false);
-
-            // A skin's street piece, repeated along the door wall at native size: sidewalk, road and the far sidewalk.
-            if (BuildStreetTiles(layout)) return;
-
-            // Paving slabs across the lawn from the sidewalk to the door (the lawn itself is the background).
-            if (RestaurantLayout.StreetGap > 0)
-                AddGround("DoorPath", -RestaurantLayout.StreetGap, layout.Entrance.Y, RestaurantLayout.StreetGap, 1,
-                    new Color(0.84f, 0.80f, 0.72f), new Color(0.80f, 0.76f, 0.68f));
-            // Pink sidewalk where guests walk.
-            var sidewalk = _art.SceneColor(m => m.sidewalkColor, new Color(0.93f, 0.71f, 0.71f));
-            var asphalt = _art.SceneColor(m => m.roadColor, new Color(0.45f, 0.46f, 0.48f));
-            AddGround("Sidewalk", RestaurantLayout.StreetOuterX, layout.StreetMinY, RestaurantLayout.StreetWidth, length,
-                sidewalk, Shade(sidewalk, 0.95f));
-            // The road beyond it: scenery, longer than the sidewalk so it runs off the screen.
-            const int road = 6, extra = 8;
-            AddGround("Road", RestaurantLayout.StreetOuterX - road, layout.StreetMinY - extra, road, length + 2 * extra,
-                asphalt, Shade(asphalt, 0.98f));
+            _streetSegments.Clear(); _streetFirst = int.MinValue; _streetCount = 0;
+            _streetTile = _art.GetOptional("street_tile");
+            var skin = _art.SkinOf("street_tile");
+            if (_streetTile != null && skin != null && skin.tilePixelWidth > 0)
+            {
+                var anchor = _art.HintsFor("street_tile")?.anchor ?? Vector2.zero;
+                _streetScale = 2f * IsoProjection.HalfTileWidth / skin.tilePixelWidth * _streetTile.pixelsPerUnit;
+                float width = _streetTile.bounds.size.x * _streetScale;
+                _streetAnchorOffset = new Vector2((anchor.x - .5f) * width, anchor.y * _streetTile.bounds.size.y * _streetScale);
+                _streetStep = width / IsoProjection.HalfTileWidth;
+            }
+            else
+            {
+                _streetTile = null; _streetStep = 16; _streetScale = 1;
+                if (RestaurantLayout.StreetGap > 0)
+                    AddGround("DoorPath", -RestaurantLayout.StreetGap, layout.Entrance.Y, RestaurantLayout.StreetGap, 1,
+                        new Color(.84f, .80f, .72f), new Color(.80f, .76f, .68f));
+            }
+            RefreshStreetCoverage();
         }
 
-        private bool BuildStreetTiles(RestaurantLayout layout)
+        private void RefreshStreetCoverage()
         {
-            var tile = _art.GetOptional("street_tile");
-            var skin = _art.SkinOf("street_tile");
-            if (tile == null || skin == null || skin.tilePixelWidth <= 0) return false;
-            var anchor = _art.HintsFor("street_tile")?.anchor ?? Vector2.zero;
-            float scale = 2f * IsoProjection.HalfTileWidth / skin.tilePixelWidth * tile.pixelsPerUnit;
-            float widthWorld = tile.bounds.size.x * scale;
-            // Anchor offset from the bottom-centre pivot, in world units.
-            var anchorOffset = new Vector2((anchor.x - 0.5f) * widthWorld, anchor.y * tile.bounds.size.y * scale);
-            float cellsPerTile = widthWorld / IsoProjection.HalfTileWidth; // along the street (grid Y)
-            const int extra = 12;
-            int i = 0;
-            for (float y = layout.StreetMaxY + extra; y > layout.StreetMinY - extra - cellsPerTile; y -= cellsPerTile, i++)
+            if (_outdoorRoot == null || _streetStep <= 0) return;
+            var camera = Camera.main;
+            if (camera == null) return;
+            float halfHeight = camera.orthographicSize, halfWidth = halfHeight * camera.aspect;
+            var position = camera.transform.position;
+            float min = float.PositiveInfinity, max = float.NegativeInfinity;
+            // Inverse-project every visible corner; diagonal roads need coverage beyond both X and Y edges.
+            for (int x = -1; x <= 1; x += 2)
+                for (int y = -1; y <= 1; y += 2)
+                {
+                    var point = transform.InverseTransformPoint(new Vector3(position.x + x * halfWidth, position.y + y * halfHeight, 0));
+                    float gridY = IsoProjection.WorldToGrid(point).Y;
+                    min = Mathf.Min(min, gridY); max = Mathf.Max(max, gridY);
+                }
+            StreetSegmentRange(min, max, _streetStep, out int first, out int count);
+            if (first == _streetFirst && count == _streetCount) return;
+            _streetFirst = first; _streetCount = count;
+            while (_streetSegments.Count < count) _streetSegments.Add(CreateStreetSegment(_streetSegments.Count));
+            for (int i = 0; i < _streetSegments.Count; i++)
             {
-                // The tile's left end sits on the wall-side edge of the sidewalk at this Y.
-                Vector2 edge = IsoProjection.GridToWorld(-RestaurantLayout.StreetGap, y);
-                var t = CreateStatic($"Street{i}", tile, edge - anchorOffset, OutsideGroundOrder);
-                t.localScale = new Vector3(scale, scale, 1f);
-                t.SetParent(_outdoorRoot, true);
+                var segment = _streetSegments[i];
+                segment.gameObject.SetActive(i < count);
+                if (i >= count) continue;
+                float y = (first + i) * _streetStep;
+                segment.localPosition = _streetTile != null
+                    ? IsoProjection.GridToWorld(-RestaurantLayout.StreetGap, y) - _streetAnchorOffset
+                    : IsoProjection.GridToWorld(0, y);
             }
-            return true;
+        }
+
+        private static void StreetSegmentRange(float min, float max, float step, out int first, out int count)
+        {
+            // Two spare repeats cover the tile's own diagonal footprint and movement between camera updates.
+            first = Mathf.FloorToInt(min / step) - 2;
+            count = Mathf.CeilToInt(max / step) + 2 - first + 1;
+        }
+
+        private Transform CreateStreetSegment(int index)
+        {
+            var segment = new GameObject("Street" + index).transform;
+            segment.SetParent(_outdoorRoot, false);
+            if (_streetTile != null)
+            {
+                var renderer = segment.gameObject.AddComponent<SpriteRenderer>();
+                renderer.sprite = _streetTile; renderer.sortingOrder = OutsideGroundOrder;
+                segment.localScale = Vector3.one * _streetScale;
+            }
+            else
+            {
+                var sidewalk = _art.SceneColor(m => m.sidewalkColor, new Color(.93f, .71f, .71f));
+                var asphalt = _art.SceneColor(m => m.roadColor, new Color(.45f, .46f, .48f));
+                const int road = 6;
+                AddStreetStrip(segment, "Sidewalk", RestaurantLayout.StreetOuterX, RestaurantLayout.StreetWidth, sidewalk);
+                AddStreetStrip(segment, "Road", RestaurantLayout.StreetOuterX - road, road, asphalt);
+                AddStreetStrip(segment, "FarSidewalk", RestaurantLayout.StreetOuterX - road - RestaurantLayout.StreetWidth,
+                    RestaurantLayout.StreetWidth, sidewalk);
+            }
+            return segment;
+        }
+
+        private void AddStreetStrip(Transform parent, string name, int x, int width, Color color)
+        {
+            var strip = new GameObject(name).transform;
+            strip.SetParent(parent, false); strip.localPosition = IsoProjection.GridToWorld(x, 0);
+            var renderer = strip.gameObject.AddComponent<SpriteRenderer>();
+            renderer.sprite = SidewalkSprite(width, (int)_streetStep, color, Shade(color, .98f));
+            renderer.sortingOrder = OutsideGroundOrder;
         }
 
         private static Color Shade(Color c, float f) => new Color(c.r * f, c.g * f, c.b * f, c.a);

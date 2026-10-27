@@ -65,6 +65,7 @@ namespace DemoRestaurant.Game.Controls
         private Vector2 _mouseDown, _rightDown;
         private bool _mouseDragPick;
         private System.Action _pendingCardMouse;
+        private bool _cardMouseHorizontal, _cardTouchHorizontal;
         // Floor painting: a drag covers the rectangle between where it started and where the pointer is.
         private bool _painting;
         private GridPos _paintFrom, _paintTo;
@@ -391,7 +392,7 @@ namespace DemoRestaurant.Game.Controls
 
         /// <summary>
         /// Mouse: click a piece to pick it up and click again to put it down, or press, drag and release. A shop card
-        /// dragged up out of the bar comes along the same way. A right click (without scrolling the view) turns the
+        /// dragged right out of the drawer comes along the same way. A right click (without scrolling the view) turns the
         /// piece in hand; clicking or releasing over the shop bar stores it.
         /// </summary>
         private void HandleMouse(Mouse mouse)
@@ -405,7 +406,7 @@ namespace DemoRestaurant.Game.Controls
             {
                 _mouseDown = point;
                 _mouseDragPick = false;
-                _pendingCardMouse = null;
+                _pendingCardMouse = null; _cardMouseHorizontal = false;
                 if (UiInput.IsPointerOverUi(point))
                 {
                     // Clicking the shop bar while holding a placed piece puts it in storage.
@@ -419,7 +420,9 @@ namespace DemoRestaurant.Game.Controls
                 return;
             }
             if (_painting && mouse.leftButton.isPressed) UpdatePaint(point);
-            if (mouse.leftButton.isPressed && _pendingCardMouse != null && !_panel.IsOverShopBar(point))
+            if (mouse.leftButton.isPressed && _pendingCardMouse != null)
+                ResolveCatalogGesture(point - _mouseDown, ref _pendingCardMouse, ref _cardMouseHorizontal);
+            if (mouse.leftButton.isPressed && _pendingCardMouse != null && _cardMouseHorizontal && _panel.IsRightOfCatalog(point))
             {
                 var select = _pendingCardMouse;
                 _pendingCardMouse = null;
@@ -472,7 +475,7 @@ namespace DemoRestaurant.Game.Controls
             if (touch.phase == UnityEngine.InputSystem.TouchPhase.Began)
             {
                 _touchId = touch.touchId;
-                _touchStart = touch.screenPosition;
+                _touchStart = touch.screenPosition; _cardTouchHorizontal = false;
                 _touchMoved = false; _pickedThisTouch = false;
                 _touchOnUi = UiInput.IsPointerOverUi(touch.screenPosition);
                 _pendingCard = _touchOnUi && !_touchMulti ? _panel.CardAt(touch.screenPosition) : null;
@@ -483,9 +486,13 @@ namespace DemoRestaurant.Game.Controls
                     else FollowPointer(TouchTarget(touch.screenPosition));
                 }
             }
-            // Dragging a card up out of the shop bar picks its piece up, already following the finger.
+            // A vertical gesture stays owned by the list even when the finger leaves its bounds.
             if (touch.touchId == _touchId && _touchOnUi && _pendingCard != null && !_touchMulti &&
-                touch.phase == UnityEngine.InputSystem.TouchPhase.Moved && !_panel.IsOverShopBar(touch.screenPosition))
+                touch.phase == UnityEngine.InputSystem.TouchPhase.Moved)
+                ResolveCatalogGesture(touch.screenPosition - _touchStart, ref _pendingCard, ref _cardTouchHorizontal);
+            // A rightward gesture transfers to placement only after leaving the drawer.
+            if (touch.touchId == _touchId && _touchOnUi && _pendingCard != null && !_touchMulti &&
+                touch.phase == UnityEngine.InputSystem.TouchPhase.Moved && _cardTouchHorizontal && _panel.IsRightOfCatalog(touch.screenPosition))
             {
                 var select = _pendingCard;
                 _pendingCard = null;
@@ -521,6 +528,17 @@ namespace DemoRestaurant.Game.Controls
             }
             else if (touch.phase == UnityEngine.InputSystem.TouchPhase.Canceled) { _touchId = -1; _pendingCard = null; CancelPaint(); }
             return true;
+        }
+
+        /// <summary>Lock to the first clear gesture direction; scrolling can never become a furniture drag.</summary>
+        private static void ResolveCatalogGesture(Vector2 delta, ref System.Action pending, ref bool horizontal)
+        {
+            if (horizontal) return;
+            float threshold = UnityEngine.EventSystems.EventSystem.current != null
+                ? Mathf.Max(12f, UnityEngine.EventSystems.EventSystem.current.pixelDragThreshold) : 12f;
+            if (Mathf.Abs(delta.y) > threshold && Mathf.Abs(delta.y) >= Mathf.Abs(delta.x)) pending = null;
+            else if (delta.x > threshold && delta.x > Mathf.Abs(delta.y)) horizontal = true;
+            else if (delta.x < -threshold) pending = null;
         }
 
         /// <summary>Keep the last destination over UI so reaching the toolbar doesn't move the piece.</summary>

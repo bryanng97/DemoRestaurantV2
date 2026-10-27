@@ -51,10 +51,13 @@ namespace DemoRestaurant.Game.UI
                 (_right ? 1 : -1) * (index / 2) * (TileHeight + Gap));
             button.sizeDelta = new Vector2(TileWidth, TileHeight);
             var icon = (RectTransform)button.Find("Icon");
-            icon.sizeDelta = new Vector2(94, 92);
+            icon.sizeDelta = new Vector2(90, 76);
             var text = button.Find("Label").GetComponent<Text>();
-            text.rectTransform.sizeDelta = new Vector2(-12, 38);
-            text.resizeTextMaxSize = 28; text.resizeTextMinSize = 20; text.fontSize = 28;
+            text.rectTransform.sizeDelta = new Vector2(-12, 60);
+            text.resizeTextForBestFit = true;
+            text.resizeTextMaxSize = 26; text.resizeTextMinSize = 18; text.fontSize = 26;
+            text.horizontalOverflow = HorizontalWrapMode.Wrap;
+            text.verticalOverflow = VerticalWrapMode.Truncate;
             _buttons.Add(button);
         }
 
