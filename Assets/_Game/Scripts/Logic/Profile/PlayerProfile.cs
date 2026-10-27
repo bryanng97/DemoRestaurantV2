@@ -18,6 +18,8 @@ namespace DemoRestaurant.Logic.Profile
     /// </summary>
     public sealed class PlayerProfile
     {
+        /// <summary>Use the saved customizable appearance instead of a skin's fixed owner frames.</summary>
+        public bool HasCustomAvatar { get; internal set; }
         private readonly List<AccountProvider> _linked = new List<AccountProvider>();
 
         /// <summary>The account id while signed in (the same on every device), else this device's guest id.</summary>

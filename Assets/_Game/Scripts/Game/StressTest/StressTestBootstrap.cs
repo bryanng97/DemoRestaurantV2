@@ -144,12 +144,16 @@ namespace DemoRestaurant.Game.StressTest
             _view.Avatars = avatars;
             _view.RecipeLevel = dish => _session.Recipes.LevelOf(dish);
             _view.OwnerLook = () => _session.Profile.Avatar;
+            _view.OwnerCustomized = () => _session.Profile.HasCustomAvatar;
             _session.Profile.Changed += _view.RefreshOwner;
             _view.Bind(_session.Sim, _content, windowSegments: new int[0]); // windows are wall pieces now
             // The farm behind the back-right wall: tapping it opens the garden panel (not while decorating).
             var farm = new GameObject("FarmView").AddComponent<FarmView>();
             farm.transform.SetParent(_view.transform, false);
             farm.Bind(_session, _content, () => _builder != null && _builder.IsEditing, plot => _ui.GardenPanel.Show(plot));
+            var trash = new GameObject("GroundTrash").AddComponent<TrashView>();
+            trash.transform.SetParent(_view.transform, false);
+            trash.Bind(_session, ArtLibrary.For(_content.Theme), () => _builder != null && _builder.IsEditing);
             // Wall pieces with a tap action (the menu holder opens the menu).
             var wallTaps = new GameObject("WallTaps").AddComponent<WallTapHandler>();
             wallTaps.transform.SetParent(_view.transform, false);
@@ -158,6 +162,7 @@ namespace DemoRestaurant.Game.StressTest
             // Tapping a broken functional fixture repairs it (as in the reference game).
             wallTaps.FloorTap = world =>
             {
+                if (trash.TryTap(world)) return true;
                 if (_view.TryTapDirtyTable(world)) return true;
                 var piece = _view.PickFurniture(world);
                 if (piece == null || !_session.Sim.Fix(piece)) return false;
@@ -172,6 +177,10 @@ namespace DemoRestaurant.Game.StressTest
             var art = ArtLibrary.For(_content.Theme);
             _earningsHud = new GameObject("EarningsHud").AddComponent<EarningsHud>();
             _earningsHud.Bind(_session.Wallet, _session.Earnings, () => _session.Time, Camera.main, art.Get(_content.Theme.coinIcon));
+            _session.TrashCollected += (piece, coins, xp) =>
+            {
+                if (coins > 0) _earningsHud.ShowEarned(IsoProjection.GridToWorld(piece.x + .5f, piece.y + .5f), coins);
+            };
 
             _ui = new GameObject("GameUi").AddComponent<GameUi>();
             _ui.Bind(_session, _content, _staff, avatars, targetFrameRate);

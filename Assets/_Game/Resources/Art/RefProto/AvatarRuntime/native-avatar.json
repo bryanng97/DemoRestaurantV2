@@ -1,0 +1,1606 @@
+{
+  "source": "Restaurant City preservation archive 0.9.143a; native model, avatar.xml and extracted avatar texture layers. See Docs/team-assets.md.",
+  "layers": [
+    {
+      "x": 68,
+      "name": "Extra04",
+      "y": 44
+    },
+    {
+      "x": 96,
+      "name": "Mouth5",
+      "y": 140
+    },
+    {
+      "x": 99,
+      "name": "Mouth17",
+      "y": 140
+    },
+    {
+      "x": 89,
+      "name": "Mouth16",
+      "y": 139
+    },
+    {
+      "x": 107,
+      "name": "Mouth15",
+      "y": 133
+    },
+    {
+      "x": 88,
+      "name": "Mouth14",
+      "y": 135
+    },
+    {
+      "x": 87,
+      "name": "Mouth13",
+      "y": 141
+    },
+    {
+      "x": 106,
+      "name": "Mouth12",
+      "y": 138
+    },
+    {
+      "x": 95,
+      "name": "Mouth24",
+      "y": 145
+    },
+    {
+      "x": 99,
+      "name": "Mouth23",
+      "y": 145
+    },
+    {
+      "x": 87,
+      "name": "Mouth11",
+      "y": 136
+    },
+    {
+      "x": 93,
+      "name": "Extra06",
+      "y": 46
+    },
+    {
+      "x": 105,
+      "name": "Mouth22",
+      "y": 138
+    },
+    {
+      "x": 96,
+      "name": "Mouth21",
+      "y": 131
+    },
+    {
+      "x": 97,
+      "name": "Mouth20",
+      "y": 137
+    },
+    {
+      "x": 102,
+      "name": "Mouth19",
+      "y": 143
+    },
+    {
+      "x": 102,
+      "name": "Mouth18",
+      "y": 141
+    },
+    {
+      "x": 91,
+      "name": "Mouth10",
+      "y": 134
+    },
+    {
+      "x": 93,
+      "name": "Mouth9",
+      "y": 138
+    },
+    {
+      "x": 99,
+      "name": "Mouth8",
+      "y": 148
+    },
+    {
+      "x": 99,
+      "name": "Mouth7",
+      "y": 140
+    },
+    {
+      "x": 99,
+      "name": "Mouth4",
+      "y": 140
+    },
+    {
+      "x": 83,
+      "name": "Extra05",
+      "y": 19
+    },
+    {
+      "x": 92,
+      "name": "Mouth3",
+      "y": 142
+    },
+    {
+      "x": 97,
+      "name": "Mouth2",
+      "y": 137
+    },
+    {
+      "x": 98,
+      "name": "Mouth1",
+      "y": 137
+    },
+    {
+      "x": 105,
+      "name": "Mouth",
+      "y": 142
+    },
+    {
+      "x": 0,
+      "name": "Shirt1",
+      "y": 254
+    },
+    {
+      "x": 0,
+      "name": "Shirt6",
+      "y": 253
+    },
+    {
+      "x": 0,
+      "name": "Shirt5",
+      "y": 251
+    },
+    {
+      "x": 98,
+      "name": "Extra08",
+      "y": 32
+    },
+    {
+      "x": 0,
+      "name": "Shirt3",
+      "y": 249
+    },
+    {
+      "x": 0,
+      "name": "Shirt10",
+      "y": 251
+    },
+    {
+      "x": 0,
+      "name": "Shirt9",
+      "y": 250
+    },
+    {
+      "x": 0,
+      "name": "Shirt8",
+      "y": 254
+    },
+    {
+      "x": 0,
+      "name": "Shirt7",
+      "y": 255
+    },
+    {
+      "x": 104,
+      "name": "Extra07",
+      "y": 24
+    },
+    {
+      "x": 0,
+      "name": "Shirt22",
+      "y": 260
+    },
+    {
+      "x": 0,
+      "name": "Shirt26",
+      "y": 253
+    },
+    {
+      "x": 1,
+      "name": "Shirt25",
+      "y": 252
+    },
+    {
+      "x": 0,
+      "name": "Shirt24",
+      "y": 253
+    },
+    {
+      "x": 0,
+      "name": "Shirt23",
+      "y": 252
+    },
+    {
+      "x": 48,
+      "name": "Eyes17",
+      "y": 86
+    },
+    {
+      "x": 99,
+      "name": "Extra03",
+      "y": 23
+    },
+    {
+      "x": 0,
+      "name": "Shirt20",
+      "y": 254
+    },
+    {
+      "x": 0,
+      "name": "Shirt19",
+      "y": 254
+    },
+    {
+      "x": 0,
+      "name": "Shirt18",
+      "y": 253
+    },
+    {
+      "x": 0,
+      "name": "Shirt17",
+      "y": 254
+    },
+    {
+      "x": 0,
+      "name": "Shirt16",
+      "y": 249
+    },
+    {
+      "x": 106,
+      "name": "Extra02",
+      "y": 33
+    },
+    {
+      "x": 0,
+      "name": "Shirt15",
+      "y": 254
+    },
+    {
+      "x": 0,
+      "name": "Shirt11",
+      "y": 250
+    },
+    {
+      "x": 0,
+      "name": "Shirt4",
+      "y": 250
+    },
+    {
+      "x": 0,
+      "name": "Shirt2",
+      "y": 250
+    },
+    {
+      "x": 94,
+      "name": "Extra01",
+      "y": 28
+    },
+    {
+      "x": 49,
+      "name": "Eyes4",
+      "y": 85
+    },
+    {
+      "x": 58,
+      "name": "Eyes3",
+      "y": 85
+    },
+    {
+      "x": -3,
+      "name": "Shirt33",
+      "y": 264
+    },
+    {
+      "x": -3,
+      "name": "Shirt32",
+      "y": 250
+    },
+    {
+      "x": -3,
+      "name": "Shirt31",
+      "y": 250
+    },
+    {
+      "x": -4,
+      "name": "Shirt38",
+      "y": 251
+    },
+    {
+      "x": -4,
+      "name": "Shirt37",
+      "y": 251
+    },
+    {
+      "x": -3,
+      "name": "Shirt36",
+      "y": 250
+    },
+    {
+      "x": -3,
+      "name": "Shirt35",
+      "y": 250
+    },
+    {
+      "x": -4,
+      "name": "Shirt41",
+      "y": 251
+    },
+    {
+      "x": 51,
+      "name": "Eyes12",
+      "y": 81
+    },
+    {
+      "x": -10,
+      "name": "Shirt43",
+      "y": 248
+    },
+    {
+      "x": -5,
+      "name": "Shirt45",
+      "y": 251
+    },
+    {
+      "x": -3,
+      "name": "Shirt48",
+      "y": 248
+    },
+    {
+      "x": -3,
+      "name": "Shirt47",
+      "y": 172
+    },
+    {
+      "x": -7,
+      "name": "Shirt49",
+      "y": 251
+    },
+    {
+      "x": -4,
+      "name": "Shirt46",
+      "y": 248
+    },
+    {
+      "x": -6,
+      "name": "Shirt52",
+      "y": 248
+    },
+    {
+      "x": -5,
+      "name": "Shirt51",
+      "y": 248
+    },
+    {
+      "x": -5,
+      "name": "Shirt50",
+      "y": 248
+    },
+    {
+      "x": -5,
+      "name": "Shirt54",
+      "y": 172
+    },
+    {
+      "x": 55,
+      "name": "Eyes11",
+      "y": 91
+    },
+    {
+      "x": -5,
+      "name": "Shirt53",
+      "y": 172
+    },
+    {
+      "x": -5,
+      "name": "Shirt44",
+      "y": 248
+    },
+    {
+      "x": -6,
+      "name": "Shirt42",
+      "y": 248
+    },
+    {
+      "x": -3,
+      "name": "Shirt40",
+      "y": 248
+    },
+    {
+      "x": -3,
+      "name": "Shirt39",
+      "y": 248
+    },
+    {
+      "x": -3,
+      "name": "Shirt34",
+      "y": 250
+    },
+    {
+      "x": -3,
+      "name": "Shirt30",
+      "y": 250
+    },
+    {
+      "x": -3,
+      "name": "Shirt29",
+      "y": 250
+    },
+    {
+      "x": 52,
+      "name": "Eyes10",
+      "y": 87
+    },
+    {
+      "x": -3,
+      "name": "Shirt28",
+      "y": 250
+    },
+    {
+      "x": -3,
+      "name": "Shirt27",
+      "y": 250
+    },
+    {
+      "x": 0,
+      "name": "Shirt14",
+      "y": 250
+    },
+    {
+      "x": 0,
+      "name": "Shirt13",
+      "y": 250
+    },
+    {
+      "x": 0,
+      "name": "Shirt21",
+      "y": 250
+    },
+    {
+      "x": 51,
+      "name": "Eyes19",
+      "y": 84
+    },
+    {
+      "x": 0,
+      "name": "Shirt12",
+      "y": 250
+    },
+    {
+      "x": 0,
+      "name": "Shirt",
+      "y": 250
+    },
+    {
+      "x": 352,
+      "name": "Pants2",
+      "y": 372
+    },
+    {
+      "x": 180,
+      "name": "Pants11",
+      "y": 235
+    },
+    {
+      "x": 178,
+      "name": "Pants18",
+      "y": 235
+    },
+    {
+      "x": 48,
+      "name": "Eyes21",
+      "y": 79
+    },
+    {
+      "x": 178,
+      "name": "Pants14",
+      "y": 235
+    },
+    {
+      "x": 178,
+      "name": "Pants13",
+      "y": 234
+    },
+    {
+      "x": 178,
+      "name": "Pants10",
+      "y": 234
+    },
+    {
+      "x": 179,
+      "name": "Pants9",
+      "y": 234
+    },
+    {
+      "x": 178,
+      "name": "Pants6",
+      "y": 235
+    },
+    {
+      "x": 50,
+      "name": "Eyes7",
+      "y": 86
+    },
+    {
+      "x": 48,
+      "name": "Eyes18",
+      "y": 79
+    },
+    {
+      "x": 179,
+      "name": "Pants5",
+      "y": 234
+    },
+    {
+      "x": 179,
+      "name": "Pants3",
+      "y": 234
+    },
+    {
+      "x": 177,
+      "name": "Pants28",
+      "y": 230
+    },
+    {
+      "x": 176,
+      "name": "Pants40",
+      "y": 232
+    },
+    {
+      "x": 176,
+      "name": "Pants36",
+      "y": 232
+    },
+    {
+      "x": 176,
+      "name": "Pants35",
+      "y": 232
+    },
+    {
+      "x": 176,
+      "name": "Pants34",
+      "y": 232
+    },
+    {
+      "x": 47,
+      "name": "Eyes16",
+      "y": 79
+    },
+    {
+      "x": 176,
+      "name": "Pants32",
+      "y": 232
+    },
+    {
+      "x": 176,
+      "name": "Pants30",
+      "y": 233
+    },
+    {
+      "x": 178,
+      "name": "Pants26",
+      "y": 233
+    },
+    {
+      "x": 178,
+      "name": "Pants25",
+      "y": 235
+    },
+    {
+      "x": 178,
+      "name": "Pants21",
+      "y": 235
+    },
+    {
+      "x": 178,
+      "name": "Pants19",
+      "y": 235
+    },
+    {
+      "x": 178,
+      "name": "Pants1",
+      "y": 236
+    },
+    {
+      "x": 47,
+      "name": "Eyes2",
+      "y": 79
+    },
+    {
+      "x": 353,
+      "name": "Pants4",
+      "y": 373
+    },
+    {
+      "x": 352,
+      "name": "Pants17",
+      "y": 372
+    },
+    {
+      "x": 352,
+      "name": "Pants16",
+      "y": 372
+    },
+    {
+      "x": 350,
+      "name": "Pants15",
+      "y": 372
+    },
+    {
+      "x": 352,
+      "name": "Pants8",
+      "y": 372
+    },
+    {
+      "x": 54,
+      "name": "Eyes15",
+      "y": 83
+    },
+    {
+      "x": 351,
+      "name": "Pants7",
+      "y": 372
+    },
+    {
+      "x": 350,
+      "name": "Pants12",
+      "y": 372
+    },
+    {
+      "x": 351,
+      "name": "Pants24",
+      "y": 373
+    },
+    {
+      "x": 54,
+      "name": "Eyes14",
+      "y": 83
+    },
+    {
+      "x": 56,
+      "name": "Eyes20",
+      "y": 86
+    },
+    {
+      "x": 349,
+      "name": "Pants33",
+      "y": 370
+    },
+    {
+      "x": 349,
+      "name": "Pants39",
+      "y": 370
+    },
+    {
+      "x": 349,
+      "name": "Pants38",
+      "y": 370
+    },
+    {
+      "x": 349,
+      "name": "Pants37",
+      "y": 370
+    },
+    {
+      "x": 349,
+      "name": "Pants31",
+      "y": 370
+    },
+    {
+      "x": 349,
+      "name": "Pants29",
+      "y": 370
+    },
+    {
+      "x": 350,
+      "name": "Pants27",
+      "y": 373
+    },
+    {
+      "x": 350,
+      "name": "Pants23",
+      "y": 373
+    },
+    {
+      "x": 351,
+      "name": "Pants22",
+      "y": 372
+    },
+    {
+      "x": 54,
+      "name": "Eyes13",
+      "y": 83
+    },
+    {
+      "x": 350,
+      "name": "Pants20",
+      "y": 373
+    },
+    {
+      "x": 350,
+      "name": "PantsClassic",
+      "y": 373
+    },
+    {
+      "x": 257,
+      "name": "Hat404",
+      "y": 0
+    },
+    {
+      "x": 257,
+      "name": "Hat403",
+      "y": 0
+    },
+    {
+      "x": 257,
+      "name": "Hat402",
+      "y": 0
+    },
+    {
+      "x": 265,
+      "name": "Hat303",
+      "y": 2
+    },
+    {
+      "x": 265,
+      "name": "Hat302",
+      "y": 2
+    },
+    {
+      "x": 265,
+      "name": "Hat301",
+      "y": 2
+    },
+    {
+      "x": 54,
+      "name": "Eyes8",
+      "y": 83
+    },
+    {
+      "x": 257,
+      "name": "Hat401",
+      "y": 0
+    },
+    {
+      "x": 255,
+      "name": "Hat603",
+      "y": 24
+    },
+    {
+      "x": 254,
+      "name": "Hat602",
+      "y": 26
+    },
+    {
+      "x": 255,
+      "name": "Hat601",
+      "y": 26
+    },
+    {
+      "x": 256,
+      "name": "Hat902",
+      "y": 3
+    },
+    {
+      "x": 253,
+      "name": "Hat901",
+      "y": 3
+    },
+    {
+      "x": 245,
+      "name": "Hat802",
+      "y": 3
+    },
+    {
+      "x": 228,
+      "name": "SpaceHelmet",
+      "y": 5
+    },
+    {
+      "x": 232,
+      "name": "Hat501",
+      "y": 0
+    },
+    {
+      "x": 246,
+      "name": "Hat801",
+      "y": 2
+    },
+    {
+      "x": 60,
+      "name": "Eyes9",
+      "y": 90
+    },
+    {
+      "x": 281,
+      "name": "Hat101",
+      "y": 2
+    },
+    {
+      "x": 256,
+      "name": "Hat203",
+      "y": 1
+    },
+    {
+      "x": 254,
+      "name": "Hat204",
+      "y": 1
+    },
+    {
+      "x": 254,
+      "name": "Hat201",
+      "y": 1
+    },
+    {
+      "x": 255,
+      "name": "Hat202",
+      "y": 1
+    },
+    {
+      "x": 297,
+      "name": "Hat",
+      "y": 2
+    },
+    {
+      "x": 0,
+      "name": "Repair",
+      "y": 0
+    },
+    {
+      "x": 0,
+      "name": "Cleaner",
+      "y": 0
+    },
+    {
+      "x": 0,
+      "name": "Tray",
+      "y": 0
+    },
+    {
+      "x": 41,
+      "name": "EyeBrow05",
+      "y": 58
+    },
+    {
+      "x": 0,
+      "name": "TextureShading",
+      "y": 0
+    },
+    {
+      "x": -49,
+      "name": "Hair01",
+      "y": -52
+    },
+    {
+      "x": -69,
+      "name": "Hair02",
+      "y": -51
+    },
+    {
+      "x": -45,
+      "name": "Hair03",
+      "y": -52
+    },
+    {
+      "x": -48,
+      "name": "Hair04",
+      "y": -52
+    },
+    {
+      "x": -48,
+      "name": "Hair05",
+      "y": -62
+    },
+    {
+      "x": -48,
+      "name": "Hair06",
+      "y": -69
+    },
+    {
+      "x": -48,
+      "name": "Hair07",
+      "y": -61
+    },
+    {
+      "x": -52,
+      "name": "Hair08",
+      "y": -58
+    },
+    {
+      "x": 53,
+      "name": "Eyes6",
+      "y": 72
+    },
+    {
+      "x": 42,
+      "name": "EyeBrow11",
+      "y": 63
+    },
+    {
+      "x": -70,
+      "name": "Hair09",
+      "y": -57
+    },
+    {
+      "x": -52,
+      "name": "Hair15",
+      "y": -55
+    },
+    {
+      "x": -54,
+      "name": "Hair14",
+      "y": -57
+    },
+    {
+      "x": -56,
+      "name": "Hair13",
+      "y": -57
+    },
+    {
+      "x": -44,
+      "name": "Hair12",
+      "y": -64
+    },
+    {
+      "x": -56,
+      "name": "Hair11",
+      "y": -61
+    },
+    {
+      "x": -70,
+      "name": "Hair10",
+      "y": -54
+    },
+    {
+      "x": -40,
+      "name": "HatIconBunny04",
+      "y": -48
+    },
+    {
+      "x": -44,
+      "name": "HatIconCheese01",
+      "y": -37
+    },
+    {
+      "x": -40,
+      "name": "HatIconBunny03",
+      "y": -48
+    },
+    {
+      "x": 49,
+      "name": "EyeBrow04",
+      "y": 63
+    },
+    {
+      "x": -40,
+      "name": "HatIconBunny02",
+      "y": -48
+    },
+    {
+      "x": -65,
+      "name": "HatIconSpaceHelmet01",
+      "y": -42
+    },
+    {
+      "x": -63,
+      "name": "HatIconCat03",
+      "y": -26
+    },
+    {
+      "x": -63,
+      "name": "HatIconCat02",
+      "y": -26
+    },
+    {
+      "x": -63,
+      "name": "HatIconCat01",
+      "y": -26
+    },
+    {
+      "x": -40,
+      "name": "HatIconBunny01",
+      "y": -48
+    },
+    {
+      "x": -40,
+      "name": "HatIconCone03",
+      "y": -42
+    },
+    {
+      "x": -42,
+      "name": "HatIconCone02",
+      "y": -43
+    },
+    {
+      "x": -39,
+      "name": "HatIconCone01",
+      "y": -40
+    },
+    {
+      "x": -57,
+      "name": "HatIconTopHat03",
+      "y": -42
+    },
+    {
+      "x": 61,
+      "name": "EyeBrow10",
+      "y": 57
+    },
+    {
+      "x": -57,
+      "name": "HatIconTopHat02",
+      "y": -42
+    },
+    {
+      "x": -57,
+      "name": "HatIconTopHat04",
+      "y": -42
+    },
+    {
+      "x": -57,
+      "name": "HatIconTopHat01",
+      "y": -42
+    },
+    {
+      "x": -58,
+      "name": "HatIconChef01",
+      "y": -42
+    },
+    {
+      "x": -54,
+      "name": "HatIconTiara01",
+      "y": -40
+    },
+    {
+      "x": -37,
+      "name": "HatIconFez02",
+      "y": -30
+    },
+    {
+      "x": -67,
+      "name": "HatIconViking02",
+      "y": -33
+    },
+    {
+      "x": -67,
+      "name": "HatIconViking01",
+      "y": -33
+    },
+    {
+      "x": -37,
+      "name": "HatIconFez01",
+      "y": -30
+    },
+    {
+      "x": 38,
+      "name": "EyeBrow09",
+      "y": 54
+    },
+    {
+      "x": 50,
+      "name": "EyeBrow08",
+      "y": 60
+    },
+    {
+      "x": 41,
+      "name": "EyeBrow07",
+      "y": 50
+    },
+    {
+      "x": 44,
+      "name": "EyeBrow03",
+      "y": 63
+    },
+    {
+      "x": 44,
+      "name": "EyeBrow02",
+      "y": 63
+    },
+    {
+      "x": 86,
+      "name": "Extra10",
+      "y": 95
+    },
+    {
+      "x": 45,
+      "name": "Extra11",
+      "y": 119
+    },
+    {
+      "x": 58,
+      "name": "Eyes5",
+      "y": 85
+    },
+    {
+      "x": 45,
+      "name": "Extra09",
+      "y": 119
+    },
+    {
+      "x": 49,
+      "name": "Eyes1",
+      "y": 95
+    },
+    {
+      "x": 39,
+      "name": "EyeBrow06",
+      "y": 49
+    },
+    {
+      "x": 60,
+      "name": "EyeBrow01",
+      "y": 68
+    },
+    {
+      "x": 64,
+      "name": "Eyes",
+      "y": 92
+    },
+    {
+      "x": 94,
+      "name": "Beard04",
+      "y": 124
+    },
+    {
+      "x": 79,
+      "name": "Beard03",
+      "y": 126
+    },
+    {
+      "x": 79,
+      "name": "Beard02",
+      "y": 126
+    },
+    {
+      "x": 80,
+      "name": "Beard01",
+      "y": 126
+    },
+    {
+      "x": 110,
+      "name": "Mouth6",
+      "y": 156
+    }
+  ],
+  "animations": [
+    {
+      "from": 0.0,
+      "step": 0.1,
+      "count": 4,
+      "name": "walk"
+    },
+    {
+      "from": 1.0,
+      "step": 0.1,
+      "count": 4,
+      "name": "carry"
+    },
+    {
+      "from": 1.6,
+      "step": 0.1,
+      "count": 1,
+      "name": "hold"
+    },
+    {
+      "from": 4.4,
+      "step": 0.2,
+      "count": 15,
+      "name": "idle"
+    },
+    {
+      "from": 3.0,
+      "step": 0.1,
+      "count": 4,
+      "name": "cook"
+    },
+    {
+      "from": 3.5,
+      "step": 0.1,
+      "count": 1,
+      "name": "sit"
+    },
+    {
+      "from": 3.5,
+      "step": 0.1,
+      "count": 8,
+      "name": "eat"
+    },
+    {
+      "from": 14.1,
+      "step": 0.1,
+      "props": [
+        "bucket_PIVOT",
+        "brush"
+      ],
+      "count": 4,
+      "name": "clean"
+    },
+    {
+      "from": 13.6,
+      "step": 0.1,
+      "props": [
+        "repair"
+      ],
+      "count": 4,
+      "name": "fix"
+    }
+  ],
+  "parts": [
+    {
+      "price": 0,
+      "meshes": [],
+      "name": "Happy",
+      "sourceId": "1060007",
+      "slot": "Gender",
+      "texture": "Mouth7",
+      "id": "female"
+    },
+    {
+      "price": 0,
+      "meshes": [],
+      "name": "Indifferent",
+      "sourceId": "1060008",
+      "slot": "Gender",
+      "texture": "Mouth8",
+      "id": "male"
+    },
+    {
+      "price": 0,
+      "meshes": [],
+      "name": "Dashing Eyes",
+      "sourceId": "1050005",
+      "slot": "Eyes",
+      "texture": "Eyes5",
+      "id": "round"
+    },
+    {
+      "price": 100,
+      "meshes": [],
+      "name": "Pretty Eyes",
+      "sourceId": "1050006",
+      "slot": "Eyes",
+      "texture": "Eyes6",
+      "id": "happy"
+    },
+    {
+      "price": 0,
+      "meshes": [],
+      "name": "Basic Eyes",
+      "sourceId": "1050001",
+      "slot": "Eyes",
+      "texture": "Eyes1",
+      "id": "sleepy"
+    },
+    {
+      "price": 400,
+      "meshes": [],
+      "name": "Cute Eyes",
+      "sourceId": "1050019",
+      "slot": "Eyes",
+      "texture": "Eyes19",
+      "id": "sparkle"
+    },
+    {
+      "price": 200,
+      "meshes": [],
+      "name": "Soft EyeBrow",
+      "sourceId": "1070004",
+      "slot": "Eyebrows",
+      "texture": "EyeBrow04",
+      "id": "soft"
+    },
+    {
+      "price": 0,
+      "meshes": [],
+      "name": "Classic EyeBrow",
+      "sourceId": "1070001",
+      "slot": "Eyebrows",
+      "texture": "EyeBrow01",
+      "id": "bold"
+    },
+    {
+      "price": 0,
+      "meshes": [],
+      "name": "Evil EyeBrow",
+      "sourceId": "1070002",
+      "slot": "Eyebrows",
+      "texture": "EyeBrow02",
+      "id": "angled"
+    },
+    {
+      "price": 0,
+      "meshes": [],
+      "name": "none",
+      "sourceId": "",
+      "slot": "Eyebrows",
+      "texture": "",
+      "id": "none"
+    },
+    {
+      "price": 300,
+      "meshes": [
+        "hair01"
+      ],
+      "name": "Fringe",
+      "sourceId": "1040001",
+      "slot": "HairStyle",
+      "texture": "",
+      "id": "bob"
+    },
+    {
+      "price": 0,
+      "meshes": [
+        "hair05"
+      ],
+      "name": "Classic",
+      "sourceId": "1040005",
+      "slot": "HairStyle",
+      "texture": "",
+      "id": "short"
+    },
+    {
+      "price": 400,
+      "meshes": [
+        "hair02"
+      ],
+      "name": "Spike",
+      "sourceId": "1040002",
+      "slot": "HairStyle",
+      "texture": "",
+      "id": "spiky"
+    },
+    {
+      "price": 400,
+      "meshes": [
+        "hair09"
+      ],
+      "name": "Long Hair",
+      "sourceId": "1040009",
+      "slot": "HairStyle",
+      "texture": "",
+      "id": "long"
+    },
+    {
+      "price": 0,
+      "meshes": [
+        "hair07"
+      ],
+      "name": "Ponytail",
+      "sourceId": "1040007",
+      "slot": "HairStyle",
+      "texture": "",
+      "id": "ponytail"
+    },
+    {
+      "price": 300,
+      "meshes": [
+        "hair17"
+      ],
+      "name": "Granny",
+      "sourceId": "1040014",
+      "slot": "HairStyle",
+      "texture": "",
+      "id": "bun"
+    },
+    {
+      "price": 0,
+      "meshes": [],
+      "name": "none",
+      "sourceId": "",
+      "slot": "Hat",
+      "texture": "",
+      "id": "none"
+    },
+    {
+      "price": 1500,
+      "meshes": [
+        "hat01"
+      ],
+      "name": "Chef Hat",
+      "sourceId": "1030001",
+      "slot": "Hat",
+      "texture": "Hat101",
+      "id": "chef"
+    },
+    {
+      "price": 500,
+      "meshes": [
+        "hat05"
+      ],
+      "name": "Top Hat",
+      "sourceId": "1030008",
+      "slot": "Hat",
+      "texture": "Hat201",
+      "id": "cap"
+    },
+    {
+      "price": 600,
+      "meshes": [
+        "hat08"
+      ],
+      "name": "Red Fez",
+      "sourceId": "1030011",
+      "slot": "Hat",
+      "texture": "Hat801",
+      "id": "beanie"
+    },
+    {
+      "price": 700,
+      "meshes": [
+        "hat04"
+      ],
+      "name": "White Bunny Ears",
+      "sourceId": "1030004",
+      "slot": "Hat",
+      "texture": "Hat401",
+      "id": "headband"
+    },
+    {
+      "price": 1000,
+      "meshes": [
+        "hat09"
+      ],
+      "name": "Golden Cow Helmet",
+      "sourceId": "1030013",
+      "slot": "Hat",
+      "texture": "Hat901",
+      "id": "songkok"
+    },
+    {
+      "price": 3000,
+      "meshes": [
+        "hat02"
+      ],
+      "name": "Cheesy Hat",
+      "sourceId": "1030017",
+      "slot": "Hat",
+      "texture": "Hat501",
+      "id": "tudung"
+    },
+    {
+      "price": 300,
+      "meshes": [
+        "hat03"
+      ],
+      "name": "Clown hat",
+      "sourceId": "1030003",
+      "slot": "Hat",
+      "texture": "Hat301",
+      "id": "straw_hat"
+    },
+    {
+      "price": 1200,
+      "meshes": [
+        "hat04"
+      ],
+      "name": "Black Bunny Ears",
+      "sourceId": "1030005",
+      "slot": "Hat",
+      "texture": "Hat402",
+      "id": "cat_hood"
+    },
+    {
+      "price": 200,
+      "meshes": [
+        "shirt01",
+        "armleft",
+        "armright"
+      ],
+      "name": "Cafe Shirt",
+      "sourceId": "1020013",
+      "slot": "Shirt",
+      "texture": "Shirt13",
+      "id": "vest"
+    },
+    {
+      "price": 200,
+      "meshes": [
+        "shirt01",
+        "armleft",
+        "armright"
+      ],
+      "name": "Red Star Shirt",
+      "sourceId": "1020002",
+      "slot": "Shirt",
+      "texture": "Shirt2",
+      "id": "tee"
+    },
+    {
+      "price": 300,
+      "meshes": [
+        "shirt01",
+        "armleft",
+        "armright"
+      ],
+      "name": "Shirt and Tie",
+      "sourceId": "1020005",
+      "slot": "Shirt",
+      "texture": "Shirt5",
+      "id": "collared"
+    },
+    {
+      "price": 600,
+      "meshes": [
+        "shirt01",
+        "armleft",
+        "armright"
+      ],
+      "name": "Chef Shirt",
+      "sourceId": "1020003",
+      "slot": "Shirt",
+      "texture": "Shirt3",
+      "id": "apron"
+    },
+    {
+      "price": 250,
+      "meshes": [
+        "shirt01",
+        "armleft",
+        "armright"
+      ],
+      "name": "Pink Sweater",
+      "sourceId": "1020015",
+      "slot": "Shirt",
+      "texture": "Shirt15",
+      "id": "kurung"
+    },
+    {
+      "price": 250,
+      "meshes": [
+        "shirt01",
+        "armleft",
+        "armright"
+      ],
+      "name": "Chinese Shirt",
+      "sourceId": "1020008",
+      "slot": "Shirt",
+      "texture": "Shirt8",
+      "id": "melayu"
+    },
+    {
+      "price": 400,
+      "meshes": [
+        "pants01"
+      ],
+      "name": "Classic Shorts",
+      "sourceId": "1000001",
+      "slot": "Pants",
+      "texture": "Pants2",
+      "id": "shorts"
+    },
+    {
+      "price": 400,
+      "meshes": [
+        "pants01"
+      ],
+      "name": "Black Pants",
+      "sourceId": "1000006",
+      "slot": "Pants",
+      "texture": "Pants15",
+      "id": "trousers"
+    },
+    {
+      "price": 0,
+      "meshes": [
+        "pants01",
+        "dress"
+      ],
+      "name": "Classic Skirt",
+      "sourceId": "1010010",
+      "slot": "Pants",
+      "texture": "Pants19",
+      "id": "skirt"
+    },
+    {
+      "price": 600,
+      "meshes": [
+        "pants01"
+      ],
+      "name": "Lucky Green Pants",
+      "sourceId": "1000010",
+      "slot": "Pants",
+      "texture": "Pants20",
+      "id": "sarong"
+    }
+  ]
+}

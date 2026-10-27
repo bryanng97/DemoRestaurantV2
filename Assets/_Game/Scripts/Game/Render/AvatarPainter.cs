@@ -6,13 +6,14 @@ using UnityEngine;
 namespace DemoRestaurant.Game.Render
 {
     /// <summary>
-    /// Draws a chibi avatar from an <see cref="AvatarLook"/> in the style of the NOMU WORLD character sheet: a big
+    /// Uses the installed native avatar model, texture layers and animation for <see cref="AvatarLook"/>.
+    /// Packs without that model retain the original procedural fallback: a big
     /// round head, large glossy eyes, a fluffy fringe, a small body with short legs, a soft dark-brown outline and
     /// simple cel shading. Every part is a signed-distance shape, so new hair, hats or outfits are a few lines.
     /// A stand-in until the designers deliver layered avatar art (AvatarPartDef.Sprite).
     /// Front and back views (for walking away from the camera in the restaurant) are cached per look.
     /// </summary>
-    public sealed class AvatarPainter
+    public sealed class AvatarPainter : IDisposable
     {
         private const int Width = 160;
         private const int Height = 236;
@@ -34,7 +35,14 @@ namespace DemoRestaurant.Game.Render
         private readonly Dictionary<string, int> _retained = new Dictionary<string, int>();
         private readonly Color[] _px = new Color[Width * Height];
 
-        public AvatarPainter(AvatarCatalog catalog) => _catalog = catalog;
+        private readonly NativeAvatarRenderer _native;
+        public bool NativeAvailable=>_native!=null && _native.Available;
+        public AvatarPainter(AvatarCatalog catalog,bool native=true)
+        {
+            _catalog=catalog;
+            if(native)_native=new NativeAvatarRenderer(catalog);
+        }
+        public CharacterFrames NativeFrames(AvatarLook look)=>NativeAvailable?_native.Get(look).Frames:null;
 
         private sealed class Entry
         {
@@ -43,13 +51,13 @@ namespace DemoRestaurant.Game.Render
         }
 
         /// <summary>Full-body front view, feet at the pivot (profile preview, standing in the restaurant).</summary>
-        public Sprite Body(AvatarLook look) => Get(look).Body;
+        public Sprite Body(AvatarLook look) => NativeAvailable?_native.Get(look).Body:Get(look).Body;
 
         /// <summary>Full-body back view, for walking away from the camera.</summary>
-        public Sprite Back(AvatarLook look) => Get(look).Back;
+        public Sprite Back(AvatarLook look) => NativeAvailable?_native.Get(look).Back:Get(look).Back;
 
         /// <summary>Square head-and-shoulders crop (HUD profile card, staff list).</summary>
-        public Sprite Head(AvatarLook look) => Get(look).Head;
+        public Sprite Head(AvatarLook look) => NativeAvailable?_native.Get(look).Head:Get(look).Head;
 
         /// <summary>Feet-to-hip share of the full-body sprite, where the walk animation cuts the legs.</summary>
         public const float LegFraction = (Height - Top - HipY) / Height;
@@ -60,6 +68,7 @@ namespace DemoRestaurant.Game.Render
         /// </summary>
         public string Retain(AvatarLook look)
         {
+            if(NativeAvailable){_native.Retain(look);return look.Key;}
             Get(look);
             string key = look.Key;
             _retained[key] = (_retained.TryGetValue(key, out int n) ? n : 0) + 1;
@@ -68,9 +77,21 @@ namespace DemoRestaurant.Game.Render
 
         public void Release(string key)
         {
+            if(NativeAvailable){_native.Release(key);return;}
             if (key == null || !_retained.TryGetValue(key, out int n)) return;
             if (n <= 1) _retained.Remove(key);
             else _retained[key] = n - 1;
+        }
+
+        public void Dispose()
+        {
+            _native?.Dispose();
+            foreach(var entry in _cache.Values)
+            {
+                foreach(var obj in new UnityEngine.Object[]{entry.Body,entry.Head,entry.Back,entry.FrontTex,entry.BackTex})
+                    if(Application.isPlaying)UnityEngine.Object.Destroy(obj);else UnityEngine.Object.DestroyImmediate(obj);
+            }
+            _cache.Clear();_retained.Clear();_order.Clear();
         }
 
         private Entry Get(AvatarLook look)

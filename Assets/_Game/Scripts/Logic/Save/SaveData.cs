@@ -16,8 +16,9 @@ namespace DemoRestaurant.Logic.Save
         /// 4: one restaurant level (level, xp) and the star rating replace popularity and the player level.
         /// 5: facade layout/ownership and individual recipe levels.
         /// 6: demand (popularity) replaces the star rating.
+        /// 7: wardrobe ownership/custom appearance and floor litter with its spawn timer.
         /// </summary>
-        public const int CurrentVersion = 6;
+        public const int CurrentVersion = 7;
 
         public int version = CurrentVersion;
         /// <summary>UTC time of the save, ISO 8601 round-trip format ("o").</summary>
@@ -53,6 +54,10 @@ namespace DemoRestaurant.Logic.Save
         /// <summary>ISO 8601 UTC, empty if never renamed.</summary>
         public string lastRenameUtc;
         public List<AvatarPartSave> avatar = new List<AvatarPartSave>();
+        public bool customAvatar;
+        public List<string> wardrobe = new List<string>();
+        public List<Simulation.TrashPiece> trash = new List<Simulation.TrashPiece>();
+        public float trashSpawnTimer;
         public List<string> linkedAccounts = new List<string>();
 
         /// <summary>Planted garden plots (wall-clock times, so crops grow while the game is closed).</summary>

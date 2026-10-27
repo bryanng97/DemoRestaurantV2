@@ -31,6 +31,7 @@ namespace DemoRestaurant.Logic.Simulation
         public float SinkSeconds = 4f;
         public float FixSeconds = 6f;
         public float EntertainmentSeconds = 30f;
+        public TrashRules Trash = new TrashRules();
     }
 
     /// <summary>
@@ -113,6 +114,12 @@ namespace DemoRestaurant.Logic.Simulation
         /// <summary>At the entrance: a free seat, a place in the waiting area, or turned away.</summary>
         private void ArriveAtDoor(Customer c)
         {
+            if (TrashCount > 0 && _random.NextDouble() < TrashTurnAwayChance)
+            {
+                WalkAway(c);
+                CustomerTurnedAway?.Invoke(c);
+                return;
+            }
             // Seats go to whoever has waited longest, so newcomers only walk straight in when nobody is queuing.
             if (_queue.Count == 0 && TryReserveSeat(c))
                 c.State = CustomerState.WalkingToSeat;
@@ -162,6 +169,7 @@ namespace DemoRestaurant.Logic.Simulation
                 return;
 
             UpdatePlayerCleaning(dt);
+            TickTrash(dt);
 
             AdmitFromQueue();
             for (int i = 0; i < _customers.Count; i++)

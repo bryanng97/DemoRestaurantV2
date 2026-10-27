@@ -273,6 +273,7 @@ namespace DemoRestaurant.Game.Content
                 TerraceSteps = r.terraceSteps != null ? System.Array.FindAll(r.terraceSteps, s => s != null && s.IsValid) : System.Array.Empty<DemoRestaurant.Logic.Layout.TerraceStep>(),
                 Toilets = r.toilets ?? new DemoRestaurant.Logic.Progression.ToiletRules(),
                 Entertainment = r.entertainment ?? new EntertainmentRules(),
+                Trash = r.trash ?? new TrashRules(),
                 RoomGrowth = r.roomGrowth != null && r.roomGrowth.Length > 0 ? new DemoRestaurant.Logic.Layout.RoomGrowth(r.roomGrowth) : null,
                 StartingIngredients = Amounts(r.startingIngredients, ingredientById, "startingIngredients"),
                 StaffEnergy = EnergyRules(r.staffEnergy),
@@ -342,7 +343,7 @@ namespace DemoRestaurant.Game.Content
                     throw new ContentException($"Avatar part '{a.id}' in pack '{packId}' has unknown slot '{a.slot}'.");
                 if (!string.IsNullOrEmpty(a.color) && !ColorUtility.TryParseHtmlString(a.color, out _))
                     throw new ContentException($"Avatar part '{a.id}' has invalid color '{a.color}'.");
-                parts.Add(new AvatarPartDef(a.id, slot, a.nameKey, a.color, a.unlockLevel, a.sprite));
+                parts.Add(new AvatarPartDef(a.id, slot, a.nameKey, a.color, a.unlockLevel, a.sprite, a.price));
             }
             return new AvatarCatalog(parts);
         }
@@ -528,6 +529,7 @@ namespace DemoRestaurant.Game.Content
             public DemoRestaurant.Logic.Layout.TerraceStep[] terraceSteps;
             public DemoRestaurant.Logic.Progression.ToiletRules toilets = new DemoRestaurant.Logic.Progression.ToiletRules();
             public EntertainmentRules entertainment = new EntertainmentRules();
+            public TrashRules trash = new TrashRules();
             public int marketBaskets = 4; public int gardenHarvest = 3; public float noTableWaitSeconds = 20f; public int waitingSpots = 3; public float marketRestockSeconds = 60f; public float nameChangeCooldownHours = 24f;
             public float cleanSeconds = 4f; public float playerCleanSeconds = 5f; public float idleCleanTripSeconds = 8f;
             public DemandDto demand;
@@ -547,7 +549,7 @@ namespace DemoRestaurant.Game.Content
         [Serializable] private class AvatarFile { public AvatarDto[] parts = Array.Empty<AvatarDto>(); }
         [Serializable] private class AvatarDto
         {
-            public string id; public string slot; public string nameKey; public string color; public int unlockLevel = 1; public string sprite;
+            public string id; public string slot; public string nameKey; public string color; public int unlockLevel = 1; public string sprite; public int price;
         }
 
 

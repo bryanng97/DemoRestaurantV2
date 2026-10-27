@@ -24,6 +24,8 @@ namespace DemoRestaurant.Logic.Simulation
         // Cleaner fixing a broken toilet
         WalkingToFix,
         Fixing,
+        WalkingToTrash,
+        PickingTrash,
     }
 
     /// <summary>
@@ -58,6 +60,7 @@ namespace DemoRestaurant.Logic.Simulation
         public PlacedFurniture CleaningSeat { get; internal set; }
         /// <summary>The broken toilet being fixed, if any.</summary>
         public PlacedFurniture FixTarget { get; internal set; }
+        public TrashPiece TrashTarget { get; internal set; }
 
         /// <summary>0-100. Drains while on duty; recovers while resting.</summary>
         public float Energy
@@ -72,7 +75,7 @@ namespace DemoRestaurant.Logic.Simulation
         public bool RestRequested { get; internal set; }
         public bool IsOnDuty => !IsResting;
         /// <summary>In the middle of a job (cooking, carrying, serving or cleaning).</summary>
-        public bool IsBusy => Ticket != null || CleaningSeat != null || FixTarget != null;
+        public bool IsBusy => Ticket != null || CleaningSeat != null || FixTarget != null || TrashTarget != null;
 
         /// <summary>Current speed factor from energy (1 = full speed, 0.05 when exhausted).</summary>
         public float SpeedMultiplier => _energyRules.SpeedMultiplier(_energy);

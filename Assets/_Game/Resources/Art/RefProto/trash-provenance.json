@@ -1,0 +1,30 @@
+{
+  "source": "Original interior SWF; names confirmed in Dippys/Restaurant-City-client WorldRestaurantPlay.as DEFAULT_TRASH_ITEMS",
+  "sprites": [
+    {
+      "source": "DefineSprite_186_PizzaSlice",
+      "sha256": "fa575be3beb5bbe6f4b851403024986e21d9ad3e885dc9fc55e54be3b94b7259",
+      "key": "trash_pizza_slice"
+    },
+    {
+      "source": "DefineSprite_138_ChickenLeg",
+      "sha256": "14f9e415dd7c9fceb366857ce883b4cff138c17ced47ea3cabb3c764bf813236",
+      "key": "trash_chicken_bone"
+    },
+    {
+      "source": "DefineSprite_191_BananaPeel",
+      "sha256": "d2d05052869dd5191abcd8b90f12bdfbb43c13b4dcd4c95f0bc86f414cbb21d4",
+      "key": "trash_banana_peel"
+    },
+    {
+      "source": "DefineSprite_1956_SodaCan",
+      "sha256": "76f67681c2d4a085b46473155580d83c6a1c71c4748c6a23edc33460e32cc9a7",
+      "key": "trash_soda_can"
+    },
+    {
+      "source": "DefineSprite_163_AppleCore",
+      "sha256": "c3e5f651aeb3963463c809d9e61866d306f35c76dc9dd26ccdcb21ab8bb4b77c",
+      "key": "trash_apple_core"
+    }
+  ]
+}

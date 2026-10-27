@@ -30,6 +30,8 @@ namespace DemoRestaurant.Logic.Session
                 marketRestockTimer = Market?.RestockTimer ?? 0f,
                 ledgerDropped = Ledger.Dropped,
                 exterior = CaptureExterior(),
+                customAvatar = Profile.HasCustomAvatar,
+                trashSpawnTimer = Sim.TrashSpawnTimer,
             };
             foreach (var d in Recipes.Known) save.knownDishes.Add(d.Id);
             foreach (var d in Recipes.Known) save.recipeLevels.Add(new RecipeLevelSave { dishId = d.Id, level = Recipes.LevelOf(d) });
@@ -48,6 +50,9 @@ namespace DemoRestaurant.Logic.Session
             save.lastRenameUtc = Profile.LastRenameUtc?.ToString("o", CultureInfo.InvariantCulture) ?? "";
             foreach (var part in Profile.Avatar.Parts)
                 save.avatar.Add(new AvatarPartSave { slot = part.Key.ToString(), id = part.Value });
+            save.wardrobe.AddRange(Wardrobe);
+            foreach (var piece in Sim.Trash)
+                save.trash.Add(new Simulation.TrashPiece { id = piece.id, x = piece.x, y = piece.y, variant = piece.variant });
             foreach (var provider in Profile.LinkedAccounts)
                 save.linkedAccounts.Add(provider.ToString());
             save.garden.AddRange(Garden.Capture());
@@ -143,6 +148,21 @@ namespace DemoRestaurant.Logic.Session
                         Sim.SetUses(toilet, t.uses);
                 }
             RestoreProfile(save);
+            InitializeWardrobe();
+            if (save.wardrobe != null)
+                foreach (var key in save.wardrobe)
+                    foreach (var slot in AvatarCatalog.AllSlots)
+                        foreach (var part in Content.Avatar.PartsFor(slot))
+                            if (part.OwnershipKey == key) _wardrobe.Add(key);
+            // Grandfather the equipped look in old saves; never grant the entire paid catalog.
+            foreach (var pair in Profile.Avatar.Parts)
+            {
+                var part = Content.Avatar.Find(pair.Key, pair.Value);
+                if (part != null) _wardrobe.Add(part.OwnershipKey);
+            }
+            Profile.HasCustomAvatar = save.version >= 7 ? save.customAvatar :
+                Profile.Avatar.Key != AvatarLook.Default(Content.Avatar).Key;
+            Sim.RestoreTrash(save.trash, save.trashSpawnTimer);
             Ledger.Restore(save.ledger, save.ledgerDropped);
 
             return DateTime.TryParse(save.savedAtUtc, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out var at)
@@ -179,6 +199,7 @@ namespace DemoRestaurant.Logic.Session
                 Sim.SetEnergy(r.Staff, r.Energy, r.Resting);
 
             Market?.Tick((float)report.CountedSeconds);
+            Sim.TickTrash((float)report.CountedSeconds);
             return report;
         }
 

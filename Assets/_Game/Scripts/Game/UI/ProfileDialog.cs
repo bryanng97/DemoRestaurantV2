@@ -57,6 +57,12 @@ namespace DemoRestaurant.Game.UI
         private readonly List<(AccountProvider provider, Text label)> _linkButtons = new List<(AccountProvider, Text)>();
 
         private AvatarLook _draft;
+        private AvatarPartDef _selectedPart;
+        private readonly Button _buy, _sell, _filter;
+        private readonly Text _buyLabel, _sellLabel, _filterLabel;
+        private readonly Text _wardrobeNote;
+        private bool _ownedOnly;
+        private string _previewKey;
         private Tab _tab = Tab.Profile;
         private string _hintOverride;
         private bool _hintIsError;
@@ -109,14 +115,23 @@ namespace DemoRestaurant.Game.UI
             UiKit.Place((RectTransform)_cancel.transform, 820, 704, 220, 72);
             _save = UiKit.TextButton(card, "Save", UiKit.Green, 28, SaveLook, out _saveLabel);
             UiKit.Place((RectTransform)_save.transform, 1060, 704, 230, 72);
+            _buy = UiKit.TextButton(card, "BuyOutfit", UiKit.Gold, 22, Buy, out _buyLabel);
+            UiKit.Place((RectTransform)_buy.transform, 420, 704, 180, 72);
+            _sell = UiKit.TextButton(card, "SellOutfit", UiKit.Red, 22, Sell, out _sellLabel);
+            UiKit.Place((RectTransform)_sell.transform, 610, 704, 190, 72);
+            _filter = UiKit.TextButton(card, "WardrobeFilter", UiKit.WoodLight, 22, () => { _ownedOnly = !_ownedOnly; Refresh(); }, out _filterLabel);
+            UiKit.Place((RectTransform)_filter.transform, 1060, 96, 230, 60);
+            _wardrobeNote = UiKit.Label(card, "WardrobeNote", 420, 675, 870, 26, 18, TextAnchor.MiddleLeft, UiKit.SoftText);
 
             _session.Profile.Changed += Refresh;
+            _session.Wallet.Changed += Refresh;
             Loc.LanguageChanged += Refresh;
         }
 
         public void Show()
         {
             _draft = _session.Profile.Avatar.Clone();
+            _selectedPart = null;
             _hintOverride = null;
             _nameInput.text = _session.Profile.DisplayName;
             SelectTab(Tab.Profile);
@@ -125,7 +140,11 @@ namespace DemoRestaurant.Game.UI
         }
 
         /// <summary>Closing discards an unsaved look, like Cancel.</summary>
-        public void Close() => _root.SetActive(false);
+        public void Close()
+        {
+            _root.SetActive(false);
+            _painter.Release(_previewKey); _previewKey = null;
+        }
 
         public void Update()
         {
@@ -247,6 +266,8 @@ namespace DemoRestaurant.Game.UI
                         option.Rim = button.GetComponent<Image>();
                         option.Fill = button.transform.Find("Fill").GetComponent<Image>();
                         option.Label.resizeTextForBestFit = true;
+                        option.Label.horizontalOverflow = HorizontalWrapMode.Wrap;
+                        option.Label.verticalOverflow = VerticalWrapMode.Truncate;
                         option.Label.resizeTextMinSize = 12;
                         option.Label.resizeTextMaxSize = 20;
                     }
@@ -271,29 +292,54 @@ namespace DemoRestaurant.Game.UI
 
         private void Pick(AvatarPartDef part)
         {
+            if (!_ui.CanCustomizeAvatar) { _ui.Toast(Loc.Get("ui.wardrobe.native_pending")); return; }
             if (part.UnlockLevel > _session.Progress.Level)
             {
                 _ui.Toast(Loc.Format("ui.profile.locked", part.UnlockLevel), 1.6f);
                 return;
             }
             _draft.TrySet(_catalog, part.Slot, part.Id, _session.Progress.Level);
+            _selectedPart = part;
+            Refresh();
+        }
+
+        private void Buy()
+        {
+            if (!_ui.CanCustomizeAvatar) return;
+            var result = _session.BuyAvatarPart(_selectedPart);
+            _ui.Toast(Loc.Get("ui.wardrobe.result." + result.ToString().ToLowerInvariant()));
+            Refresh();
+        }
+
+        private void Sell()
+        {
+            if (!_ui.CanCustomizeAvatar) return;
+            var result = _session.SellAvatarPart(_selectedPart);
+            if (result == WardrobeResult.Success)
+                _draft.TrySet(_catalog, _selectedPart.Slot, _session.Profile.Avatar[_selectedPart.Slot], int.MaxValue);
+            _ui.Toast(Loc.Get("ui.wardrobe.result." + result.ToString().ToLowerInvariant()));
             Refresh();
         }
 
         private void Randomize()
         {
-            _draft = AvatarLook.Random(_catalog, _rng, _session.Progress.Level);
+            if (!_ui.CanCustomizeAvatar) return;
+            _draft = _session.RandomOwnedAvatar(_rng);
+            _selectedPart = null;
             Refresh();
         }
 
         private void Revert()
         {
             _draft = _session.Profile.Avatar.Clone();
+            _selectedPart = null;
             Refresh();
         }
 
         private void SaveLook()
         {
+            if (!_ui.CanCustomizeAvatar) return;
+            if (HasUnownedDraft()) { _ui.Toast(Loc.Get("ui.wardrobe.buy_first")); return; }
             _session.SaveAvatar(_draft);
             _draft = _session.Profile.Avatar.Clone();
             _ui.Toast(Loc.Get("ui.profile.saved"), 1.6f);
@@ -354,12 +400,18 @@ namespace DemoRestaurant.Game.UI
             if (_draft == null) return;
             var profile = _session.Profile;
             bool editingLook = _tab != Tab.Profile;
+            bool canEdit = _ui.CanCustomizeAvatar;
             bool dirty = _draft.Key != profile.Avatar.Key;
 
             _title.text = Loc.Get("ui.profile.title");
             _settingsLabel.text = Loc.Get("ui.settings.title");
             // The same figure as in the restaurant: the skin's baked owner when it has one, else the drawn avatar.
-            _preview.sprite = _ui.BakedOwnerFigure() ?? (_catalog.IsEmpty ? null : _painter.Body(_draft));
+            if (canEdit && _previewKey != _draft.Key)
+            {
+                _painter.Release(_previewKey);
+                _previewKey = _catalog.IsEmpty ? null : _painter.Retain(_draft);
+            }
+            _preview.sprite = (!editingLook?_ui.BakedOwnerFigure():null) ?? (_catalog.IsEmpty ? null : _painter.Body(_draft));
             _preview.enabled = _preview.sprite != null;
             _name.text = profile.DisplayName;
             _level.text = Loc.Format("ui.profile.level", _session.Progress.Level);
@@ -370,16 +422,35 @@ namespace DemoRestaurant.Game.UI
             _randomLabel.text = Loc.Get("ui.profile.randomize");
             _save.gameObject.SetActive(editingLook);
             _cancel.gameObject.SetActive(editingLook);
-            _save.interactable = _cancel.interactable = dirty;
+            _save.interactable = canEdit && dirty && !HasUnownedDraft();
+            _random.interactable = canEdit;
+            _cancel.interactable = dirty;
+            bool selectedPaid = canEdit && editingLook && _selectedPart != null && _selectedPart.Price > 0;
+            bool owned = _session.OwnsAvatarPart(_selectedPart);
+            _buy.gameObject.SetActive(selectedPaid && !owned);
+            _sell.gameObject.SetActive(selectedPaid && owned);
+            _buy.interactable = selectedPaid && _session.LocalWardrobeEconomy && _selectedPart.Price <= _session.Wallet.DisplayCoins;
+            _sell.interactable = selectedPaid && _session.LocalWardrobeEconomy && _session.Profile.Avatar[_selectedPart.Slot] != _selectedPart.Id;
+            _buyLabel.text = Loc.Format("ui.wardrobe.buy", _selectedPart?.Price ?? 0);
+            _sellLabel.text = Loc.Format("ui.wardrobe.sell", (_selectedPart?.Price ?? 0) / 2);
+            _filter.gameObject.SetActive(editingLook);
+            _filterLabel.text = Loc.Get(_ownedOnly ? "ui.wardrobe.owned" : "ui.wardrobe.shop");
+            _wardrobeNote.text = !editingLook ? "" : !canEdit ? Loc.Get("ui.wardrobe.native_pending") : !_session.LocalWardrobeEconomy
+                ? Loc.Get("ui.wardrobe.online_note") : HasUnownedDraft() ? Loc.Get("ui.wardrobe.buy_first") : "";
             _saveLabel.text = Loc.Get("ui.profile.save");
             _cancelLabel.text = Loc.Get("ui.profile.cancel");
 
             foreach (var (label, slot) in _rowLabels)
-                label.text = Loc.Get("ui.avatar.slot." + slot.ToString().ToLowerInvariant());
+                label.text = Loc.Get(_painter.NativeAvailable && slot==AvatarSlot.Gender
+                    ? "ui.avatar.slot.mouth" : "ui.avatar.slot." + slot.ToString().ToLowerInvariant());
             int level = _session.Progress.Level;
             foreach (var o in _options)
             {
+                bool partOwned = _session.OwnsAvatarPart(o.Part);
+                o.Rim.gameObject.SetActive(!_ownedOnly || partOwned);
                 bool locked = o.Part.UnlockLevel > level;
+                var optionButton = o.Rim.GetComponent<Button>();
+                if (optionButton != null) optionButton.interactable = canEdit && !locked;
                 bool selected = _draft[o.Part.Slot] == o.Part.Id;
                 if (o.IsColor)
                 {
@@ -395,7 +466,10 @@ namespace DemoRestaurant.Game.UI
                     var color = locked ? UiKit.Disabled : selected ? UiKit.Green : UiKit.WoodLight;
                     o.Rim.color = UiKit.Darken(color, 0.75f);
                     o.Fill.color = color;
-                    o.Label.text = locked ? Loc.Format("ui.profile.lv", o.Part.UnlockLevel) : Loc.Get(o.Part.NameKey);
+                    string nameKey=_painter.NativeAvailable
+                        ? "avatar.native."+o.Part.Slot.ToString().ToLowerInvariant()+"."+o.Part.Id : o.Part.NameKey;
+                    o.Label.text = locked ? Loc.Format("ui.profile.lv", o.Part.UnlockLevel) : Loc.Get(nameKey)
+                        + (partOwned ? "" : "\n" + Loc.Format("ui.wardrobe.price", o.Part.Price));
                 }
             }
 
@@ -424,8 +498,17 @@ namespace DemoRestaurant.Game.UI
         }
         public void Dispose()
         {
+            _painter.Release(_previewKey); _previewKey = null;
             Loc.LanguageChanged -= Refresh;
             _session.Profile.Changed -= Refresh;
+            _session.Wallet.Changed -= Refresh;
+        }
+
+        private bool HasUnownedDraft()
+        {
+            foreach (var pair in _draft.Parts)
+                if (!_session.OwnsAvatarPart(_catalog.Find(pair.Key, pair.Value))) return true;
+            return false;
         }
 
         private void RefreshNameHint()

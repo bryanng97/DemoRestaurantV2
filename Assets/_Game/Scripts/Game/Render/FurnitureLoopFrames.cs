@@ -52,11 +52,17 @@ namespace DemoRestaurant.Game.Render
             }
             catch(Exception error)
             {
-                foreach(var sprite in frames) UnityEngine.Object.Destroy(sprite);
+                foreach(var sprite in frames) DestroyGenerated(sprite);
                 Debug.LogWarning(error.Message);return null;
             }
         }
 
-        public void Dispose() { foreach(var sprite in _frames) UnityEngine.Object.Destroy(sprite); }
+        public void Dispose() { foreach(var sprite in _frames) DestroyGenerated(sprite); }
+
+        private static void DestroyGenerated(Sprite sprite)
+        {
+            if (Application.isPlaying) UnityEngine.Object.Destroy(sprite);
+            else UnityEngine.Object.DestroyImmediate(sprite);
+        }
     }
 }

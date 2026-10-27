@@ -3,6 +3,7 @@
   "terraceSteps": [{ "width": 7, "depth": 6, "level": 10, "price": 2500 }, { "width": 9, "depth": 8, "level": 15, "price": 7500 }, { "width": 11, "depth": 10, "level": 20, "price": 16000 }, { "width": 13, "depth": 12, "level": 25, "price": 35000 }, { "width": 15, "depth": 14, "level": 30, "price": 75000 }, { "width": 17, "depth": 16, "level": 40, "price": 155000 }, { "width": 19, "depth": 18, "level": 50, "price": 275000 }],
   "marketBaskets": 4,
   "entertainment": { "playSeconds": 30, "coinsPerUse": 1 },
+  "trash": { "spawnSeconds": 3600, "maxPieces": 15, "cleanSeconds": 3, "turnAwayChancePerPiece": 0.05, "xpPerPiece": 1 },
   "marketRestockSeconds": 90,
   "gardenHarvest": 3,
   "noTableWaitSeconds": 20,

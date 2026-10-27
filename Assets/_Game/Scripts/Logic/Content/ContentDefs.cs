@@ -337,10 +337,21 @@ namespace DemoRestaurant.Logic.Content
         public int coinsPerUse = 1;
     }
 
+    [Serializable]
+    public sealed class TrashRules
+    {
+        public float spawnSeconds; // zero keeps older/test packs disabled
+        public int maxPieces = 15;
+        public float cleanSeconds = 3f;
+        public float turnAwayChancePerPiece = .05f;
+        public int xpPerPiece = 1;
+    }
+
     public sealed class GameRules
     {
         public int MarketBaskets = 4;
         public EntertainmentRules Entertainment = new EntertainmentRules();
+        public TrashRules Trash = new TrashRules();
         /// <summary>Ingredients one garden harvest gives (not in the economy sheet).</summary>
         public int GardenHarvest = 3;
         /// <summary>Seconds a guest waits on a chair with no table before leaving unhappy (0 = chairs work alone).</summary>

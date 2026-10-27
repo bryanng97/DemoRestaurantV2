@@ -17,6 +17,12 @@ namespace DemoRestaurant.Game.Render
 
         private readonly Dictionary<string, Sprite[]> _frames = new Dictionary<string, Sprite[]>();
         private readonly Dictionary<string, Vector2> _hands = new Dictionary<string, Vector2>();
+        private System.Func<string,bool,Sprite[]> _dynamic;
+        private System.Func<string,bool,Vector2?> _dynamicHand;
+
+        public static CharacterFrames CreateDynamic(float standingHeight,Vector2 anchor,
+            System.Func<string,bool,Sprite[]> frames,System.Func<string,bool,Vector2?> hand) =>
+            new CharacterFrames{StandingHeight=standingHeight,Anchor=anchor,_dynamic=frames,_dynamicHand=hand};
 
         /// <summary>Ground point in normalized canvas coordinates (Y up).</summary>
         public Vector2 Anchor { get; private set; }
@@ -51,18 +57,22 @@ namespace DemoRestaurant.Game.Render
             return set.Has(Idle) && set.Has(Walk) && set.StandingHeight > 0f ? set : null;
         }
 
-        public bool Has(string anim) => _frames.ContainsKey(anim + "_f");
+        public bool Has(string anim) => _dynamic!=null ? System.Array.IndexOf(Names,anim)>=0 : _frames.ContainsKey(anim + "_f");
 
         /// <summary>Frames for an animation and view (back falls back to front).</summary>
         public Sprite[] Get(string anim, bool back)
         {
+            if(_dynamic!=null)return _dynamic(anim,back);
             if (back && _frames.TryGetValue(anim + "_b", out var b)) return b;
             return _frames.TryGetValue(anim + "_f", out var f) ? f : null;
         }
 
         /// <summary>Normalized carrying-hand position for this animation and view, if the skin gave one.</summary>
-        public bool TryHand(string anim, bool back, out Vector2 hand) =>
-            _hands.TryGetValue(anim + (back ? "_b" : "_f"), out hand) || _hands.TryGetValue(anim + "_f", out hand);
+        public bool TryHand(string anim, bool back, out Vector2 hand)
+        {
+            if(_dynamicHand!=null){var value=_dynamicHand(anim,back);hand=value??Vector2.zero;return value.HasValue;}
+            return _hands.TryGetValue(anim + (back ? "_b" : "_f"), out hand) || _hands.TryGetValue(anim + "_f", out hand);
+        }
 
         /// <summary>Offset (sprite units) from the sprite's pivot to a normalized canvas point.</summary>
         public static Vector2 FromPivot(Sprite sprite, Vector2 normalized)

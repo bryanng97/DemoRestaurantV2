@@ -31,8 +31,10 @@ namespace DemoRestaurant.Logic.Profile
         public int UnlockLevel { get; }
         /// <summary>Art key of a designer-made layer, if any; the procedural painter draws it otherwise.</summary>
         public string Sprite { get; }
+        public int Price { get; }
+        public string OwnershipKey => Slot + ":" + Id;
 
-        public AvatarPartDef(string id, AvatarSlot slot, string nameKey, string color = "", int unlockLevel = 1, string sprite = "")
+        public AvatarPartDef(string id, AvatarSlot slot, string nameKey, string color = "", int unlockLevel = 1, string sprite = "", int price = 0)
         {
             if (string.IsNullOrWhiteSpace(id)) throw new ArgumentException("Avatar part id must not be empty.", nameof(id));
             Id = id;
@@ -41,6 +43,7 @@ namespace DemoRestaurant.Logic.Profile
             Color = color ?? "";
             UnlockLevel = Math.Max(1, unlockLevel);
             Sprite = sprite ?? "";
+            Price = Math.Max(0, price);
         }
     }
 

@@ -28,6 +28,9 @@ namespace DemoRestaurant.Logic.Save
         ExteriorSaved,
         RecipeUpgraded,
         EntertainmentIncome,
+        WardrobeBought,
+        WardrobeSold,
+        TrashCleaned,
     }
 
     /// <summary>One thing the player did (or earned) while playing offline.</summary>

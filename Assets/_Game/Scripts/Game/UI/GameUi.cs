@@ -38,6 +38,13 @@ namespace DemoRestaurant.Game.UI
         private float _toastTime;
         private ArtLibrary _art;
         private RectTransform _canvasRoot;
+        private string _portraitKey;
+
+        private void RetainOwnerPortrait()
+        {
+            Avatars.Release(_portraitKey);
+            _portraitKey = CanCustomizeAvatar ? Avatars.Retain(Session.Profile.Avatar) : null;
+        }
         public RestaurantEditorController Builder { get; set; }
         public ExteriorStreetView Exterior { get; set; }
         public void SetGameplayVisible(bool visible) => _canvasRoot.gameObject.SetActive(visible);
@@ -110,11 +117,13 @@ namespace DemoRestaurant.Game.UI
             // curved edges and the iOS home bar). Only the full-screen dim of the welcome popup uses the whole canvas.
             var root = SafeArea.Create(canvas);
             Avatars = avatars;
+            RetainOwnerPortrait();
+            session.Profile.Changed += RetainOwnerPortrait;
             var fallbackPortrait = _art.Get("avatar_chef");
             // A skin's baked portrait of the owner wins (the prototype skin's 3D-style head), then the drawn avatar.
             var ownerType = content.Pack.OwnerType(Logic.Content.StaffRole.Chef);
-            var bakedOwner = ownerType != null ? BakedPortrait(ownerType.Id) : null;
-            Func<Sprite> portrait = () => bakedOwner != null ? bakedOwner
+            var bakedOwner = (ownerType != null ? BakedPortrait(ownerType.Id) : null) ?? BakedOwnerFigure();
+            Func<Sprite> portrait = () => session.Profile.HasCustomAvatar && Avatars.NativeAvailable ? Avatars.Head(session.Profile.Avatar) : bakedOwner != null ? bakedOwner
                 : content.Pack.Avatar.IsEmpty ? fallbackPortrait : Avatars.Head(session.Profile.Avatar);
             _hud = new RestaurantHud(root, session.Profile, portrait, OpenProfile, _art.Get("icon_goal"),
                 session.Progress, session.Demand, session.Arrivals);
@@ -178,7 +187,10 @@ namespace DemoRestaurant.Game.UI
 
         private void OnDestroy()
         {
+            if (Session != null) Session.Profile.Changed -= RetainOwnerPortrait;
+            Avatars?.Release(_portraitKey);
             _settings?.Dispose(); _profile?.Dispose(); _login?.Dispose();
+            Avatars?.Dispose();
             Loc.LanguageChanged -= RefreshTexts;
         }
 
@@ -190,10 +202,14 @@ namespace DemoRestaurant.Game.UI
         /// <summary>The skin's baked full-figure owner (standing, facing the viewer), or null.</summary>
         public Sprite BakedOwnerFigure()
         {
+            if(Session.Profile.HasCustomAvatar && Avatars.NativeAvailable)return null;
             var owner = Content.Pack.OwnerType(Logic.Content.StaffRole.Chef);
             var key = owner != null ? Content.ArtForStaff(owner.Id)?.AnimKey : null;
             return string.IsNullOrEmpty(key) ? null : _art.GetOptional(key + "_idle_f_00");
         }
+
+        /// <summary>Procedural outfit parts cannot replace a skin's fixed native avatar or its animations.</summary>
+        public bool CanCustomizeAvatar => !Content.Pack.Avatar.IsEmpty && (Avatars.NativeAvailable || BakedOwnerFigure() == null);
 
         /// <summary>The skin's baked head-and-shoulders portrait for a staff type ({animKey}_portrait), or null.</summary>
         private Sprite BakedPortrait(string staffTypeId)
@@ -206,8 +222,10 @@ namespace DemoRestaurant.Game.UI
         public Sprite PortraitFor(Logic.Simulation.Staff staff)
         {
             if (staff == null) return null;
+            if(staff.IsOwner && Session.Profile.HasCustomAvatar && Avatars.NativeAvailable)return Avatars.Head(Session.Profile.Avatar);
             var baked = BakedPortrait(staff.Type.Id);
             if (baked != null) return baked;
+            if (staff.IsOwner && BakedOwnerFigure() != null) return BakedOwnerFigure();
             if (staff.IsOwner && !Content.Pack.Avatar.IsEmpty) return Avatars.Head(Session.Profile.Avatar);
             var art = Content.ArtForStaff(staff.Type.Id);
             return art.Avatar != null ? Avatars.Head(art.Avatar) : _art.Get(art.Front);

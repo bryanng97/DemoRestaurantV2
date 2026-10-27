@@ -270,6 +270,10 @@ namespace DemoRestaurant.Logic.Simulation
                 case StaffState.Fixing:
                     UpdateFixing(s, dt);
                     break;
+                case StaffState.WalkingToTrash:
+                case StaffState.PickingTrash:
+                    UpdateTrashCleaning(s, dt);
+                    break;
             }
         }
 
@@ -299,7 +303,7 @@ namespace DemoRestaurant.Logic.Simulation
                 }
                 else if (s.Role == StaffRole.Cleaner)
                 {
-                    if (!TryStartFixing(s)) TryStartCleaning(s);
+                    if (!TryStartFixing(s) && !TryStartCleaning(s)) TryStartTrashCleaning(s);
                 }
                 else
                 {
@@ -395,6 +399,7 @@ namespace DemoRestaurant.Logic.Simulation
             }
             ReleaseCleaning(s); // the dishes stay on the table for someone else
             ReleaseFixing(s);   // the toilet stays broken for someone else
+            ReleaseTrash(s);
             var t = s.Ticket;
             s.Ticket = null;
             s.CookProgress = 0f;

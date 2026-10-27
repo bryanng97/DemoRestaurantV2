@@ -13,6 +13,15 @@ Eight isolated Unity 6000.6.4f1 checks passed, including game startup, recovered
 skin resolution and regeneration of destroyed placeholder sprites. Staged LFS
 pointers were checked against working files and local LFS object sizes/hashes.
 
+The native wardrobe follow-up additionally imports 232 original avatar texture
+layers, the original avatar model and animation, a part/animation manifest, and
+five original litter sprites. These are reproduced with
+`Tools/RefProto/import_avatar_runtime.ps1 -ExportRoot <export root>`; the runtime
+resources are under `Art/RefProto/AvatarRuntime`. Trash symbol names match the
+client's `WorldRestaurantPlay.as`; `Art/RefProto/trash-provenance.json` records
+their source symbols and checksums. See `Docs/WardrobeAndTrash.md` for behavior
+and the current backend boundary. Existing prototype/release policy still applies.
+
 ## Teammate setup
 
 Install Git LFS, then run from the repository:

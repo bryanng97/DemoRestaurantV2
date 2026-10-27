@@ -143,6 +143,7 @@ namespace DemoRestaurant.Game.Render
             _sim.CustomerLeft -= RemoveCustomer;
             _sim.StaffHired -= AddStaff;
             _sim.StaffDismissed -= RemoveStaff;
+            Avatars?.Release(_ownerLookKey);
         }
 
         private void LateUpdate()
@@ -967,9 +968,17 @@ namespace DemoRestaurant.Game.Render
         public System.Func<DishDef,int> RecipeLevel { get; set; }
         /// <summary>The player's current look, for their avatar working in the restaurant.</summary>
         public System.Func<Logic.Profile.AvatarLook> OwnerLook { get; set; }
+        public System.Func<bool> OwnerCustomized { get; set; }
 
         private void AddStaff(Staff s)
         {
+            if(s.IsOwner && (OwnerCustomized?.Invoke()??false) && Avatars!=null && Avatars.NativeAvailable && OwnerLook?.Invoke() is Logic.Profile.AvatarLook customized)
+            {
+                _ownerLookKey=Avatars.Retain(customized);
+                var view=CharacterView.Create(transform,"owner",Avatars.NativeFrames(customized),_content.Theme.characterHeight);
+                view.Bind(s);_characters[s]=view;_ownerBaked=false;
+                return;
+            }
             var art = _content.ArtForStaff(s.Type.Id);
             if (FramesFor(art) != null)
             {
@@ -1021,7 +1030,8 @@ namespace DemoRestaurant.Game.Render
         /// <summary>The player changed their look: redraw their avatar in the restaurant.</summary>
         public void RefreshOwner()
         {
-            if (_sim == null || Avatars == null || OwnerLook == null || _ownerBaked) return;
+            if (_sim == null || Avatars == null || OwnerLook == null) return;
+            if (_ownerBaked && (!(OwnerCustomized?.Invoke()??false)||!Avatars.NativeAvailable)) return;
             var look = OwnerLook();
             if (look == null || look.Key == _ownerLookKey) return;
             foreach (var s in _sim.Staff)
@@ -1030,6 +1040,8 @@ namespace DemoRestaurant.Game.Render
                 old.Destroy();
                 _characters.Remove(s);
                 Avatars.Release(_ownerLookKey);
+                _ownerLookKey = null;
+                _ownerBaked = false;
                 AddStaff(s);
             }
         }
@@ -1060,7 +1072,11 @@ namespace DemoRestaurant.Game.Render
         }
 
         private void RemoveCustomer(Customer c) => RemoveCharacter(c);
-        private void RemoveStaff(Staff s) => RemoveCharacter(s);
+        private void RemoveStaff(Staff s)
+        {
+            RemoveCharacter(s);
+            if (s.IsOwner) { Avatars?.Release(_ownerLookKey); _ownerLookKey = null; _ownerBaked = false; }
+        }
 
         private void RemoveCharacter(Agent agent)
         {
@@ -1176,7 +1192,7 @@ namespace DemoRestaurant.Game.Render
 
             var s = (Staff)agent;
             bool cooking = s.State == StaffState.Cooking || s.State == StaffState.Cleaning || s.State == StaffState.Pouring
-                || s.State == StaffState.Fixing;
+                || s.State == StaffState.Fixing || s.State == StaffState.PickingTrash;
             // Bar over the head: cooking progress while cooking; otherwise energy once it starts to matter
             // (below full speed) or while resting (blue, filling up).
             float energy = s.Energy / StaffEnergyRules.Max;
@@ -1186,7 +1202,7 @@ namespace DemoRestaurant.Game.Render
                 Moving = s.IsWalking,
                 ShowBubble = s.State == StaffState.Cooking,
                 Cooking = s.State == StaffState.Cooking || s.State == StaffState.Pouring,
-                Cleaning = s.State == StaffState.Cleaning,
+                Cleaning = s.State == StaffState.Cleaning || s.State == StaffState.PickingTrash,
                 Fixing = s.State == StaffState.Fixing,
                 BubbleIcon = s.State == StaffState.Cooking ? ServingSprite(s.Ticket?.Dish) : null,
                 Progress = cooking ? s.CookProgress : showEnergy ? energy : -1f,

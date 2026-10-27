@@ -147,6 +147,7 @@ namespace DemoRestaurant.Logic.Session
                 SinkSeconds = Math.Max(0f, Rules.Toilets.sinkSeconds),
                 FixSeconds = Math.Max(0f, Rules.Toilets.fixSeconds),
                 EntertainmentSeconds = Math.Max(0f, Rules.Entertainment.playSeconds),
+                Trash = Rules.Trash,
             });
             InitServerLog();
             Sim.CustomerPaid += OnCustomerPaid;
@@ -159,6 +160,8 @@ namespace DemoRestaurant.Logic.Session
             UpdateToiletChance();
             Sim.CustomerGaveUpWaiting += _ => Unhappy("gave_up");
             Sim.CustomerNoTable += _ => Unhappy("no_table");
+            Sim.TrashCleaned += OnTrashCleaned;
+            InitializeWardrobe();
         }
 
         public void Tick(float dt)
@@ -303,14 +306,16 @@ namespace DemoRestaurant.Logic.Session
         /// <summary>Saves an edited avatar. Locked or unknown parts are replaced with valid ones first.</summary>
         public void SaveAvatar(AvatarLook look)
         {
+            if (look == null) return;
             var clean = look.Clone();
             clean.Sanitize(Content.Avatar);
             foreach (var slot in AvatarCatalog.AllSlots)
             {
                 var part = Content.Avatar.Find(slot, clean[slot]);
-                if (part != null && part.UnlockLevel > Progress.Level)
+                if (part != null && (part.UnlockLevel > Progress.Level || !OwnsAvatarPart(part)))
                     clean.TrySet(Content.Avatar, slot, Profile.Avatar[slot] ?? Content.Avatar.Default(slot)?.Id, int.MaxValue);
             }
+            Profile.HasCustomAvatar = true;
             Profile.SetAvatar(clean);
             Ledger.Record(LedgerKind.AvatarChanged, 0, clean.Key, _utcNow());
         }
