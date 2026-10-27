@@ -231,6 +231,7 @@ namespace DemoRestaurant.Logic.Online
                 case "layout": return BuildLayout();
                 case "menu": return BuildMenu();
                 case "exterior": return BuildExterior();
+                case "wardrobe_look": return BuildLook();
                 default: return null;
             }
         }
@@ -254,6 +255,16 @@ namespace DemoRestaurant.Logic.Online
                     owned[pair.Key] = (owned.TryGetValue(pair.Key, out int n) ? n : 0) + pair.Value;
             }
             return owned;
+        }
+
+        /// <summary>The current look, limited to parts the server sells (others stay local).</summary>
+        private JsonValue BuildLook()
+        {
+            if (Catalog == null || !Catalog.HasWardrobe) return null;
+            var look = JsonValue.Object();
+            foreach (var pair in WardrobeIds.Look(_session.Profile.Avatar).Fields)
+                if (Catalog.HasWardrobePart(pair.Key, pair.Value.AsString())) look.Set(pair.Key, pair.Value);
+            return look.Count == 0 ? null : JsonValue.Object().Set("look", look);
         }
 
         private JsonValue BuildMenu()

@@ -59,7 +59,7 @@ namespace DemoRestaurant.Logic.Online
         public const int MaxEntries = 5000;
         public const int MaxDemandEventsPerEntry = 100;
 
-        public static readonly string[] DeferredTypes = { "layout", "menu", "exterior" };
+        public static readonly string[] DeferredTypes = { "layout", "menu", "exterior", "wardrobe_look" };
 
         private readonly List<ServerAction> _items = new List<ServerAction>();
         private readonly Func<string> _newKey;

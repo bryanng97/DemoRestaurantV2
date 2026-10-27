@@ -429,13 +429,13 @@ namespace DemoRestaurant.Game.UI
             bool owned = _session.OwnsAvatarPart(_selectedPart);
             _buy.gameObject.SetActive(selectedPaid && !owned);
             _sell.gameObject.SetActive(selectedPaid && owned);
-            _buy.interactable = selectedPaid && _session.LocalWardrobeEconomy && _selectedPart.Price <= _session.Wallet.DisplayCoins;
-            _sell.interactable = selectedPaid && _session.LocalWardrobeEconomy && _session.Profile.Avatar[_selectedPart.Slot] != _selectedPart.Id;
+            _buy.interactable = selectedPaid && _session.WardrobeTradingOpen && _selectedPart.Price <= _session.Wallet.DisplayCoins;
+            _sell.interactable = selectedPaid && _session.WardrobeTradingOpen && _session.Profile.Avatar[_selectedPart.Slot] != _selectedPart.Id;
             _buyLabel.text = Loc.Format("ui.wardrobe.buy", _selectedPart?.Price ?? 0);
             _sellLabel.text = Loc.Format("ui.wardrobe.sell", (_selectedPart?.Price ?? 0) / 2);
             _filter.gameObject.SetActive(editingLook);
             _filterLabel.text = Loc.Get(_ownedOnly ? "ui.wardrobe.owned" : "ui.wardrobe.shop");
-            _wardrobeNote.text = !editingLook ? "" : !canEdit ? Loc.Get("ui.wardrobe.native_pending") : !_session.LocalWardrobeEconomy
+            _wardrobeNote.text = !editingLook ? "" : !canEdit ? Loc.Get("ui.wardrobe.native_pending") : !_session.WardrobeTradingOpen
                 ? Loc.Get("ui.wardrobe.online_note") : HasUnownedDraft() ? Loc.Get("ui.wardrobe.buy_first") : "";
             _saveLabel.text = Loc.Get("ui.profile.save");
             _cancelLabel.text = Loc.Get("ui.profile.cancel");

@@ -317,6 +317,7 @@ namespace DemoRestaurant.Logic.Session
             }
             Profile.HasCustomAvatar = true;
             Profile.SetAvatar(clean);
+            ServerLog.RecordDeferred("wardrobe_look");
             Ledger.Record(LedgerKind.AvatarChanged, 0, clean.Key, _utcNow());
         }
 

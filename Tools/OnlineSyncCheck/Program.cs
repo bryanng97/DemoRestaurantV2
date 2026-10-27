@@ -190,6 +190,28 @@ public static class Program
             "the new device shows the same player id (its own guest id kept aside)");
         Check(reloaded.Profile.DisplayName == "Kedai Live", "and the account's name");
 
+        // ---- Clothes and litter go through the ledger and follow the account to another device.
+        Check(catalog.HasWardrobe && catalog.HasTrash, $"the server rules include the wardrobe and trash (v{catalog.RulesetVersion})");
+        var hat = pack.Avatar.Find(AvatarSlot.Hat, "cap");
+        Check(reloaded.BuyAvatarPart(hat) == WardrobeResult.Success, "a hat is bought on the device");
+        var outfit = reloaded.Profile.Avatar.Clone();
+        outfit.TrySet(pack.Avatar, AvatarSlot.Hat, "cap", 99);
+        reloaded.SaveAvatar(outfit);
+        reloaded.Sim.TickTrash(pack.Rules.Trash.spawnSeconds);
+        Check(reloaded.Sim.TrashCount >= 1 && reloaded.Sim.CleanTrash(reloaded.Sim.Trash[0].id), "a piece of litter is cleaned");
+        round = Ledger(reloadedSync, evenIfEmpty: false);
+        var types = new List<string>();
+        foreach (var a in round.Outcome.Accepted) types.Add(a.type);
+        Check(round.Outcome.Rejected.Count == 0 && types.Contains("wardrobe_buy") && types.Contains("wardrobe_look") && types.Contains("trash_clean"),
+            $"the purchase, look and litter are accepted ({string.Join(", ", types)})");
+        state = reloadedSync.LastState;
+        Check(state["wardrobe"]["owned"].ToString().Contains("\"cap\"") && state["wardrobe"]["look"]["hat"].AsString() == "cap",
+            "the account owns and wears the hat");
+        Check(reloaded.Wallet.DisplayCoins == state["coins"].AsLong(), $"coins reconcile after the trades ({state["coins"].AsLong()})");
+        var phone = new RestaurantSession(pack, StarterLayout(pack, start), seed: 19, startingCoins: 0);
+        phone.ApplyServerState(state);
+        Check(phone.OwnsAvatarPart(hat) && phone.Profile.Avatar[AvatarSlot.Hat] == "cap", "another device shows the account's hat");
+
         // ---- Another fresh device renovates while signed out, signs in, and the player keeps that layout.
         var guest = new RestaurantSession(pack, StarterLayout(pack, start), seed: 17, startingCoins: start["coins"].AsLong());
         guest.BuyItem(pack.GetItem("kopi_o_kaw"));
@@ -328,9 +350,22 @@ public static class Program
             staff.Add(new StaffTypeDef("owner_" + id, "staff.owner", role, 4f, isOwner: true));
         }
         var rules = new GameRules();
+        var trash = body["rules"]["trash"];
+        if (trash.Kind == JsonKind.Object)
+            rules.Trash = new TrashRules
+            {
+                spawnSeconds = (float)trash["spawnSeconds"].AsDouble(), maxPieces = trash["maxPieces"].AsInt(15),
+                cleanSeconds = (float)trash["cleanSeconds"].AsDouble(3), turnAwayChancePerPiece = (float)trash["turnAwayChancePerPiece"].AsDouble(),
+                xpPerPiece = trash["xpPerPiece"].AsInt(1),
+            };
         var guests = new[] { new CustomerTypeDef("local", "c", 3f, 60f, 1, foodPatienceSeconds: 120f) };
         var pack = new ContentPack("malaysia", dishes, furniture, guests, staff, ingredients, rules, items);
         pack.Economy = EconomyFrom(economy);
+        var parts = new List<AvatarPartDef>();
+        foreach (var w in body["catalog"]["wardrobe"].Items)
+            if (WardrobeIds.TryParseSlot(w["slot"].AsString(), out var slot))
+                parts.Add(new AvatarPartDef(w["id"].AsString(), slot, "avatar", unlockLevel: w["unlockLevel"].AsInt(1), price: w["price"].AsInt()));
+        if (parts.Count > 0) pack.Avatar = new AvatarCatalog(parts);
         return pack;
     }
 

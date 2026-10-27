@@ -86,6 +86,7 @@ namespace DemoRestaurant.Logic.Session
             var log = ServerLog;
             ServerRestaurantId = state["restaurantId"].AsString() ?? ServerRestaurantId;
             ApplyServerProfile(state);
+            ApplyServerWardrobe(state);
 
             long coins = state["coins"].AsLong() + log.PendingCoins - Wallet.PendingCoins;
             Wallet.SetConfirmed(Math.Max(0, coins));
@@ -197,6 +198,7 @@ namespace DemoRestaurant.Logic.Session
         public SaveData SaveFromServer(JsonValue state)
         {
             ApplyServerProfile(state);
+            ApplyServerWardrobe(state);
             var save = CaptureSave();
             save.coins = Math.Max(0, state["coins"].AsLong() + ServerLog.PendingCoins);
             save.level = state["level"].AsInt(1);

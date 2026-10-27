@@ -4,6 +4,7 @@ using DemoRestaurant.Logic.Content;
 using DemoRestaurant.Logic.Grid;
 using DemoRestaurant.Logic.Layout;
 using DemoRestaurant.Logic.Menu;
+using DemoRestaurant.Logic.Online;
 using DemoRestaurant.Logic.Profile;
 using DemoRestaurant.Logic.Save;
 using DemoRestaurant.Logic.Session;
@@ -43,7 +44,9 @@ namespace DemoRestaurant.Logic.Tests
             Assert.IsTrue(s.OwnsAvatarPart(s.Content.Avatar.Find(AvatarSlot.Hat, "cap")));
             Assert.AreEqual(WardrobeResult.AlreadyOwned, s.BuyAvatarPart(forged));
             Assert.AreEqual(900, s.Wallet.DisplayCoins);
-            Assert.IsFalse(s.ServerLog.Items.Any(a => a.type.StartsWith("wardrobe")), "Do not send unsupported backend actions.");
+            var sent = s.ServerLog.Items.Where(a => a.type.StartsWith("wardrobe")).ToList();
+            Assert.AreEqual(1, sent.Count, "one purchase is sent; the server prices it itself");
+            Assert.AreEqual(-100, sent[0].coins);
         }
 
         [Test]
@@ -109,15 +112,64 @@ namespace DemoRestaurant.Logic.Tests
         }
 
         [Test]
-        public void OnlineAccountDoesNotLocallySpendOrAwardUnsupportedCurrency()
+        public void OnlineAccountWithoutServerWardrobeDoesNotSpendOrAwardCurrency()
         {
-            var s=Session();s.Profile.SetAccount("account",null);
+            var s=Session();s.Profile.SetAccount("account",null);s.ServerWardrobe=false;
             Assert.AreEqual(WardrobeResult.OnlineUnavailable,s.BuyAvatarPart(s.Content.Avatar.Find(AvatarSlot.Hat,"cap")));
             s.Sim.TickTrash(10);var piece=s.Sim.Trash[0];
             int xp=s.Progress.Xp;int pending=s.ServerLog.Items.Count;
             Assert.IsTrue(s.Sim.CleanTrash(piece.id));
             Assert.AreEqual(1000,s.Wallet.DisplayCoins);Assert.AreEqual(xp,s.Progress.Xp);
             Assert.AreEqual(pending,s.ServerLog.Items.Count);
+        }
+
+        [Test]
+        public void TradesAndTrashAreSentToTheServer_SignedInOrNot()
+        {
+            var s=Session();var cap=s.Content.Avatar.Find(AvatarSlot.Hat,"cap");
+            Assert.AreEqual(WardrobeResult.Success,s.BuyAvatarPart(cap));
+            var buy=s.ServerLog.Items[s.ServerLog.Count-1];
+            Assert.AreEqual("wardrobe_buy",buy.type);Assert.AreEqual(-100,buy.coins);
+            Assert.AreEqual("{\"slot\":\"hat\",\"id\":\"cap\"}",buy.payload);
+            Assert.AreEqual(WardrobeResult.Success,s.SellAvatarPart(cap));
+            Assert.AreEqual("wardrobe_sell",s.ServerLog.Items[s.ServerLog.Count-1].type);
+            Assert.AreEqual(50,s.ServerLog.Items[s.ServerLog.Count-1].coins);
+            s.Sim.TickTrash(10);Assert.IsTrue(s.Sim.CleanTrash(s.Sim.Trash[0].id));
+            var clean=s.ServerLog.Items[s.ServerLog.Count-1];
+            Assert.AreEqual("trash_clean",clean.type);Assert.AreEqual(1,clean.xp);
+        }
+
+        [Test]
+        public void TheAccountsWardrobeReplacesTheDevices_AndUnownedClothesComeOff()
+        {
+            var s=Session();var cap=s.Content.Avatar.Find(AvatarSlot.Hat,"cap");
+            s.BuyAvatarPart(cap);var look=s.Profile.Avatar.Clone();look.TrySet(s.Content.Avatar,AvatarSlot.Hat,"cap",1);s.SaveAvatar(look);
+            Assert.AreEqual("cap",s.Profile.Avatar[AvatarSlot.Hat]);
+            // The purchase never reached the account: signed out, then the account's state arrives.
+            s.ServerLog.Restore(new ServerActionList());
+            s.ApplyServerState(JsonValue.Parse("{\"wardrobe\":{\"owned\":[],\"look\":null,\"trash\":null}}"));
+            Assert.IsFalse(s.OwnsAvatarPart(cap));
+            Assert.AreEqual("none",s.Profile.Avatar[AvatarSlot.Hat],"a paid part the account does not own comes off");
+            Assert.AreEqual("wardrobe_look",s.ServerLog.Items[0].type,"the device look is offered to an account with none");
+
+            s.ServerLog.Restore(new ServerActionList());
+            s.ApplyServerState(JsonValue.Parse("{\"wardrobe\":{\"owned\":[{\"slot\":\"hat\",\"id\":\"cap\"}],\"look\":{\"hat\":\"cap\"}}}"));
+            Assert.IsTrue(s.OwnsAvatarPart(cap));Assert.AreEqual("cap",s.Profile.Avatar[AvatarSlot.Hat]);
+            Assert.IsTrue(s.Profile.HasCustomAvatar);
+        }
+
+        [Test]
+        public void ALookIsSentAsTheNewestOnly_WithPartsTheServerSells()
+        {
+            var s=Session();var sync=new OnlineSync(s){Catalog=ServerCatalog.FromConfig(JsonValue.Parse(
+                "{\"rulesetId\":\"malaysia\",\"version\":3,\"body\":{\"catalog\":{\"furniture\":[],\"items\":[],\"wardrobe\":[" +
+                "{\"slot\":\"hat\",\"id\":\"none\",\"price\":0,\"unlockLevel\":1,\"available\":true}," +
+                "{\"slot\":\"hat\",\"id\":\"cap\",\"price\":100,\"unlockLevel\":1,\"available\":true}]},\"rules\":{}}}"))};
+            s.BuyAvatarPart(s.Content.Avatar.Find(AvatarSlot.Hat,"cap"));
+            var look=s.Profile.Avatar.Clone();look.TrySet(s.Content.Avatar,AvatarSlot.Hat,"cap",1);s.SaveAvatar(look);s.SaveAvatar(look);
+            CollectionAssert.AreEqual(new[]{"wardrobe_buy","wardrobe_look"},s.ServerLog.Items.Select(a=>a.type).ToArray());
+            var body=sync.NextRequest(out _)["entries"][1]["payload"];
+            Assert.AreEqual("{\"look\":{\"hat\":\"cap\"}}",body.ToString(),"the shirt is not in the server catalog");
         }
 
         [Test]

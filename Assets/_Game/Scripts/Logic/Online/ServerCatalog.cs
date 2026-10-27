@@ -23,10 +23,15 @@ namespace DemoRestaurant.Logic.Online
         private readonly HashSet<string> _exterior = new HashSet<string>();
         private readonly HashSet<string> _items = new HashSet<string>();
         private readonly HashSet<string> _streetCells = new HashSet<string>();
+        private readonly HashSet<string> _wardrobe = new HashSet<string>();
 
         public int RulesetVersion { get; private set; }
         public string RulesetId { get; private set; }
         public string ETag { get; private set; }
+        /// <summary>The ruleset sells avatar parts (<c>catalog.wardrobe</c>, v3).</summary>
+        public bool HasWardrobe { get; private set; }
+        /// <summary>The ruleset pays for cleaned litter (<c>rules.trash</c>, v3).</summary>
+        public bool HasTrash { get; private set; }
 
         /// <summary>Reads a <c>/config</c> body (<c>{ rulesetId, version, etag, body: { catalog, rules } }</c>).</summary>
         public static ServerCatalog FromConfig(JsonValue config)
@@ -55,6 +60,10 @@ namespace DemoRestaurant.Logic.Online
                 if (e["id"].AsString() != null) catalog._exterior.Add(e["id"].AsString());
             foreach (var i in body["catalog"]["items"].Items)
                 if (i["id"].AsString() != null) catalog._items.Add(i["id"].AsString());
+            catalog.HasWardrobe = body["catalog"]["wardrobe"].Kind == JsonKind.Array;
+            foreach (var w in body["catalog"]["wardrobe"].Items)
+                catalog._wardrobe.Add(w["slot"].AsString() + ":" + w["id"].AsString());
+            catalog.HasTrash = body["rules"]["trash"].Kind == JsonKind.Object;
             foreach (var c in body["rules"]["street"]["cells"].Items)
                 catalog._streetCells.Add(Cell(c["x"].AsInt(), c["y"].AsInt()));
             return catalog;
@@ -65,6 +74,8 @@ namespace DemoRestaurant.Logic.Online
         public bool HasExterior(string id) => id != null && _exterior.Contains(id);
         public bool HasItem(string id) => id != null && _items.Contains(id);
         public bool IsStreetCell(int x, int y) => _streetCells.Contains(Cell(x, y));
+        /// <summary>The server knows this avatar part (server slot id, e.g. <c>hat</c>).</summary>
+        public bool HasWardrobePart(string slot, string id) => _wardrobe.Contains(slot + ":" + id);
 
         /// <summary>The first free indoor floor tile (the fallback for floors the server does not know).</summary>
         public string DefaultFloor
