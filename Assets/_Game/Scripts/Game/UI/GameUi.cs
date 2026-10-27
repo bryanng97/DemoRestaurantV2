@@ -29,6 +29,7 @@ namespace DemoRestaurant.Game.UI
         private RestaurantHud _hud;
         private WelcomeBackPopup _welcome;
         private ProfileDialog _profile;
+        private WardrobePage _wardrobe;
         private SettingsDialog _settings;
         private LoginDialog _login;
         private ChoiceDialog _choice;
@@ -169,6 +170,7 @@ namespace DemoRestaurant.Game.UI
             BuildLanguageButton(root);
             _welcome = new WelcomeBackPopup(canvas, Coin);
             TerraceSale = new TerraceSaleDialog(canvas, session, Coin, (snapshot, balance) => PersistLayout != null && PersistLayout(snapshot, balance), message => Toast(message));
+            _wardrobe = new WardrobePage(this, Avatars);
             _profile = new ProfileDialog(this, canvas, Avatars);
             _settings = new SettingsDialog(this, canvas, defaultFrameRate);
             _profile.SettingsRequested += OpenSettings;
@@ -189,6 +191,7 @@ namespace DemoRestaurant.Game.UI
         {
             if (Session != null) Session.Profile.Changed -= RetainOwnerPortrait;
             Avatars?.Release(_portraitKey);
+            _wardrobe?.Dispose();
             _settings?.Dispose(); _profile?.Dispose(); _login?.Dispose();
             Avatars?.Dispose();
             Loc.LanguageChanged -= RefreshTexts;
@@ -248,6 +251,13 @@ namespace DemoRestaurant.Game.UI
             foreach (var p in _panels) p.SetOpen(false);
             _profile.Show();
             _toastGroup.transform.SetAsLastSibling();
+        }
+
+        public void OpenWardrobe()
+        {
+            if (_welcome.IsShowing) return;
+            foreach (var p in _panels) p.SetOpen(false);
+            _profile.Close(); _wardrobe.Show();
         }
 
         public void OpenSettings()

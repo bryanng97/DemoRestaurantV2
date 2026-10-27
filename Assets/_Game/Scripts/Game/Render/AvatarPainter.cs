@@ -53,6 +53,17 @@ namespace DemoRestaurant.Game.Render
         /// <summary>Full-body front view, feet at the pivot (profile preview, standing in the restaurant).</summary>
         public Sprite Body(AvatarLook look) => NativeAvailable?_native.Get(look).Body:Get(look).Body;
 
+        /// <summary>Eight native model viewing angles for the standalone wardrobe.</summary>
+        public Sprite Preview(AvatarLook look,int direction) => NativeAvailable ? _native.Preview(look,direction)
+            : (direction%8+8)%8<4 ? Body(look) : Back(look);
+
+        /// <summary>Cropped wardrobe turntable preview; world sprites retain their shared foot anchor.</summary>
+        public Sprite TurntablePreview(AvatarLook look,float degrees) => NativeAvailable ? _native.TurntablePreview(look,degrees)
+            : Preview(look,Mathf.RoundToInt(degrees/45f));
+
+        public Sprite ItemIcon(AvatarPartDef part,AvatarLook look) => NativeAvailable ? _native.ItemIcon(part,look) : null;
+        public void ClearItemIcons() { _native?.ClearItemIcons(); }
+
         /// <summary>Full-body back view, for walking away from the camera.</summary>
         public Sprite Back(AvatarLook look) => NativeAvailable?_native.Get(look).Back:Get(look).Back;
 

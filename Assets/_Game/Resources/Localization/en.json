@@ -1,5 +1,12 @@
 {
   "entries": [
+    {"key": "ui.wardrobe.title", "value": "Wardrobe"},
+    {"key": "ui.wardrobe.back", "value": "Back"},
+    {"key": "ui.wardrobe.rotate_left", "value": "<"},
+    {"key": "ui.wardrobe.rotate_right", "value": ">"},
+    {"key": "ui.wardrobe.reset", "value": "Reset look"},
+    {"key": "ui.wardrobe.item_owned", "value": "Owned"},
+
     {"key": "exterior.exit_editor", "value": "Exit"},
     {"key": "exterior.undo_icon", "value": "↶"},
     {"key": "exterior.done", "value": "Done"},

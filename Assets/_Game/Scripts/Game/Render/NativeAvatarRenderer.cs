@@ -20,6 +20,9 @@ namespace DemoRestaurant.Game.Render
         public sealed class LookImages
         {
             public Sprite Body,Back,Head;
+            internal readonly Dictionary<int,Sprite> Turntable=new Dictionary<int,Sprite>();
+            internal readonly Dictionary<Sprite,Rect> VisibleRects=new Dictionary<Sprite,Rect>();
+            internal readonly Dictionary<int,Sprite> PreviewDirections=new Dictionary<int,Sprite>();
             public CharacterFrames Frames;
             internal AvatarLook Look;
             internal Texture2D Composite;
@@ -33,6 +36,9 @@ namespace DemoRestaurant.Game.Render
         private readonly Dictionary<string,Layer> _layers=new Dictionary<string,Layer>();
         private readonly Dictionary<string,Part> _parts=new Dictionary<string,Part>();
         private readonly Dictionary<string,Motion> _motions=new Dictionary<string,Motion>();
+        private readonly Dictionary<string,Sprite> _itemIcons=new Dictionary<string,Sprite>();
+        private readonly List<Sprite> _itemSprites=new List<Sprite>();
+        private readonly HashSet<Texture2D> _itemTextures=new HashSet<Texture2D>();
         private readonly Dictionary<string,Texture2D> _textures=new Dictionary<string,Texture2D>();
         private readonly Dictionary<string,LookImages> _cache=new Dictionary<string,LookImages>();
         private readonly Dictionary<string,int> _retained=new Dictionary<string,int>();
@@ -149,11 +155,11 @@ namespace DemoRestaurant.Game.Render
                 else renderer.sharedMaterial=images.BodyMaterial;
             }
         }
-        private Sprite RenderPose(LookImages entry,float time,bool back,bool portrait,out Vector2 hand,out float inkHeight)
+        private Sprite RenderPose(LookImages entry,float time,bool back,bool portrait,out Vector2 hand,out float inkHeight,float? yaw=null)
         {
             _clip.SampleAnimation(_stage,time);
             int w=Width,h=portrait?Width:Height;
-            var rotation=Quaternion.Euler(portrait?8:30,portrait?200:back?315:225,0);
+            var rotation=Quaternion.Euler(portrait?8:30,portrait?200:yaw??(back?315:225),0);
             _camera.transform.rotation=rotation;_camera.aspect=(float)w/h;
             _camera.orthographicSize=portrait?3400:h*.5f*30;
             Vector3 focus=_stage.transform.position+_camera.transform.up*((h*.5f-Ground)*30);
@@ -180,16 +186,118 @@ namespace DemoRestaurant.Game.Render
                 Graphics.ExecuteCommandBuffer(commands);RenderTexture.active=target;
                 texture=new Texture2D(w,h,TextureFormat.RGBA32,false){name="native_avatar_"+(portrait?"portrait":back?"back":"front")};
                 texture.ReadPixels(new Rect(0,0,w,h),0,0);texture.Apply();
-                var pixels=texture.GetPixels32();int min=h,max=-1;
-                for(int y=0;y<h;y++)for(int x=0;x<w;x++)if(pixels[y*w+x].a>16){min=Math.Min(min,y);max=Math.Max(max,y);}
+                var pixels=texture.GetPixels32();int min=h,max=-1,minX=w,maxX=-1;
+                for(int y=0;y<h;y++)for(int x=0;x<w;x++)if(pixels[y*w+x].a>16){min=Math.Min(min,y);max=Math.Max(max,y);minX=Math.Min(minX,x);maxX=Math.Max(maxX,x);}
                 if(max<min)throw new InvalidOperationException("Native avatar render is empty.");
                 inkHeight=(max-min+1)/100f;
                 var sprite=Sprite.Create(texture,new Rect(0,0,w,h),new Vector2(.5f,portrait?.5f:Ground/(float)h),100,0,SpriteMeshType.Tight);
+                entry.VisibleRects[sprite]=Rect.MinMaxRect(Math.Max(0,minX-6),Math.Max(0,min-6),Math.Min(w,maxX+7),Math.Min(h,max+7));
                 texture.Apply(false,true);entry.OwnedSprites.Add(sprite);return sprite;
             }
             catch {Destroy(texture);throw;}
             finally {commands.Dispose();RenderTexture.active=previous;RenderTexture.ReleaseTemporary(target);}
         }
+        public Sprite Preview(AvatarLook look,int direction)
+        {
+            direction=(direction%8+8)%8;
+            var entry=Get(look);
+            if(direction==0)return entry.Body;
+            if(direction==2)return entry.Back;
+            if(entry.PreviewDirections.TryGetValue(direction,out var sprite))return sprite;
+            try
+            {
+                Configure(entry,null);
+                sprite=RenderPose(entry,4.4f,false,false,out _,out _,225+direction*45);
+                entry.PreviewDirections[direction]=sprite;return sprite;
+            }
+            finally { if(_stage!=null)_stage.SetActive(false); }
+        }
+
+        /// <summary>15-degree model rotation with a cropped UI sprite, without changing world-animation frames.</summary>
+        public Sprite TurntablePreview(AvatarLook look,float degrees)
+        {
+            int index=(Mathf.RoundToInt(degrees/15f)%24+24)%24;
+            var entry=Get(look);
+            if(entry.Turntable.TryGetValue(index,out var cached))return cached;
+            Sprite source;
+            if(index==0)source=entry.Body;
+            else if(index==6)source=entry.Back;
+            else
+            {
+                try { Configure(entry,null); source=RenderPose(entry,4.4f,false,false,out _,out _,225+index*15); }
+                finally { if(_stage!=null)_stage.SetActive(false); }
+            }
+            var rect=entry.VisibleRects[source];
+            var preview=Sprite.Create(source.texture,rect,new Vector2(.5f,.5f),100,0,SpriteMeshType.FullRect);
+            preview.name="native_wardrobe_angle_"+index;
+            entry.OwnedSprites.Add(preview);entry.Turntable[index]=preview;return preview;
+        }
+
+        /// <summary>Only the selected part: raw eye/brow/mouth layers, or its isolated native model meshes.</summary>
+        public Sprite ItemIcon(AvatarPartDef requested,AvatarLook look)
+        {
+            if(requested==null || !_parts.TryGetValue(requested.OwnershipKey,out var part))return null;
+            string key=requested.OwnershipKey+":"+look[AvatarSlot.HairColor]+":"+look[AvatarSlot.ShirtColor]+":"+look[AvatarSlot.PantsColor];
+            if(_itemIcons.TryGetValue(key,out var cached))return cached;
+            Sprite icon=null;
+            if(part.meshes==null || part.meshes.Length==0)
+            {
+                if(!string.IsNullOrEmpty(part.texture))
+                {
+                    var texture=Texture(part.texture);
+                    if(texture!=null)
+                    {
+                        var pixels=texture.GetPixels32();int minX=texture.width,minY=texture.height,maxX=-1,maxY=-1;
+                        for(int y=0;y<texture.height;y++)for(int x=0;x<texture.width;x++)
+                            if(pixels[y*texture.width+x].a>16){minX=Math.Min(minX,x);maxX=Math.Max(maxX,x);minY=Math.Min(minY,y);maxY=Math.Max(maxY,y);}
+                        if(maxX>=minX && maxY>=minY)
+                        {
+                            icon=Sprite.Create(texture,new Rect(minX,minY,maxX-minX+1,maxY-minY+1),new Vector2(.5f,.5f),100,0,SpriteMeshType.FullRect);
+                            _itemSprites.Add(icon);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                var entry=new LookImages{Look=look.Clone()};
+                entry.Look.TrySet(_catalog,requested.Slot,requested.Id,int.MaxValue);
+                try
+                {
+                    var pixels=new Color[512*512];
+                    Color? tint=requested.Slot==AvatarSlot.Shirt?ColorOf(look,AvatarSlot.ShirtColor,Color.white)
+                        :requested.Slot==AvatarSlot.Pants?ColorOf(look,AvatarSlot.PantsColor,Color.white):(Color?)null;
+                    Paint(pixels,part.texture,tint);
+                    entry.Composite=new Texture2D(512,512,TextureFormat.RGBA32,false);
+                    entry.Composite.SetPixels(pixels);entry.Composite.Apply(false,true);
+                    entry.BodyMaterial=Material();entry.BodyMaterial.mainTexture=entry.Composite;
+                    entry.BodyMaterial.SetFloat("_NativeItemMask",1f);
+                    entry.HairMaterial=Material();entry.HairMaterial.color=ColorOf(look,AvatarSlot.HairColor,new Color(.65f,.45f,.25f));
+                    Configure(entry,null);
+                    var visible=new HashSet<string>(part.meshes);
+                    foreach(var renderer in _renderers)renderer.gameObject.SetActive(visible.Contains(renderer.name));
+                    var source=RenderPose(entry,4.4f,false,false,out _,out _,200);
+                    _itemSprites.Add(source);_itemTextures.Add(source.texture);
+                    icon=Sprite.Create(source.texture,entry.VisibleRects[source],new Vector2(.5f,.5f),100,0,SpriteMeshType.FullRect);
+                    _itemSprites.Add(icon);
+                }
+                finally
+                {
+                    if(_stage!=null)_stage.SetActive(false);
+                    Destroy(entry.BodyMaterial);Destroy(entry.HairMaterial);Destroy(entry.Composite);
+                }
+            }
+            if(icon!=null)icon.name="native_item_"+requested.OwnershipKey;
+            _itemIcons[key]=icon;return icon;
+        }
+
+        public void ClearItemIcons()
+        {
+            foreach(var sprite in _itemSprites)Destroy(sprite);
+            foreach(var texture in _itemTextures)Destroy(texture);
+            _itemSprites.Clear();_itemTextures.Clear();_itemIcons.Clear();
+        }
+
         public LookImages Get(AvatarLook look)
         {
             if(_cache.TryGetValue(look.Key,out var entry))return entry;
@@ -242,11 +350,14 @@ namespace DemoRestaurant.Game.Render
         public void Release(string key){if(key!=null&&_retained.TryGetValue(key,out int n)){if(n<=1)_retained.Remove(key);else _retained[key]=n-1;}}
         private static void DisposeLook(LookImages entry)
         {
-            foreach(var sprite in entry.OwnedSprites){Destroy(sprite.texture);Destroy(sprite);}
+            var textures=new HashSet<Texture2D>();
+            foreach(var sprite in entry.OwnedSprites)if(sprite!=null){textures.Add(sprite.texture);Destroy(sprite);}
+            foreach(var texture in textures)Destroy(texture);
             Destroy(entry.BodyMaterial);Destroy(entry.HairMaterial);Destroy(entry.Composite);
         }
         public void Dispose()
         {
+            ClearItemIcons();
             foreach(var entry in _cache.Values)DisposeLook(entry);_cache.Clear();_order.Clear();_retained.Clear();
             foreach(var mesh in _meshes.Values)Destroy(mesh);_meshes.Clear();
             foreach(var material in _props.Values)Destroy(material);_props.Clear();

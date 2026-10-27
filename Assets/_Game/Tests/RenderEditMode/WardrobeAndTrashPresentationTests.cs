@@ -44,12 +44,14 @@ namespace DemoRestaurant.Render.Tests
                 session.Profile.Changed+=view.RefreshOwner;
                 var staff=new DemoRestaurant.Game.Controls.StaffController(session,new[]{new GridPos(3,3)},new[]{new GridPos(4,3)});
                 var ui=root.AddComponent<GameUi>();ui.Bind(session,content,staff,painter,60);
-                ui.OpenProfile();var dialog=(ProfileDialog)Field(ui,"_profile");
-                var tab=typeof(ProfileDialog).GetNestedType("Tab",BindingFlags.NonPublic);
-                Call(dialog,"SelectTab",Enum.Parse(tab,"Outfit"));
+                ui.OpenProfile();Assert.IsTrue(((ProfileDialog)Field(ui,"_profile")).IsShowing);
+                root.GetComponentsInChildren<Button>(true).Single(b=>b.name=="OpenWardrobe").onClick.Invoke();
+                var dialog=(WardrobePage)Field(ui,"_wardrobe");
+                Assert.IsFalse(((ProfileDialog)Field(ui,"_profile")).IsShowing);
+                Call(dialog,"SelectCategory",AvatarSlot.Hat);
                 var cap=content.Pack.Avatar.Find(AvatarSlot.Hat,"cap");Call(dialog,"Pick",cap);
                 var draft=(AvatarLook)Field(dialog,"_draft");
-                Assert.AreSame(painter.Body(draft),((Image)Field(dialog,"_preview")).sprite,"Try-on must use the draft, not the fixed baked owner.");
+                Assert.AreSame(painter.TurntablePreview(draft,0),((Image)Field(dialog,"_preview")).sprite,"Try-on must use the draft, not the fixed baked owner.");
                 Assert.IsTrue(((Button)Field(dialog,"_buy")).gameObject.activeSelf);
                 Assert.IsFalse(((Button)Field(dialog,"_save")).interactable);
                 Call(dialog,"Buy");Assert.AreEqual(1000-cap.Price,session.Wallet.DisplayCoins);
@@ -64,6 +66,7 @@ namespace DemoRestaurant.Render.Tests
                 for(int i=0;i<24;i++)painter.Body(AvatarLook.Random(content.Pack.Avatar,new System.Random(i),99));
                 Assert.IsTrue(((Image)Field(dialog,"_preview")).sprite!=null);
                 ((CanvasGroup)Field(ui,"_toastGroup")).alpha=0;
+                ui.OpenWardrobe();
                 if(SystemInfo.graphicsDeviceType!=UnityEngine.Rendering.GraphicsDeviceType.Null) CaptureUi(root,"wardrobe-procedural-preview.png");
             }
             finally{UnityEngine.Object.DestroyImmediate(root);}
@@ -96,12 +99,11 @@ namespace DemoRestaurant.Render.Tests
                 var art=ArtLibrary.For(content.Theme);var native=art.GetOptional("char_owner_idle_f_00");
                 Assert.IsNotNull(native);Assert.IsNull(ui.BakedOwnerFigure());
                 Assert.AreSame(painter.Head(session.Profile.Avatar),ui.PortraitFor(owner));
-                ui.OpenProfile();var dialog=(ProfileDialog)Field(ui,"_profile");
-                var tab=typeof(ProfileDialog).GetNestedType("Tab",BindingFlags.NonPublic);
-                foreach(var name in new[]{"Profile","Look","Outfit"})
+                ui.OpenWardrobe();var dialog=(WardrobePage)Field(ui,"_wardrobe");
+                foreach(var category in new[]{AvatarSlot.Eyes,AvatarSlot.HairStyle,AvatarSlot.Hat})
                 {
-                    Call(dialog,"SelectTab",Enum.Parse(tab,name));
-                    Assert.AreSame(painter.Body((AvatarLook)Field(dialog,"_draft")),((Image)Field(dialog,"_preview")).sprite);
+                    Call(dialog,"SelectCategory",category);
+                    Assert.AreSame(painter.TurntablePreview((AvatarLook)Field(dialog,"_draft"),0),((Image)Field(dialog,"_preview")).sprite);
                 }
                 var before=((Image)Field(dialog,"_preview")).sprite;
                 var option=((IEnumerable)Field(dialog,"_options")).Cast<object>().First(o=>
@@ -131,7 +133,32 @@ namespace DemoRestaurant.Render.Tests
                 Assert.That(hand.x,Is.InRange(0f,1f));Assert.That(hand.y,Is.InRange(0f,1f));
                 Assert.IsTrue(session.OwnsAvatarPart(cap));
                 ((CanvasGroup)Field(ui,"_toastGroup")).alpha=0;
+                Assert.IsFalse(dialog.IsShowing,"Saving exits the dedicated wardrobe.");
+                ui.OpenWardrobe();
                 if(SystemInfo.graphicsDeviceType!=UnityEngine.Rendering.GraphicsDeviceType.Null) CaptureUi(root,"wardrobe-native-working.png");
+                Call(dialog,"SelectCategory",AvatarSlot.Eyes);
+                var eyeOption=((IEnumerable)Field(dialog,"_options")).Cast<object>().First();
+                var eyeImage=((Image)eyeOption.GetType().GetField("Rim").GetValue(eyeOption)).transform.Find("ItemPreview").GetComponent<Image>();
+                Assert.AreSame(Resources.Load<Texture2D>("Art/RefProto/AvatarRuntime/Layers/Eyes5"),eyeImage.sprite.texture,
+                    "Eye cards use the original eye layer without a head, hair or hat.");
+                CaptureUi(root,"wardrobe-eyes-items.png");
+                Call(dialog,"SelectCategory",AvatarSlot.Eyebrows);
+                CaptureUi(root,"wardrobe-eyebrows-items.png");
+                Call(dialog,"SelectCategory",AvatarSlot.Hat);
+                var drag=root.GetComponentInChildren<WardrobeDragRotation>();
+                var stage=(RectTransform)drag.transform;
+                Vector2 start=RectTransformUtility.WorldToScreenPoint(null,stage.TransformPoint(stage.rect.center));
+                var pointer=new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current){pointerId=17,pressPosition=start,position=start+Vector2.right*80};
+                drag.OnBeginDrag(pointer);drag.OnDrag(pointer);drag.OnEndDrag(pointer);
+                Assert.AreNotEqual(0f,(float)Field(dialog,"_yaw"));
+                var previewBefore=((Image)Field(dialog,"_preview")).sprite;
+                root.GetComponentsInChildren<Button>(true).Single(b=>b.name=="ui.wardrobe.rotate_right").onClick.Invoke();
+                Assert.AreNotSame(previewBefore,((Image)Field(dialog,"_preview")).sprite);
+                Call(dialog,"Pick",cap);
+                Assert.AreEqual("none",session.Profile.Avatar[AvatarSlot.Hat],"Trying on must not save before confirmation.");
+                root.GetComponentsInChildren<Button>(true).Single(b=>b.name=="ui.wardrobe.back").onClick.Invoke();
+                Assert.IsFalse(dialog.IsShowing);
+                Assert.AreEqual("none",session.Profile.Avatar[AvatarSlot.Hat],"Back discards the unsaved look.");
             }
             finally{UnityEngine.Object.DestroyImmediate(root);}
             yield return new ExitPlayMode();
@@ -169,6 +196,24 @@ namespace DemoRestaurant.Render.Tests
                     if(c.b>c.r*1.3f && c.b>c.g*1.15f){blueY+=i/256;blue++;}
                 }
                 Assert.Greater(hair,20);Assert.Greater(blue,20);Assert.Greater(hairY/hair,blueY/blue);
+                var front=painter.Preview(look,0);var rotated=painter.Preview(look,1);
+                Assert.AreSame(front,painter.Preview(look,8));
+                Assert.AreSame(rotated,painter.Preview(look,1),"Reuse cached native viewing angles.");
+                Assert.AreNotEqual(Hash(Pixels(front.texture)),Hash(Pixels(rotated.texture)),"Rotate the model rather than stretch or mirror the preview.");
+                Assert.AreSame(painter.Back(look),painter.Preview(look,2));
+                Assert.AreSame(painter.Preview(look,7),painter.Preview(look,-1));
+                var eyePart=content.Pack.Avatar.Find(AvatarSlot.Eyes,"round");
+                var eyeIcon=painter.ItemIcon(eyePart,look);
+                Assert.AreSame(Resources.Load<Texture2D>("Art/RefProto/AvatarRuntime/Layers/Eyes5"),eyeIcon.texture);
+                var alternate=look.Clone();alternate.TrySet(content.Pack.Avatar,AvatarSlot.Hat,"headband",99);
+                Assert.AreSame(eyeIcon,painter.ItemIcon(eyePart,alternate),"Other worn items cannot appear in a category icon.");
+                foreach(var slot in new[]{AvatarSlot.HairStyle,AvatarSlot.Hat,AvatarSlot.Shirt,AvatarSlot.Pants})
+                {
+                    var part=content.Pack.Avatar.Find(slot,slot==AvatarSlot.Hat?"cap":look[slot]);
+                    var icon=painter.ItemIcon(part,look);
+                    Assert.IsNotNull(icon,"Render only the selected native meshes for "+slot);
+                    Assert.AreNotEqual(Hash(Pixels(painter.Body(look).texture)),Hash(Pixels(icon.texture)));
+                }
                 var frames=painter.NativeFrames(look);var walk=frames.Get(CharacterFrames.Walk,false);
                 Assert.AreNotEqual(Hash(Pixels(walk[0].texture)),Hash(Pixels(walk[1].texture)),"Sample the original animation instead of freezing the actor.");
                 Assert.AreNotEqual(Hash(Pixels(walk[0].texture)),Hash(Pixels(frames.Get(CharacterFrames.Walk,true)[0].texture)),"Front and back views must differ.");
@@ -229,7 +274,7 @@ namespace DemoRestaurant.Render.Tests
 
         private static void CaptureUi(GameObject root,string filename)
         {
-            var canvas=root.GetComponentsInChildren<Canvas>(true).First(c=>c.renderMode==RenderMode.ScreenSpaceOverlay);
+            var canvas=root.GetComponentsInChildren<Canvas>(true).First(c=>c.gameObject.activeInHierarchy && c.renderMode==RenderMode.ScreenSpaceOverlay);
             var go=new GameObject("WardrobeCamera");var camera=go.AddComponent<Camera>();
             var target=new RenderTexture(1920,1080,24);var pixels=new Texture2D(1920,1080,TextureFormat.RGB24,false);
             var previous=RenderTexture.active;

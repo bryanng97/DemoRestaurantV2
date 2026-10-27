@@ -73,3 +73,26 @@ The dock background ignores the horizontal layout group. It must remain stretche
 - Show Flip and Store above the right side of the catalog only while a piece is held or selected. Required walls/roofs/doors cannot be stored; roofs can still be flipped. Storing a new preview cancels that preview without changing ownership.
 - Exit with a changed draft or changed pending placement opens Save changes / Discard / Keep editing. Picking up an unchanged existing piece alone does not count as an edit. Failed saves retain the draft.
 - Background validation passed: game/test assembly compilation, edit zoom regression and unsaved-change detection (unchanged pickup, pending movement, new item, flipped item and removal). Full Unity interaction/visual checks remain pending.
+
+## Standalone wardrobe
+
+- Profile now contains account details and an Open wardrobe entry. The wardrobe has a separate full-screen canvas and hides gameplay HUD while open.
+- Center: original avatar model preview with drag-to-rotate in 15-degree increments. Mobile hides rotation arrows; desktop keeps optional arrows beside the avatar. Cropped UI preview sprites remove transparent padding without changing the shared world animation sprites. Bottom: horizontally scrollable category tabs and item cards with isolated native part icons; color categories use swatches. Side controls provide owned/shop filter, random owned look, reset, and buy/sell for the selected item.
+- Save validates ownership through the existing session, records the look using the current online wardrobe contract, and returns to gameplay. Back discards the unsaved appearance. Purchases/sales remain completed transactions.
+- Profile no longer builds the embedded Look/Outfit controls. Current categories reflect the existing 11-slot, 58-part catalog. Original RC beard/facial-feature categories, gifting and employee-uniform editing are not added by this page migration.
+- Validation uses an isolated background Unity project under ignored Builds/WardrobeValidation, without controlling the user's open editor. Native UI tests cover page entry, part clicks, purchase/save, avatar rotation and Back without saving.
+
+- Isolated Unity 6000.6.4f1 EditMode run completed: 4 wardrobe/trash presentation tests passed, 0 failed, 0 skipped. It includes real button callbacks, native rotation pixel differences, Save returning to gameplay and Back discarding unsaved appearance. Results: `Logs/wardrobe-standalone-tests.xml`; inspected native screenshot: `Logs/wardrobe-standalone.png`.
+
+- The avatar-stage drag handler owns one pointer until release and converts screen movement into stage-local rotation. Catalog scrolling remains independent. Rotation only changes the preview; it does not save the outfit. Shared textures used by cropped previews are released once per cached look.
+
+Background Unity rerun after drag rotation/cropping: 4 presentation tests passed, 0 failed, 0 skipped. The native test invokes avatar-stage begin/drag/end callbacks and confirms rotation; the updated desktop screenshot was inspected with arrows at the sides. Physical mobile-device checks remain pending.
+
+## Wardrobe category item icons
+
+- Eyes, eyebrows and mouths use their original transparent texture layers directly, cropped to visible pixels. They do not render a face or retain the worn hairstyle/hat.
+- Hair, hats, shirts and bottoms render only the item's mapped native meshes. A separate item-material alpha mask removes skin outside the clothing texture. The regular avatar material keeps its existing opaque rendering.
+- Color categories retain color swatches. None/empty parts use a neutral dash. Full avatars appear only in the central try-on stage.
+- Category changes and page exit dispose generated icon sprites/textures; imported layer textures remain owned by Resources.
+
+- Item-only icon validation passed in isolated Unity: 4 presentation tests, 0 failures/skips. Tests confirm eye cards share the original Eyes5 layer, unrelated worn hats do not change the icon, and native hair/hat/shirt/bottom icons render separately. Eyes, eyebrows and hat screenshots were visually inspected.

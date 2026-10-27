@@ -1,5 +1,12 @@
 {
   "entries": [
+    {"key": "ui.wardrobe.title", "value": "Almari pakaian"},
+    {"key": "ui.wardrobe.back", "value": "Kembali"},
+    {"key": "ui.wardrobe.rotate_left", "value": "<"},
+    {"key": "ui.wardrobe.rotate_right", "value": ">"},
+    {"key": "ui.wardrobe.reset", "value": "Set semula"},
+    {"key": "ui.wardrobe.item_owned", "value": "Dimiliki"},
+
     {"key": "exterior.exit_editor", "value": "Keluar"},
     {"key": "exterior.undo_icon", "value": "↶"},
     {"key": "exterior.done", "value": "Selesai"},

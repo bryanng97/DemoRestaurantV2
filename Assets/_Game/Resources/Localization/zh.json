@@ -1,5 +1,12 @@
 {
   "entries": [
+    {"key": "ui.wardrobe.title", "value": "衣柜换装"},
+    {"key": "ui.wardrobe.back", "value": "返回"},
+    {"key": "ui.wardrobe.rotate_left", "value": "<"},
+    {"key": "ui.wardrobe.rotate_right", "value": ">"},
+    {"key": "ui.wardrobe.reset", "value": "恢复原样"},
+    {"key": "ui.wardrobe.item_owned", "value": "已拥有"},
+
     {"key": "exterior.exit_editor", "value": "退出编辑"},
     {"key": "exterior.undo_icon", "value": "↶"},
     {"key": "exterior.done", "value": "完成"},
