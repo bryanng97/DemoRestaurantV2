@@ -370,7 +370,7 @@ namespace DemoRestaurant.Game.UI
                 // Cheapest and earliest-unlocked first, so a section reads like a shop shelf.
                 var pieces = new List<FurnitureDef>();
                 foreach (var f in _content.Pack.Furniture)
-                    if (CategoryFor(f) == _controller.Category) pieces.Add(f);
+                    if (f.Available && CategoryFor(f) == _controller.Category) pieces.Add(f);
                 pieces.Sort((a, b) => a.UnlockLevel != b.UnlockLevel ? a.UnlockLevel.CompareTo(b.UnlockLevel) : a.Price.CompareTo(b.Price));
                 foreach (var f in pieces) AddShopCard(f);
             }

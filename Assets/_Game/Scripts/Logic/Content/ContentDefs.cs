@@ -198,7 +198,7 @@ namespace DemoRestaurant.Logic.Content
     public sealed class FurnitureDef
     {
         public string Id { get; }
-        public string NameKey { get; }
+        public string NameKey { get; internal set; }
         public FurnitureKind Kind { get; }
         /// <summary>Footprint in cells when not rotated.</summary>
         public int SizeX { get; }
@@ -208,9 +208,13 @@ namespace DemoRestaurant.Logic.Content
         /// <summary>Height a seated customer sits at. Only meaningful for chairs.</summary>
         public float SeatHeight { get; }
         /// <summary>Coins to buy one copy in the build shop (paid when the renovation is saved).</summary>
-        public int Price { get; }
+        public int Price { get; internal set; }
         /// <summary>Player level at which the shop sells it.</summary>
-        public int UnlockLevel { get; }
+        public int UnlockLevel { get; internal set; }
+        /// <summary>Published sale eligibility. Owned copies remain usable while withdrawn.</summary>
+        public bool Available { get; internal set; } = true;
+        /// <summary>Existing local furniture whose artwork this catalog variant uses.</summary>
+        public string AssetKey { get; internal set; }
 
         /// <summary>Uses before it breaks and needs fixing (toilets); 0 = never breaks.</summary>
         public int BreakCount { get; }
@@ -416,7 +420,7 @@ namespace DemoRestaurant.Logic.Content
         {
             Id = DishDef.RequireId(id);
             Dishes = dishes ?? throw new ArgumentNullException(nameof(dishes));
-            Furniture = furniture ?? throw new ArgumentNullException(nameof(furniture));
+            Furniture = new List<FurnitureDef>(furniture ?? throw new ArgumentNullException(nameof(furniture)));
             CustomerTypes = customerTypes ?? throw new ArgumentNullException(nameof(customerTypes));
             StaffTypes = staffTypes ?? Array.Empty<StaffTypeDef>();
             Ingredients = ingredients ?? Array.Empty<IngredientDef>();
@@ -456,6 +460,12 @@ namespace DemoRestaurant.Logic.Content
         public ItemDef GetItem(string id) => Get(_items, id, "item");
         public FurnitureDef GetFurniture(string id) => Get(_furniture, id, "furniture");
         public bool HasFurniture(string id) => id != null && _furniture.ContainsKey(id);
+        /// <summary>Add a server variant backed by a supported local visual template.</summary>
+        internal void AddCatalogFurniture(FurnitureDef piece)
+        {
+            AddUnique(_furniture, piece.Id, piece, "furniture");
+            ((List<FurnitureDef>)Furniture).Add(piece);
+        }
         public CustomerTypeDef GetCustomerType(string id) => Get(_customerTypes, id, "customer type");
         public StaffTypeDef GetStaffType(string id) => Get(_staffTypes, id, "staff type");
 

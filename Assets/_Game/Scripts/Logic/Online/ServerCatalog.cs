@@ -17,6 +17,7 @@ namespace DemoRestaurant.Logic.Online
             public int Price;
             public bool Available;
             public bool OutdoorOnly;
+            public JsonValue Definition;
         }
 
         private readonly Dictionary<string, Piece> _furniture = new Dictionary<string, Piece>();
@@ -54,6 +55,7 @@ namespace DemoRestaurant.Logic.Online
                     Price = f["price"].AsInt(),
                     Available = f["available"].AsBool(true),
                     OutdoorOnly = f["outdoorOnly"].AsBool(),
+                    Definition = f,
                 };
             }
             foreach (var e in body["catalog"]["exterior"].Items)
@@ -76,6 +78,38 @@ namespace DemoRestaurant.Logic.Online
         public bool IsStreetCell(int x, int y) => _streetCells.Contains(Cell(x, y));
         /// <summary>The server knows this avatar part (server slot id, e.g. <c>hat</c>).</summary>
         public bool HasWardrobePart(string slot, string id) => _wardrobe.Contains(slot + ":" + id);
+
+        /// <summary>Apply supported shop metadata; furniture effects are configured now and implemented in Phase 3.</summary>
+        public void ApplyFurniture(Content.ContentPack pack, ServerIdMap ids = null)
+        {
+            ids ??= new ServerIdMap();
+            foreach (var entry in _furniture.Values)
+            {
+                if (entry.Placement != "floor" && entry.Placement != "wall") continue;
+                var data = entry.Definition;
+                string localId = ids.ToLocal(entry.Id);
+                if (string.IsNullOrEmpty(localId)) continue;
+                Content.FurnitureDef piece;
+                if (pack.HasFurniture(localId)) piece = pack.GetFurniture(localId);
+                else
+                {
+                    string templateId = ids.ToLocal(data["assetKey"].AsString());
+                    if (!pack.HasFurniture(templateId)) continue; // A newer client's artwork is not in this build.
+                    var source = pack.GetFurniture(templateId);
+                    if (data["kind"].AsString() != source.Kind.ToString()
+                        || data["sizeX"].AsInt() != source.SizeX || data["sizeY"].AsInt() != source.SizeY) continue;
+                    piece = new Content.FurnitureDef(localId, "catalog.furniture." + entry.Id, source.Kind,
+                        source.SizeX, source.SizeY, source.Height, source.SeatHeight, entry.Price,
+                        data["unlockLevel"].AsInt(1), source.BreakCount, source.Stackable, source.Surface, source.OutdoorDecor)
+                    { AssetKey = templateId };
+                    pack.AddCatalogFurniture(piece);
+                }
+                piece.Price = Math.Max(0, entry.Price);
+                piece.UnlockLevel = Math.Max(1, data["unlockLevel"].AsInt(1));
+                piece.Available = entry.Available;
+                if (data["localizedNames"].Kind == JsonKind.Object) piece.NameKey = "catalog.furniture." + entry.Id;
+            }
+        }
 
         /// <summary>The first free indoor floor tile (the fallback for floors the server does not know).</summary>
         public string DefaultFloor

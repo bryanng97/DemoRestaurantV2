@@ -1,6 +1,26 @@
 # Frontend: mobile decoration UI
 
-Updated: 2026-10-27
+Updated: 2026-10-28
+
+## Backend catalog and player controls
+
+- The backoffice implementation now supports asset forms and Wallet/Level/XP corrections locally.
+  This is delivery roadmap Phase 1; hosted rollout has not occurred.
+- The client refreshes supported furniture prices, unlock levels and availability from `/config`.
+  New floor/wall furniture variants can reuse an existing matching client template (`assetKey`).
+  Their en/ms/zh names use `Loc`; withdrawn items leave the Shop but owned copies remain in Storage.
+- The cached public catalog is applied before local layouts are restored, so template variants
+  remain recognized when reopening offline. Unknown art/templates are skipped.
+- Server corrections reconcile with queued predictions through the existing action log. An
+  accepted queued sale is not counted again after its authoritative response arrives.
+- Furniture effect values can be configured in the backoffice; their actual simulation and
+  economy application remains delivery Phase 3/4. New artwork, floor/wallpaper identities and
+  staff-item/facade identities still need matching client content.
+- Validation: Unity 6000.6.4f1 EditMode logic tests 437 passed, 0 failed/skipped
+  (`Logs/phase1-controls-logic-tests.xml`); catalog presentation checks 2 passed, 0 failed/skipped
+  (`Logs/phase1-catalog-presentation-tests.xml`). The latter check real template art lookup and
+  all three localized names; they do not constitute physical-device or full-scene visual testing.
+- Details: `Docs/BackendAssetControls.md`.
 
 ## Implemented: indoor restaurant editor
 

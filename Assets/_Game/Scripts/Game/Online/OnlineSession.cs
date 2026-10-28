@@ -235,6 +235,8 @@ namespace DemoRestaurant.Game.Online
                 WriteAtomic(ConfigPath, config.ToString());
             }
             Sync.Catalog = ServerCatalog.FromConfig(config);
+            Sync.Catalog.ApplyFurniture(_game.Content, Sync.Ids);
+            Content.Loc.ApplyCatalog(config);
             _game.ServerWardrobe = Sync.Catalog.HasWardrobe;
             Api.RulesetVersion = Sync.Catalog.RulesetVersion;
             return true;

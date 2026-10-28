@@ -165,6 +165,11 @@ namespace DemoRestaurant.Logic.Economy
         public LandPurchaseResult CommitLayout(int width, int height, IReadOnlyDictionary<string, int> placed, Func<long, bool> persist)
         {
             if (_committing) return LandPurchaseResult.Unavailable;
+            if (placed != null)
+                foreach (var entry in placed)
+                    if (entry.Value > Layout.FurnitureOwnership.Count(_ownedFurniture, entry.Key)
+                        && (!_catalog.GetFurniture(entry.Key).Available || (_level != null && _catalog.GetFurniture(entry.Key).UnlockLevel > _level())))
+                        return LandPurchaseResult.Unavailable;
             long cost = 0;
             var growth = _catalog.Rules.RoomGrowth;
             if (growth != null)

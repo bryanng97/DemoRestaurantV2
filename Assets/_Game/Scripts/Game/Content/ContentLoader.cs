@@ -130,8 +130,13 @@ namespace DemoRestaurant.Game.Content
             DishIcons = dishIcons;
         }
 
-        public FurnitureArt ArtForFurniture(string id) =>
-            FurnitureArt.TryGetValue(id, out var a) ? a : new FurnitureArt { PlaceholderColor = Color.magenta };
+        public FurnitureArt ArtForFurniture(string id)
+        {
+            if (FurnitureArt.TryGetValue(id, out var art)) return art;
+            string source = Pack.HasFurniture(id) ? Pack.GetFurniture(id).AssetKey : null;
+            return source != null && FurnitureArt.TryGetValue(source, out art)
+                ? art : new FurnitureArt { PlaceholderColor = Color.magenta };
+        }
 
         public CharacterArt ArtForCustomer(string id) =>
             CharacterArt.TryGetValue(id, out var a) ? a : new CharacterArt { PlaceholderColor = Color.magenta };
@@ -307,6 +312,19 @@ namespace DemoRestaurant.Game.Content
             var pack = new ContentPack(packId, dishes, furniture, customers, staff, ingredients, rules, items);
             pack.Avatar = avatar;
             pack.Economy = LoadEconomy(packId);
+            // Catalog variants must exist before a saved layout referring to them is decoded.
+            string cachedConfig = System.IO.Path.Combine(Application.persistentDataPath, $"online_config_{packId}.json");
+            try
+            {
+                if (System.IO.File.Exists(cachedConfig) && Logic.Online.JsonValue.TryParse(System.IO.File.ReadAllText(cachedConfig), out var config))
+                {
+                    var mapFile = Resources.Load<TextAsset>($"Content/{packId}/server_ids");
+                    var map = mapFile != null ? JsonUtility.FromJson<Logic.Online.ServerIdMap.File>(mapFile.text) : null;
+                    Logic.Online.ServerCatalog.FromConfig(config).ApplyFurniture(pack, new Logic.Online.ServerIdMap(map?.ids));
+                    Loc.ApplyCatalog(config);
+                }
+            }
+            catch (System.IO.IOException) { /* A missing cache never prevents offline play. */ }
             return new LoadedContentPack(pack, theme, furnitureArt, characterArt, staffArt, dishIcons)
             {
                 Exterior = LoadExterior(packId),

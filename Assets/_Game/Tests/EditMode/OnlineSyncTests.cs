@@ -11,6 +11,71 @@ using NUnit.Framework;
 
 namespace DemoRestaurant.Logic.Tests
 {
+    public class CatalogControlTests
+    {
+        private static ContentPack Pack() => new ContentPack("test", new DishDef[0],
+            new[] { new FurnitureDef("gas_stove", "stove", FurnitureKind.Stove, 1, 1, 1f, 0f, 120) },
+            new CustomerTypeDef[0]);
+
+        private static ServerCatalog Catalog(string records) => ServerCatalog.FromConfig(JsonValue.Parse(
+            "{\"rulesetId\":\"malaysia\",\"version\":3001,\"body\":{\"catalog\":{\"furniture\":[" + records + "]}}}"));
+
+        [Test]
+        public void PublishedPriceAndAvailabilityUpdateTheExistingDefinition()
+        {
+            var pack = Pack(); var stove = pack.GetFurniture("gas_stove");
+            var layout = new RestaurantLayout(4, 4, new GridPos(0, 1));
+            Assert.IsTrue(layout.TryPlace(stove, new GridPos(2, 1), Facing.SouthWest, out var placed));
+            Catalog("{\"id\":\"gas_stove\",\"placement\":\"floor\",\"price\":199,\"unlockLevel\":3,\"available\":false}").ApplyFurniture(pack);
+            Assert.AreSame(stove, placed.Def);
+            Assert.AreEqual(199, placed.Def.Price); Assert.AreEqual(3, placed.Def.UnlockLevel);
+            Assert.IsFalse(stove.Available);
+            Assert.AreEqual(1, pack.Furniture.Count);
+        }
+
+        [Test]
+        public void NewFurnitureUsesKnownArtworkAndSurvivesSnapshotRestoreWithoutDuplicateDefinitions()
+        {
+            var pack = Pack();
+            var catalog = Catalog("{\"id\":\"premium_stove\",\"assetKey\":\"gas_stove\",\"kind\":\"Stove\",\"placement\":\"floor\",\"sizeX\":1,\"sizeY\":1,\"price\":250,\"unlockLevel\":2}");
+            catalog.ApplyFurniture(pack); catalog.ApplyFurniture(pack);
+            Assert.AreEqual(2, pack.Furniture.Count);
+            var piece = pack.GetFurniture("premium_stove");
+            Assert.AreEqual("gas_stove", piece.AssetKey); Assert.AreEqual(250, piece.Price);
+            Assert.AreEqual("catalog.furniture.premium_stove", piece.NameKey);
+            var layout = new RestaurantLayout(4, 4, new GridPos(0, 1));
+            Assert.IsTrue(layout.TryPlace(piece, new GridPos(2, 1), Facing.SouthWest, out _));
+            var restoredPack = Pack(); catalog.ApplyFurniture(restoredPack);
+            var restored = new RestaurantLayout(4, 4, new GridPos(0, 1));
+            Assert.IsTrue(LayoutSnapshot.Capture(layout).TryRestore(restored, restoredPack));
+            Assert.AreEqual("premium_stove", new List<PlacedFurniture>(restored.Furniture)[0].Def.Id);
+        }
+
+        [Test]
+        public void UnknownArtAndIncompatibleGeometryAreNotInventedByTheClient()
+        {
+            var pack = Pack();
+            Catalog("{\"id\":\"missing\",\"assetKey\":\"absent\",\"kind\":\"Stove\",\"placement\":\"floor\",\"sizeX\":1,\"sizeY\":1}," +
+                "{\"id\":\"wrong_size\",\"assetKey\":\"gas_stove\",\"kind\":\"Stove\",\"placement\":\"floor\",\"sizeX\":2,\"sizeY\":1}").ApplyFurniture(pack);
+            Assert.AreEqual(1, pack.Furniture.Count);
+        }
+
+        [Test]
+        public void WithdrawnFurnitureCannotBeBoughtButOwnedCopiesCanStillMove()
+        {
+            var pack = Pack();
+            var authority = new DemoRestaurant.Logic.Economy.LocalEconomyServer(pack, startingCoins: 1000, ownedWidth: 4, ownedHeight: 4);
+            Catalog("{\"id\":\"gas_stove\",\"placement\":\"floor\",\"price\":199,\"available\":false}").ApplyFurniture(pack);
+            var placed = new Dictionary<string, int> { ["gas_stove"] = 1 };
+            Assert.AreEqual(DemoRestaurant.Logic.Economy.LandPurchaseResult.Unavailable,
+                authority.CommitLayout(4, 4, placed, _ => true));
+            authority.RestoreOwnedFurniture(placed);
+            Assert.AreEqual(DemoRestaurant.Logic.Economy.LandPurchaseResult.Success,
+                authority.CommitLayout(4, 4, placed, _ => true));
+            Assert.AreEqual(1000, authority.Balance);
+        }
+    }
+
     public class JsonValueTests
     {
         [Test]
@@ -311,6 +376,22 @@ namespace DemoRestaurant.Logic.Tests
         }
 
         private const string Account = "7c0f6a55-3e1b-4a8e-9a43-2a1f0b6c9d10";
+
+        [Test]
+        public void AdministrativeWalletAndLevelChangesReconcileAlongsidePendingActions()
+        {
+            var session = Session();
+            session.ServerLog.Record("sale", JsonValue.Object(), coins: 12, xp: 8);
+            session.ApplyServerState(State(500, level: 3, xp: 10));
+            Assert.AreEqual(512, session.Wallet.ConfirmedCoins, "retain only the queued prediction above the server wallet");
+            Assert.AreEqual(1, session.Progress.Level, "do not overwrite pending XP until its action resolves");
+            var key = session.ServerLog.Items[0].key;
+            var sync = new OnlineSync(session);
+            sync.ApplyResponse(JsonValue.Parse("{\"state\":" + State(512, level: 3, xp: 18) +
+                ",\"results\":[{\"key\":\"" + key + "\",\"outcome\":\"accepted\"}]}"));
+            Assert.AreEqual(512, session.Wallet.ConfirmedCoins);
+            Assert.AreEqual(3, session.Progress.Level); Assert.AreEqual(18, session.Progress.Xp);
+        }
 
         private static JsonValue State(long coins, int level = 1, int xp = 0, string staff = "[]", string name = null) => JsonValue.Parse(
             "{" + (name == null ? "" : "\"profile\":{\"id\":\"" + Account + "\",\"displayName\":\"" + name + "\"},") +
