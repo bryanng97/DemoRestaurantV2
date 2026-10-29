@@ -120,8 +120,10 @@ namespace DemoRestaurant.Game.UI
             _ratingTitle.enabled = _stars.enabled = !detail;
             _guests.enabled = detail;
             _ratingTitle.text = Loc.Get("ui.hud.demand");
-            _guests.text = _arrivals.DailyCapReached ? Loc.Get("ui.hud.guests_capped")
-                : Loc.Format("ui.hud.guests", _arrivals.IntervalSeconds.ToString("0.0"));
+            _guests.text = (_arrivals.DailyCapReached ? Loc.Get("ui.hud.guests_capped")
+                : Loc.Format("ui.hud.guests", _arrivals.IntervalSeconds.ToString("0.0")))
+                // The ceiling includes furniture bonuses (Phase 3), on the 0-50 scale players see.
+                + "  " + Loc.Format("ui.hud.popularity_max", (_demand.Max / 10.0).ToString("0.0"));
             _stars.text = _demand.Display.ToString("0.0");
         }
     }

@@ -79,10 +79,15 @@ namespace DemoRestaurant.Logic.Save
                 workers.Add(new Worker { Staff = staff, Energy = staff.Energy, Resting = staff.IsResting || staff.RestRequested });
 
             int stoves = 0, seats = SeatFacing.DiningCapacity(s.Layout, s.Rules.NoTableWaitSeconds <= 0f);
+            // Each stove's work-time effect (Phase 3), fastest first; the fastest chefs take the fastest stoves.
+            var stoveFactors = new List<double>();
             foreach (var f in s.Layout.Furniture)
             {
-                if (f.Def.Kind == FurnitureKind.Stove) stoves++;
+                if (f.Def.Kind != FurnitureKind.Stove) continue;
+                stoves++;
+                stoveFactors.Add(Math.Max(10, Math.Min(200, f.Def.Effects.OperationTimePercent)) / 100.0);
             }
+            stoveFactors.Sort();
             report.BlockedReason = BlockedReason(workers, stoves, seats);
 
             var menu = s.Menu.Active;
@@ -90,17 +95,20 @@ namespace DemoRestaurant.Logic.Save
             foreach (var d in menu) { avgCook += d.CookSeconds; avgEat += d.EatSeconds; price += s.PriceForDish(d);
                 xp += s.Progress.XpForServe(s.Recipes.LevelOf(d)); }
             avgCook /= menu.Count; avgEat /= menu.Count; price /= menu.Count;
+            // Dishes a minute for one chef on a stove whose work-time factor is stoveFactor (1 = the recipe's own time).
+            double ChefRate((double mult, double cookSpeed) chef, double stoveFactor) =>
+                chef.mult * 60.0 / (avgCook * stoveFactor / chef.cookSpeed + rules.IdleChefOverheadSeconds);
 
             double arrivalsPerMinute = s.Arrivals.GuestsPerMinute;
             double customers = 0;
-            var chefRates = new List<double>();
+            var chefs = new List<(double mult, double cookSpeed)>();
 
             for (double t = 0; t < report.CountedSeconds; t += StepSeconds)
             {
                 double step = Math.Min(StepSeconds, report.CountedSeconds - t);
 
                 // Throughput this minute with everyone's current speed.
-                chefRates.Clear();
+                chefs.Clear();
                 double service = 0, cleaning = 0;
                 foreach (var w in workers)
                 {
@@ -110,7 +118,7 @@ namespace DemoRestaurant.Logic.Save
                     switch (type.Role)
                     {
                         case StaffRole.Chef:
-                            chefRates.Add(mult * 60.0 / (avgCook / type.CookSpeed + rules.IdleChefOverheadSeconds));
+                            chefs.Add((mult, type.CookSpeed));
                             break;
                         case StaffRole.Waiter:
                             service += mult * (type.WalkSpeed / ReferenceWalkSpeed) * 60.0 / rules.IdleWaiterTripSeconds;
@@ -122,10 +130,11 @@ namespace DemoRestaurant.Logic.Save
                     }
                 }
                 service = ServiceWithCleaning(service, cleaning, rules);
-                chefRates.Sort((a, b) => b.CompareTo(a)); // the fastest chefs get the stoves
+                // The fastest chefs get the stoves, the fastest stoves first; work time scales only the cooking.
+                chefs.Sort((a, b) => ChefRate(b, 1.0).CompareTo(ChefRate(a, 1.0)));
                 double kitchen = 0;
-                for (int i = 0; i < chefRates.Count && i < stoves; i++)
-                    kitchen += chefRates[i];
+                for (int i = 0; i < chefs.Count && i < stoves; i++)
+                    kitchen += ChefRate(chefs[i], stoveFactors[i]);
                 double dining = seats * 60.0 / (avgEat + rules.IdleSeatOverheadSeconds);
                 double perMinute = Math.Min(Math.Min(kitchen, service), Math.Min(dining, arrivalsPerMinute))
                                    * settings.offlineRate;

@@ -463,6 +463,7 @@
     { "key": "ui.hud.demand", "value": "Populariti" },
     { "key": "ui.hud.guests", "value": "Seorang tetamu setiap {0}s" },
     { "key": "ui.hud.guests_capped", "value": "Tiada lagi tetamu hari ini" },
+    { "key": "ui.hud.popularity_max", "value": "Maks {0}" },
     { "key": "ui.effects.work_time", "value": "Siap dalam {0}% masa" },
     { "key": "ui.effects.popularity_cap", "value": "+{0} populariti maksimum" },
     { "key": "ui.effects.patience", "value": "+{0}s kesabaran tetamu" },

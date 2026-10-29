@@ -463,6 +463,7 @@
     { "key": "ui.hud.demand", "value": "人气" },
     { "key": "ui.hud.guests", "value": "每 {0} 秒来一位客人" },
     { "key": "ui.hud.guests_capped", "value": "今日客人已满" },
+    { "key": "ui.hud.popularity_max", "value": "上限 {0}" },
     { "key": "ui.effects.work_time", "value": "制作时间为 {0}%" },
     { "key": "ui.effects.popularity_cap", "value": "人气上限 +{0}" },
     { "key": "ui.effects.patience", "value": "客人耐心 +{0} 秒" },
