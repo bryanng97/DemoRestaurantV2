@@ -106,12 +106,14 @@ namespace DemoRestaurant.Logic.Tests
         {
             var (sim, room) = Restaurant(sink: false);
             var toilet = room.FindAt(new GridPos(9, 0));
-            int broke = 0;
+            int broke = 0, used = 0;
             sim.ToiletBroke += _ => broke++;
+            sim.ToiletUsed += t => { Assert.AreSame(toilet, t); used++; };
             sim.SetUses(toilet, 1);
             var c = sim.SpawnCustomer(Guest);
             Serve(sim, () => broke > 0);
             Assert.IsTrue(sim.IsBroken(toilet), "two uses for a breakCount of 2");
+            Assert.AreEqual(1, used, "each finished use is reported once, for the server's wear count");
 
             int noToilet = 0;
             sim.CustomerNoToilet += _ => noToilet++;

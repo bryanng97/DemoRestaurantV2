@@ -22,6 +22,8 @@ namespace DemoRestaurant.Logic.Simulation
 
         /// <summary>A guest wanted the toilet but none was free and working: they leave unhappy.</summary>
         public event Action<Customer> CustomerNoToilet;
+        /// <summary>A guest finished using a toilet (one use of wear, recorded for the server).</summary>
+        public event Action<PlacedFurniture> ToiletUsed;
         /// <summary>A toilet reached its BreakCount uses.</summary>
         public event Action<PlacedFurniture> ToiletBroke;
         /// <summary>A broken toilet or machine was repaired (by the player or a cleaner).</summary>
@@ -140,6 +142,7 @@ namespace DemoRestaurant.Logic.Simulation
             var toilet = c.Seat;
             _busyToilets.Remove(toilet.InstanceId);
             _toiletUses[toilet.InstanceId] = UsesOf(toilet) + 1;
+            ToiletUsed?.Invoke(toilet);
             if (IsBroken(toilet)) ToiletBroke?.Invoke(toilet);
             ReleaseSeat(c);
             c.Z = 0;

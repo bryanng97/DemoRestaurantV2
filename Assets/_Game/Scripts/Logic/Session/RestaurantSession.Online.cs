@@ -34,6 +34,7 @@ namespace DemoRestaurant.Logic.Session
         {
             ServerLog = new ServerActionLog(utcNow: _utcNow);
             Sim.FurnitureFixed += OnFurnitureFixed;
+            Sim.ToiletUsed += OnToiletUsed;
         }
 
         private static JsonValue Body() => JsonValue.Object();
@@ -63,11 +64,22 @@ namespace DemoRestaurant.Logic.Session
                 RecordAction("duty", Body().Set("staffId", staff.ServerId).Set("onDuty", onDuty));
         }
 
+        // Toilets and entertainment machines both keep their wear on the server (Phase 4A).
+        private static bool HasServerWear(PlacedFurniture piece) =>
+            piece != null && (piece.Def.Kind == FurnitureKind.Entertainment || piece.Def.Kind == FurnitureKind.Toilet);
+
         private void OnFurnitureFixed(PlacedFurniture piece)
         {
-            if (piece?.Def.Kind != FurnitureKind.Entertainment) return; // toilet wear stays local for now
+            if (!HasServerWear(piece)) return;
             string instance = ServerInstanceOf?.Invoke(piece);
             if (instance != null) RecordAction("repair", Body().Set("instanceId", instance));
+        }
+
+        /// <summary>One toilet use: the server adds the same wear (no coins; toilets pay nothing).</summary>
+        private void OnToiletUsed(PlacedFurniture toilet)
+        {
+            string instance = ServerInstanceOf?.Invoke(toilet);
+            if (instance != null) RecordAction("functional_use", Body().Set("instanceId", instance));
         }
 
         private static string RoleId(StaffRole role) => role.ToString().ToLowerInvariant();
