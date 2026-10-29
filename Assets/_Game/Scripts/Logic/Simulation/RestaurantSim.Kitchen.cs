@@ -170,6 +170,16 @@ namespace DemoRestaurant.Logic.Simulation
             Dispatch(dt);
         }
 
+        /// <summary>
+        /// Base work time of a dish on one device: the recipe's time scaled by that stove's or drink machine's
+        /// operation-time effect (100% = the recipe's own time; Phase 3). Chef speed and energy apply on top.
+        /// </summary>
+        public static float WorkSeconds(DishDef dish, PlacedFurniture device)
+        {
+            int percent = device?.Def.Effects.OperationTimePercent ?? 100;
+            return dish.CookSeconds * Math.Max(10, Math.Min(200, percent)) / 100f;
+        }
+
         private void UpdateStaff(Staff s, float dt)
         {
             var t = s.Ticket;
@@ -183,7 +193,7 @@ namespace DemoRestaurant.Logic.Simulation
                     if (FollowPath(s, dt))
                     {
                         Face(s, FrontCell(s.Stove));
-                        s.Timer = t.Dish.CookSeconds; // work left, in seconds at cook speed 1
+                        s.Timer = WorkSeconds(t.Dish, s.Stove); // work left, in seconds at cook speed 1
                         s.CookingBaseSeconds = s.Timer;
                         s.CookProgress = 0f;
                         s.State = StaffState.Cooking;
@@ -213,7 +223,7 @@ namespace DemoRestaurant.Logic.Simulation
                     if (FollowPath(s, dt))
                     {
                         Face(s, FrontCell(s.Stove));
-                        s.Timer = t.Dish.CookSeconds; // pouring time, at work speed 1
+                        s.Timer = WorkSeconds(t.Dish, s.Stove); // pouring time, at work speed 1
                         s.CookingBaseSeconds = s.Timer;
                         s.CookProgress = 0f;
                         s.State = StaffState.Pouring;

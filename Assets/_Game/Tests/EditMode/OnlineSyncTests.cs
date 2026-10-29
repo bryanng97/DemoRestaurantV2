@@ -187,6 +187,68 @@ namespace DemoRestaurant.Logic.Tests
         }
 
         [Test]
+        public void EffectTotalsFollowEachAssetsStackingRule_LikeTheServer()
+        {
+            FurnitureDef Piece(string id, int cap, EffectStacking stacking, int maxCopies = 1)
+            {
+                var def = new FurnitureDef(id, id, FurnitureKind.Decor, 1, 1, 1f, 0f, 10);
+                def.Effects = new FurnitureEffects { DemandCapBonus = cap, Stacking = stacking, MaxCopies = maxCopies };
+                return def;
+            }
+            var lamp = Piece("lamp", 30, EffectStacking.UniqueAsset);
+            var fountain = Piece("fountain", 20, EffectStacking.Sum, maxCopies: 2);
+            var statue = Piece("statue", 50, EffectStacking.Highest);
+            var bust = Piece("bust", 40, EffectStacking.Highest);
+            int Cap(params FurnitureDef[] placed) => FurnitureEffects.Total(placed, e => e.DemandCapBonus);
+            Assert.AreEqual(30, Cap(lamp, lamp, lamp), "each asset once");
+            Assert.AreEqual(40, Cap(fountain, fountain, fountain), "each copy up to the copy limit");
+            Assert.AreEqual(50, Cap(statue, bust, bust), "only the strongest");
+            Assert.AreEqual(30 + 40 + 50, Cap(lamp, fountain, fountain, statue, bust));
+            Assert.AreEqual(0, Cap());
+        }
+
+        [Test]
+        public void PublishedEffectsReachPiecesAndScaleWorkOnThatDevice()
+        {
+            var pack = ManagedPack();
+            var config = ManagedConfig();
+            config["body"]["catalog"]["furniture"].Items[0].Set("effects", JsonValue.Parse(
+                @"{""operationTimePercent"":80,""demandCapBonus"":50,""patienceSeconds"":10,""globalStacking"":""sum"",""maxCopies"":3}"));
+            ServerCatalog.FromConfig(JsonValue.Parse(config.ToString())).ApplyFurniture(pack);
+            var stove = pack.GetFurniture("gas_stove");
+            Assert.AreEqual(80, stove.Effects.OperationTimePercent); Assert.AreEqual(EffectStacking.Sum, stove.Effects.Stacking);
+            Assert.AreEqual(3, stove.Effects.MaxCopies);
+
+            var layout = new RestaurantLayout(6, 6, new GridPos(0, 1));
+            Assert.IsTrue(layout.TryPlace(stove, new GridPos(2, 1), Facing.SouthWest, out var placed));
+            var dish = new DishDef("meal", "meal", 10, 5, 5);
+            Assert.AreEqual(4f, RestaurantSim.WorkSeconds(dish, placed), 1e-6, "80% of a 5-second recipe");
+            Assert.AreEqual(5f, RestaurantSim.WorkSeconds(dish, null), 1e-6);
+
+            // A neutral block reads as no effects.
+            config["body"]["catalog"]["furniture"].Items[0].Set("effects", JsonValue.Parse(@"{""operationTimePercent"":100}"));
+            ServerCatalog.FromConfig(JsonValue.Parse(config.ToString())).ApplyFurniture(pack);
+            Assert.IsTrue(stove.Effects.IsNeutral);
+        }
+
+        [Test]
+        public void FurnitureCapBonusRaisesThePopularityCeilingOnly()
+        {
+            int bonus = 0;
+            var demand = new DemoRestaurant.Logic.Progression.RestaurantDemand(new DemoRestaurant.Logic.Progression.DemandRules())
+                { CapBonus = () => bonus };
+            demand.Restore(600);
+            Assert.AreEqual(500, demand.Value);
+            bonus = 50;
+            Assert.AreEqual(500, demand.Value, "a higher cap never grants popularity by itself");
+            demand.Restore(600);
+            Assert.AreEqual(550, demand.Value);
+            bonus = 0;
+            demand.OnHappyGuest();
+            Assert.AreEqual(500, demand.Value, "removing the piece lowers the ceiling at the next change");
+        }
+
+        [Test]
         public void FoodPatienceScalesEachGuestTypeWhenItArrives()
         {
             var patient = new CustomerTypeDef("auntie", "c", 2, 30, 2, foodPatienceSeconds: 55);

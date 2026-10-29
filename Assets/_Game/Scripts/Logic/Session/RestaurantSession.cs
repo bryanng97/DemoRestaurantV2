@@ -105,7 +105,7 @@ namespace DemoRestaurant.Logic.Session
             foreach (var pair in Rules.StartingItems)
                 Items.Add(pair.Key, pair.Value);
             Progress = new RestaurantProgress(Tuning);
-            Demand = new RestaurantDemand(Rules.Demand);
+            Demand = new RestaurantDemand(Rules.Demand) { CapBonus = () => EffectTotal(e => e.DemandCapBonus) };
             Progress.LevelUp += OnLevelUp;
 
             Recipes = new RecipeBook(content.Dishes);
@@ -143,6 +143,7 @@ namespace DemoRestaurant.Logic.Session
                 StaffEnergy = Rules.StaffEnergy,
                 FoodPatience = Rules.FoodPatience,
                 Ambience = () => Ambience,
+                PatienceBonusSeconds = () => EffectTotal(e => e.PatienceSeconds),
                 CleanSeconds = Math.Max(0f, Rules.CleanSeconds),
                 PlayerCleanSeconds = Math.Max(.1f, Rules.PlayerCleanSeconds),
                 StreetWalk = true,
@@ -553,6 +554,16 @@ namespace DemoRestaurant.Logic.Session
                 return total;
             }
         }
+
+        /// <summary>Every placed floor and wall piece of the saved layout (one entry per copy).</summary>
+        public IEnumerable<FurnitureDef> PlacedPieces()
+        {
+            foreach (var p in Layout.Furniture) yield return p.Def;
+            foreach (var w in Layout.WallItems) yield return w.Def;
+        }
+
+        /// <summary>A restaurant-wide furniture effect total (Phase 3), counted as the server counts it.</summary>
+        public int EffectTotal(Func<FurnitureEffects, int> field) => FurnitureEffects.Total(PlacedPieces(), field);
 
         /// <summary>The tip a paying guest adds to a bill of <paramref name="price"/> (0 while tips are off).</summary>
         public int TipFor(int price) => Rules.Tips.TipFor(price, Ambience);

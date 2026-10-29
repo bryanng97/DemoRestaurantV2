@@ -112,6 +112,7 @@ namespace DemoRestaurant.Logic.Online
                 piece.ShopCategory = data["category"].AsString();
                 piece.ConfiguredTypeId = data["typeId"].AsString() ?? data["kind"].AsString();
                 piece.Ambience = Math.Max(0, data["ambience"].AsInt(piece.Ambience));
+                piece.Effects = ParseEffects(data["effects"]);
                 if (data["localizedNames"].Kind == JsonKind.Object) piece.NameKey = "catalog.furniture." + entry.Id;
             }
             ApplyConfiguration(pack, ids);
@@ -179,6 +180,23 @@ namespace DemoRestaurant.Logic.Online
                     target.xpUpgradePerLevel = settings["xpUpgradePerLevel"].AsInt(target.xpUpgradePerLevel);
                 }
             }
+        }
+
+        /// <summary>A catalog piece's effects block; missing or neutral blocks become <see cref="Content.FurnitureEffects.None"/>.</summary>
+        private static Content.FurnitureEffects ParseEffects(JsonValue e)
+        {
+            if (e.Kind != JsonKind.Object) return Content.FurnitureEffects.None;
+            string stacking = e["globalStacking"].AsString();
+            var effects = new Content.FurnitureEffects
+            {
+                OperationTimePercent = Math.Max(10, Math.Min(200, e["operationTimePercent"].AsInt(100))),
+                DemandCapBonus = Math.Max(0, e["demandCapBonus"].AsInt(0)),
+                PatienceSeconds = Math.Max(0, e["patienceSeconds"].AsInt(0)),
+                Stacking = stacking == "sum" ? Content.EffectStacking.Sum
+                    : stacking == "highest" ? Content.EffectStacking.Highest : Content.EffectStacking.UniqueAsset,
+                MaxCopies = Math.Max(1, e["maxCopies"].AsInt(1)),
+            };
+            return effects.IsNeutral ? Content.FurnitureEffects.None : effects;
         }
 
         /// <summary>

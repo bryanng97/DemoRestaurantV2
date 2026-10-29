@@ -235,6 +235,8 @@ namespace DemoRestaurant.Logic.Content
         public string ConfiguredTypeId { get; internal set; }
         /// <summary>Ambience points this piece adds while placed (published catalog; raises tips and food patience).</summary>
         public int Ambience { get; internal set; }
+        /// <summary>Permanent effects while placed (published catalog, Phase 3).</summary>
+        public FurnitureEffects Effects { get; internal set; } = FurnitureEffects.None;
 
         /// <summary>Uses before it breaks and needs fixing (toilets); 0 = never breaks.</summary>
         public int BreakCount { get; }
@@ -375,6 +377,53 @@ namespace DemoRestaurant.Logic.Content
         [NonSerialized] public float ReferenceBaseSeconds = 40f;
 
         public float Scale => ReferenceBaseSeconds > 0f && baseSeconds > 0f ? baseSeconds / ReferenceBaseSeconds : 1f;
+    }
+
+    /// <summary>How restaurant-wide bonuses of one asset combine (BO asset form → effects.globalStacking).</summary>
+    public enum EffectStacking { UniqueAsset, Sum, Highest }
+
+    /// <summary>
+    /// A piece's permanent effects (Phase 3), counted only while placed in the saved layout. The stove's
+    /// <see cref="OperationTimePercent"/> scales cooking on that stove; <see cref="DemandCapBonus"/> (popularity
+    /// points) and <see cref="PatienceSeconds"/> (food patience) are restaurant-wide and combine by
+    /// <see cref="Stacking"/>.
+    /// </summary>
+    public sealed class FurnitureEffects
+    {
+        public static readonly FurnitureEffects None = new FurnitureEffects();
+
+        public int OperationTimePercent = 100;
+        public int DemandCapBonus;
+        public int PatienceSeconds;
+        public EffectStacking Stacking = EffectStacking.UniqueAsset;
+        public int MaxCopies = 1;
+
+        public bool IsNeutral => OperationTimePercent == 100 && DemandCapBonus == 0 && PatienceSeconds == 0;
+
+        /// <summary>
+        /// The restaurant-wide total of one effect over placed pieces, as the server counts it: once per asset
+        /// (UniqueAsset), per copy up to MaxCopies (Sum), plus only the strongest Highest value.
+        /// </summary>
+        public static int Total(IEnumerable<FurnitureDef> placed, Func<FurnitureEffects, int> field)
+        {
+            var copies = new Dictionary<FurnitureDef, int>();
+            foreach (var def in placed)
+                if (def != null) copies[def] = copies.TryGetValue(def, out int n) ? n + 1 : 1;
+            int total = 0, highest = 0;
+            foreach (var pair in copies)
+            {
+                var e = pair.Key.Effects;
+                int v = Math.Max(0, field(e));
+                if (v == 0) continue;
+                switch (e.Stacking)
+                {
+                    case EffectStacking.Sum: total += v * Math.Min(pair.Value, Math.Max(1, e.MaxCopies)); break;
+                    case EffectStacking.Highest: highest = Math.Max(highest, v); break;
+                    default: total += v; break;
+                }
+            }
+            return total + highest;
+        }
     }
 
     /// <summary>Tips from ambience (BO game rules → tips): a paying guest adds bill × min(cap, rate × ambience).</summary>

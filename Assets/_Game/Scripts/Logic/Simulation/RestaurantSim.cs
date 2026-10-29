@@ -15,6 +15,8 @@ namespace DemoRestaurant.Logic.Simulation
         public FoodPatienceRules FoodPatience = new FoodPatienceRules();
         /// <summary>Current ambience points (each adds the published seconds of food patience); null = none.</summary>
         public Func<int> Ambience;
+        /// <summary>Extra food patience from placed furniture effects (Phase 3); null = none.</summary>
+        public Func<int> PatienceBonusSeconds;
         /// <summary>Seconds to clear a table after a customer ate (at work speed 1). 0 = no dirty dishes.</summary>
         public float CleanSeconds;
         /// <summary>Duration of each player-requested cleaning task; tasks run one at a time.</summary>
@@ -97,7 +99,8 @@ namespace DemoRestaurant.Logic.Simulation
         {
             var rules = _settings.FoodPatience;
             int ambience = Math.Max(0, _settings.Ambience?.Invoke() ?? 0);
-            return type.FoodPatienceSeconds * rules.Scale + Math.Max(0f, rules.perAmbienceSeconds) * ambience;
+            int furniture = Math.Max(0, _settings.PatienceBonusSeconds?.Invoke() ?? 0);
+            return type.FoodPatienceSeconds * rules.Scale + Math.Max(0f, rules.perAmbienceSeconds) * ambience + furniture;
         }
 
         public Customer SpawnCustomer(CustomerTypeDef type)

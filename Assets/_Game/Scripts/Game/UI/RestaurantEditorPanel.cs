@@ -504,6 +504,12 @@ namespace DemoRestaurant.Game.UI
                 _status.text = Loc.Get(_controller.HasSelection ? "ui.build.holding_hint" + MouseSuffix :
                     _controller.HasWallpaper ? "ui.build.wallpaper_hint" : _controller.HasFloor ? "ui.build.floor_hint" : "ui.build.pick_hint" + MouseSuffix);
             if (_controller.TotalCost > _controller.Balance) _status.text += "  " + Loc.Get("ui.build.over_budget");
+            // The held piece's permanent effects (they count once it is placed and saved).
+            if (_controller.HasSelection && _content.Pack.HasFurniture(_controller.SelectedId))
+            {
+                string effects = FurnitureEffectText.For(_content.Pack.GetFurniture(_controller.SelectedId));
+                if (effects.Length > 0) _status.text = effects + "\n" + _status.text;
+            }
 
             var owned = _controller.Owned;
             var placed = _shopCards.Count > 0 ? _controller.PlacedInDraft() : null;

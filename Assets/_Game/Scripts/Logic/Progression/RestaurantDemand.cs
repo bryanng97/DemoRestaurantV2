@@ -43,11 +43,14 @@ namespace DemoRestaurant.Logic.Progression
             Value = Clamp(value ?? rules.Start);
         }
 
-        public double Max => _rules.Max;
+        /// <summary>Extra cap from placed furniture (Phase 3 effects); read whenever the value is clamped.</summary>
+        public Func<double> CapBonus { get; set; }
+
+        public double Max => _rules.Max + Math.Max(0.0, CapBonus?.Invoke() ?? 0.0);
         public double Min => _rules.Min;
 
         /// <summary>0..1 of the maximum, for a bar.</summary>
-        public float Fill => (float)(Value / Math.Max(1.0, _rules.Max));
+        public float Fill => (float)(Value / Math.Max(1.0, Max));
 
         public double GuestsPerMinute => Value * _rules.GuestsPerMinutePerDemand;
 
@@ -69,6 +72,6 @@ namespace DemoRestaurant.Logic.Progression
             if (Value != before) Changed?.Invoke(Value - before);
         }
 
-        private double Clamp(double v) => Math.Max(_rules.Min, Math.Min(_rules.Max, v));
+        private double Clamp(double v) => Math.Max(_rules.Min, Math.Min(Max, v));
     }
 }
