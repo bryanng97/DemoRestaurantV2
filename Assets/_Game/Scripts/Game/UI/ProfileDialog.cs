@@ -20,6 +20,7 @@ namespace DemoRestaurant.Game.UI
         private readonly GameObject _root;
         private readonly Image _preview;
         private readonly Text _title, _name, _level, _settingsLabel, _wardrobeLabel;
+        private readonly Text _artworkStatus;
         private InputField _nameInput;
         private Text _nameCaption, _nameHint, _changeLabel, _idCaption, _id, _copyLabel, _accountCaption, _account, _linkNote;
         private Button _signIn;
@@ -45,10 +46,12 @@ namespace DemoRestaurant.Game.UI
             _name=UiKit.Label(card,"Name",30,566,360,46,32,TextAnchor.MiddleCenter,UiKit.DarkText);
             _name.resizeTextForBestFit=true; _name.resizeTextMinSize=18; _name.resizeTextMaxSize=32;
             _level=UiKit.Label(card,"Level",30,612,360,34,24,TextAnchor.MiddleCenter,UiKit.SoftText);
+            _artworkStatus=UiKit.Label(card,"ArtworkStatus",30,658,360,92,18,TextAnchor.MiddleCenter,UiKit.SoftText,wrap:true);
             var wardrobe=UiKit.TextButton(card,"OpenWardrobe",UiKit.Gold,28,_ui.OpenWardrobe,out _wardrobeLabel);
             UiKit.Place((RectTransform)wardrobe.transform,420,96,400,64); wardrobe.interactable=!_catalog.IsEmpty;
             BuildProfilePage(UiKit.Place(UiKit.NewRect("ProfileDetails",card),420,176,870,500));
             _session.Profile.Changed+=Refresh; Loc.LanguageChanged+=Refresh;
+            Online.CatalogArtResources.StatusChanged+=Refresh;
         }
         public void Show()
         {
@@ -178,6 +181,7 @@ namespace DemoRestaurant.Game.UI
             _preview.sprite=_ui.BakedOwnerFigure() ?? (_catalog.IsEmpty?null:_painter.Body(profile.Avatar));
             _preview.enabled=_preview.sprite!=null; _name.text=profile.DisplayName;
             _level.text=Loc.Format("ui.profile.level",_session.Progress.Level);
+            _artworkStatus.text=$"App {Application.version} · build {Online.ClientBuild.Number}\n{Online.CatalogArtResources.Status}";
             if (_nameCaption == null) return;
             _nameCaption.text = Loc.Get("ui.profile.name");
             ((Text)_nameInput.placeholder).text = Loc.Get("ui.profile.name.placeholder");
@@ -205,6 +209,7 @@ namespace DemoRestaurant.Game.UI
         {
             _painter.Release(_previewKey); _previewKey=null;
             Loc.LanguageChanged-=Refresh; _session.Profile.Changed-=Refresh;
+            Online.CatalogArtResources.StatusChanged-=Refresh;
         }
 
         private void RefreshNameHint()

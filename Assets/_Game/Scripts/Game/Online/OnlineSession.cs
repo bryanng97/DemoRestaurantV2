@@ -24,6 +24,7 @@ namespace DemoRestaurant.Game.Online
         private float _syncTimer = SyncSeconds;
         private float _catalogTimer = 60f;
         private RemoteAssetLoader _media;
+        private CatalogArtPackLoader _catalogArt;
         private string _mediaScope;
         private readonly OnlineConfig _connection;
 
@@ -260,6 +261,7 @@ namespace DemoRestaurant.Game.Online
             Api.RulesetVersion = Sync.Catalog.RulesetVersion;
             PrepareMedia();
             await _media.Refresh(Api);
+            await _catalogArt.Refresh(Api);
             return true;
         }
 
@@ -269,6 +271,7 @@ namespace DemoRestaurant.Game.Online
             string scope = Auth.UserId + ":" + Application.platform + ":" + Application.version + ":" + ClientBuild.Number;
             if (_mediaScope == scope) return;
             _media?.Cancel();
+            _catalogArt?.Cancel();
             RemoteAssetArt.Clear();
             _mediaScope = scope;
             var config = _connection;
@@ -276,6 +279,8 @@ namespace DemoRestaurant.Game.Online
             var host = new Uri(config.projectUrl).Host;
             _media = new RemoteAssetLoader(Path.Combine(Application.persistentDataPath, "asset-media", host), scope, host, Sync.Ids);
             _media.LoadCached();
+            _catalogArt=new CatalogArtPackLoader(Path.Combine(Application.persistentDataPath,"asset-media",host),scope,host);
+            _catalogArt.LoadCached();
         }
 
         /// <summary>Sends batches until the log is empty (or only retries are left). One round settles even if empty.</summary>
@@ -402,7 +407,7 @@ namespace DemoRestaurant.Game.Online
 
         private void OnSignedOut()
         {
-            _media?.Cancel(); RemoteAssetArt.Clear(); _media = null; _mediaScope = null;
+            _media?.Cancel(); _catalogArt?.Cancel(); RemoteAssetArt.Clear(); _media = null; _catalogArt = null; _mediaScope = null;
             _facts = new StartupFacts { Configured = _facts.Configured };
             DisplayName = null;
             _game.Profile.SetAccount(null); // back to this device's guest id; the name stays

@@ -106,7 +106,7 @@ namespace DemoRestaurant.Game.Render
         public Texture2D AnimationTexture(string ownerKey, string sheetKey)
         {
             var owner=Find(ownerKey,false);
-            return owner.folder>=0 ? Resources.Load<Texture2D>($"{_folders[owner.folder]}/{sheetKey}") : null;
+            return owner.folder>=0 ? Online.CatalogArtResources.Texture($"{_folders[owner.folder]}/{sheetKey}") ?? Resources.Load<Texture2D>($"{_folders[owner.folder]}/{sheetKey}") : null;
         }
 
         /// <summary>The manifest of the skin that supplies <paramref name="key"/>, or null (plain art folder).</summary>
@@ -164,6 +164,11 @@ namespace DemoRestaurant.Game.Render
             if (remote != null) return (remote.Sprite, -1);
             if (string.IsNullOrEmpty(key))
                 return (null, -1);
+            for(int i=0;i<_folders.Length;i++)
+            {
+                var migrated=Online.CatalogArtResources.Sprite($"{_folders[i]}/{key}");
+                if(migrated!=null)return (migrated,i);
+            }
             if (_cache.TryGetValue(key, out var hit))
                 return hit;
             hit = (null, -1);

@@ -21,6 +21,7 @@ namespace DemoRestaurant.Game.Online
         }
         private static readonly Dictionary<string,Entry> Entries = new Dictionary<string,Entry>();
         public static event Action Changed;
+        public static void NotifyChanged() => Changed?.Invoke();
         public static Entry Find(string key) => key != null && Entries.TryGetValue(key, out var value) ? value : null;
         public static string Key(string localId) => "remote:" + localId;
         public static bool Install(string localId, JsonValue data, byte[] bytes)
@@ -45,6 +46,7 @@ namespace DemoRestaurant.Game.Online
         }
         public static void Clear()
         {
+            CatalogArtResources.Clear();
             var old=new List<Entry>(Entries.Values);Entries.Clear();Changed?.Invoke();
             foreach(var entry in old){Destroy(entry.Sprite);Destroy(entry.Texture);}
         }

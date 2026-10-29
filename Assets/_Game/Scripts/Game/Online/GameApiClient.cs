@@ -57,6 +57,7 @@ namespace DemoRestaurant.Game.Online
 
         public Awaitable<ApiJson> GetState() => Call("GET", "/state", null, false);
         public Awaitable<ApiJson> GetAssetManifest() => Call("GET", "/assets/manifest", null, false);
+        public Awaitable<ApiJson> GetCatalogArtPack() => Call("GET", "/assets/catalog-pack", null, false);
 
         // ---- profile, rewards and social (shapes unchanged from v1)
 
@@ -145,7 +146,7 @@ namespace DemoRestaurant.Game.Online
             all["X-App-Platform"] = Application.platform == RuntimePlatform.Android ? "android" : Application.platform == RuntimePlatform.IPhonePlayer ? "ios" : "editor";
             all["X-App-Version"] = Application.version;
             all["X-App-Build"] = ClientBuild.Number;
-            all["X-Asset-Capabilities"] = "media.png.v1,media.sheet.v1";
+            all["X-Asset-Capabilities"] = "media.png.v1,media.sheet.v1,media.catalog.v1";
             if(method != "GET" && RulesetVersion > 0) all["X-Ruleset-Version"] = RulesetVersion.ToString(System.Globalization.CultureInfo.InvariantCulture);
             return all;
         }

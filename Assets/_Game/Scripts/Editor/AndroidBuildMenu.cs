@@ -31,7 +31,15 @@ namespace DemoRestaurant.EditorTools
         [MenuItem("DemoRestaurant/Android/Build Private Prototype APK")]
         public static void BuildPrivatePrototype() => Build(development: true, run: false, privatePrototype: true);
 
-        private static void Build(bool development, bool run, bool privatePrototype = false)
+        public static void BuildCatalogMigrationPrototype()
+        {
+            PlayerSettings.bundleVersion = "0.2.0";
+            PlayerSettings.Android.bundleVersionCode = 2;
+            AssetDatabase.SaveAssets();
+            Build(true, false, true, "DemoRestaurant-0.2.0-b2-private-prototype.apk");
+        }
+
+        private static void Build(bool development, bool run, bool privatePrototype = false, string outputName = null)
         {
             if (!BuildPipeline.IsBuildTargetSupported(BuildTargetGroup.Android, BuildTarget.Android))
             {
@@ -67,7 +75,7 @@ namespace DemoRestaurant.EditorTools
             }
 
             Directory.CreateDirectory(OutputDir);
-            string apk = privatePrototype ? $"{OutputDir}/DemoRestaurant-private-prototype.apk" :
+            string apk = outputName != null ? $"{OutputDir}/{outputName}" : privatePrototype ? $"{OutputDir}/DemoRestaurant-private-prototype.apk" :
                 $"{OutputDir}/DemoRestaurant-stress{(development ? "-dev" : "")}.apk";
             if (File.Exists(apk))
                 File.Delete(apk); // so a stale APK can't pass for a fresh one

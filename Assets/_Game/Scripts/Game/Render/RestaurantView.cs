@@ -181,7 +181,7 @@ namespace DemoRestaurant.Game.Render
             foreach (var frames in _furnitureFrames.Values) frames?.Dispose();
             _furnitureFrames.Clear();
             foreach (var piece in _activeLayout.Furniture) { RemoveFurniture(piece); AddFurniture(piece); }
-            BuildWallItems();
+            RebuildRoom();
         }
 
         // ---------------------------------------------------------------- depth
