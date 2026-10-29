@@ -16,6 +16,8 @@ namespace DemoRestaurant.Logic.Progression
         public double ClosedDecayPerHour = 10;
         /// <summary>Guests per minute for each point of demand (120 demand x 0.05 = 6 a minute, one every 10 s).</summary>
         public double GuestsPerMinutePerDemand = 0.05;
+        /// <summary>Most guests that arrive in one local day (0 = no limit). Published from the BO game rules.</summary>
+        public int DailyGuestCap;
     }
 
     /// <summary>

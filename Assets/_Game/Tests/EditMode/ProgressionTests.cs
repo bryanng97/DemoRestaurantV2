@@ -344,6 +344,40 @@ namespace DemoRestaurant.Logic.Tests
         }
 
         [Test]
+        public void DailyCap_StopsArrivalsUntilTheNextDay()
+        {
+            long day = 100;
+            int cap = 3;
+            var arrivals = new CustomerArrivals(new[] { Local }, () => 1, () => 60, new Random(3), () => cap, () => day);
+            var batch = new List<CustomerTypeDef>();
+            int total = 0;
+            for (int i = 0; i < 600; i++) { arrivals.Tick(0.1f, batch); total += batch.Count; } // 60 guests' worth
+            Assert.AreEqual(3, total);
+            Assert.IsTrue(arrivals.DailyCapReached);
+
+            day = 101;
+            Assert.IsFalse(arrivals.DailyCapReached);
+            for (int i = 0; i < 600; i++) { arrivals.Tick(0.1f, batch); total += batch.Count; }
+            Assert.AreEqual(6, total);
+
+            cap = 0; // the BO removed the limit
+            for (int i = 0; i < 600; i++) { arrivals.Tick(0.1f, batch); total += batch.Count; }
+            Assert.Greater(total, 6);
+        }
+
+        [Test]
+        public void DailyCap_RestoresTodaysCountAndIgnoresAnotherDay()
+        {
+            long day = 7;
+            var arrivals = new CustomerArrivals(new[] { Local }, () => 1, () => 60, new Random(3), () => 2, () => day);
+            arrivals.Restore(7, 2);
+            Assert.IsTrue(arrivals.DailyCapReached);
+            arrivals.Restore(6, 2);
+            Assert.IsFalse(arrivals.DailyCapReached);
+            Assert.AreEqual(0, arrivals.ArrivedToday);
+        }
+
+        [Test]
         public void NoRate_NoGuests()
         {
             var arrivals = Arrivals(1, 0, Local);

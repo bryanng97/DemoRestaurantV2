@@ -58,6 +58,9 @@ namespace DemoRestaurant.Logic.Save
         public List<string> wardrobe = new List<string>();
         public List<Simulation.TrashPiece> trash = new List<Simulation.TrashPiece>();
         public float trashSpawnTimer;
+        /// <summary>Guests counted towards the daily guest limit, and the Malaysia-time day they belong to.</summary>
+        public long guestDay;
+        public int guestsToday;
         public List<string> linkedAccounts = new List<string>();
 
         /// <summary>Planted garden plots (wall-clock times, so crops grow while the game is closed).</summary>

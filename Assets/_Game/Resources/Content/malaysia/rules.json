@@ -15,8 +15,8 @@
   "playerCleanSeconds": 5,
   "idleCleanTripSeconds": 8,
   "staffEnergy": {
-    "drainPerMinute": 1,
-    "recoverPerMinute": 5,
+    "drainPerMinute": 0.41666667,
+    "recoverPerMinute": 1.25,
     "autoReturnAt": 100,
     "bands": [
       { "minEnergy": 80, "speedMultiplier": 1.0 },

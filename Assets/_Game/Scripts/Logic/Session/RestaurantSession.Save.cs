@@ -26,6 +26,8 @@ namespace DemoRestaurant.Logic.Session
                 level = Progress.Level,
                 xp = Progress.Xp,
                 demand = (float)Demand.Value,
+                guestDay = Arrivals.Day,
+                guestsToday = Arrivals.ArrivedToday,
                 marketReadyBaskets = Market?.ReadyBaskets ?? 0,
                 marketRestockTimer = Market?.RestockTimer ?? 0f,
                 ledgerDropped = Ledger.Dropped,
@@ -86,6 +88,7 @@ namespace DemoRestaurant.Logic.Session
                 // Older saves: the player level carries over (XP restarts on the new curve), demand starts at the default.
                 Progress.Restore(save.playerLevel, 0);
             }
+            Arrivals.Restore(save.guestDay, save.guestsToday);
 
             var known = new List<DishDef>();
             foreach (var id in save.knownDishes)

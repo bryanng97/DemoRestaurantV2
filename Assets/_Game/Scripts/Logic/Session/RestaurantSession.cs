@@ -122,7 +122,8 @@ namespace DemoRestaurant.Logic.Session
                 Ledger.Record(LedgerKind.RecipeUpgraded, level, dish.Id, _utcNow());
             };
 
-            Arrivals = new CustomerArrivals(content.CustomerTypes, () => Progress.Level, () => Demand.GuestsPerMinute, _random);
+            Arrivals = new CustomerArrivals(content.CustomerTypes, () => Progress.Level, () => Demand.GuestsPerMinute, _random,
+                () => Rules.Demand.DailyGuestCap, () => GuestDay(_utcNow()));
             if (content.Ingredients.Count > 0)
                 Market = new IngredientMarket(content.Ingredients, Rules.MarketBaskets, Rules.MarketRestockSeconds, _random);
             Garden = new Garden(content.Ingredients, Settings, Rules.GardenHarvest, _random);
@@ -163,6 +164,9 @@ namespace DemoRestaurant.Logic.Session
             Sim.TrashCleaned += OnTrashCleaned;
             InitializeWardrobe();
         }
+
+        /// <summary>Day number for the daily guest limit: days since 0001-01-01 in Malaysia time (UTC+8).</summary>
+        public static long GuestDay(DateTime utc) => utc.AddHours(8).Ticks / TimeSpan.TicksPerDay;
 
         public void Tick(float dt)
         {

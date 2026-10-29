@@ -65,6 +65,44 @@ namespace DemoRestaurant.Logic.Tests
                 book.Train(pack.GetDish("base"),null,10,10,1));
         }
 
+        [Test]
+        public void PublishedGameRulesOverwriteTheLocalRulesInPlace()
+        {
+            var pack = ManagedPack();
+            var demand = pack.Rules.Demand; var energy = pack.Rules.StaffEnergy; var toilets = pack.Rules.Toilets;
+            var config = ManagedConfig();
+            config["body"].Set("rules", JsonValue.Parse(@"{
+              ""demand"":{""start"":150,""min"":40,""max"":500,""perHappyGuest"":2,""perUnhappyGuest"":-3,""closedDecayPerHour"":10,""guestsPerMinutePerDemand"":0.05,""dailyGuestCap"":300},
+              ""staffEnergy"":{""max"":200,""drainPerMinute"":2,""recoverPerMinute"":6,""autoReturnAt"":200,""speedBands"":[{""min"":100,""speed"":1},{""min"":0,""speed"":0.1}]},
+              ""toilets"":{""fromLevel"":6,""chance"":0.5,""toiletSeconds"":8,""sinkSeconds"":3,""fixSeconds"":5},
+              ""marketBaskets"":5,""marketRestockSeconds"":120,""gardenHarvest"":1,
+              ""entertainment"":{""useSeconds"":20,""coinsPerUse"":3},
+              ""terrace"":[{""step"":1,""width"":7,""depth"":6,""level"":10,""price"":2500},{""step"":2,""width"":9,""depth"":8,""level"":15,""price"":7500}]}"));
+            var settings = config["body"]["economy"]["settings"];
+            settings.Set("seedCost", 250L); settings.Set("gardenPlotLevels", JsonValue.Parse("[6,13,18]"));
+            ServerCatalog.FromConfig(JsonValue.Parse(config.ToString())).ApplyFurniture(pack);
+
+            Assert.AreSame(demand, pack.Rules.Demand); Assert.AreSame(energy, pack.Rules.StaffEnergy); Assert.AreSame(toilets, pack.Rules.Toilets);
+            Assert.AreEqual(150, demand.Start); Assert.AreEqual(3, demand.PerUnhappyGuest); Assert.AreEqual(300, demand.DailyGuestCap);
+            // Server energy out of 200 becomes client energy out of 100.
+            Assert.AreEqual(1f, energy.DrainPerMinute, 1e-6); Assert.AreEqual(3f, energy.RecoverPerMinute, 1e-6);
+            Assert.AreEqual(100f, energy.AutoReturnAt, 1e-6); Assert.AreEqual(50f, energy.Bands[0].MinEnergy, 1e-6);
+            Assert.AreEqual(6, toilets.fromLevel); Assert.AreEqual(0.5f, toilets.chance, 1e-6);
+            Assert.AreEqual(5, pack.Rules.MarketBaskets); Assert.AreEqual(1, pack.Rules.GardenHarvest);
+            Assert.AreEqual(3, pack.Rules.Entertainment.coinsPerUse); Assert.AreEqual(20f, pack.Rules.Entertainment.playSeconds, 1e-6);
+            Assert.AreEqual(2, pack.Rules.TerraceSteps.Count); Assert.AreEqual(15, pack.Rules.TerraceSteps[1].level);
+            Assert.AreEqual(250, pack.Economy.settings.seedCost);
+            CollectionAssert.AreEqual(new[] { 6, 13, 18 }, pack.Economy.settings.gardenPlotLevels);
+
+            // A ruleset without a limit (or an older one without rules) leaves no limit and keeps the rest.
+            config["body"]["rules"]["demand"].Remove("dailyGuestCap");
+            ServerCatalog.FromConfig(JsonValue.Parse(config.ToString())).ApplyFurniture(pack);
+            Assert.AreEqual(0, demand.DailyGuestCap);
+            config["body"].Remove("rules");
+            ServerCatalog.FromConfig(JsonValue.Parse(config.ToString())).ApplyFurniture(pack);
+            Assert.AreEqual(150, demand.Start);
+        }
+
         private static ContentPack Pack() => new ContentPack("test", new DishDef[0],
             new[] { new FurnitureDef("gas_stove", "stove", FurnitureKind.Stove, 1, 1, 1f, 0f, 120) },
             new CustomerTypeDef[0]);

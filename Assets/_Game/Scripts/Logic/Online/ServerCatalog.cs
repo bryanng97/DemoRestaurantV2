@@ -162,6 +162,7 @@ namespace DemoRestaurant.Logic.Online
                     ingredients = ingredientIds.ToArray(), basePrice = dish.Price, cookSeconds = dish.CookSeconds,
                     unlockLevel = dish.UnlockLevel, inPhase1 = dish.Enabled });
             }
+            ApplyRules(pack);
             if (pack.Economy != null && economyRows.Count > 0)
             {
                 pack.Economy.dishes = economyRows.ToArray();
@@ -174,6 +175,88 @@ namespace DemoRestaurant.Logic.Online
                     target.dishPriceStepPerLevel = (float)settings["dishPriceIncreasePerLevel"].AsDouble(target.dishPriceStepPerLevel);
                     target.xpUpgradeBase = settings["xpUpgradeBase"].AsInt(target.xpUpgradeBase);
                     target.xpUpgradePerLevel = settings["xpUpgradePerLevel"].AsInt(target.xpUpgradePerLevel);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Copies the published game rules (BO → Game Rules) over rules.json. Objects the session already holds
+        /// (demand, staff energy, toilets, entertainment) change in place; groups missing from an older ruleset keep
+        /// the pack's values.
+        /// </summary>
+        private void ApplyRules(Content.ContentPack pack)
+        {
+            var rules = _body["rules"];
+            if (rules.Kind != JsonKind.Object) return;
+            var target = pack.Rules;
+            var demand = rules["demand"];
+            if (demand.Kind == JsonKind.Object)
+            {
+                var d = target.Demand;
+                d.Start = demand["start"].AsDouble(d.Start);
+                d.Min = demand["min"].AsDouble(d.Min);
+                d.Max = demand["max"].AsDouble(d.Max);
+                d.PerHappyGuest = demand["perHappyGuest"].AsDouble(d.PerHappyGuest);
+                // The server signs the unhappy change (negative); the client stores the amount removed.
+                d.PerUnhappyGuest = Math.Abs(demand["perUnhappyGuest"].AsDouble(-d.PerUnhappyGuest));
+                d.ClosedDecayPerHour = demand["closedDecayPerHour"].AsDouble(d.ClosedDecayPerHour);
+                d.GuestsPerMinutePerDemand = demand["guestsPerMinutePerDemand"].AsDouble(d.GuestsPerMinutePerDemand);
+                d.DailyGuestCap = Math.Max(0, demand["dailyGuestCap"].AsInt(0));
+            }
+            var energy = rules["staffEnergy"];
+            if (energy.Kind == JsonKind.Object && energy["max"].AsDouble() > 0)
+            {
+                // The client counts energy out of 100; scale the server's numbers to that.
+                float scale = Content.StaffEnergyRules.Max / (float)energy["max"].AsDouble();
+                var e = target.StaffEnergy;
+                e.DrainPerMinute = (float)energy["drainPerMinute"].AsDouble(e.DrainPerMinute / scale) * scale;
+                e.RecoverPerMinute = (float)energy["recoverPerMinute"].AsDouble(e.RecoverPerMinute / scale) * scale;
+                e.AutoReturnAt = (float)energy["autoReturnAt"].AsDouble(e.AutoReturnAt / scale) * scale;
+                var bands = new List<Content.EnergyBand>();
+                foreach (var band in energy["speedBands"].Items)
+                    bands.Add(new Content.EnergyBand((float)band["min"].AsDouble() * scale, (float)band["speed"].AsDouble(1)));
+                if (bands.Count > 0) e.Bands = bands;
+            }
+            var toilets = rules["toilets"];
+            if (toilets.Kind == JsonKind.Object)
+            {
+                var t = target.Toilets;
+                t.fromLevel = Math.Max(1, toilets["fromLevel"].AsInt(t.fromLevel));
+                t.chance = (float)toilets["chance"].AsDouble(t.chance);
+                t.toiletSeconds = (float)toilets["toiletSeconds"].AsDouble(t.toiletSeconds);
+                t.sinkSeconds = (float)toilets["sinkSeconds"].AsDouble(t.sinkSeconds);
+                t.fixSeconds = (float)toilets["fixSeconds"].AsDouble(t.fixSeconds);
+            }
+            target.MarketBaskets = Math.Max(1, rules["marketBaskets"].AsInt(target.MarketBaskets));
+            target.MarketRestockSeconds = (float)rules["marketRestockSeconds"].AsDouble(target.MarketRestockSeconds);
+            target.GardenHarvest = Math.Max(1, rules["gardenHarvest"].AsInt(target.GardenHarvest));
+            var fun = rules["entertainment"];
+            if (fun.Kind == JsonKind.Object)
+            {
+                target.Entertainment.playSeconds = (float)fun["useSeconds"].AsDouble(target.Entertainment.playSeconds);
+                target.Entertainment.coinsPerUse = Math.Max(0, fun["coinsPerUse"].AsInt(target.Entertainment.coinsPerUse));
+            }
+            if (rules["terrace"].Kind == JsonKind.Array)
+            {
+                var steps = new List<Layout.TerraceStep>();
+                foreach (var step in rules["terrace"].Items)
+                    steps.Add(new Layout.TerraceStep { width = step["width"].AsInt(), depth = step["depth"].AsInt(),
+                        level = step["level"].AsInt(1), price = step["price"].AsLong() });
+                if (steps.TrueForAll(s => s.IsValid)) target.TerraceSteps = steps;
+            }
+            var settings = _body["economy"]["settings"];
+            if (pack.Economy != null && settings.Kind == JsonKind.Object)
+            {
+                var s = pack.Economy.settings;
+                s.wateringHours = (float)settings["wateringHours"].AsDouble(s.wateringHours);
+                s.seedCost = settings["seedCost"].AsInt(s.seedCost);
+                s.offlineRate = (float)settings["offlineRate"].AsDouble(s.offlineRate);
+                s.offlineCapHours = (float)settings["offlineCapHours"].AsDouble(s.offlineCapHours);
+                if (settings["gardenPlotLevels"].Kind == JsonKind.Array)
+                {
+                    var levels = new List<int>();
+                    foreach (var level in settings["gardenPlotLevels"].Items) levels.Add(Math.Max(1, level.AsInt(1)));
+                    s.gardenPlotLevels = levels.ToArray();
                 }
             }
         }
