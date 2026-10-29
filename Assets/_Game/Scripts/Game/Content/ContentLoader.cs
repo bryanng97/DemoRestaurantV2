@@ -132,6 +132,13 @@ namespace DemoRestaurant.Game.Content
 
         public FurnitureArt ArtForFurniture(string id)
         {
+            FurnitureArt.TryGetValue(id, out var original);
+            string template = Pack.HasFurniture(id) ? Pack.GetFurniture(id).AssetKey : null;
+            if (original == null && template != null) FurnitureArt.TryGetValue(template, out original);
+            var remoteKey = Online.RemoteAssetArt.Key(id);
+            if (Online.RemoteAssetArt.Find(remoteKey) != null)
+                return new FurnitureArt { Sprite = remoteKey, SpriteBack = remoteKey,
+                    TapAction = original?.TapAction, Category = original?.Category };
             if (FurnitureArt.TryGetValue(id, out var art)) return art;
             string source = Pack.HasFurniture(id) ? Pack.GetFurniture(id).AssetKey : null;
             return source != null && FurnitureArt.TryGetValue(source, out art)
@@ -144,8 +151,9 @@ namespace DemoRestaurant.Game.Content
         public CharacterArt ArtForStaff(string id) =>
             StaffArt.TryGetValue(id, out var a) ? a : new CharacterArt { PlaceholderColor = Color.magenta };
 
-        public string IconForDish(string id) => id != null && DishIcons.TryGetValue(id, out var icon) ? icon : null;
-        public string ServingForDish(string id) => id != null && DishServings.TryGetValue(id, out var sprite) ? sprite : null;
+        private string DishArtId(string id) => Pack.HasDish(id) ? Pack.GetDish(id).AssetKey ?? id : id;
+        public string IconForDish(string id) => id != null && DishIcons.TryGetValue(DishArtId(id), out var icon) ? icon : null;
+        public string ServingForDish(string id) => id != null && DishServings.TryGetValue(DishArtId(id), out var sprite) ? sprite : null;
     }
 
     /// <summary>

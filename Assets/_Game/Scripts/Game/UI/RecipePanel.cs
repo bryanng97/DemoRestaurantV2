@@ -15,6 +15,7 @@ namespace DemoRestaurant.Game.UI
     {
         private readonly List<BookEntry> _book = new List<BookEntry>();
         private Text _hint, _bookLabel;
+        private RectTransform _bookRoot;
 
         protected override string TitleKey => "ui.recipes.title";
 
@@ -28,6 +29,7 @@ namespace DemoRestaurant.Game.UI
             viewport.gameObject.AddComponent<Image>().color = new Color(1,1,1,.01f);
             var scroll = viewport.gameObject.AddComponent<ScrollRect>();
             var book = UiKit.NewRect("RecipeBookRows", viewport);
+            _bookRoot = book;
             book.anchorMin = book.anchorMax = book.pivot = new Vector2(0,1);
             book.sizeDelta = new Vector2(780, ((dishes.Count + 1) / 2) * 220);
             scroll.viewport = viewport; scroll.content = book; scroll.horizontal = false;
@@ -42,6 +44,10 @@ namespace DemoRestaurant.Game.UI
         {
             if (_hint == null)
                 return;
+            var catalog = Ui.Session.Recipes.AllDishes;
+            for (int i = _book.Count; i < catalog.Count; i++)
+                _book.Add(BuildBookEntry(_bookRoot, catalog[i], i % 2 * 390, i / 2 * 220, 380, 210));
+            _bookRoot.sizeDelta = new Vector2(780, ((catalog.Count + 1) / 2) * 220);
             _hint.text = Loc.Get("ui.recipes.hint");
             _bookLabel.text = $"{Loc.Get("ui.recipes.book")}  {Ui.Session.Recipes.Known.Count}/{Ui.Session.Recipes.AllDishes.Count}";
 
@@ -57,7 +63,7 @@ namespace DemoRestaurant.Game.UI
                 entry.Info.text = Loc.Format("recipe.level", level) + " · " + Ui.Session.PriceForDish(entry.Dish) + "\n" + string.Join("  ", amounts);
                 bool max = level >= Ui.Session.Settings.maxDishLevel;
                 entry.TrainLabel.text = Loc.Get(max ? "recipe.max" : known ? "recipe.upgrade" : "recipe.learn");
-                entry.Train.interactable = !max && entry.Dish.UnlockLevel <= Ui.Session.Progress.Level;
+                entry.Train.interactable = entry.Dish.Enabled && !max && entry.Dish.UnlockLevel <= Ui.Session.Progress.Level;
                 entry.Fill.color = known ? UiKit.GoldFill : UiKit.CardFill;
             }
         }

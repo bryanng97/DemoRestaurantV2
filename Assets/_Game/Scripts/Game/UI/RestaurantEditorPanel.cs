@@ -38,7 +38,9 @@ namespace DemoRestaurant.Game.UI
         private Button _shopTab, _storageTab;
         private bool _storage;
         private readonly List<(Text label, string key)> _labels = new List<(Text, string)>();
-        private readonly List<(BuildCategory category, Button button)> _filters = new List<(BuildCategory, Button)>();
+        private readonly List<(BuildCategory category, string code, Button button)> _filters = new List<(BuildCategory, string, Button)>();
+        private RectTransform _categoryButtonsRoot;
+        private int _categoryVersion = -1;
         private readonly List<(string id, Image rim)> _cardRims = new List<(string, Image)>();
         /// <summary>Every card's rect and what choosing it does, so a finger can drag a piece straight out of the bar.</summary>
         private readonly List<(RectTransform card, Action select)> _cardPicks = new List<(RectTransform, Action)>();
@@ -89,33 +91,8 @@ namespace DemoRestaurant.Game.UI
             var categoriesRow = UiKit.NewRect("Categories", categoriesView);
             categoriesRow.anchorMin = Vector2.zero; categoriesRow.anchorMax = new Vector2(0, 1);
             categoriesRow.pivot = new Vector2(0, .5f); categoriesRow.sizeDelta = Vector2.zero;
-            var categories = new[]
-            {
-                (BuildCategory.Kitchen, "ui.build.kitchen"), (BuildCategory.Table, "ui.build.table"),
-                (BuildCategory.Chair, "ui.build.chair"), (BuildCategory.Decoration, "ui.build.decoration"),
-                (BuildCategory.Functional, "ui.build.functional"), (BuildCategory.Outdoor, "ui.build.outdoor"),
-                (BuildCategory.Wall, "ui.build.wall"), (BuildCategory.Wallpaper, "ui.build.wallpaper"),
-                (BuildCategory.Floor, "ui.build.floor"), (BuildCategory.Land, "ui.build.land"),
-            };
-            int x = 0;
-            foreach (var (category, key) in categories)
-            {
-                if (category == BuildCategory.Land && content.Pack.Rules.Expansion == null) continue;
-                _filters.Add((category, AddButton(categoriesRow, key, x, 0, 128, 80, 26, UiKit.Cream,
-                    () => { _storage = false; _controller.SetCategory(category); })));
-                var tab = _filters[_filters.Count - 1].button;
-                foreach (var outline in tab.GetComponentsInChildren<Outline>()) outline.enabled = false;
-                var tabText = tab.GetComponentInChildren<Text>();
-                tabText.color = UiKit.DarkText; tabText.resizeTextMinSize = 20;
-                tabText.horizontalOverflow = HorizontalWrapMode.Wrap;
-                var selectedMark = UiKit.NewRect("SelectedMark", tab.transform);
-                selectedMark.anchorMin = Vector2.zero; selectedMark.anchorMax = new Vector2(1, 0);
-                selectedMark.offsetMin = new Vector2(12, 5); selectedMark.offsetMax = new Vector2(-12, 11);
-                var markImage = selectedMark.gameObject.AddComponent<Image>();
-                markImage.color = UiKit.Wood; markImage.raycastTarget = false;
-                x += 136;
-            }
-            categoriesRow.sizeDelta = new Vector2(x, 0);
+            _categoryButtonsRoot = categoriesRow;
+            RebuildCategoryTabs();
             categoriesScroll.viewport = categoriesView; categoriesScroll.content = categoriesRow;
             categoriesScroll.vertical = false; categoriesScroll.movementType = ScrollRect.MovementType.Clamped;
             _categoryScroll = categoriesScroll;
@@ -231,6 +208,7 @@ namespace DemoRestaurant.Game.UI
             button.gameObject.AddComponent<CanvasGroup>();
             UiKit.Place((RectTransform)button.transform, x, y, w, h);
             text.resizeTextForBestFit = true; text.resizeTextMinSize = 26; text.resizeTextMaxSize = size;
+            text.text = Loc.Get(key);
             _labels.Add((text, key)); return button;
         }
 
@@ -323,6 +301,60 @@ namespace DemoRestaurant.Game.UI
         /// <summary>Hand actions remain in the dock, away from the finger and the furniture preview.</summary>
         public void SetHandButtons(bool visible, Vector2 screen, bool freezePosition = false) { }
 
+        private void RebuildCategoryTabs()
+        {
+            if (_categoryButtonsRoot == null || _categoryVersion == _content.Pack.ConfigurationVersion) return;
+            _categoryVersion = _content.Pack.ConfigurationVersion;
+            _labels.RemoveAll(entry => entry.label != null && entry.label.transform.IsChildOf(_categoryButtonsRoot));
+            var oldTabs = new List<GameObject>();
+            foreach (Transform child in _categoryButtonsRoot) oldTabs.Add(child.gameObject);
+            foreach (var tab in oldTabs)
+            { tab.SetActive(false); if (Application.isPlaying) Destroy(tab); else DestroyImmediate(tab); }
+            _filters.Clear();
+            var categories = new List<(BuildCategory category, string key, string code)>();
+            if (_content.Pack.ShopCategories.Count > 0)
+            {
+                foreach (var row in _content.Pack.ShopCategories)
+                {
+                    if (!row.Active || row.Code == "Floor" || row.Code == "Wallpaper" || row.Code == "Land") continue;
+                    bool known = Enum.TryParse(row.Code, out BuildCategory category);
+                    categories.Add((known ? category : BuildCategory.Decoration, "catalog.category." + row.Code, known ? null : row.Code));
+                }
+            }
+            else
+            {
+                foreach (var category in new[] { BuildCategory.Kitchen, BuildCategory.Table, BuildCategory.Chair,
+                    BuildCategory.Decoration, BuildCategory.Functional, BuildCategory.Outdoor, BuildCategory.Wall })
+                    categories.Add((category, "ui.build." + category.ToString().ToLowerInvariant(), null));
+            }
+            categories.Add((BuildCategory.Wallpaper, "ui.build.wallpaper", null));
+            categories.Add((BuildCategory.Floor, "ui.build.floor", null));
+            if (_content.Pack.Rules.Expansion != null) categories.Add((BuildCategory.Land, "ui.build.land", null));
+            int x = 0;
+            foreach (var (category, key, code) in categories)
+            {
+                var tab = AddButton(_categoryButtonsRoot, key, x, 0, 128, 80, 26, UiKit.Cream,
+                    () => { _storage = false; if (code == null) _controller.SetCategory(category); else _controller.SetConfiguredCategory(code); });
+                _filters.Add((category, code, tab));
+                foreach (var outline in tab.GetComponentsInChildren<Outline>()) outline.enabled = false;
+                var text = tab.GetComponentInChildren<Text>();
+                text.color = UiKit.DarkText; text.resizeTextMinSize = 20; text.horizontalOverflow = HorizontalWrapMode.Wrap;
+                var selectedMark = UiKit.NewRect("SelectedMark", tab.transform);
+                selectedMark.anchorMin = Vector2.zero; selectedMark.anchorMax = new Vector2(1, 0);
+                selectedMark.offsetMin = new Vector2(12, 5); selectedMark.offsetMax = new Vector2(-12, 11);
+                var mark = selectedMark.gameObject.AddComponent<Image>(); mark.color = UiKit.Wood; mark.raycastTarget = false;
+                x += 136;
+            }
+            _categoryButtonsRoot.sizeDelta = new Vector2(x, 0);
+        }
+
+        private bool MatchesCategory(FurnitureDef piece)
+        {
+            if (_controller.ConfiguredCategoryCode != null) return piece.ShopCategory == _controller.ConfiguredCategoryCode;
+            if (_content.Pack.ShopCategories.Count > 0 && !string.IsNullOrEmpty(piece.ShopCategory))
+                return piece.ShopCategory == _controller.Category.ToString();
+            return CategoryFor(piece) == _controller.Category;
+        }
         private void ShowStorage(bool storage)
         {
             _storage = storage;
@@ -333,6 +365,7 @@ namespace DemoRestaurant.Game.UI
 
         public void RefreshCatalog()
         {
+            RebuildCategoryTabs();
             foreach (Transform child in _cards) { child.gameObject.SetActive(false); Destroy(child.gameObject); }
             _cardRims.Clear(); _cardPicks.Clear(); _shopCards.Clear(); _cards.anchoredPosition = Vector2.zero;
             if (_storage)
@@ -370,7 +403,7 @@ namespace DemoRestaurant.Game.UI
                 // Cheapest and earliest-unlocked first, so a section reads like a shop shelf.
                 var pieces = new List<FurnitureDef>();
                 foreach (var f in _content.Pack.Furniture)
-                    if (f.Available && CategoryFor(f) == _controller.Category) pieces.Add(f);
+                    if (f.Available && MatchesCategory(f)) pieces.Add(f);
                 pieces.Sort((a, b) => a.UnlockLevel != b.UnlockLevel ? a.UnlockLevel.CompareTo(b.UnlockLevel) : a.Price.CompareTo(b.Price));
                 foreach (var f in pieces) AddShopCard(f);
             }
@@ -476,6 +509,9 @@ namespace DemoRestaurant.Game.UI
             var placed = _shopCards.Count > 0 ? _controller.PlacedInDraft() : null;
             foreach (var (def, info, icon) in _shopCards)
             {
+                // A download/replacement can finish while this Shop remains open.
+                var currentArt = _art.GetOptional(_content.ArtForFurniture(def.Id).Sprite);
+                if (icon.sprite != currentArt) icon.sprite = currentArt;
                 bool locked = def.UnlockLevel > _controller.PlayerLevel;
                 int storage = FurnitureOwnership.InStorage(owned, placed, def.Id);
                 info.text = locked ? Loc.Format("ui.build.locked_short", def.UnlockLevel)
@@ -486,12 +522,12 @@ namespace DemoRestaurant.Game.UI
             }
             UiKit.SetButtonColor(_shopTab, _catalogOpen && !_storage ? UiKit.Green : UiKit.WoodLight);
             UiKit.SetButtonColor(_storageTab, _catalogOpen && _storage ? UiKit.Green : UiKit.WoodLight);
-            foreach (var (category, button) in _filters)
+            foreach (var (category, code, button) in _filters)
             {
                 button.gameObject.SetActive(!_storage);
-                UiKit.SetButtonColor(button, category == _controller.Category ? UiKit.Gold : UiKit.Cream);
+                UiKit.SetButtonColor(button, category == _controller.Category && code == _controller.ConfiguredCategoryCode ? UiKit.Gold : UiKit.Cream);
                 button.GetComponent<Image>().color = Color.clear;
-                button.transform.Find("SelectedMark").gameObject.SetActive(category == _controller.Category);
+                button.transform.Find("SelectedMark").gameObject.SetActive(category == _controller.Category && code == _controller.ConfiguredCategoryCode);
             }
             foreach (var (id, rim) in _cardRims) rim.color = id == _controller.SelectedId ? UiKit.Gold : UiKit.CardRim;
         }

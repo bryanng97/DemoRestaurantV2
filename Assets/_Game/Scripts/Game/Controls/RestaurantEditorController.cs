@@ -75,6 +75,7 @@ namespace DemoRestaurant.Game.Controls
         public event System.Action Saved;
         public LayoutEditor Editor { get; private set; }
         public BuildCategory Category { get; private set; }
+        public string ConfiguredCategoryCode { get; private set; }
         /// <summary>Something is in hand.</summary>
         public bool HasSelection => _placing != null || _movingDoor;
         public bool CanConfirm => HasSelection && _hasTarget && _valid;
@@ -183,7 +184,9 @@ namespace DemoRestaurant.Game.Controls
         }
 
         public void SetCategory(BuildCategory category)
-        { ClearSelection(); Category = category; _panel.RefreshCatalog(); }
+        { ClearSelection(); ConfiguredCategoryCode = null; Category = category; _panel.RefreshCatalog(); }
+        public void SetConfiguredCategory(string code)
+        { ClearSelection(); ConfiguredCategoryCode = code; Category = BuildCategory.Decoration; _panel.RefreshCatalog(); }
 
         /// <summary>Picks a piece up from the shop bar (or storage): it follows the pointer until dropped.</summary>
         public void SelectFurniture(FurnitureDef def)

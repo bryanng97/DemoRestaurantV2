@@ -27,7 +27,7 @@ namespace DemoRestaurant.Logic.Progression
         /// <summary>Restaurant City recipe flow: one catalog recipe set is consumed each time it is learned/upgraded.</summary>
         public RecipeTrainResult Train(DishDef dish, Inventory inventory, int restaurantLevel, int maxLevel, int setsPerUpgrade)
         {
-            if (dish == null || !_all.Contains(dish)) return RecipeTrainResult.UnknownDish;
+            if (dish == null || !dish.Enabled || !_all.Contains(dish)) return RecipeTrainResult.UnknownDish;
             int level = LevelOf(dish);
             if (level >= maxLevel) return RecipeTrainResult.MaxLevel;
             if (dish.UnlockLevel > restaurantLevel) return RecipeTrainResult.LevelTooLow;
@@ -57,6 +57,10 @@ namespace DemoRestaurant.Logic.Progression
         }
 
         public bool IsKnown(DishDef dish) => _known.Contains(dish);
+        public void RefreshCatalog(IReadOnlyList<DishDef> dishes)
+        {
+            foreach (var dish in dishes) if (!_all.Contains(dish)) _all.Add(dish);
+        }
 
         /// <summary>Marks dishes as known without events (loading a save).</summary>
         public void Restore(IEnumerable<DishDef> known)

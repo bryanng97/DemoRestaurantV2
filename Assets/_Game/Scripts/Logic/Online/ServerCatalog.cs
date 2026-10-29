@@ -25,6 +25,7 @@ namespace DemoRestaurant.Logic.Online
         private readonly HashSet<string> _items = new HashSet<string>();
         private readonly HashSet<string> _streetCells = new HashSet<string>();
         private readonly HashSet<string> _wardrobe = new HashSet<string>();
+        private JsonValue _body;
 
         public int RulesetVersion { get; private set; }
         public string RulesetId { get; private set; }
@@ -44,6 +45,7 @@ namespace DemoRestaurant.Logic.Online
                 ETag = config["etag"].AsString(),
             };
             var body = config["body"];
+            catalog._body = body;
             foreach (var f in body["catalog"]["furniture"].Items)
             {
                 string id = f["id"].AsString();
@@ -107,9 +109,77 @@ namespace DemoRestaurant.Logic.Online
                 piece.Price = Math.Max(0, entry.Price);
                 piece.UnlockLevel = Math.Max(1, data["unlockLevel"].AsInt(1));
                 piece.Available = entry.Available;
+                piece.ShopCategory = data["category"].AsString();
+                piece.ConfiguredTypeId = data["typeId"].AsString() ?? data["kind"].AsString();
                 if (data["localizedNames"].Kind == JsonKind.Object) piece.NameKey = "catalog.furniture." + entry.Id;
             }
+            ApplyConfiguration(pack, ids);
         }
+
+        private void ApplyConfiguration(Content.ContentPack pack, ServerIdMap ids)
+        {
+            pack.ConfigurationVersion = RulesetVersion;
+            pack.ShopCategories.Clear();
+            foreach (var row in _body["catalog"]["configuration"]["categories"].Items)
+            {
+                string code = row["code"].AsString();
+                if (string.IsNullOrEmpty(code)) continue;
+                pack.ShopCategories.Add(new Content.ShopCategoryDef { Code = code, Active = row["active"].AsBool(), SortOrder = row["sortOrder"].AsInt() });
+            }
+            pack.ShopCategories.Sort((a,b) => a.SortOrder != b.SortOrder ? a.SortOrder.CompareTo(b.SortOrder) : string.CompareOrdinal(a.Code,b.Code));
+            var economyRows = new List<Content.EconomyDish>();
+            foreach (var row in _body["economy"]["dishes"].Items)
+            {
+                string id = ids.ToLocal(row["id"].AsString());
+                if (string.IsNullOrEmpty(id)) continue;
+                var ingredients = new List<Content.IngredientAmount>();
+                var ingredientIds = new List<string>();
+                bool supported = true;
+                foreach (var ingredient in row["ingredients"].Items)
+                {
+                    string ingredientId = ids.ToLocal(ingredient.AsString());
+                    if (!pack.HasIngredient(ingredientId)) { supported = false; break; }
+                    ingredientIds.Add(ingredientId);
+                    ingredients.Add(new Content.IngredientAmount(pack.GetIngredient(ingredientId), 1));
+                }
+                if (!supported || ingredients.Count == 0) continue;
+                Content.DishDef dish;
+                if (pack.HasDish(id)) dish = pack.GetDish(id);
+                else
+                {
+                    string templateId = ids.ToLocal(row["assetKey"].AsString());
+                    if (!pack.HasDish(templateId)) continue;
+                    var source = pack.GetDish(templateId);
+                    dish = new Content.DishDef(id, "catalog.recipe." + row["id"].AsString(), row["basePrice"].AsInt(1),
+                        row["cookSeconds"].AsInt(1), row["eatSeconds"].AsInt((int)source.EatSeconds), source.Stars,
+                        ingredients, false, ParseCategory(row["category"].AsString()), row["unlockLevel"].AsInt(1)) { AssetKey = templateId };
+                    pack.AddCatalogDish(dish);
+                }
+                // Keep the same object: learned levels and menu slots reference it.
+                dish.ApplyPublished("catalog.recipe." + row["id"].AsString(), row["basePrice"].AsInt(1), row["cookSeconds"].AsInt(1),
+                    row["eatSeconds"].AsInt((int)dish.EatSeconds), row["unlockLevel"].AsInt(1), row["enabled"].AsBool(true), ingredients, ParseCategory(row["category"].AsString()));
+                economyRows.Add(new Content.EconomyDish { id = id, cuisine = row["cuisine"].AsString(), category = row["category"].AsString(),
+                    ingredients = ingredientIds.ToArray(), basePrice = dish.Price, cookSeconds = dish.CookSeconds,
+                    unlockLevel = dish.UnlockLevel, inPhase1 = dish.Enabled });
+            }
+            if (pack.Economy != null && economyRows.Count > 0)
+            {
+                pack.Economy.dishes = economyRows.ToArray();
+                var settings = _body["economy"]["settings"];
+                if (settings.Kind == JsonKind.Object)
+                {
+                    var target = pack.Economy.settings;
+                    target.maxDishLevel = settings["maxDishLevel"].AsInt(target.maxDishLevel);
+                    target.ingredientSetsPerUpgrade = settings["ingredientSetsPerUpgrade"].AsInt(target.ingredientSetsPerUpgrade);
+                    target.dishPriceStepPerLevel = (float)settings["dishPriceIncreasePerLevel"].AsDouble(target.dishPriceStepPerLevel);
+                    target.xpUpgradeBase = settings["xpUpgradeBase"].AsInt(target.xpUpgradeBase);
+                    target.xpUpgradePerLevel = settings["xpUpgradePerLevel"].AsInt(target.xpUpgradePerLevel);
+                }
+            }
+        }
+
+        private static Content.DishCategory ParseCategory(string category) => category == "starter" ? Content.DishCategory.Starter :
+            category == "dessert" ? Content.DishCategory.Dessert : category == "drink" ? Content.DishCategory.Drink : Content.DishCategory.Main;
 
         /// <summary>The first free indoor floor tile (the fallback for floors the server does not know).</summary>
         public string DefaultFloor

@@ -21,6 +21,10 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 
+# Stamped from native platform settings by ClientBuildStamp before each build.
+/Assets/_Game/Resources/Online/ClientBuild.json
+/Assets/_Game/Resources/Online/ClientBuild.json.meta
+
 # Unity crash / diagnostic files
 sysinfo.txt
 mono_crash.*

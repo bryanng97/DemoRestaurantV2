@@ -99,6 +99,7 @@ namespace DemoRestaurant.Game.Render
             cleaningFeedback.Bind(sim, this);
             _content = content;
             _art = ArtLibrary.For(content.Theme);
+            Online.RemoteAssetArt.Changed += RefreshRemoteArt;
             _activeLayout = sim.Layout;
             _windowSegments = windowSegments;
 
@@ -132,6 +133,7 @@ namespace DemoRestaurant.Game.Render
 
         private void OnDestroy()
         {
+            Online.RemoteAssetArt.Changed -= RefreshRemoteArt;
             if (_sim == null)
                 return;
             _activeLayout.FurniturePlaced -= AddFurniture;
@@ -171,6 +173,15 @@ namespace DemoRestaurant.Game.Render
             AnimateDoor(Time.deltaTime);
             TintBrokenToilets();
             SortDepth();
+        }
+
+        private void RefreshRemoteArt()
+        {
+            if (_activeLayout == null) return;
+            foreach (var frames in _furnitureFrames.Values) frames?.Dispose();
+            _furnitureFrames.Clear();
+            foreach (var piece in _activeLayout.Furniture) { RemoveFurniture(piece); AddFurniture(piece); }
+            BuildWallItems();
         }
 
         // ---------------------------------------------------------------- depth

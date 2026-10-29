@@ -184,6 +184,7 @@ namespace DemoRestaurant.Logic.Simulation
                     {
                         Face(s, FrontCell(s.Stove));
                         s.Timer = t.Dish.CookSeconds; // work left, in seconds at cook speed 1
+                        s.CookingBaseSeconds = s.Timer;
                         s.CookProgress = 0f;
                         s.State = StaffState.Cooking;
                     }
@@ -192,7 +193,7 @@ namespace DemoRestaurant.Logic.Simulation
                 case StaffState.Cooking:
                     // Tired chefs cook slower: work done scales with cook speed and the energy multiplier.
                     s.Timer -= dt * s.EffectiveCookSpeed;
-                    s.CookProgress = t.Dish.CookSeconds > 0 ? Math.Min(1f, 1f - s.Timer / t.Dish.CookSeconds) : 1f;
+                    s.CookProgress = s.CookingBaseSeconds > 0 ? Math.Min(1f, 1f - s.Timer / s.CookingBaseSeconds) : 1f;
                     if (s.Timer <= 0f)
                     {
                         // The plate stays on the stove (still busy) until a waiter collects it; the chef stays put.
@@ -213,6 +214,7 @@ namespace DemoRestaurant.Logic.Simulation
                     {
                         Face(s, FrontCell(s.Stove));
                         s.Timer = t.Dish.CookSeconds; // pouring time, at work speed 1
+                        s.CookingBaseSeconds = s.Timer;
                         s.CookProgress = 0f;
                         s.State = StaffState.Pouring;
                     }
@@ -220,7 +222,7 @@ namespace DemoRestaurant.Logic.Simulation
 
                 case StaffState.Pouring:
                     s.Timer -= dt * s.EffectiveCookSpeed;
-                    s.CookProgress = t.Dish.CookSeconds > 0 ? Math.Min(1f, 1f - s.Timer / t.Dish.CookSeconds) : 1f;
+                    s.CookProgress = s.CookingBaseSeconds > 0 ? Math.Min(1f, 1f - s.Timer / s.CookingBaseSeconds) : 1f;
                     if (s.Timer <= 0f)
                     {
                         _busyMachines.Remove(s.Stove.InstanceId);

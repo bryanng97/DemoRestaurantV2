@@ -1,0 +1,13 @@
+# BO asset media delivery — compatible mobile client
+
+Phase 1C source supports private downloadable furniture PNGs and looping sprite sheets. BO uploads immutable media and approves a dated, platform/version/build/capability-bound revision. The API returns only compatible signed media, with checksum, size, dimensions and frame/pivot metadata. Ineligible furniture is unavailable for purchase; the server checks purchases atomically.
+
+The client sends its platform, Application.version, native build number and media.png.v1/media.sheet.v1 capabilities on all player calls, including offline ledger replay. ClientBuildStamp embeds Android/iOS build settings before builds; use three-part numeric app versions and non-negative integer build numbers.
+
+OnlineSession refreshes config/media on login, resume and every 60 seconds online. RemoteAssetLoader downloads missing bytes from HTTPS on the configured project host, with bounded size, timeout, three attempts and no redirects. AssetByteCache verifies SHA-256, saves by checksum and re-verifies offline reads. Complete manifests are written atomically per project/account/platform/version/build. A failed replacement keeps the previous working revision; bundled template art remains the fallback. Account changes cancel outstanding work and clear runtime media. Unreferenced bytes above a 64 MB soft budget can be pruned, while referenced media is retained.
+
+LoadedContentPack/ArtLibrary and FurnitureLoopFrames resolve installed remote sprites for Shop/world rendering. A sheet is evenly divided left-to-right/top-to-bottom with a looping frame sequence; this is not an arbitrary Unity controller/prefab loader. SVG must be converted to PNG before upload. New behavior or rendering formats require a compatible client build.
+
+Verification on 2026-10-29: 442 logic tests, 5 catalog presentation tests and 3 media rendering tests passed. C# game compilation has zero errors. Native Supabase integration passed real Storage/Auth and client-version purchase checks. No distributed app or physical Android/iOS acceptance is claimed. See the Obsidian Phase 1C Test Results / Deployment SOP and backend docs/asset-media.md for API, release and recovery details. Do not publish normal-audience media before distributing this compatible baseline.
+
+Private Android test APK built and validated: Builds/Android/DemoRestaurant-private-prototype.apk, ARM64, app 0.1.0/build 1. It was not installed or published. Final presentation run Logs/phase1c-final-presentation-tests.xml passed all 8 selected tests, including replacement lookup and custom-pivot alignment. Media assignments target placed furniture/wall fixtures; other material/icon/exterior adapters remain bundled and unsupported assignments are rejected in BO/API.

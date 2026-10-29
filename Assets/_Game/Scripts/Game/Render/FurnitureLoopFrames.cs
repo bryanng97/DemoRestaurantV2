@@ -27,6 +27,22 @@ namespace DemoRestaurant.Game.Render
 
         public static FurnitureLoopFrames Load(ArtLibrary art, string key, string animationKey = null)
         {
+            var remote = Online.RemoteAssetArt.Find(key);
+            if (remote != null && remote.Frames > 1)
+            {
+                var generated = new Sprite[remote.Frames];
+                int width = remote.Texture.width / remote.Columns, height = remote.Texture.height / remote.Rows;
+                var map = new int[remote.Frames];
+                for (int i = 0; i < generated.Length; i++)
+                {
+                    map[i] = i;
+                    generated[i] = Sprite.Create(remote.Texture, new Rect(i % remote.Columns * width,
+                        remote.Texture.height - (i / remote.Columns + 1) * height, width, height), remote.Pivot, 100, 0, SpriteMeshType.FullRect);
+                }
+                return new FurnitureLoopFrames(generated, new SkinSprite { frameMap = map, animationFps = remote.Fps,
+                    // Remote sprites already carry their published pivot; do not apply it twice.
+                    animationWidth = width, animationHeight = height, anchor = new Vector2(.5f, 0) });
+            }
             animationKey = animationKey ?? key;
             var manifest=art.SkinOf(key);
             if(manifest==null || !manifest.ByKey.TryGetValue(animationKey+"_loop",out var hint) ||

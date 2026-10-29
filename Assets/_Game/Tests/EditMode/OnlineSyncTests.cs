@@ -13,6 +13,58 @@ namespace DemoRestaurant.Logic.Tests
 {
     public class CatalogControlTests
     {
+        private static JsonValue ManagedConfig() => JsonValue.Parse(@"{
+          ""rulesetId"":""malaysia"",""version"":3001,""body"":{
+            ""catalog"":{""furniture"":[{""id"":""gas_stove"",""kind"":""Stove"",""placement"":""floor"",""category"":""Premium"",""typeId"":""PremiumStove"",""price"":120}],
+              ""configuration"":{""schemaVersion"":1,""categories"":[{""code"":""Premium"",""sortOrder"":1,""active"":true},{""code"":""Kitchen"",""sortOrder"":2,""active"":true}]}},
+            ""economy"":{""settings"":{""maxDishLevel"":10,""ingredientSetsPerUpgrade"":2,""dishPriceIncreasePerLevel"":0.25,""xpUpgradeBase"":20,""xpUpgradePerLevel"":10},
+              ""dishes"":[{""id"":""base"",""name"":""Base recipe"",""ingredients"":[""flour""],""category"":""main"",""basePrice"":25,""cookSeconds"":8,""eatSeconds"":6,""unlockLevel"":2,""enabled"":true},
+                {""id"":""premium_recipe"",""assetKey"":""base"",""ingredients"":[""egg""],""category"":""main"",""basePrice"":30,""cookSeconds"":9,""eatSeconds"":7,""unlockLevel"":3,""enabled"":true}]}}}");
+
+        private static ContentPack ManagedPack()
+        {
+            var flour = new IngredientDef("flour", "flour", 1);
+            var egg = new IngredientDef("egg", "egg", 1);
+            var dish = new DishDef("base", "base", 10, 4, 5, recipe:new[] {new IngredientAmount(flour,1)}, isStarter:true);
+            return new ContentPack("test", new[] {dish}, new[] {new FurnitureDef("gas_stove","stove",FurnitureKind.Stove,1,1,1,0,120)},
+                new CustomerTypeDef[0], ingredients:new[] {flour,egg}) {Economy=new EconomyTable()};
+        }
+
+        [Test]
+        public void ManagedRecipesKeepKnownObjectAndLevelsAndUpdateAuthoritativeSettings()
+        {
+            var pack=ManagedPack(); var original=pack.GetDish("base");
+            var book=new DemoRestaurant.Logic.Progression.RecipeBook(pack.Dishes);
+            book.RestoreLevel(original,3,10);
+            ServerCatalog.FromConfig(ManagedConfig()).ApplyFurniture(pack);
+            book.RefreshCatalog(pack.Dishes);
+            Assert.AreSame(original,pack.GetDish("base"));
+            Assert.AreEqual(3,book.LevelOf(original));
+            Assert.AreEqual(8,original.CookSeconds); Assert.AreEqual(25,original.Price);
+            Assert.AreEqual(2,pack.Economy.settings.ingredientSetsPerUpgrade);
+            Assert.AreEqual(0.25f,pack.Economy.settings.dishPriceStepPerLevel);
+            Assert.AreEqual(2,book.AllDishes.Count);
+            Assert.AreEqual("base",pack.GetDish("premium_recipe").AssetKey);
+            Assert.AreEqual("Premium",pack.GetFurniture("gas_stove").ShopCategory);
+            Assert.AreEqual("PremiumStove",pack.GetFurniture("gas_stove").ConfiguredTypeId);
+            Assert.AreEqual("Premium",pack.ShopCategories[0].Code);
+        }
+
+        [Test]
+        public void CachedManagedConfigIsIdempotentAndRetiredRecipesRemainKnownButCannotTrain()
+        {
+            var pack=ManagedPack(); var config=ManagedConfig();
+            config["body"]["economy"]["dishes"].Items[0].Set("enabled",false);
+            var book=new DemoRestaurant.Logic.Progression.RecipeBook(pack.Dishes);
+            var catalog=ServerCatalog.FromConfig(JsonValue.Parse(config.ToString()));
+            catalog.ApplyFurniture(pack); catalog.ApplyFurniture(pack); book.RefreshCatalog(pack.Dishes);
+            Assert.AreEqual(2,pack.Dishes.Count); Assert.AreEqual(2,pack.ShopCategories.Count);
+            Assert.IsTrue(book.IsKnown(pack.GetDish("base")));
+            Assert.IsFalse(pack.GetDish("base").Enabled);
+            Assert.AreEqual(DemoRestaurant.Logic.Progression.RecipeTrainResult.UnknownDish,
+                book.Train(pack.GetDish("base"),null,10,10,1));
+        }
+
         private static ContentPack Pack() => new ContentPack("test", new DishDef[0],
             new[] { new FurnitureDef("gas_stove", "stove", FurnitureKind.Stove, 1, 1, 1f, 0f, 120) },
             new CustomerTypeDef[0]);

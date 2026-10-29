@@ -1,7 +1,33 @@
 # Backend Asset Controls
 
+Current status (2026-10-29): Phase 1A/1B/1C source is implemented and deployed to DEV. See [asset media delivery](AssetMediaDelivery.md) for the added remote furniture/wall-fixture PNG/sheet loader, release eligibility, private Android test APK and actual checks. The original phase-specific notes below are historical; physical Android/iOS acceptance and normal client distribution remain pending.
+
 Delivery roadmap Phase 1, 2026-10-28. Implemented and verified locally, with hosted rollout pending.
 Backend contract: `C:/Bryan/Personal/restaurant-city-backend/docs/backoffice-asset-controls.md`.
+
+## Phase 1B managed configuration
+
+Implemented and locally verified on 2026-10-28. `ServerCatalog.ApplyFurniture` now
+also applies published category/recipe configuration, including cached config at
+load. Shop category tabs can use admin-created codes and localized labels without
+adding a compiled enum member. Furniture type IDs retain canonical behavior and
+template validation.
+
+Existing recipe objects update in place to retain learned levels/menu references.
+Supported variants reuse a shipped recipe's icon/serving artwork. New definitions
+enter the recipe book on config refresh; retired recipes stay known but cannot
+train. Base times, prices, ingredients, unlocks and learning/economy settings come
+from the published ruleset. In-progress cooking retains its started work duration.
+Missing translated overrides preserve the bundled recipe translations.
+
+Verification: 439 logic tests and 5 catalog presentation tests passed. The latter
+cover actual template art, language changes, custom Shop-category creation/retirement
+and translation preservation. See `Logs/phase1b-logic-tests.xml` and
+`Logs/phase1b-presentation-tests.xml`.
+
+The first compatible client must be released before publishing new configuration
+for it. Hosted/device acceptance remains pending; app-version eligibility, media
+uploads and scheduling are Phase 1C. Device performance effects remain Phase 3/4.
 
 ## Client behavior
 

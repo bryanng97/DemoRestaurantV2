@@ -56,6 +56,7 @@ namespace DemoRestaurant.Game.Online
         public Awaitable<ApiJson> SyncLedger(JsonValue body) => Call("POST", "/sync/ledger", body.ToString(), false);
 
         public Awaitable<ApiJson> GetState() => Call("GET", "/state", null, false);
+        public Awaitable<ApiJson> GetAssetManifest() => Call("GET", "/assets/manifest", null, false);
 
         // ---- profile, rewards and social (shapes unchanged from v1)
 
@@ -139,10 +140,13 @@ namespace DemoRestaurant.Game.Online
 
         private IReadOnlyDictionary<string, string> WithRuleset(string method, IReadOnlyDictionary<string, string> headers)
         {
-            if (method == "GET" || RulesetVersion <= 0) return headers;
             var all = new Dictionary<string, string>();
             if (headers != null) foreach (var pair in headers) all[pair.Key] = pair.Value;
-            all["X-Ruleset-Version"] = RulesetVersion.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            all["X-App-Platform"] = Application.platform == RuntimePlatform.Android ? "android" : Application.platform == RuntimePlatform.IPhonePlayer ? "ios" : "editor";
+            all["X-App-Version"] = Application.version;
+            all["X-App-Build"] = ClientBuild.Number;
+            all["X-Asset-Capabilities"] = "media.png.v1,media.sheet.v1";
+            if(method != "GET" && RulesetVersion > 0) all["X-Ruleset-Version"] = RulesetVersion.ToString(System.Globalization.CultureInfo.InvariantCulture);
             return all;
         }
 

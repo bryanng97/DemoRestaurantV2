@@ -160,6 +160,8 @@ namespace DemoRestaurant.Game.Render
 
         private (Sprite sprite, int folder) Find(string key, bool warn)
         {
+            var remote = Online.RemoteAssetArt.Find(key);
+            if (remote != null) return (remote.Sprite, -1);
             if (string.IsNullOrEmpty(key))
                 return (null, -1);
             if (_cache.TryGetValue(key, out var hit))

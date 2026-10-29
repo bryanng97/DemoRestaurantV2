@@ -8,21 +8,31 @@ namespace DemoRestaurant.Logic.Content
     {
         public string Id { get; }
         /// <summary>Translation key, e.g. "dish.nasi_lemak".</summary>
-        public string NameKey { get; }
-        public int Price { get; }
+        public string NameKey { get; internal set; }
+        public int Price { get; internal set; }
         /// <summary>Preparation time: how long a chef (at CookSpeed 1) works at a stove to make this dish.</summary>
-        public float CookSeconds { get; }
-        public float EatSeconds { get; }
+        public float CookSeconds { get; internal set; }
+        public float EatSeconds { get; internal set; }
         /// <summary>Quality, 1-5. Customers expect a minimum; meeting it earns full popularity.</summary>
         public int Stars { get; }
         /// <summary>Ingredients that discover this dish in the recipe lab. Empty = cannot be discovered.</summary>
-        public IReadOnlyList<IngredientAmount> Recipe { get; }
+        public IReadOnlyList<IngredientAmount> Recipe { get; internal set; }
         /// <summary>Known from the start, without discovering it.</summary>
         public bool IsStarter { get; }
         /// <summary>Menu category (starter, main, dessert, drink); menu slots are per category.</summary>
-        public DishCategory Category { get; }
+        public DishCategory Category { get; internal set; }
         /// <summary>Restaurant level needed before the recipe can be discovered.</summary>
-        public int UnlockLevel { get; }
+        public int UnlockLevel { get; internal set; }
+        public bool Enabled { get; internal set; } = true;
+        public string AssetKey { get; internal set; }
+
+        internal void ApplyPublished(string nameKey, int price, float cookSeconds, float eatSeconds,
+            int unlockLevel, bool enabled, IReadOnlyList<IngredientAmount> ingredients, DishCategory category)
+        {
+            NameKey = nameKey; Price = Math.Max(1, price); CookSeconds = Math.Max(1, cookSeconds);
+            EatSeconds = Math.Max(1, eatSeconds); UnlockLevel = Math.Max(1, unlockLevel);
+            Enabled = enabled; Recipe = ingredients; Category = category;
+        }
 
         public DishDef(string id, string nameKey, int price, float cookSeconds, float eatSeconds,
             int stars = 1, IReadOnlyList<IngredientAmount> recipe = null, bool isStarter = false,
@@ -215,6 +225,8 @@ namespace DemoRestaurant.Logic.Content
         public bool Available { get; internal set; } = true;
         /// <summary>Existing local furniture whose artwork this catalog variant uses.</summary>
         public string AssetKey { get; internal set; }
+        public string ShopCategory { get; internal set; }
+        public string ConfiguredTypeId { get; internal set; }
 
         /// <summary>Uses before it breaks and needs fixing (toilets); 0 = never breaks.</summary>
         public int BreakCount { get; }
@@ -392,6 +404,13 @@ namespace DemoRestaurant.Logic.Content
     }
 
     /// <summary>All content for one country theme (e.g. "malaysia"). Built by the content loader.</summary>
+    public sealed class ShopCategoryDef
+    {
+        public string Code;
+        public int SortOrder;
+        public bool Active;
+    }
+
     public sealed class ContentPack
     {
         private readonly Dictionary<string, DishDef> _dishes = new Dictionary<string, DishDef>();
@@ -402,6 +421,8 @@ namespace DemoRestaurant.Logic.Content
         private readonly Dictionary<string, ItemDef> _items = new Dictionary<string, ItemDef>();
 
         public string Id { get; }
+        public int ConfigurationVersion { get; internal set; }
+        public List<ShopCategoryDef> ShopCategories { get; } = new List<ShopCategoryDef>();
         public IReadOnlyList<DishDef> Dishes { get; }
         public IReadOnlyList<FurnitureDef> Furniture { get; }
         public IReadOnlyList<CustomerTypeDef> CustomerTypes { get; }
@@ -419,7 +440,7 @@ namespace DemoRestaurant.Logic.Content
             IReadOnlyList<IngredientDef> ingredients = null, GameRules rules = null, IReadOnlyList<ItemDef> items = null)
         {
             Id = DishDef.RequireId(id);
-            Dishes = dishes ?? throw new ArgumentNullException(nameof(dishes));
+            Dishes = new List<DishDef>(dishes ?? throw new ArgumentNullException(nameof(dishes)));
             Furniture = new List<FurnitureDef>(furniture ?? throw new ArgumentNullException(nameof(furniture)));
             CustomerTypes = customerTypes ?? throw new ArgumentNullException(nameof(customerTypes));
             StaffTypes = staffTypes ?? Array.Empty<StaffTypeDef>();
@@ -456,6 +477,13 @@ namespace DemoRestaurant.Logic.Content
         }
 
         public DishDef GetDish(string id) => Get(_dishes, id, "dish");
+        public bool HasDish(string id) => id != null && _dishes.ContainsKey(id);
+        public bool HasIngredient(string id) => id != null && _ingredients.ContainsKey(id);
+        internal void AddCatalogDish(DishDef dish)
+        {
+            AddUnique(_dishes, dish.Id, dish, "dish");
+            ((List<DishDef>)Dishes).Add(dish);
+        }
         public IngredientDef GetIngredient(string id) => Get(_ingredients, id, "ingredient");
         public ItemDef GetItem(string id) => Get(_items, id, "item");
         public FurnitureDef GetFurniture(string id) => Get(_furniture, id, "furniture");

@@ -22,6 +22,10 @@ namespace DemoRestaurant.Game.Online
         private StartupFacts _facts;
         private bool _running;
         private float _syncTimer = SyncSeconds;
+        private float _catalogTimer = 60f;
+        private RemoteAssetLoader _media;
+        private string _mediaScope;
+        private readonly OnlineConfig _connection;
 
         public SupabaseAuth Auth { get; }
         public GameApiClient Api { get; }
@@ -55,6 +59,7 @@ namespace DemoRestaurant.Game.Online
         public OnlineSession(OnlineConfig config, RestaurantSession game, string packId, ServerIdMap ids, string defaultWallpaper = null)
         {
             _game = game ?? throw new ArgumentNullException(nameof(game));
+            _connection = config;
             _packId = packId;
             Sync = new OnlineSync(game, ids) { DefaultWallpaper = defaultWallpaper };
             _facts.Configured = config != null && config.IsConfigured;
@@ -64,6 +69,7 @@ namespace DemoRestaurant.Game.Online
             var http = new SupabaseHttp(config);
             Auth = new SupabaseAuth(http);
             Api = new GameApiClient(http, Auth);
+            PrepareMedia();
             Auth.SignedOut += OnSignedOut;
         }
 
@@ -119,6 +125,7 @@ namespace DemoRestaurant.Game.Online
                 _facts.PlayOffline = false;
             }
             await Run();
+            if (State == OnlineState.Online) await LoadConfig();
         }
 
         /// <summary>Advances the start-up as far as it can. Safe to call repeatedly (e.g. when the app resumes).</summary>
@@ -158,6 +165,7 @@ namespace DemoRestaurant.Game.Online
                 return;
             }
             if (State != OnlineState.Online) return;
+            _catalogTimer -= unscaledDt;
             _syncTimer -= unscaledDt;
             if (_syncTimer > 0f) return;
             _syncTimer = SyncSeconds;
@@ -169,8 +177,18 @@ namespace DemoRestaurant.Game.Online
         {
             if (State != OnlineState.Online || _running) return false;
             _running = true;
-            try { return await SyncAll(false); }
+            try {
+                if (_catalogTimer <= 0f) { _catalogTimer = 60f; await LoadConfig(); }
+                return await SyncAll(false);
+            }
             finally { _running = false; }
+        }
+
+        public void RefreshContentOnResume()
+        {
+            _catalogTimer = 0f;
+            if (State == OnlineState.Unreachable) _ = Run();
+            else if (State == OnlineState.Online) _ = SyncNow();
         }
 
         /// <summary>Writes the action log and instance ids (call with the game save).</summary>
@@ -236,10 +254,28 @@ namespace DemoRestaurant.Game.Online
             }
             Sync.Catalog = ServerCatalog.FromConfig(config);
             Sync.Catalog.ApplyFurniture(_game.Content, Sync.Ids);
+            _game.Recipes.RefreshCatalog(_game.Content.Dishes);
             Content.Loc.ApplyCatalog(config);
             _game.ServerWardrobe = Sync.Catalog.HasWardrobe;
             Api.RulesetVersion = Sync.Catalog.RulesetVersion;
+            PrepareMedia();
+            await _media.Refresh(Api);
             return true;
+        }
+
+        private void PrepareMedia()
+        {
+            if (Api == null || Auth == null) return;
+            string scope = Auth.UserId + ":" + Application.platform + ":" + Application.version + ":" + ClientBuild.Number;
+            if (_mediaScope == scope) return;
+            _media?.Cancel();
+            RemoteAssetArt.Clear();
+            _mediaScope = scope;
+            var config = _connection;
+            if (config == null) return;
+            var host = new Uri(config.projectUrl).Host;
+            _media = new RemoteAssetLoader(Path.Combine(Application.persistentDataPath, "asset-media", host), scope, host, Sync.Ids);
+            _media.LoadCached();
         }
 
         /// <summary>Sends batches until the log is empty (or only retries are left). One round settles even if empty.</summary>
@@ -366,6 +402,7 @@ namespace DemoRestaurant.Game.Online
 
         private void OnSignedOut()
         {
+            _media?.Cancel(); RemoteAssetArt.Clear(); _media = null; _mediaScope = null;
             _facts = new StartupFacts { Configured = _facts.Configured };
             DisplayName = null;
             _game.Profile.SetAccount(null); // back to this device's guest id; the name stays

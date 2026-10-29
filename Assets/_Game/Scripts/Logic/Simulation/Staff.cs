@@ -54,6 +54,7 @@ namespace DemoRestaurant.Logic.Simulation
         public PlacedFurniture Station { get; internal set; }
         /// <summary>Seconds before an idle chef with no reachable stove looks for one again.</summary>
         internal float StationRetry;
+        internal float CookingBaseSeconds;
         /// <summary>A waiter has been placed at their post beside a stove (they appear there once, then walk).</summary>
         internal bool Posted;
         /// <summary>The seat whose dirty dishes are being cleared, if any.</summary>

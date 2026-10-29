@@ -251,8 +251,7 @@ namespace DemoRestaurant.Game.StressTest
             if (!UsesSave)
                 return;
             // Back from the background: retry an unfinished online start-up (e.g. the network was down).
-            if (_online != null && _online.State == Logic.Online.OnlineState.Unreachable)
-                _ = _online.Run();
+            _online?.RefreshContentOnResume();
             if (_pausedAtUtc.HasValue)
             {
                 _ui.ShowWelcomeBack(_session.ApplyOfflineProgress(_pausedAtUtc.Value));
