@@ -61,6 +61,9 @@ namespace DemoRestaurant.Logic.Economy
         }
         private Func<string, int> _recipeLevel;
         public void SetRecipeLevelSource(Func<string, int> source) => _recipeLevel = source;
+        private Func<int, int> _tipFor;
+        /// <summary>The ambience tip on a bill, as the backend credits it (null = no tips).</summary>
+        public void SetTipSource(Func<int, int> tipFor) => _tipFor = tipFor;
 
         public void Tick(float dt)
         {
@@ -89,6 +92,7 @@ namespace DemoRestaurant.Logic.Economy
             // A session's wallet is credited by SaleSettled; standalone servers keep their own balance.
             int price = _catalog.Economy == null ? dish.Price :
                 EconomyFormulas.DishPrice(_catalog.Economy.settings, dish.Price, _recipeLevel?.Invoke(dish.Id) ?? 1);
+            price += Math.Max(0, _tipFor?.Invoke(price) ?? 0);
             if (_wallet == null) Balance += price;
             return new SaleResult(sale.ReceiptId, true, price);
         }

@@ -316,6 +316,16 @@ namespace DemoRestaurant.Logic.Tests
             Assert.AreEqual(500, d.Value);
             Assert.AreEqual(40, new RestaurantDemand(Rules, 1).Value);
         }
+
+        [Test]
+        public void Display_IsPointsOverTen_TheReferenceZeroToFiftyScale()
+        {
+            var d = new RestaurantDemand(Rules);
+            d.Restore(120);
+            Assert.AreEqual(12.0, d.Display, 1e-9);
+            d.Restore(500);
+            Assert.AreEqual(50.0, d.Display, 1e-9);
+        }
     }
 
     public class CustomerArrivalsTests

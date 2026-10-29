@@ -135,6 +135,58 @@ namespace DemoRestaurant.Logic.Tests
         }
 
         [Test]
+        public void TipsFollowAmbienceUpToTheCap_AndRoundLikeTheServer()
+        {
+            var tips = new TipRules { Enabled = true, PerAmbience = 0.03f, Cap = 0.4f };
+            Assert.AreEqual(0, tips.TipFor(100, 0));
+            Assert.AreEqual(9, tips.TipFor(100, 3));     // 3 points x 3% = 9%
+            Assert.AreEqual(40, tips.TipFor(100, 50));   // capped at 40%
+            Assert.AreEqual(2, tips.TipFor(15, 5));      // 15 x 15% = 2.25 -> 2
+            Assert.AreEqual(3, tips.TipFor(10, 9), "half rounds away from zero, as Postgres round() does");
+            tips.Enabled = false;
+            Assert.AreEqual(0, tips.TipFor(100, 50));
+        }
+
+        [Test]
+        public void PublishedTipsAndAmbienceReachThePackAndTheLocalServer()
+        {
+            var pack = ManagedPack();
+            var config = ManagedConfig();
+            config["body"].Set("modes", JsonValue.Parse(@"{""tips"":""ambience""}"));
+            var settings = config["body"]["economy"]["settings"];
+            settings.Set("tipPerAmbience", JsonValue.Parse("0.05")); settings.Set("tipCap", JsonValue.Parse("0.4"));
+            config["body"]["catalog"]["furniture"].Items[0].Set("ambience", 2L);
+            ServerCatalog.FromConfig(JsonValue.Parse(config.ToString())).ApplyFurniture(pack);
+            Assert.IsTrue(pack.Rules.Tips.Enabled); Assert.AreEqual(0.05f, pack.Rules.Tips.PerAmbience, 1e-6);
+            Assert.AreEqual(2, pack.GetFurniture("gas_stove").Ambience);
+
+            var server = new DemoRestaurant.Logic.Economy.LocalEconomyServer(pack, latencySeconds: 0f);
+            server.SetTipSource(price => pack.Rules.Tips.TipFor(price, 4)); // 4 points x 5% = 20%
+            int settled = -1;
+            server.SaleSettled += r => settled = r.AwardedCoins;
+            server.SubmitSale(new DemoRestaurant.Logic.Economy.SaleReport(1, "base", 0));
+            server.Tick(0.1f);
+            Assert.AreEqual(25 + 5, settled, "the base recipe's 25 coins plus a 20% tip");
+
+            config["body"].Set("modes", JsonValue.Parse(@"{""tips"":""off""}"));
+            ServerCatalog.FromConfig(JsonValue.Parse(config.ToString())).ApplyFurniture(pack);
+            Assert.IsFalse(pack.Rules.Tips.Enabled);
+        }
+
+        [Test]
+        public void FoodPatienceAddsSecondsPerAmbiencePoint()
+        {
+            var patient = new CustomerTypeDef("auntie", "c", 2, 30, 2, foodPatienceSeconds: 40);
+            int ambience = 4;
+            var layout = new RestaurantLayout(6, 6, new GridPos(0, 1));
+            var sim = new RestaurantSim(layout, new DemoRestaurant.Logic.Menu.RestaurantMenu(new[] { new DishDef("meal", "meal", 10, 4, 5) }, 1), 1,
+                new SimSettings { FoodPatience = new FoodPatienceRules { baseSeconds = 40f, perAmbienceSeconds = 1.5f, ReferenceBaseSeconds = 40f }, Ambience = () => ambience });
+            Assert.AreEqual(46f, sim.FoodPatienceFor(patient), 1e-4);
+            ambience = 0;
+            Assert.AreEqual(40f, sim.FoodPatienceFor(patient), 1e-4);
+        }
+
+        [Test]
         public void FoodPatienceScalesEachGuestTypeWhenItArrives()
         {
             var patient = new CustomerTypeDef("auntie", "c", 2, 30, 2, foodPatienceSeconds: 55);

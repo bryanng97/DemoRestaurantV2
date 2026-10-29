@@ -233,6 +233,8 @@ namespace DemoRestaurant.Logic.Content
         public string AssetKey { get; internal set; }
         public string ShopCategory { get; internal set; }
         public string ConfiguredTypeId { get; internal set; }
+        /// <summary>Ambience points this piece adds while placed (published catalog; raises tips and food patience).</summary>
+        public int Ambience { get; internal set; }
 
         /// <summary>Uses before it breaks and needs fixing (toilets); 0 = never breaks.</summary>
         public int BreakCount { get; }
@@ -375,6 +377,17 @@ namespace DemoRestaurant.Logic.Content
         public float Scale => ReferenceBaseSeconds > 0f && baseSeconds > 0f ? baseSeconds / ReferenceBaseSeconds : 1f;
     }
 
+    /// <summary>Tips from ambience (BO game rules → tips): a paying guest adds bill × min(cap, rate × ambience).</summary>
+    public sealed class TipRules
+    {
+        public bool Enabled;
+        public float PerAmbience;
+        public float Cap;
+
+        public int TipFor(int price, int ambience) =>
+            Enabled && price > 0 && ambience > 0 ? (int)Math.Round(price * Math.Min(Cap, PerAmbience * ambience), MidpointRounding.AwayFromZero) : 0;
+    }
+
     /// <summary>How a garden watering counts (BO game rules → watering).</summary>
     public sealed class GardenWateringRules
     {
@@ -431,6 +444,7 @@ namespace DemoRestaurant.Logic.Content
         public StaffEnergyRules StaffEnergy = new StaffEnergyRules();
         public FoodPatienceRules FoodPatience = new FoodPatienceRules();
         public GardenWateringRules GardenWatering = new GardenWateringRules();
+        public TipRules Tips = new TipRules();
         /// <summary>Items a new player starts with (item id -> count, resolved by the loader).</summary>
         public IReadOnlyList<KeyValuePair<ItemDef, int>> StartingItems = Array.Empty<KeyValuePair<ItemDef, int>>();
     }

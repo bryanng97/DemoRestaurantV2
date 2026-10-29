@@ -111,6 +111,7 @@ namespace DemoRestaurant.Logic.Online
                 piece.Available = entry.Available;
                 piece.ShopCategory = data["category"].AsString();
                 piece.ConfiguredTypeId = data["typeId"].AsString() ?? data["kind"].AsString();
+                piece.Ambience = Math.Max(0, data["ambience"].AsInt(piece.Ambience));
                 if (data["localizedNames"].Kind == JsonKind.Object) piece.NameKey = "catalog.furniture." + entry.Id;
             }
             ApplyConfiguration(pack, ids);
@@ -214,6 +215,12 @@ namespace DemoRestaurant.Logic.Online
         /// </summary>
         private void ApplyRules(Content.ContentPack pack)
         {
+            // Tips are a mode plus two sheet settings (BO → Game Rules → Tips).
+            var tips = pack.Rules.Tips;
+            var economySettings = _body["economy"]["settings"];
+            tips.Enabled = _body["modes"]["tips"].AsString() == "ambience";
+            tips.PerAmbience = (float)economySettings["tipPerAmbience"].AsDouble(tips.PerAmbience);
+            tips.Cap = (float)economySettings["tipCap"].AsDouble(tips.Cap);
             var rules = _body["rules"];
             if (rules.Kind != JsonKind.Object) return;
             var target = pack.Rules;

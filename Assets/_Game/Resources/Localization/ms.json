@@ -462,6 +462,7 @@
     { "key": "ui.hud.level", "value": "Tahap {0}" },
     { "key": "ui.hud.demand", "value": "Populariti" },
     { "key": "ui.hud.guests", "value": "Seorang tetamu setiap {0}s" },
+    { "key": "ui.hud.guests_capped", "value": "Tiada lagi tetamu hari ini" },
     { "key": "ui.staff.hire_row", "value": "Upah {0} · {1}\nStaf {2}/{3} · {4}" },
     { "key": "ui.menu.slots", "value": "{0} {1}/{2}" },
     { "key": "ui.menu.cat.Starter", "value": "Pembuka selera" },

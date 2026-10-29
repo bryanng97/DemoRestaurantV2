@@ -13,6 +13,8 @@ namespace DemoRestaurant.Logic.Simulation
         public StaffEnergyRules StaffEnergy = new StaffEnergyRules();
         /// <summary>Scales each guest type's food patience (published game rules); read when a guest arrives.</summary>
         public FoodPatienceRules FoodPatience = new FoodPatienceRules();
+        /// <summary>Current ambience points (each adds the published seconds of food patience); null = none.</summary>
+        public Func<int> Ambience;
         /// <summary>Seconds to clear a table after a customer ate (at work speed 1). 0 = no dirty dishes.</summary>
         public float CleanSeconds;
         /// <summary>Duration of each player-requested cleaning task; tasks run one at a time.</summary>
@@ -90,6 +92,14 @@ namespace DemoRestaurant.Logic.Simulation
             WatchReach();
         }
 
+        /// <summary>Food patience of a guest arriving now: the type's time scaled by the published base, plus ambience.</summary>
+        public float FoodPatienceFor(CustomerTypeDef type)
+        {
+            var rules = _settings.FoodPatience;
+            int ambience = Math.Max(0, _settings.Ambience?.Invoke() ?? 0);
+            return type.FoodPatienceSeconds * rules.Scale + Math.Max(0f, rules.perAmbienceSeconds) * ambience;
+        }
+
         public Customer SpawnCustomer(CustomerTypeDef type)
         {
             if (_settings.StreetWalk)
@@ -97,7 +107,7 @@ namespace DemoRestaurant.Logic.Simulation
                 // Appear at the front end of the street and walk to the door; decide on a seat on arrival.
                 var route = _layout.StreetRouteIn();
                 var walker = new Customer(_nextCustomerId++, type, Vec2.CellCentre(route[0]));
-                walker.FoodPatienceSeconds = type.FoodPatienceSeconds * _settings.FoodPatience.Scale;
+                walker.FoodPatienceSeconds = FoodPatienceFor(type);
                 _customers.Add(walker);
                 walker.Path.Clear();
                 walker.Path.AddRange(route);
@@ -108,7 +118,7 @@ namespace DemoRestaurant.Logic.Simulation
             }
 
             var c = new Customer(_nextCustomerId++, type, Vec2.CellCentre(_layout.Entrance));
-            c.FoodPatienceSeconds = type.FoodPatienceSeconds * _settings.FoodPatience.Scale;
+            c.FoodPatienceSeconds = FoodPatienceFor(type);
             _customers.Add(c);
             CustomerSpawned?.Invoke(c);
             ArriveAtDoor(c);

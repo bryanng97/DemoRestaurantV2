@@ -134,6 +134,7 @@ namespace DemoRestaurant.Logic.Session
             Economy.SaleSettled += Wallet.Settle;
             (Economy as LocalEconomyServer)?.SetRecipeLevelSource(id => Recipes.LevelOf(Content.GetDish(id)));
             (Economy as LocalEconomyServer)?.SetLevelSource(() => Progress.Level);
+            (Economy as LocalEconomyServer)?.SetTipSource(TipFor);
             RestoreTerraceFromLayout();
             Earnings = new EarningsTracker();
 
@@ -141,6 +142,7 @@ namespace DemoRestaurant.Logic.Session
             {
                 StaffEnergy = Rules.StaffEnergy,
                 FoodPatience = Rules.FoodPatience,
+                Ambience = () => Ambience,
                 CleanSeconds = Math.Max(0f, Rules.CleanSeconds),
                 PlayerCleanSeconds = Math.Max(.1f, Rules.PlayerCleanSeconds),
                 StreetWalk = true,
@@ -540,9 +542,26 @@ namespace DemoRestaurant.Logic.Session
             EntertainmentEarned?.Invoke(item, coins);
         }
 
+        /// <summary>Ambience of the saved layout: every placed floor and wall piece's points, each copy counting.</summary>
+        public int Ambience
+        {
+            get
+            {
+                int total = 0;
+                foreach (var p in Layout.Furniture) total += p.Def.Ambience;
+                foreach (var w in Layout.WallItems) total += w.Def.Ambience;
+                return total;
+            }
+        }
+
+        /// <summary>The tip a paying guest adds to a bill of <paramref name="price"/> (0 while tips are off).</summary>
+        public int TipFor(int price) => Rules.Tips.TipFor(price, Ambience);
+
         private void OnCustomerPaid(Customer c, int coins)
         {
+            // The bill plus the ambience tip, as the server will credit it.
             coins = PriceForDish(c.Order);
+            coins += TipFor(coins);
             long receipt = Wallet.Predict(coins);
             Economy.SubmitSale(new SaleReport(receipt, c.Order.Id, coins));
             Earnings.Record(Time, coins);

@@ -31,6 +31,9 @@ namespace DemoRestaurant.Logic.Progression
 
         public double Value { get; private set; }
 
+        /// <summary>Popularity as players see it (reference game): points ÷ 10, so 120 points is 12.0 of 50.</summary>
+        public double Display => Value / 10.0;
+
         /// <summary>Raised with the change (positive or negative).</summary>
         public event Action<double> Changed;
 
