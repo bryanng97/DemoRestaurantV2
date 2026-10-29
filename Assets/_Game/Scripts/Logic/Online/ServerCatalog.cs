@@ -163,6 +163,7 @@ namespace DemoRestaurant.Logic.Online
                     unlockLevel = dish.UnlockLevel, inPhase1 = dish.Enabled });
             }
             ApplyRules(pack);
+            ApplyItems(pack, ids);
             if (pack.Economy != null && economyRows.Count > 0)
             {
                 pack.Economy.dishes = economyRows.ToArray();
@@ -176,6 +177,33 @@ namespace DemoRestaurant.Logic.Online
                     target.xpUpgradeBase = settings["xpUpgradeBase"].AsInt(target.xpUpgradeBase);
                     target.xpUpgradePerLevel = settings["xpUpgradePerLevel"].AsInt(target.xpUpgradePerLevel);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Staff items (BO → Catalog → Staff items): published price, energy, availability and unlock level replace the
+        /// shipped values; items added in the BO join the pack, drawn with the first shipped item's icon.
+        /// </summary>
+        private void ApplyItems(Content.ContentPack pack, ServerIdMap ids)
+        {
+            string template = pack.Items.Count > 0 ? pack.Items[0].AssetKey ?? pack.Items[0].Id : null;
+            foreach (var row in _body["catalog"]["items"].Items)
+            {
+                string id = ids.ToLocal(row["id"].AsString());
+                int energy = row["energy"].AsInt(0), price = row["price"].AsInt(-1);
+                if (string.IsNullOrEmpty(id) || energy <= 0 || price < 0) continue;
+                Content.ItemDef item;
+                if (pack.HasItem(id)) item = pack.GetItem(id);
+                else
+                {
+                    if (template == null) continue; // Nothing to draw it with in this build.
+                    item = new Content.ItemDef(id, "catalog.item." + row["id"].AsString(), energy, price) { AssetKey = template };
+                    pack.AddCatalogItem(item);
+                }
+                item.EnergyRestore = Math.Min(Content.StaffEnergyRules.Max, energy);
+                item.Price = price;
+                item.Available = row["available"].AsBool(true);
+                item.UnlockLevel = Math.Max(1, row["unlockLevel"].AsInt(1));
             }
         }
 
@@ -230,6 +258,16 @@ namespace DemoRestaurant.Logic.Online
             target.MarketBaskets = Math.Max(1, rules["marketBaskets"].AsInt(target.MarketBaskets));
             target.MarketRestockSeconds = (float)rules["marketRestockSeconds"].AsDouble(target.MarketRestockSeconds);
             target.GardenHarvest = Math.Max(1, rules["gardenHarvest"].AsInt(target.GardenHarvest));
+            var patience = rules["foodPatience"];
+            if (patience.Kind == JsonKind.Object)
+            {
+                // Only the base moves; the pack's own reference base stays, so guest types scale against it.
+                target.FoodPatience.baseSeconds = (float)patience["baseSeconds"].AsDouble(target.FoodPatience.baseSeconds);
+                target.FoodPatience.perAmbienceSeconds = (float)patience["perAmbienceSeconds"].AsDouble(target.FoodPatience.perAmbienceSeconds);
+            }
+            var watering = rules["gardenWatering"];
+            target.GardenWatering.AddsUp = watering.Kind == JsonKind.Object && watering["mode"].AsString() == "add";
+            target.GardenWatering.CapHours = (float)watering["capHours"].AsDouble(0);
             var fun = rules["entertainment"];
             if (fun.Kind == JsonKind.Object)
             {

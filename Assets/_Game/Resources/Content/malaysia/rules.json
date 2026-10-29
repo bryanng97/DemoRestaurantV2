@@ -14,6 +14,7 @@
   "cleanSeconds": 4,
   "playerCleanSeconds": 5,
   "idleCleanTripSeconds": 8,
+  "foodPatience": { "baseSeconds": 40, "perAmbienceSeconds": 1.5 },
   "staffEnergy": {
     "drainPerMinute": 0.41666667,
     "recoverPerMinute": 1.25,

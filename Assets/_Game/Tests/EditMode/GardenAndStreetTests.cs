@@ -105,6 +105,23 @@ namespace DemoRestaurant.Logic.Tests
         }
 
         [Test]
+        public void AddModeWatering_TopsUpTheWaterLeft_UpToTheCap()
+        {
+            var settings = Settings(); settings.wateringHours = 3;
+            var watering = new GardenWateringRules { AddsUp = true, CapHours = 9 };
+            var g = new Garden(new[] { Chili, Rice }, settings, 3, new Random(1), watering);
+            Assert.IsNotNull(g.Plant(0, 3, T0)); // planting waters once: 3 h
+            Assert.IsTrue(g.Water(0, 3, T0));
+            Assert.AreEqual(TimeSpan.FromHours(6), g.WaterLeft(0, T0));
+            Assert.IsTrue(g.Water(0, 3, T0)); Assert.IsTrue(g.Water(0, 3, T0));
+            Assert.AreEqual(TimeSpan.FromHours(9), g.WaterLeft(0, T0), "never more than the cap");
+
+            watering.AddsUp = false; // the BO switched back to refresh
+            Assert.IsTrue(g.Water(0, 3, T0.AddHours(1)));
+            Assert.AreEqual(TimeSpan.FromHours(3), g.WaterLeft(0, T0.AddHours(1)));
+        }
+
+        [Test]
         public void PlotsOpenAtTheSheetsLevels()
         {
             var g = NewGarden();

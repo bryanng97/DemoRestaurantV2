@@ -126,7 +126,7 @@ namespace DemoRestaurant.Logic.Session
                 () => Rules.Demand.DailyGuestCap, () => GuestDay(_utcNow()));
             if (content.Ingredients.Count > 0)
                 Market = new IngredientMarket(content.Ingredients, Rules.MarketBaskets, Rules.MarketRestockSeconds, _random);
-            Garden = new Garden(content.Ingredients, Settings, Rules.GardenHarvest, _random);
+            Garden = new Garden(content.Ingredients, Settings, Rules.GardenHarvest, _random, Rules.GardenWatering);
 
             Wallet = new Wallet(startingCoins);
             Economy = economy ?? new LocalEconomyServer(content, startingCoins: startingCoins,
@@ -140,6 +140,7 @@ namespace DemoRestaurant.Logic.Session
             Sim = new RestaurantSim(layout, Menu, seed, new SimSettings
             {
                 StaffEnergy = Rules.StaffEnergy,
+                FoodPatience = Rules.FoodPatience,
                 CleanSeconds = Math.Max(0f, Rules.CleanSeconds),
                 PlayerCleanSeconds = Math.Max(.1f, Rules.PlayerCleanSeconds),
                 StreetWalk = true,
@@ -340,9 +341,12 @@ namespace DemoRestaurant.Logic.Session
         }
 
         /// <summary>Buys one item with coins.</summary>
+        /// <summary>True when the item is on sale now: published as available and unlocked at this level.</summary>
+        public bool CanBuyItem(ItemDef item) => item != null && item.Price > 0 && item.Available && Progress.Level >= item.UnlockLevel;
+
         public bool BuyItem(ItemDef item)
         {
-            if (item == null || item.Price <= 0 || !Wallet.TrySpend(item.Price))
+            if (!CanBuyItem(item) || !Wallet.TrySpend(item.Price))
                 return false;
             Items.Add(item);
             RecordAction("item_buy", Body().Set("itemId", item.Id).Set("count", 1), coins: -item.Price);

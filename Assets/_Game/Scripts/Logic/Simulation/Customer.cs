@@ -82,16 +82,20 @@ namespace DemoRestaurant.Logic.Simulation
             get
             {
                 if (State == CustomerState.WaitingForFood)
-                    return 1f - Math.Min(1f, WaitedForFood / Type.FoodPatienceSeconds);
+                    return 1f - Math.Min(1f, WaitedForFood / FoodPatienceSeconds);
                 if (IsQueuing && Type.PatienceSeconds > 0)
                     return 1f - Math.Min(1f, WaitedForSeat / Type.PatienceSeconds);
                 return 1f;
             }
         }
 
+        /// <summary>Seconds this guest waits for food: the type's time scaled by the published rules when it arrived.</summary>
+        public float FoodPatienceSeconds { get; internal set; }
+
         internal Customer(int id, CustomerTypeDef type, Vec2 position) : base(id, position)
         {
             Type = type;
+            FoodPatienceSeconds = type.FoodPatienceSeconds;
         }
     }
 }

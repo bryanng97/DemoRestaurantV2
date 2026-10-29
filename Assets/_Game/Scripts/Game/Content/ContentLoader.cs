@@ -291,6 +291,7 @@ namespace DemoRestaurant.Game.Content
                 StartingIngredients = Amounts(r.startingIngredients, ingredientById, "startingIngredients"),
                 StaffEnergy = EnergyRules(r.staffEnergy),
                 StartingItems = ItemAmounts(r.startingItems, itemById),
+                FoodPatience = PatienceRules(r.foodPatience),
             };
 
             var theme = Read<ThemeArt>(packId, "theme");
@@ -388,6 +389,14 @@ namespace DemoRestaurant.Game.Content
                     throw new ContentException($"'{owner}' has an unknown avatar part '{p}'.");
             }
             return look;
+        }
+
+        // JsonUtility fills a missing object with zeros: no base means the guest types' own times.
+        private static FoodPatienceRules PatienceRules(FoodPatienceRules rules)
+        {
+            if (rules == null || rules.baseSeconds <= 0f) return new FoodPatienceRules { baseSeconds = 0f, ReferenceBaseSeconds = 0f };
+            rules.ReferenceBaseSeconds = rules.baseSeconds;
+            return rules;
         }
 
         private static StaffEnergyRules EnergyRules(EnergyDto dto)
@@ -556,6 +565,7 @@ namespace DemoRestaurant.Game.Content
             public DemoRestaurant.Logic.Progression.ToiletRules toilets = new DemoRestaurant.Logic.Progression.ToiletRules();
             public EntertainmentRules entertainment = new EntertainmentRules();
             public TrashRules trash = new TrashRules();
+            public FoodPatienceRules foodPatience;
             public int marketBaskets = 4; public int gardenHarvest = 3; public float noTableWaitSeconds = 20f; public int waitingSpots = 3; public float marketRestockSeconds = 60f; public float nameChangeCooldownHours = 24f;
             public float cleanSeconds = 4f; public float playerCleanSeconds = 5f; public float idleCleanTripSeconds = 8f;
             public DemandDto demand;

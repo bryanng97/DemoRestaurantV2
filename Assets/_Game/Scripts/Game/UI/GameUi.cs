@@ -200,7 +200,8 @@ namespace DemoRestaurant.Game.UI
         public Sprite IconFor(DishDef dish) => dish == null ? null : _art.Get(Content.IconForDish(dish.Id));
 
         public Sprite ItemIcon(ItemDef item) =>
-            item != null && Content.ItemIcons.TryGetValue(item.Id, out var key) ? _art.Get(key) : null;
+            item != null && (Content.ItemIcons.TryGetValue(item.Id, out var key)
+                || item.AssetKey != null && Content.ItemIcons.TryGetValue(item.AssetKey, out key)) ? _art.Get(key) : null;
 
         /// <summary>The skin's baked full-figure owner (standing, facing the viewer), or null.</summary>
         public Sprite BakedOwnerFigure()

@@ -11,6 +11,8 @@ namespace DemoRestaurant.Logic.Simulation
     {
         public float OrderSeconds = 1.5f;
         public StaffEnergyRules StaffEnergy = new StaffEnergyRules();
+        /// <summary>Scales each guest type's food patience (published game rules); read when a guest arrives.</summary>
+        public FoodPatienceRules FoodPatience = new FoodPatienceRules();
         /// <summary>Seconds to clear a table after a customer ate (at work speed 1). 0 = no dirty dishes.</summary>
         public float CleanSeconds;
         /// <summary>Duration of each player-requested cleaning task; tasks run one at a time.</summary>
@@ -95,6 +97,7 @@ namespace DemoRestaurant.Logic.Simulation
                 // Appear at the front end of the street and walk to the door; decide on a seat on arrival.
                 var route = _layout.StreetRouteIn();
                 var walker = new Customer(_nextCustomerId++, type, Vec2.CellCentre(route[0]));
+                walker.FoodPatienceSeconds = type.FoodPatienceSeconds * _settings.FoodPatience.Scale;
                 _customers.Add(walker);
                 walker.Path.Clear();
                 walker.Path.AddRange(route);
@@ -105,6 +108,7 @@ namespace DemoRestaurant.Logic.Simulation
             }
 
             var c = new Customer(_nextCustomerId++, type, Vec2.CellCentre(_layout.Entrance));
+            c.FoodPatienceSeconds = type.FoodPatienceSeconds * _settings.FoodPatience.Scale;
             _customers.Add(c);
             CustomerSpawned?.Invoke(c);
             ArriveAtDoor(c);
@@ -248,7 +252,7 @@ namespace DemoRestaurant.Logic.Simulation
                 case CustomerState.WaitingForFood:
                     // A waiter delivers the dish (see Serve). Until then, patience runs down.
                     c.WaitedForFood += dt;
-                    if (c.WaitedForFood >= c.Type.FoodPatienceSeconds)
+                    if (c.WaitedForFood >= c.FoodPatienceSeconds)
                     {
                         c.IsAngry = true;
                         CancelTicket(c);

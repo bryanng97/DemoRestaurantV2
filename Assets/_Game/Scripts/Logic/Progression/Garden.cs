@@ -56,6 +56,7 @@ namespace DemoRestaurant.Logic.Progression
         private readonly Plot[] _plots = new Plot[PlotCount];
         private readonly IReadOnlyList<IngredientDef> _crops;
         private readonly EconomySettings _settings;
+        private readonly GardenWateringRules _watering;
         private readonly Random _random;
 
         /// <summary>Ingredients a harvest gives.</summary>
@@ -63,9 +64,12 @@ namespace DemoRestaurant.Logic.Progression
         public int SeedCost => _settings.seedCost;
         public double WateringSeconds => _settings.wateringHours * 3600.0;
 
-        public Garden(IReadOnlyList<IngredientDef> ingredients, EconomySettings settings, int harvestAmount, Random random)
+        /// <param name="watering">How a watering counts (published game rules); null = each lasts the watering hours.</param>
+        public Garden(IReadOnlyList<IngredientDef> ingredients, EconomySettings settings, int harvestAmount, Random random,
+            GardenWateringRules watering = null)
         {
             _settings = settings ?? throw new ArgumentNullException(nameof(settings));
+            _watering = watering;
             _random = random ?? throw new ArgumentNullException(nameof(random));
             HarvestAmount = Math.Max(1, harvestAmount);
             var crops = new List<IngredientDef>();
@@ -162,14 +166,25 @@ namespace DemoRestaurant.Logic.Progression
             return crop;
         }
 
-        /// <summary>Refills the water (a fresh watering period, not added on top). Only for growing or dry plants.</summary>
+        /// <summary>
+        /// Waters a growing or dry plant: by default a fresh watering period (not added on top); when the published
+        /// rules say so, the watering hours are added to the water left, up to the cap.
+        /// </summary>
         public bool Water(int index, int level, DateTime nowUtc)
         {
             var state = StateOf(index, level, nowUtc);
             if (state != PlotState.Growing && state != PlotState.Dry) return false;
             var p = _plots[index];
             Settle(p, nowUtc);
-            p.WaterUntil = nowUtc.AddSeconds(WateringSeconds);
+            if (_watering != null && _watering.AddsUp && _watering.CapHours > 0f)
+            {
+                var from = p.WaterUntil > nowUtc ? p.WaterUntil : nowUtc;
+                var cap = nowUtc.AddHours(_watering.CapHours);
+                var added = from.AddSeconds(WateringSeconds);
+                p.WaterUntil = added < cap ? added : cap;
+            }
+            else
+                p.WaterUntil = nowUtc.AddSeconds(WateringSeconds);
             return true;
         }
 

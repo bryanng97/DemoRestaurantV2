@@ -116,6 +116,13 @@ namespace DemoRestaurant.Game.Content
                 if (!names.ContainsKey(Fallback) && row["name"].AsString() != null) names[Fallback] = row["name"].AsString();
                 if (names.Count > 0) _catalogNames["catalog.recipe." + row["id"].AsString()] = names;
             }
+            // Staff items carry one published name; items added in the BO use it in every language.
+            foreach (var row in config["body"]["catalog"]["items"].Items)
+            {
+                string id = row["id"].AsString(), name = row["name"].AsString();
+                if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(name)) continue;
+                _catalogNames["catalog.item." + id] = new Dictionary<string, string> { [Fallback] = name };
+            }
             LanguageChanged?.Invoke();
         }
 

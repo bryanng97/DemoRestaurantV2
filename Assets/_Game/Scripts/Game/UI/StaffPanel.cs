@@ -29,7 +29,7 @@ namespace DemoRestaurant.Game.UI
         private readonly List<(StaffRole role, Text label)> _roleCounts = new List<(StaffRole, Text)>();
         private readonly List<(StaffRole role, Button button, Text label)> _jobButtons = new List<(StaffRole, Button, Text)>();
         private Text _itemLabel, _buyLabel, _ownerName, _ownerJob;
-        private Image _ownerPortrait;
+        private Image _ownerPortrait, _itemIcon;
         private Button _buy, _refill;
         private Text _refillLabel;
         private ItemDef _item;
@@ -49,11 +49,13 @@ namespace DemoRestaurant.Game.UI
                 BuildHireRow(content, Roles[i], i * 62);
             }
 
-            // Energy item: count and a buy button.
+            // Energy item: count and a buy button. With several items (added in the BO) a tap on the icon switches.
             _item = Ui.Session.Content.Items.Count > 0 ? Ui.Session.Content.Items[0] : null;
             if (_item != null)
             {
-                UiKit.AddImage(UiKit.Place(UiKit.NewRect("ItemIcon", content), 0, 190, 48, 48), Ui.ItemIcon(_item));
+                _itemIcon = UiKit.AddImage(UiKit.Place(UiKit.NewRect("ItemIcon", content), 0, 190, 48, 48), Ui.ItemIcon(_item));
+                _itemIcon.raycastTarget = true;
+                _itemIcon.gameObject.AddComponent<Button>().onClick.AddListener(NextItem);
                 _itemLabel = UiKit.Label(content, "Item", 56, 190, 270, 48, 22, TextAnchor.MiddleLeft, UiKit.DarkText);
                 _itemLabel.resizeTextForBestFit = true; _itemLabel.resizeTextMinSize = 14; _itemLabel.resizeTextMaxSize = 22;
                 // One tap: coffee for everyone who isn't full, most tired first.
@@ -140,9 +142,12 @@ namespace DemoRestaurant.Game.UI
 
             if (_item != null)
             {
+                _itemIcon.sprite = Ui.ItemIcon(_item);
                 _itemLabel.text = Loc.Format("ui.staff.item_count", Loc.Get(_item.NameKey), session.Items.Count(_item), _item.EnergyRestore.ToString("0"));
-                _buyLabel.text = Loc.Format("ui.staff.buy", _item.Price);
-                UiKit.SetButtonColor(_buy, session.Wallet.DisplayCoins >= _item.Price ? UiKit.Gold : UiKit.Disabled);
+                _buyLabel.text = session.CanBuyItem(_item) ? Loc.Format("ui.staff.buy", _item.Price)
+                    : Loc.Format("ui.staff.unlocks_at", _item.UnlockLevel);
+                if (!_item.Available) _buyLabel.text = Loc.Get("ui.staff.item_not_sold");
+                UiKit.SetButtonColor(_buy, session.CanBuyItem(_item) && session.Wallet.DisplayCoins >= _item.Price ? UiKit.Gold : UiKit.Disabled);
                 _refillLabel.text = Loc.Get("ui.staff.refill_all");
                 bool anyTired = false;
                 foreach (var s in session.Sim.Staff) anyTired |= s.Energy < StaffEnergyRules.Max;
@@ -293,9 +298,35 @@ namespace DemoRestaurant.Game.UI
 
         private void BuyItem()
         {
-            if (!Ui.Session.BuyItem(_item))
+            if (!Ui.Session.CanBuyItem(_item))
+                Ui.Toast(_item.Available ? Loc.Format("ui.staff.unlocks_at", _item.UnlockLevel) : Loc.Get("ui.staff.item_not_sold"));
+            else if (!Ui.Session.BuyItem(_item))
                 Ui.Toast(Loc.Get("ui.staff.no_coins"));
             Refresh();
+        }
+
+        /// <summary>Shows the next staff item that is on sale or still owned.</summary>
+        private void NextItem()
+        {
+            var items = Ui.Session.Content.Items;
+            int start = System.Math.Max(0, IndexOf(items, _item));
+            for (int step = 1; step <= items.Count; step++)
+            {
+                var candidate = items[(start + step) % items.Count];
+                if (candidate.Available || Ui.Session.Items.Count(candidate) > 0)
+                {
+                    _item = candidate;
+                    break;
+                }
+            }
+            Refresh();
+        }
+
+        private static int IndexOf(IReadOnlyList<ItemDef> items, ItemDef item)
+        {
+            for (int i = 0; i < items.Count; i++)
+                if (items[i] == item) return i;
+            return -1;
         }
 
         private void RefillAll()

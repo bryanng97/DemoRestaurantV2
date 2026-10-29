@@ -103,6 +103,51 @@ namespace DemoRestaurant.Logic.Tests
             Assert.AreEqual(150, demand.Start);
         }
 
+        [Test]
+        public void PublishedPatienceWateringAndItemsReachTheClient()
+        {
+            var kopi = new ItemDef("kopi_o_kaw", "item.kopi", 40, 30);
+            var flour = new IngredientDef("flour", "flour", 1);
+            var pack = new ContentPack("test", new[] { new DishDef("base", "base", 10, 4, 5, recipe: new[] { new IngredientAmount(flour, 1) }, isStarter: true) },
+                new FurnitureDef[0], new CustomerTypeDef[0], ingredients: new[] { flour }, items: new[] { kopi }) { Economy = new EconomyTable() };
+            pack.Rules.FoodPatience.ReferenceBaseSeconds = 40f;
+            var config = ManagedConfig();
+            config["body"].Set("rules", JsonValue.Parse(@"{""foodPatience"":{""baseSeconds"":60,""perAmbienceSeconds"":2},""gardenWatering"":{""mode"":""add"",""capHours"":9}}"));
+            config["body"]["catalog"].Set("items", JsonValue.Parse(@"[
+              {""id"":""kopi_o_kaw"",""name"":""Kopi"",""kind"":""StaffSnack"",""price"":45,""energy"":50,""unlockLevel"":1,""available"":true},
+              {""id"":""nasi_bungkus"",""name"":""Nasi bungkus"",""kind"":""StaffSnack"",""price"":120,""energy"":100,""unlockLevel"":4,""available"":true}]"));
+            ServerCatalog.FromConfig(JsonValue.Parse(config.ToString())).ApplyFurniture(pack);
+
+            Assert.AreEqual(1.5f, pack.Rules.FoodPatience.Scale, 1e-6);
+            Assert.IsTrue(pack.Rules.GardenWatering.AddsUp); Assert.AreEqual(9f, pack.Rules.GardenWatering.CapHours, 1e-6);
+            Assert.AreSame(kopi, pack.GetItem("kopi_o_kaw"));
+            Assert.AreEqual(45, kopi.Price); Assert.AreEqual(50f, kopi.EnergyRestore, 1e-6);
+            var meal = pack.GetItem("nasi_bungkus");
+            Assert.AreEqual(2, pack.Items.Count); Assert.AreEqual("kopi_o_kaw", meal.AssetKey); Assert.AreEqual(4, meal.UnlockLevel);
+
+            // Applying the same cached config again changes nothing and adds no duplicate.
+            config["body"]["catalog"]["items"].Items[0].Set("available", false);
+            ServerCatalog.FromConfig(JsonValue.Parse(config.ToString())).ApplyFurniture(pack);
+            Assert.AreEqual(2, pack.Items.Count); Assert.IsFalse(kopi.Available);
+            config["body"]["rules"].Remove("gardenWatering");
+            ServerCatalog.FromConfig(JsonValue.Parse(config.ToString())).ApplyFurniture(pack);
+            Assert.IsFalse(pack.Rules.GardenWatering.AddsUp, "no watering rule = refresh");
+        }
+
+        [Test]
+        public void FoodPatienceScalesEachGuestTypeWhenItArrives()
+        {
+            var patient = new CustomerTypeDef("auntie", "c", 2, 30, 2, foodPatienceSeconds: 55);
+            var rules = new FoodPatienceRules { baseSeconds = 60f, ReferenceBaseSeconds = 40f };
+            var layout = new RestaurantLayout(6, 6, new GridPos(0, 1));
+            var meal = new DishDef("meal", "meal", 10, 4, 5);
+            var sim = new RestaurantSim(layout, new DemoRestaurant.Logic.Menu.RestaurantMenu(new[] { meal }, 1), 1,
+                new SimSettings { FoodPatience = rules });
+            Assert.AreEqual(82.5f, sim.SpawnCustomer(patient).FoodPatienceSeconds, 1e-4);
+            rules.baseSeconds = 40f;
+            Assert.AreEqual(55f, sim.SpawnCustomer(patient).FoodPatienceSeconds, 1e-4);
+        }
+
         private static ContentPack Pack() => new ContentPack("test", new DishDef[0],
             new[] { new FurnitureDef("gas_stove", "stove", FurnitureKind.Stove, 1, 1, 1f, 0f, 120) },
             new CustomerTypeDef[0]);

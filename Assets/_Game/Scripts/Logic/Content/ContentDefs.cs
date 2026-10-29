@@ -131,10 +131,16 @@ namespace DemoRestaurant.Logic.Content
     {
         public string Id { get; }
         public string NameKey { get; }
-        /// <summary>Energy points restored when used on a staff member (energy is 0-100).</summary>
-        public float EnergyRestore { get; }
+        /// <summary>Energy points restored when used on a staff member (energy is 0-100). Published values replace it.</summary>
+        public float EnergyRestore { get; internal set; }
         /// <summary>Coins to buy one; 0 = can't be bought.</summary>
-        public int Price { get; }
+        public int Price { get; internal set; }
+        /// <summary>False when the BO stopped selling it; owned ones can still be used.</summary>
+        public bool Available { get; internal set; } = true;
+        /// <summary>Restaurant level from which it is sold.</summary>
+        public int UnlockLevel { get; internal set; } = 1;
+        /// <summary>For an item added in the BO: the shipped item whose icon it uses (null = its own).</summary>
+        public string AssetKey { get; internal set; }
 
         public ItemDef(string id, string nameKey, float energyRestore, int price)
         {
@@ -353,6 +359,30 @@ namespace DemoRestaurant.Logic.Content
         public int coinsPerUse = 1;
     }
 
+    /// <summary>
+    /// Food patience from the BO game rules: every guest type keeps its own waiting time, scaled by
+    /// <see cref="baseSeconds"/> over this pack's own base (rules.json → foodPatience).
+    /// </summary>
+    [Serializable]
+    public sealed class FoodPatienceRules
+    {
+        public float baseSeconds = 40f;
+        /// <summary>Extra seconds per ambience point (applied once ambience exists, Phase 2C).</summary>
+        public float perAmbienceSeconds = 1.5f;
+        /// <summary>The pack's own base, which the guest types' times are written against.</summary>
+        [NonSerialized] public float ReferenceBaseSeconds = 40f;
+
+        public float Scale => ReferenceBaseSeconds > 0f && baseSeconds > 0f ? baseSeconds / ReferenceBaseSeconds : 1f;
+    }
+
+    /// <summary>How a garden watering counts (BO game rules → watering).</summary>
+    public sealed class GardenWateringRules
+    {
+        /// <summary>False: each watering lasts the watering hours from now. True: it adds them, up to <see cref="CapHours"/>.</summary>
+        public bool AddsUp;
+        public float CapHours;
+    }
+
     [Serializable]
     public sealed class TrashRules
     {
@@ -399,6 +429,8 @@ namespace DemoRestaurant.Logic.Content
         public IReadOnlyList<TerraceStep> TerraceSteps = Array.Empty<TerraceStep>();
         public IReadOnlyList<IngredientAmount> StartingIngredients = Array.Empty<IngredientAmount>();
         public StaffEnergyRules StaffEnergy = new StaffEnergyRules();
+        public FoodPatienceRules FoodPatience = new FoodPatienceRules();
+        public GardenWateringRules GardenWatering = new GardenWateringRules();
         /// <summary>Items a new player starts with (item id -> count, resolved by the loader).</summary>
         public IReadOnlyList<KeyValuePair<ItemDef, int>> StartingItems = Array.Empty<KeyValuePair<ItemDef, int>>();
     }
@@ -445,7 +477,7 @@ namespace DemoRestaurant.Logic.Content
             CustomerTypes = customerTypes ?? throw new ArgumentNullException(nameof(customerTypes));
             StaffTypes = staffTypes ?? Array.Empty<StaffTypeDef>();
             Ingredients = ingredients ?? Array.Empty<IngredientDef>();
-            Items = items ?? Array.Empty<ItemDef>();
+            Items = new List<ItemDef>(items ?? Array.Empty<ItemDef>());
             Rules = rules ?? new GameRules();
 
             foreach (var d in dishes) AddUnique(_dishes, d.Id, d, "dish");
@@ -488,11 +520,17 @@ namespace DemoRestaurant.Logic.Content
         public ItemDef GetItem(string id) => Get(_items, id, "item");
         public FurnitureDef GetFurniture(string id) => Get(_furniture, id, "furniture");
         public bool HasFurniture(string id) => id != null && _furniture.ContainsKey(id);
+        public bool HasItem(string id) => id != null && _items.ContainsKey(id);
         /// <summary>Add a server variant backed by a supported local visual template.</summary>
         internal void AddCatalogFurniture(FurnitureDef piece)
         {
             AddUnique(_furniture, piece.Id, piece, "furniture");
             ((List<FurnitureDef>)Furniture).Add(piece);
+        }
+        internal void AddCatalogItem(ItemDef item)
+        {
+            AddUnique(_items, item.Id, item, "item");
+            ((List<ItemDef>)Items).Add(item);
         }
         public CustomerTypeDef GetCustomerType(string id) => Get(_customerTypes, id, "customer type");
         public StaffTypeDef GetStaffType(string id) => Get(_staffTypes, id, "staff type");

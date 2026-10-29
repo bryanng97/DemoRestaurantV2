@@ -252,6 +252,7 @@
     { "key": "ui.staff.cost", "value": "{0} syiling" },
     { "key": "ui.staff.unlocks_at", "value": "Dibuka pada Tahap {0}" },
     { "key": "ui.staff.no_coins", "value": "Syiling tidak mencukupi." },
+    { "key": "ui.staff.item_not_sold", "value": "Tidak dijual lagi" },
     { "key": "ui.staff.item_count", "value": "{0} x{1}   (+{2} tenaga)" },
     { "key": "ui.staff.buy", "value": "Beli · {0} syiling" },
     { "key": "ui.staff.energy", "value": "Tenaga {0}% · kelajuan x{1}" },
