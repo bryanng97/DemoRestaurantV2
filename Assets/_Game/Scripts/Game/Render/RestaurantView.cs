@@ -165,7 +165,12 @@ namespace DemoRestaurant.Game.Render
             AnimateFurniture(t);
             if (_editing) { SortDepth(); return; }
             foreach (var pair in _characters)
-                pair.Value.Sync(pair.Key, PoseFor(pair.Key), t);
+            {
+                // As in the reference game, a resting employee without a bed leaves the floor until back on duty.
+                bool shown = !IsOffFloor(pair.Key);
+                pair.Value.SetActive(shown);
+                if (shown) pair.Value.Sync(pair.Key, PoseFor(pair.Key), t);
+            }
 
             SyncPlates();
             SyncTableMeals();
@@ -1225,6 +1230,9 @@ namespace DemoRestaurant.Game.Render
             var hints = _art.HintsFor(key);
             return hints != null && hints.seatHeight > 0f ? hints.seatHeight : -1f;
         }
+
+        /// <summary>Resting without a bed: not drawn until they return to work.</summary>
+        public static bool IsOffFloor(Agent agent) => agent is Staff s && s.IsResting && s.Bed == null;
 
         /// <summary>What a character is doing this frame, as far as drawing is concerned.</summary>
         private CharacterPose PoseFor(Agent agent)
