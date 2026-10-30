@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using DemoRestaurant.Logic.Content;
 using DemoRestaurant.Logic.Grid;
 using DemoRestaurant.Logic.Layout;
 using DemoRestaurant.Logic.Online;
 using DemoRestaurant.Logic.Profile;
+using DemoRestaurant.Logic.Progression;
 using DemoRestaurant.Logic.Session;
 using DemoRestaurant.Logic.Simulation;
 using NUnit.Framework;
@@ -101,6 +103,25 @@ namespace DemoRestaurant.Logic.Tests
             config["body"].Remove("rules");
             ServerCatalog.FromConfig(JsonValue.Parse(config.ToString())).ApplyFurniture(pack);
             Assert.AreEqual(150, demand.Start);
+        }
+
+        [Test]
+        public void ThePublishedLevelCapReplacesTheSheetsPhaseOneCap()
+        {
+            var pack = ManagedPack();
+            pack.Economy.levels = new[] { 1, 2, 3, 4, 5 }.Select(l => new EconomyLevel { level = l, xpToNext = 100 }).ToArray();
+            pack.Economy.settings.phase1MaxLevel = 2; // the sheet's Phase 1 cap
+            var progress = new RestaurantProgress(pack.Economy);
+            int sheetTop = pack.Economy.MaxTableLevel;
+            Assert.AreEqual(2, progress.MaxLevel);
+            var config = ManagedConfig();
+            config["body"].Set("rules", JsonValue.Parse(@"{ ""maxLevel"": 1 }"));
+            ServerCatalog.FromConfig(JsonValue.Parse(config.ToString())).ApplyFurniture(pack);
+            Assert.AreEqual(1, progress.MaxLevel, "the same economy object, so the running session follows the BO");
+
+            config["body"]["rules"].Set("maxLevel", (long)sheetTop + 50);
+            ServerCatalog.FromConfig(JsonValue.Parse(config.ToString())).ApplyFurniture(pack);
+            Assert.AreEqual(sheetTop, progress.MaxLevel, "never beyond the sheet's last level");
         }
 
         [Test]

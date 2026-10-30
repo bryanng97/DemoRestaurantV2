@@ -180,6 +180,9 @@ namespace DemoRestaurant.Logic.Online
                     target.xpUpgradePerLevel = settings["xpUpgradePerLevel"].AsInt(target.xpUpgradePerLevel);
                 }
             }
+            // BO → Game Rules → Restaurant level: the published playable cap replaces the sheet's Phase 1 cap.
+            int maxLevel = _body["rules"]["maxLevel"].AsInt(0);
+            if (pack.Economy != null && maxLevel > 0) pack.Economy.settings.phase1MaxLevel = maxLevel;
         }
 
         /// <summary>A catalog piece's effects block; missing or neutral blocks become <see cref="Content.FurnitureEffects.None"/>.</summary>
