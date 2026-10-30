@@ -95,6 +95,14 @@ namespace DemoRestaurant.Logic.Layout
             return new ExteriorBox(500f - w / 2f, 500f + w / 2f, Ground - h, Ground);
         }
 
+        /// <summary>How many building steps a level has reached (0 = the starter front): picks the building base art.</summary>
+        public int StepFor(int level)
+        {
+            int n = 0;
+            foreach (var s in _steps) if (s.level <= level) n++;
+            return n;
+        }
+
         public ExteriorItemDef Get(string id) => id != null && _items.TryGetValue(id, out var d) ? d : null;
         public ExteriorSave Starter() => _starter.Copy();
         public static bool Fixed(ExteriorKind k) => k == ExteriorKind.Wall || k == ExteriorKind.Roof;

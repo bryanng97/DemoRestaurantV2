@@ -92,7 +92,7 @@ namespace DemoRestaurant.Game.UI
 
             _stage = UiKit.NewRect("StreetStage", safe);
             _stage.anchorMin = _stage.anchorMax = _stage.pivot = new Vector2(.5f, .5f);
-            _stage.anchoredPosition = new Vector2(0, 65);
+            _stage.anchoredPosition = new Vector2(0, 20); // low enough that the name cards clear the title
             _stage.sizeDelta = new Vector2(1000, 680);
             var receiver = _stage.gameObject.AddComponent<Image>();
             receiver.color = new Color(1, 1, 1, 0); receiver.raycastTarget = true;
@@ -118,6 +118,17 @@ namespace DemoRestaurant.Game.UI
             UiKit.Place(Button(browse, "EditExterior", "exterior.edit", 320, BeginEdit), 135, 0, 430, 128);
             _refreshButton = Button(safe, "NewStreet", "ui.street.refresh", 300, () => LoadStreet(true));
             AnchorTop(_refreshButton, true, 30, 136, 300, 90);
+            // As the reference game's street: arrow buttons in the bottom corners walk along it.
+            _arrows = UiKit.NewRect("StreetArrows", safe); UiKit.Stretch(_arrows);
+            for (int side = -1; side <= 1; side += 2)
+            {
+                int direction = side;
+                var arrow = UiKit.TextButton(_arrows, side < 0 ? "Left" : "Right", UiKit.WoodLight, 56, () => Step(direction), out var glyph);
+                glyph.text = side < 0 ? "<" : ">";
+                var r = (RectTransform)arrow.transform;
+                r.anchorMin = r.anchorMax = r.pivot = new Vector2(side < 0 ? 0 : 1, 0);
+                r.anchoredPosition = new Vector2(side * -30, 40); r.sizeDelta = new Vector2(130, 130);
+            }
 
             _editButtons = UiKit.NewRect("EditorControls", safe).gameObject;
             var edit = (RectTransform)_editButtons.transform;
@@ -385,7 +396,13 @@ namespace DemoRestaurant.Game.UI
         private bool PlaceMoving()
         {
             if (_moving == null) return true;
-            if (!Catalog.CanPlace(_draft.pieces, _moving, Level)) return false;
+            if (!Catalog.CanPlace(_draft.pieces, _moving, Level))
+            {
+                // A placed piece dropped where it can't go returns to its spot, so it is never stuck in hand
+                // (fronts saved at a larger size may already stand outside today's wall). New pieces stay held.
+                if (!_placingNew) _moving = null; // still selected, so Flip / Store work on it
+                return false;
+            }
             Checkpoint(); _draft.pieces.RemoveAll(p => p.instance == _moving.instance);
             _draft.pieces.Add(_moving.Copy()); _moving = null; _placingNew = false;
             return true;
@@ -413,9 +430,14 @@ namespace DemoRestaurant.Game.UI
             _editButtons.SetActive(IsEditing); _browseButtons.SetActive(!IsEditing);
             _enterButton.gameObject.SetActive(!IsEditing);
             _refreshButton.gameObject.SetActive(!IsEditing);
+            _arrows.gameObject.SetActive(!IsEditing);
             _streetStatus.gameObject.SetActive(!IsEditing);
             UiKit.Place(_balance.rectTransform, 35, IsEditing ? 138 : 22, 300, 60);
-            _hint.rectTransform.anchorMax = new Vector2(IsEditing ? .68f : .95f, 0);
+            // Browsing: the hint sits under the title, never over a shop front.
+            _hint.rectTransform.anchorMin = new Vector2(IsEditing ? .05f : .25f, IsEditing ? 0 : 1);
+            _hint.rectTransform.anchorMax = new Vector2(IsEditing ? .68f : .75f, IsEditing ? 0 : 1);
+            _hint.rectTransform.pivot = new Vector2(.5f, IsEditing ? 0 : 1);
+            _hint.rectTransform.anchoredPosition = new Vector2(0, IsEditing ? 346 : -66);
             _hint.text = Loc.Get(IsEditing ? "exterior.hint" : "exterior.street_hint");
             if (IsEditing) DrawShop();
             DrawBuilding(); RefreshCost(); RefreshSelectionTools();
@@ -502,19 +524,21 @@ namespace DemoRestaurant.Game.UI
             // Keep the street scale fixed through the playable levels as well as roof changes.
             // Otherwise zooming out on each upgrade cancels the facade's visible growth.
             var frameBox = Catalog.BoxFor(_ui.Session.Progress.MaxLevel);
-            float roofHeight = 0f, frameWidth = frameBox.Width;
-            foreach (var item in Catalog.Items)
-            {
-                if (item.kind != ExteriorKind.Roof) continue;
-                var bounds = RoofBounds(item,frameBox);
-                roofHeight = Mathf.Max(roofHeight,frameBox.Top+RoofOverlap-bounds.y);
-                frameWidth = Mathf.Max(frameWidth,2f*Mathf.Max(Mathf.Abs(bounds.x-500f),Mathf.Abs(bounds.xMax-500f)));
-            }
-            float s = Mathf.Min(1f, 960f / frameWidth, 530f / (frameBox.Height + roofHeight));
+            // As the reference game's street: shops stand a fixed pitch apart (WorldStreet.BUILDING_GAP 420 on a
+            // 760-wide stage) and the biggest building (StreetBuilding keeps parts within +-200) nearly fills it.
+            // So the largest front any level reaches fits the pitch; smaller, lower-level fronts leave wider gaps
+            // and visibly grow on upgrade. Neighbours share this zoom, so every shop looks alike.
+            var largest = Catalog.BoxFor(int.MaxValue);
+            float s = Mathf.Min(StreetPitch * RcBuildingShare / (largest.Width * RoofOverhang),
+                600f / (frameBox.Height + StreetRoofRoom));
+            _streetScale = s;
             _building.localScale = new Vector3(s, s, 1f);
             _building.anchoredPosition = new Vector2(0f, -280f * (1f - s)); // keep the pavement line in place
             ApplyStreetFraming();
-            DrawFacade(_building, _draft, true, _box);
+            DrawFacade(_building, _draft, true, _box, Level);
+            if (!IsEditing)
+                DrawCard(_building, _draft, _box, _ui.Session.Profile.DisplayName,
+                    Loc.Format("ui.street.row_info", _ui.Session.Profile.DisplayName, Level, (_ui.Session.Demand.Value / 10.0).ToString("0.0")), true);
             DrawHandTools();
         }
 
@@ -618,7 +642,23 @@ namespace DemoRestaurant.Game.UI
             return _markerSprite = UnityEngine.Sprite.Create(tex, new Rect(0, 0, w, h), new Vector2(.5f, .5f));
         }
 
-        private void DrawFacade(RectTransform parent, ExteriorSave state, bool interactive, ExteriorBox box)
+        /// <summary>
+        /// As the reference game's StreetBuilding.setWallTile: the wall tiles are clipped by the building base's
+        /// silhouette (a slightly tapered body), one base per building step. The base PNG covers exactly the
+        /// level's front box. Without the base art the front stays a rectangle.
+        /// </summary>
+        private void ClipToBuildingBase(RectTransform front, int level)
+        {
+            string key = BuildingBaseFolder + "ext_base_" + (Catalog.StepFor(level) + 1).ToString("00") + "_mask";
+            if (!_sprites.TryGetValue(key, out var mask)) _sprites[key] = mask = Resources.Load<Sprite>(key);
+            if (mask == null) { front.gameObject.AddComponent<RectMask2D>(); return; }
+            var image = front.gameObject.AddComponent<Image>();
+            image.sprite = mask; image.raycastTarget = false;
+            front.gameObject.AddComponent<Mask>().showMaskGraphic = false;
+        }
+        private const string BuildingBaseFolder = "Art/ExteriorAssets/RefProto/";
+
+        private void DrawFacade(RectTransform parent, ExteriorSave state, bool interactive, ExteriorBox box, int level, string sign = null)
         {
             var wall = state.pieces.Find(p => Catalog.Get(p.itemId).kind == ExteriorKind.Wall);
             var wallDef = Catalog.Get(wall.itemId);
@@ -629,7 +669,7 @@ namespace DemoRestaurant.Game.UI
             // Repeat the wall tile over the front (clipped to its size), as the reference game fills its building base.
             var front = UiKit.NewRect("Front", parent);
             UiKit.Place(front, box.Left, box.Top, box.Width, box.Height);
-            front.gameObject.AddComponent<RectMask2D>();
+            ClipToBuildingBase(front, level);
             for (float y = 0; y < box.Height; y += _wallTile.y) for (float x = 0; x < box.Width; x += _wallTile.x)
             {
                 var tile = UiKit.NewRect("WallTile", front);
@@ -640,15 +680,14 @@ namespace DemoRestaurant.Game.UI
             {
                 var kind = Catalog.Get(p.itemId).kind;
                 if (kind == ExteriorKind.Wall || (interactive && _moving != null && p.instance == _moving.instance)) continue;
-                DrawPiece(parent, p, interactive, false);
+                DrawPiece(parent, p, interactive, false, box, sign);
             }
-            if (interactive && _moving != null) DrawPiece(parent, _moving, true, true);
+            if (interactive && _moving != null) DrawPiece(parent, _moving, true, true, box, sign);
         }
-        private void DrawPiece(RectTransform parent, ExteriorPiece p, bool interactive, bool preview)
+        private void DrawPiece(RectTransform parent, ExteriorPiece p, bool interactive, bool preview, ExteriorBox box, string sign)
         {
             var d = Catalog.Get(p.itemId);
             var rect = UiKit.NewRect(d.id + "#" + p.instance, parent);
-            var box = parent == _building ? _box : Catalog.BoxFor(1);
             Pose(rect, p, d, box);
             var image = d.kind == ExteriorKind.Roof ? UiKit.AddImage(Stretched(rect, "RoofArt"), Sprite(d), false) : UiKit.AddImage(rect, Sprite(d), false);
             if (preview)
@@ -671,14 +710,21 @@ namespace DemoRestaurant.Game.UI
                 // Native export omits the Flash text field; Unity draws the live restaurant name.
                 var plaque = UiKit.Place(UiKit.NewRect("NamePlaque",rect),33,22,d.width-66,d.height-37);
                 var name = Label(plaque, "RestaurantName", 25, UiKit.DarkText, TextAnchor.MiddleCenter);
-                UiKit.Stretch(name.rectTransform); name.text = interactive ? _ui.Session.Profile.DisplayName : Loc.Get("exterior.preview");
+                UiKit.Stretch(name.rectTransform); name.text = interactive ? _ui.Session.Profile.DisplayName : sign ?? Loc.Get("exterior.preview");
                 if (p.flipped) name.rectTransform.localScale = new Vector3(-1, 1, 1);
             }
         }
         // ---- Phase 5: the random street either side of your front (as the reference game's street)
 
-        private const float NeighbourScale = .52f, FirstGap = 690f, NextGap = 560f, TapSlop = 14f;
-        private RectTransform _pan, _neighbours, _streetTouch, _refreshButton;
+        // StreetPitch: the reference game's 420 / 760 of the screen, in the 1450-unit stage. RcBuildingShare: its
+        // biggest building (400 wide) over that pitch. RoofOverhang and StreetRoofRoom (roof and name card above
+        // the top level's front) are design units.
+        private const float StreetPitch = 1450f * 420f / 760f, RcBuildingShare = 400f / 420f,
+            RoofOverhang = 1.08f, StreetRoofRoom = 150f, TapSlop = 14f;
+        // Shops stand further apart than the reference game's pitch (owner's call, 2026-10-30); sizes still follow its pitch.
+        private const float StreetSpacing = StreetPitch * 1.45f;
+        private float _streetScale = .6f;
+        private RectTransform _pan, _neighbours, _streetTouch, _refreshButton, _arrows;
         private Text _streetStatus;
         private readonly List<(RectTransform rect, StreetRestaurant shop)> _shops = new List<(RectTransform, StreetRestaurant)>();
         private float _panX, _panLeft, _panRight, _pressPan;
@@ -686,11 +732,15 @@ namespace DemoRestaurant.Game.UI
         private bool _dragged, _loadingStreet;
         private int _streetGeneration;
 
-        /// <summary>Slot i alternates right, left, right...; the first neighbour on each side stands clear of your front.</summary>
-        private static float SlotX(int i)
+        /// <summary>
+        /// Where each shop stands: alternately right, left, right..., one fixed pitch apart, as the reference game's
+        /// street. Every front, even the top level's, fits its pitch, so growing fronts never overlap.
+        /// </summary>
+        private static float[] Slots(int count)
         {
-            int k = i / 2;
-            return (i % 2 == 0 ? 1 : -1) * (FirstGap + k * NextGap);
+            var x = new float[count];
+            for (int i = 0; i < count; i++) x[i] = (i % 2 == 0 ? 1 : -1) * (i / 2 + 1) * StreetSpacing;
+            return x;
         }
 
         private async void LoadStreet(bool fresh)
@@ -714,9 +764,10 @@ namespace DemoRestaurant.Game.UI
             ClearStreet();
             _streetStatus.text = street.Count == 0 ? Loc.Get("ui.street.empty") : Loc.Format("ui.street.count", street.Count);
             if (fresh) _panX = 0f;
+            var slots = Slots(street.Count);
             for (int i = 0; i < street.Count; i++)
             {
-                var rect = DrawNeighbour(SlotX(i), Catalog.Starter(), street[i].Level, street[i].Name,
+                var rect = DrawNeighbour(slots[i], Catalog.Starter(), street[i].Level, street[i].Name,
                     Loc.Format("ui.street.row_info", street[i].OwnerName, street[i].Level, street[i].Popularity.ToString("0.0")));
                 _shops.Add((rect, street[i]));
             }
@@ -729,7 +780,7 @@ namespace DemoRestaurant.Game.UI
                 var save = front.Ok ? StreetFacade.Parse(front.Data, Catalog, online.Sync.Ids.ToLocal) : null;
                 if (save == null) continue;
                 var old = _shops[i].rect;
-                var rect = DrawNeighbour(SlotX(i), save, shop.Level, shop.Name,
+                var rect = DrawNeighbour(slots[i], save, shop.Level, shop.Name,
                     Loc.Format("ui.street.row_info", shop.OwnerName, shop.Level, shop.Popularity.ToString("0.0")));
                 rect.SetSiblingIndex(old.GetSiblingIndex());
                 Destroy(old.gameObject);
@@ -748,7 +799,7 @@ namespace DemoRestaurant.Game.UI
                 var wall = state.pieces.Find(p => Catalog.Get(p.itemId).kind == ExteriorKind.Wall);
                 if (Catalog.Get(i == 0 ? "roof_gables" : "roof_red") != null) roof.itemId = i == 0 ? "roof_gables" : "roof_red";
                 if (Catalog.Get(i == 0 ? "wall_red" : "wall_stone") != null) wall.itemId = i == 0 ? "wall_red" : "wall_stone";
-                DrawNeighbour(SlotX(i), state, 1, Loc.Get("exterior.preview"), null);
+                DrawNeighbour(Slots(2)[i], state, 1, Loc.Get("exterior.preview"), null);
             }
         }
 
@@ -763,20 +814,39 @@ namespace DemoRestaurant.Game.UI
         {
             var rect = UiKit.NewRect("Neighbour", _neighbours);
             rect.anchorMin = rect.anchorMax = rect.pivot = new Vector2(.5f, .5f);
-            rect.sizeDelta = new Vector2(1000, 680); rect.localScale = Vector3.one * NeighbourScale;
-            rect.anchoredPosition = new Vector2(x, -150);
-            DrawFacade(rect, state, false, Catalog.BoxFor(level));
-            var title = Label(rect, "ShopName", 40, Color.white, TextAnchor.MiddleCenter);
-            UiKit.Place(title.rectTransform, 80, 640, 840, 64); title.text = name; FitLabel(title, 26, 40);
-            title.gameObject.AddComponent<Outline>().effectColor = new Color(0, 0, 0, .55f);
-            if (!string.IsNullOrEmpty(info))
-            {
-                var detail = Label(rect, "ShopInfo", 30, UiKit.Cream, TextAnchor.MiddleCenter);
-                UiKit.Place(detail.rectTransform, 80, 704, 840, 50); detail.text = info; FitLabel(detail, 20, 30);
-            }
+            rect.sizeDelta = new Vector2(1000, 680); rect.localScale = Vector3.one * _streetScale;
+            rect.anchoredPosition = new Vector2(x, -280f * (1f - _streetScale)); // the same pavement line as your front
+            DrawFacade(rect, state, false, Catalog.BoxFor(level), level, name);
+            DrawCard(rect, state, Catalog.BoxFor(level), name, info, false);
             // How far the street can pan: the outermost neighbour reaches the middle of the screen.
             if (x > 0) _panRight = Mathf.Max(_panRight, x); else _panLeft = Mathf.Max(_panLeft, -x);
             return rect;
+        }
+
+        /// <summary>
+        /// The name card over a shop's roof (the reference game's HiscoreEntry above each building): restaurant name,
+        /// then owner, level and popularity. Your own card is gold.
+        /// </summary>
+        private void DrawCard(RectTransform parent, ExteriorSave state, ExteriorBox box, string name, string info, bool own)
+        {
+            var roof = state.pieces.Find(p => Catalog.Get(p.itemId)?.kind == ExteriorKind.Roof);
+            float top = roof != null ? RoofBounds(Catalog.Get(roof.itemId), box, roof.flipped).y : box.Top;
+            bool detail = !string.IsNullOrEmpty(info);
+            float height = detail ? 170f : 100f;
+            var card = UiKit.Box(parent, "NameCard", UiKit.CardRim, own ? UiKit.Gold : UiKit.Cream, 4);
+            UiKit.Place(card, 200, top - height - 24, 600, height);
+            var title = Label(card, "ShopName", 56, UiKit.DarkText, TextAnchor.MiddleCenter);
+            UiKit.Place(title.rectTransform, 16, 8, 568, 84); title.text = name; FitLabel(title, 30, 56);
+            if (!detail) return;
+            var line = Label(card, "ShopInfo", 38, UiKit.SoftText, TextAnchor.MiddleCenter);
+            UiKit.Place(line.rectTransform, 16, 94, 568, 64); line.text = info; FitLabel(line, 24, 38);
+        }
+
+        /// <summary>The arrow buttons step one shop along the street.</summary>
+        private void Step(int direction)
+        {
+            const float pitch = StreetSpacing;
+            _panX = Mathf.Clamp(_panX - direction * pitch, -_panRight, _panLeft);
         }
 
         private void BrowseTap(PointerEventData e)
@@ -792,8 +862,9 @@ namespace DemoRestaurant.Game.UI
             {
                 if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rect, e.position, e.pressEventCamera, out var local)) continue;
                 // The front and its name plate, in the neighbour's 1000 x 680 design space.
-                if (local.x < -420 || local.x > 420 || local.y < -420 || local.y > 300) continue;
+                if (local.x < -560 || local.x > 560 || local.y < -300 || local.y > 640) continue; // the front, roof and name card
                 Close();
+                Debug.Log("Street: tapped " + shop.Name + (_ui.Street == null ? " (no visit panel)" : ""));
                 _ui.Street?.VisitFromStreet(shop);
                 return;
             }

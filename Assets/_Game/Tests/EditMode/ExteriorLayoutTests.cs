@@ -44,6 +44,7 @@ namespace DemoRestaurant.Logic.Tests
             Assert.AreEqual(ExteriorCatalog.MaxWidth, c.BoxFor(10).Width, "never wider than the street stage allows");
             Assert.AreEqual(450f, c.BoxFor(10).Height);
             Assert.AreEqual(ExteriorCatalog.Ground, c.BoxFor(10).Bottom, "it grows upwards from the pavement");
+            Assert.AreEqual(0, c.StepFor(1)); Assert.AreEqual(1, c.StepFor(9)); Assert.AreEqual(2, c.StepFor(40), "the building base tier");
             var state = c.Starter();
             var wide = Piece(6, "window", 120, 560);
             Assert.IsFalse(c.CanPlace(state.pieces, wide, 1), "outside the level-1 front");

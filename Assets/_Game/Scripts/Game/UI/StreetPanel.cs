@@ -168,7 +168,11 @@ namespace DemoRestaurant.Game.UI
 
         private async void Visit(StreetRestaurant target)
         {
-            if (_busy || Ui.Online == null) return;
+            if (_busy || Ui.Online == null)
+            {
+                Debug.LogWarning("Street: visit skipped (" + (_busy ? "busy" : "offline") + ")");
+                return;
+            }
             _busy = true;
             var api = Ui.Online.Api;
             var visit = await api.Visit(target.RestaurantId);
