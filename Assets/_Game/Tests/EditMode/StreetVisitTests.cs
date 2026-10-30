@@ -75,5 +75,31 @@ namespace DemoRestaurant.Logic.Tests
             Assert.IsNull(FirstVisitReward.Parse(JsonValue.Parse(@"{ ""firstVisit"": false, ""reward"": null }")));
             Assert.IsNull(FirstVisitReward.Parse(JsonValue.Parse(@"{ ""visitId"": ""v"" }")), "older servers send no reward");
         }
+
+        [Test]
+        public void StreetFacade_MapsIdsAndSkipsUnknownPieces_ButNeedsWallRoofAndDoor()
+        {
+            var catalog = new Layout.ExteriorCatalog(new[]
+            {
+                new Layout.ExteriorItemDef { id = "wall_a", kind = Layout.ExteriorKind.Wall, width = 800, height = 360 },
+                new Layout.ExteriorItemDef { id = "roof_a", kind = Layout.ExteriorKind.Roof, width = 860, height = 272 },
+                new Layout.ExteriorItemDef { id = "door_a", kind = Layout.ExteriorKind.Door, width = 100, height = 180 },
+            }, new[]
+            {
+                new Layout.ExteriorPiece { instance = 1, itemId = "wall_a", x = 500, y = 620 },
+                new Layout.ExteriorPiece { instance = 2, itemId = "roof_a", x = 500, y = 272 },
+                new Layout.ExteriorPiece { instance = 3, itemId = "door_a", x = 500, y = 620 },
+            });
+            var front = StreetFacade.Parse(JsonValue.Parse(@"{ ""pieces"": [
+              { ""id"": ""srv_wall"", ""x"": 500, ""y"": 620 }, { ""id"": ""roof_a"", ""x"": 500, ""y"": 0, ""flip"": true },
+              { ""id"": ""door_a"", ""x"": 300, ""y"": 620 }, { ""id"": ""mystery"", ""x"": 1, ""y"": 1 } ] }"),
+                catalog, id => id == "srv_wall" ? "wall_a" : id);
+            Assert.AreEqual(3, front.pieces.Count, "the unknown piece is left out");
+            Assert.AreEqual("wall_a", front.pieces[0].itemId);
+            Assert.IsTrue(front.pieces[1].flipped);
+            Assert.AreEqual(300f, front.pieces[2].x);
+            Assert.IsNull(StreetFacade.Parse(JsonValue.Parse(@"{ ""pieces"": [ { ""id"": ""wall_a"" } ] }"), catalog, null));
+            Assert.IsNull(StreetFacade.Parse(JsonValue.Missing, catalog, null), "no front saved yet");
+        }
     }
 }

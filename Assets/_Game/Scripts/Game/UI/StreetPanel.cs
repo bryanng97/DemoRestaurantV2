@@ -23,7 +23,7 @@ namespace DemoRestaurant.Game.UI
         private List<StreetRestaurant> _street = new List<StreetRestaurant>();
         private StreetRestaurant _visiting;
         private VisitState _state;
-        private bool _busy;
+        private bool _busy, _openingVisit;
 
         private RectTransform _streetView, _visitView, _listContent;
         private Text _streetStatus, _visitTitle, _visitInfo, _trashLabel, _coinsLabel, _gardenLabel;
@@ -62,7 +62,7 @@ namespace DemoRestaurant.Game.UI
             }
             ShowStreet();
             // Every opening shows a fresh street, as the reference game's random street does.
-            Opened += _ => { ShowStreet(); LoadStreet(); };
+            Opened += _ => { if (!_openingVisit) { ShowStreet(); LoadStreet(); } };
         }
 
         private void BuildList(RectTransform parent)
@@ -151,11 +151,25 @@ namespace DemoRestaurant.Game.UI
             if (_visiting == null) RefreshStreet();
         }
 
-        private async void Visit(int index)
+        /// <summary>A shop front tapped on the street view: opens straight into that visit.</summary>
+        public void VisitFromStreet(StreetRestaurant target)
         {
-            if (_busy || index >= _street.Count || Ui.Online == null) return;
+            if (target == null) return;
+            _openingVisit = true;
+            if (!IsOpen) SetOpen(true);
+            _openingVisit = false;
+            Visit(target);
+        }
+
+        private void Visit(int index)
+        {
+            if (index < _street.Count) Visit(_street[index]);
+        }
+
+        private async void Visit(StreetRestaurant target)
+        {
+            if (_busy || Ui.Online == null) return;
             _busy = true;
-            var target = _street[index];
             var api = Ui.Online.Api;
             var visit = await api.Visit(target.RestaurantId);
             if (!visit.Ok)

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using DemoRestaurant.Logic.Layout;
 
 namespace DemoRestaurant.Logic.Online
 {
@@ -148,6 +149,34 @@ namespace DemoRestaurant.Logic.Online
             var reward = visit["reward"];
             string id = reward["ingredientId"].AsString();
             return string.IsNullOrEmpty(id) ? null : new FirstVisitReward { IngredientId = id, Quantity = Math.Max(1, reward["quantity"].AsInt(1)) };
+        }
+    }
+
+    /// <summary>Another player's shop front for the street (GET /restaurants/{id}/exterior).</summary>
+    public static class StreetFacade
+    {
+        /// <summary>
+        /// The server's pieces as a local front. Ids map through <paramref name="toLocal"/>; pieces this client
+        /// doesn't have are left out. Null (draw the starter front) when the wall, roof or door is missing.
+        /// </summary>
+        public static ExteriorSave Parse(JsonValue data, ExteriorCatalog catalog, Func<string, string> toLocal)
+        {
+            if (catalog == null) return null;
+            var save = new ExteriorSave();
+            bool wall = false, roof = false, door = false;
+            foreach (var item in data["pieces"].Items)
+            {
+                string id = item["id"].AsString();
+                var def = catalog.Get(toLocal != null && id != null ? toLocal(id) : id);
+                if (def == null) continue;
+                save.pieces.Add(new ExteriorPiece
+                {
+                    instance = save.pieces.Count + 1, itemId = def.id,
+                    x = (float)item["x"].AsDouble(), y = (float)item["y"].AsDouble(), flipped = item["flip"].AsBool(),
+                });
+                wall |= def.kind == ExteriorKind.Wall; roof |= def.kind == ExteriorKind.Roof; door |= def.kind == ExteriorKind.Door;
+            }
+            return wall && roof && door ? save : null;
         }
     }
 }

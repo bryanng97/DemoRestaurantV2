@@ -48,6 +48,8 @@ namespace DemoRestaurant.Game.UI
         }
         public RestaurantEditorController Builder { get; set; }
         public ExteriorStreetView Exterior { get; set; }
+        /// <summary>Phase 5 visits: help panel for a restaurant tapped on the street.</summary>
+        public StreetPanel Street { get; private set; }
         public void SetGameplayVisible(bool visible) => _canvasRoot.gameObject.SetActive(visible);
 
         public RestaurantSession Session { get; private set; }
@@ -135,7 +137,7 @@ namespace DemoRestaurant.Game.UI
             var recipes = AddPanel<RecipePanel>(root);
             var market = AddPanel<MarketPanel>(root);
             GardenPanel = AddPanel<GardenPanel>(root);
-            var street = AddPanel<StreetPanel>(root);
+            var street = Street = AddPanel<StreetPanel>(root);
             Action comingSoon = () => Toast(Loc.Get("ui.coming_soon"), 1.6f);
 
             // Left column, top to bottom.
