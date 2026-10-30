@@ -71,6 +71,21 @@ namespace DemoRestaurant.Game.Online
         public Awaitable<ApiJson> Visit(string restaurantId) =>
             Call("POST", "/restaurants/" + Uri.EscapeDataString(restaurantId) + "/visits", "{}", false);
 
+        // ---- Phase 5: the random street and helping a visited restaurant
+
+        public Awaitable<ApiJson> RandomStreet() => Call("GET", "/streets/random", null, false);
+
+        public Awaitable<ApiJson> VisitState(string restaurantId) =>
+            Call("GET", "/restaurants/" + Uri.EscapeDataString(restaurantId) + "/visit-state", null, false);
+
+        /// <summary>Picks up one piece of the visited restaurant's litter (keyed: a retry never pays twice).</summary>
+        public Awaitable<ApiJson> HelpTrash(string restaurantId) =>
+            Call("POST", "/restaurants/" + Uri.EscapeDataString(restaurantId) + "/help/trash", "{}", true);
+
+        /// <summary>Waters one of the visited restaurant's plots (keyed).</summary>
+        public Awaitable<ApiJson> HelpWater(string restaurantId, int plot) =>
+            Call("POST", "/restaurants/" + Uri.EscapeDataString(restaurantId) + "/help/water", "{\"plot\":" + plot + "}", true);
+
         /// <summary>A friend's restaurant: layout and facade snapshots for a visit.</summary>
         public Awaitable<ApiJson> GetRestaurantLayout(string restaurantId) =>
             Call("GET", "/restaurants/" + Uri.EscapeDataString(restaurantId) + "/layout", null, false);

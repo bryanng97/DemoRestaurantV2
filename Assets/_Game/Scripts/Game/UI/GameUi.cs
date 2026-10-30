@@ -135,6 +135,7 @@ namespace DemoRestaurant.Game.UI
             var recipes = AddPanel<RecipePanel>(root);
             var market = AddPanel<MarketPanel>(root);
             GardenPanel = AddPanel<GardenPanel>(root);
+            var street = AddPanel<StreetPanel>(root);
             Action comingSoon = () => Toast(Loc.Get("ui.coming_soon"), 1.6f);
 
             // Left column, top to bottom.
@@ -158,7 +159,8 @@ namespace DemoRestaurant.Game.UI
                 ("exterior.title", "icon_worldmap", () => Exterior?.Show()),
                 ("ui.toolbar.garden", "icon_decor", GardenPanel.Toggle), // placeholder icon until farm art exists
                 ("ui.toolbar.market", "icon_shop", market.Toggle),
-                ("ui.toolbar.friends", "icon_friends", comingSoon),
+                // Phase 5: the random street (friends wait for the friend system).
+                ("ui.toolbar.friends", "icon_friends", street.Toggle),
             };
             _places = HudDrawer.Create(root, "Places", "ui.toolbar.places", true);
             foreach (var item in right)
