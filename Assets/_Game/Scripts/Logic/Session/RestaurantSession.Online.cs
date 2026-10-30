@@ -149,6 +149,8 @@ namespace DemoRestaurant.Logic.Session
             }
             if (!log.HasPending("item_buy", "item_use"))
                 Items.Restore(ServerItems(state));
+            if (state.Has("perks") && !log.HasPending("item_use", "dismiss"))
+                RestorePerks(state["perks"]);
             if (Market != null && !log.HasPending("market_collect", "market_collect_all"))
             {
                 MarketFrom(state, out int ready, out float timer);
@@ -246,6 +248,17 @@ namespace DemoRestaurant.Logic.Session
                     energy = s["energy"].AsInt(100), resting = !s["onDuty"].AsBool(true),
                 });
             }
+            save.perks.Clear();
+            foreach (var p in state["perks"].Items)
+            {
+                string staffId = p["staffId"].AsString();
+                int index = staffId == null ? -1 : save.staff.FindIndex(s => s.serverId == staffId);
+                var started = ParseUtc(p["startedAt"].AsString());
+                var expires = ParseUtc(p["expiresAt"].AsString());
+                if ((staffId != null && index < 0) || started == null || expires == null) continue;
+                save.perks.Add(new PerkSave { itemId = p["itemId"].AsString(), staffIndex = index,
+                    startedUtcTicks = started.Value.Ticks, expiresUtcTicks = expires.Value.Ticks });
+            }
             MarketFrom(state, out save.marketReadyBaskets, out save.marketRestockTimer);
             save.garden.Clear();
             save.garden.AddRange(GardenFrom(state));
@@ -269,6 +282,23 @@ namespace DemoRestaurant.Logic.Session
             foreach (var t in Content.StaffTypes)
                 if (t.Role == role && !t.IsOwner) return t;
             return null;
+        }
+
+        /// <summary>The server's active perks (state.perks) replace the local ones; unknown items or staff are skipped.</summary>
+        private void RestorePerks(JsonValue perks)
+        {
+            Perks.Clear();
+            foreach (var p in perks.Items)
+            {
+                if (!TryGet(Content.GetItem, p["itemId"].AsString(), out var item) || !item.IsPerk) continue;
+                string staffId = p["staffId"].AsString();
+                var staff = StaffWithServerId(staffId);
+                if (staffId != null && staff == null) continue;
+                var started = ParseUtc(p["startedAt"].AsString());
+                var expires = ParseUtc(p["expiresAt"].AsString());
+                if (started == null || expires == null) continue;
+                Perks.Add(new ActivePerk(item, staff, started.Value, expires.Value));
+            }
         }
 
         private List<KeyValuePair<ItemDef, int>> ServerItems(JsonValue state)

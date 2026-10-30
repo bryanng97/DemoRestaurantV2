@@ -109,7 +109,7 @@ namespace DemoRestaurant.Logic.Simulation
             }
             else
             {
-                s.Energy -= rules.DrainPerMinute * dt / 60f;
+                s.Energy -= rules.DrainPerMinute * s.PerkDrain * dt / 60f;
             }
         }
 

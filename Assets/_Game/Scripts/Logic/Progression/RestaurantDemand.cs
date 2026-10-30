@@ -56,7 +56,8 @@ namespace DemoRestaurant.Logic.Progression
 
         public void Restore(double value) => Value = Clamp(value);
 
-        public void OnHappyGuest() => Add(_rules.PerHappyGuest);
+        /// <summary>A happy guest; <paramref name="factor"/> scales the gain (popularity perks).</summary>
+        public void OnHappyGuest(double factor = 1) => Add(_rules.PerHappyGuest * factor);
         public void OnUnhappyGuest() => Add(-_rules.PerUnhappyGuest);
 
         /// <summary>Time passed with nobody able to serve.</summary>

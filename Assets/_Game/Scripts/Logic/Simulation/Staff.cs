@@ -80,8 +80,12 @@ namespace DemoRestaurant.Logic.Simulation
         /// <summary>In the middle of a job (cooking, carrying, serving or cleaning).</summary>
         public bool IsBusy => Ticket != null || CleaningSeat != null || FixTarget != null || TrashTarget != null;
 
-        /// <summary>Current speed factor from energy (1 = full speed, 0.05 when exhausted).</summary>
-        public float SpeedMultiplier => _energyRules.SpeedMultiplier(_energy);
+        /// <summary>Current speed factor: energy (1 = full speed, 0.05 when exhausted) times work speed perks.</summary>
+        public float SpeedMultiplier => _energyRules.SpeedMultiplier(_energy) * PerkSpeed;
+        /// <summary>Work speed perks on this employee (1 = none); set by the session from its PerkBook.</summary>
+        public float PerkSpeed { get; internal set; } = 1f;
+        /// <summary>Energy drain factor from drain perks (1 = normal, 0 = none); set by the session.</summary>
+        public float PerkDrain { get; internal set; } = 1f;
         /// <summary>Cooking or cleaning speed right now (base work speed times the energy factor).</summary>
         public float EffectiveCookSpeed => Type.CookSpeed * SpeedMultiplier;
 

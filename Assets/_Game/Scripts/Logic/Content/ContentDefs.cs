@@ -143,16 +143,58 @@ namespace DemoRestaurant.Logic.Content
         public int UnlockLevel { get; internal set; } = 1;
         /// <summary>For an item added in the BO: the shipped item whose icon it uses (null = its own).</summary>
         public string AssetKey { get; internal set; }
+        /// <summary>Used on one employee or on the whole restaurant (restaurant items restore no energy).</summary>
+        public ItemTarget Target { get; internal set; } = ItemTarget.Employee;
+        /// <summary>Timed effects (a perk, as the reference game's snacks); <see cref="PerkEffects.None"/> for none.</summary>
+        public PerkEffects Effects { get; internal set; } = PerkEffects.None;
+        public int DurationMinutes { get; internal set; }
+        /// <summary>Optional sale window (events); owned items stay usable outside it.</summary>
+        public DateTime? SaleStartUtc { get; internal set; }
+        public DateTime? SaleEndUtc { get; internal set; }
+
+        public bool IsPerk => Effects.IsTimed && DurationMinutes > 0;
+        public bool IsOnSale(DateTime utc) => (!SaleStartUtc.HasValue || utc >= SaleStartUtc.Value) && (!SaleEndUtc.HasValue || utc < SaleEndUtc.Value);
 
         public ItemDef(string id, string nameKey, float energyRestore, int price)
         {
             Id = DishDef.RequireId(id);
             NameKey = nameKey ?? throw new ArgumentNullException(nameof(nameKey));
-            if (energyRestore <= 0) throw new ArgumentOutOfRangeException(nameof(energyRestore));
+            if (energyRestore < 0) throw new ArgumentOutOfRangeException(nameof(energyRestore));
             if (price < 0) throw new ArgumentOutOfRangeException(nameof(price));
             EnergyRestore = energyRestore;
             Price = price;
         }
+    }
+
+    public enum ItemTarget
+    {
+        Employee,
+        Restaurant,
+    }
+
+    /// <summary>A perk's timed effects in whole percent (BO → Catalog → Staff items).</summary>
+    public sealed class PerkEffects
+    {
+        public static readonly PerkEffects None = new PerkEffects();
+
+        /// <summary>Chef, waiter and cleaner speed + %.</summary>
+        public int WorkSpeedPercent;
+        /// <summary>Energy drain − % (100 = none while it lasts).</summary>
+        public int EnergyDrainPercent;
+        /// <summary>Restaurant: XP from serving + %.</summary>
+        public int XpPercent;
+        /// <summary>Restaurant: popularity gained from happy guests + %.</summary>
+        public int PopularityPercent;
+
+        public bool IsTimed => WorkSpeedPercent > 0 || EnergyDrainPercent > 0 || XpPercent > 0 || PopularityPercent > 0;
+    }
+
+    /// <summary>BO → Game Rules → Perks: timed effects on or off, and how many can be active at once.</summary>
+    public sealed class PerkRules
+    {
+        public bool Enabled = true;
+        public int SlotsPerEmployee = 3;
+        public int SlotsRestaurant = 3;
     }
 
     /// <summary>One energy band: at or above <see cref="MinEnergy"/>, staff work at <see cref="SpeedMultiplier"/>.</summary>
@@ -465,6 +507,7 @@ namespace DemoRestaurant.Logic.Content
     public sealed class GameRules
     {
         public int MarketBaskets = 4;
+        public PerkRules Perks = new PerkRules();
         public EntertainmentRules Entertainment = new EntertainmentRules();
         public TrashRules Trash = new TrashRules();
         /// <summary>Ingredients one garden harvest gives (not in the economy sheet).</summary>

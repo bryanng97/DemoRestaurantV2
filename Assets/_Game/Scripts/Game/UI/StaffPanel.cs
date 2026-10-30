@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using DemoRestaurant.Game.Content;
 using DemoRestaurant.Logic.Content;
+using DemoRestaurant.Logic.Progression;
 using DemoRestaurant.Logic.Session;
 using DemoRestaurant.Logic.Simulation;
 using UnityEngine;
@@ -57,9 +58,10 @@ namespace DemoRestaurant.Game.UI
                 _itemIcon.raycastTarget = true;
                 _itemIcon.gameObject.AddComponent<Button>().onClick.AddListener(NextItem);
                 _itemLabel = UiKit.Label(content, "Item", 56, 190, 270, 48, 22, TextAnchor.MiddleLeft, UiKit.DarkText);
-                _itemLabel.resizeTextForBestFit = true; _itemLabel.resizeTextMinSize = 14; _itemLabel.resizeTextMaxSize = 22;
-                // One tap: coffee for everyone who isn't full, most tired first.
-                _refill = UiKit.TextButton(content, "RefillAll", UiKit.Gold, 22, RefillAll, out _refillLabel);
+                _itemLabel.resizeTextForBestFit = true; _itemLabel.resizeTextMinSize = 11; _itemLabel.resizeTextMaxSize = 22;
+                _itemLabel.horizontalOverflow = HorizontalWrapMode.Wrap; // a perk's effects take a second line
+                // One tap: coffee for everyone who isn't full, most tired first; for a restaurant perk, use it.
+                _refill = UiKit.TextButton(content, "RefillAll", UiKit.Gold, 22, RefillOrUse, out _refillLabel);
                 UiKit.Place((RectTransform)_refill.transform, 335, 190, 215, 48);
                 _buy = UiKit.TextButton(content, "Buy", UiKit.Gold, 22, BuyItem, out _buyLabel);
                 UiKit.Place((RectTransform)_buy.transform, 560, 190, 220, 48);
@@ -149,15 +151,29 @@ namespace DemoRestaurant.Game.UI
             if (_item != null)
             {
                 _itemIcon.sprite = Ui.ItemIcon(_item);
-                _itemLabel.text = Loc.Format("ui.staff.item_count", Loc.Get(_item.NameKey), session.Items.Count(_item), _item.EnergyRestore.ToString("0"));
+                int owned = session.Items.Count(_item);
+                _itemLabel.text = _item.EnergyRestore > 0
+                    ? Loc.Format("ui.staff.item_count", Loc.Get(_item.NameKey), owned, _item.EnergyRestore.ToString("0"))
+                    : Loc.Format("ui.staff.perk_count", Loc.Get(_item.NameKey), owned);
+                if (_item.IsPerk) _itemLabel.text += "\n" + PerkText.For(_item);
+                string restaurantPerks = RestaurantPerks();
+                if (restaurantPerks.Length > 0) _itemLabel.text += "\n" + restaurantPerks;
                 _buyLabel.text = session.CanBuyItem(_item) ? Loc.Format("ui.staff.buy", _item.Price)
                     : Loc.Format("ui.staff.unlocks_at", _item.UnlockLevel);
-                if (!_item.Available) _buyLabel.text = Loc.Get("ui.staff.item_not_sold");
+                if (!_item.Available || !_item.IsOnSale(System.DateTime.UtcNow)) _buyLabel.text = Loc.Get("ui.staff.item_not_sold");
                 UiKit.SetButtonColor(_buy, session.CanBuyItem(_item) && session.Wallet.DisplayCoins >= _item.Price ? UiKit.Gold : UiKit.Disabled);
-                _refillLabel.text = Loc.Get("ui.staff.refill_all");
-                bool anyTired = false;
-                foreach (var s in session.Sim.Staff) anyTired |= s.Energy < StaffEnergyRules.Max;
-                UiKit.SetButtonColor(_refill, anyTired && session.Items.Count(_item) > 0 ? UiKit.Gold : UiKit.Disabled);
+                if (_item.Target == ItemTarget.Restaurant)
+                {
+                    _refillLabel.text = Loc.Get("ui.staff.use_restaurant");
+                    UiKit.SetButtonColor(_refill, owned > 0 && session.CheckPerk(_item, null) == PerkCheck.Ok ? UiKit.Gold : UiKit.Disabled);
+                }
+                else
+                {
+                    _refillLabel.text = Loc.Get("ui.staff.refill_all");
+                    bool anyTired = false;
+                    foreach (var s in session.Sim.Staff) anyTired |= s.Energy < StaffEnergyRules.Max;
+                    UiKit.SetButtonColor(_refill, _item.EnergyRestore > 0 && anyTired && owned > 0 ? UiKit.Gold : UiKit.Disabled);
+                }
             }
 
             var owner = session.Owner;
@@ -194,7 +210,7 @@ namespace DemoRestaurant.Game.UI
             row.Portrait.sprite = Ui.PortraitFor(s);
             row.Portrait.enabled = row.Portrait.sprite != null;
             row.Name.text = s.IsOwner ? Loc.Format("ui.staff.owner", session.Profile.DisplayName) : $"{Loc.Get(s.Type.NameKey)} #{s.Id}";
-            row.Status.text = Status(s);
+            row.Status.text = Status(s) + StaffPerks(s);
             row.EnergyFill.fillAmount = s.Energy / StaffEnergyRules.Max;
             row.EnergyFill.color = s.IsResting ? new Color32(110, 160, 230, 255) : EnergyColor(s.Energy);
             row.EnergyValue.text = Mathf.FloorToInt(s.Energy) + "%";
@@ -202,10 +218,15 @@ namespace DemoRestaurant.Game.UI
             row.Speed.color = s.SpeedMultiplier < 1f ? UiKit.Red : UiKit.SoftText;
             row.RestLabel.text = Loc.Get(s.IsResting || s.RestRequested ? "ui.staff.work" : "ui.staff.rest");
             UiKit.SetButtonColor(row.Rest, s.IsResting || s.RestRequested ? UiKit.Green : new Color32(110, 160, 230, 255));
-            row.ItemLabel.text = _item != null ? Loc.Get(_item.NameKey) : "";
-            row.ItemButton.gameObject.SetActive(_item != null);
-            if (_item != null)
-                UiKit.SetButtonColor(row.ItemButton, session.Items.Count(_item) > 0 && s.Energy < StaffEnergyRules.Max ? UiKit.Gold : UiKit.Disabled);
+            // Restaurant perks are used from the item row, not on one employee.
+            bool onStaff = _item != null && _item.Target == ItemTarget.Employee;
+            row.ItemLabel.text = onStaff ? Loc.Get(_item.NameKey) : "";
+            row.ItemButton.gameObject.SetActive(onStaff);
+            if (onStaff)
+            {
+                bool usable = _item.IsPerk ? session.CheckPerk(_item, s) == PerkCheck.Ok : s.Energy < StaffEnergyRules.Max;
+                UiKit.SetButtonColor(row.ItemButton, session.Items.Count(_item) > 0 && usable ? UiKit.Gold : UiKit.Disabled);
+            }
             row.Dismiss.gameObject.SetActive(!s.IsOwner);
             row.Box.color = s.IsOwner ? UiKit.Gold : UiKit.CardRim;
         }
@@ -335,6 +356,55 @@ namespace DemoRestaurant.Game.UI
             return -1;
         }
 
+        /// <summary>" · perks 2 (12m)" for an employee with perks running, soonest to end first.</summary>
+        private string StaffPerks(Staff s)
+        {
+            var now = System.DateTime.UtcNow;
+            int n = 0;
+            ActivePerk soonest = null;
+            foreach (var p in Ui.Session.Perks.Active)
+            {
+                if (p.Staff != s || p.ExpiresUtc <= now) continue;
+                n++;
+                soonest ??= p;
+            }
+            return n == 0 ? "" : " · " + Loc.Format("ui.staff.perks_on", n, PerkText.Remaining(soonest.Remaining(now)));
+        }
+
+        /// <summary>The restaurant perks running now with their effects and time left, or "".</summary>
+        private string RestaurantPerks()
+        {
+            var now = System.DateTime.UtcNow;
+            var parts = new List<string>();
+            foreach (var p in Ui.Session.Perks.Active)
+                if (p.Staff == null && p.ExpiresUtc > now)
+                    parts.Add(PerkText.Effects(p.Effects) + " (" + PerkText.Remaining(p.Remaining(now)) + ")");
+            return parts.Count == 0 ? "" : Loc.Format("ui.staff.restaurant_perks", string.Join(", ", parts));
+        }
+
+        private void RefillOrUse()
+        {
+            if (_item == null) return;
+            if (_item.Target == ItemTarget.Restaurant)
+            {
+                var check = Ui.Session.CheckPerk(_item, null);
+                if (Ui.Session.Items.Count(_item) == 0) Ui.Toast(Loc.Format("ui.staff.no_items", Loc.Get(_item.NameKey)));
+                else if (check != PerkCheck.Ok) Ui.Toast(PerkProblem(check));
+                else if (Ui.Session.UseRestaurantItem(_item)) Ui.Toast(Loc.Format("ui.staff.perk_started", Loc.Get(_item.NameKey)));
+                Refresh();
+                return;
+            }
+            if (_item.EnergyRestore <= 0)
+            {
+                Ui.Toast(Loc.Get("ui.staff.perk_pick_staff"));
+                return;
+            }
+            RefillAll();
+        }
+
+        private static string PerkProblem(PerkCheck check) =>
+            check == PerkCheck.Disabled ? Loc.Get("ui.staff.perks_off") : Loc.Get("ui.staff.perk_slots_full");
+
         private void RefillAll()
         {
             if (_item == null) return;
@@ -354,10 +424,15 @@ namespace DemoRestaurant.Game.UI
         {
             if (staff == null || _item == null)
                 return;
-            if (staff.Energy >= StaffEnergyRules.Max)
+            var check = Ui.Session.CheckPerk(_item, staff);
+            if (!_item.IsPerk && staff.Energy >= StaffEnergyRules.Max)
                 Ui.Toast(Loc.Format("ui.staff.full_energy", Loc.Get(staff.Type.NameKey)));
+            else if (check != PerkCheck.Ok)
+                Ui.Toast(PerkProblem(check));
             else if (!Ui.Session.UseItem(_item, staff))
                 Ui.Toast(Loc.Format("ui.staff.no_items", Loc.Get(_item.NameKey)));
+            else if (_item.IsPerk)
+                Ui.Toast(Loc.Format("ui.staff.perk_started", Loc.Get(_item.NameKey)));
             Refresh();
         }
 

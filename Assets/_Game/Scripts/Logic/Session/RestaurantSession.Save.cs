@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using DemoRestaurant.Logic.Content;
 using DemoRestaurant.Logic.Grid;
+using DemoRestaurant.Logic.Progression;
 using DemoRestaurant.Logic.Save;
 using DemoRestaurant.Logic.Profile;
+using DemoRestaurant.Logic.Simulation;
 
 namespace DemoRestaurant.Logic.Session
 {
@@ -46,6 +48,13 @@ namespace DemoRestaurant.Logic.Session
                     energy = s.Energy, resting = s.IsResting || s.RestRequested, serverId = s.ServerId,
                 });
             foreach (var pair in Items.Contents()) save.items.Add(new ItemCount { id = pair.Key.Id, count = pair.Value });
+            foreach (var p in Perks.Active)
+            {
+                int index = p.Staff == null ? -1 : IndexOfStaff(p.Staff);
+                if (p.Staff != null && index < 0) continue;
+                save.perks.Add(new PerkSave { itemId = p.Item.Id, staffIndex = index,
+                    startedUtcTicks = p.StartedUtc.Ticks, expiresUtcTicks = p.ExpiresUtc.Ticks });
+            }
             save.playerId = Profile.GuestId;
             save.accountId = Profile.AccountId ?? "";
             save.displayName = Profile.DisplayName;
@@ -140,6 +149,19 @@ namespace DemoRestaurant.Logic.Session
                         items.Add(new KeyValuePair<ItemDef, int>(def, item.count));
                 Items.Restore(items);
             }
+            Perks.Clear();
+            foreach (var p in save.perks ?? new List<PerkSave>())
+            {
+                if (!TryGet(Content.GetItem, p.itemId, out var def) || !def.IsPerk) continue;
+                Staff on = null;
+                if (p.staffIndex >= 0)
+                {
+                    if (p.staffIndex >= Sim.Staff.Count) continue;
+                    on = Sim.Staff[p.staffIndex];
+                }
+                Perks.Add(new ActivePerk(def, on, new DateTime(p.startedUtcTicks, DateTimeKind.Utc),
+                    new DateTime(p.expiresUtcTicks, DateTimeKind.Utc)));
+            }
 
             Market?.Restore(save.marketReadyBaskets, save.marketRestockTimer);
             Garden.Restore(save.garden);
@@ -204,6 +226,13 @@ namespace DemoRestaurant.Logic.Session
             Market?.Tick((float)report.CountedSeconds);
             Sim.TickTrash((float)report.CountedSeconds);
             return report;
+        }
+
+        private int IndexOfStaff(Staff staff)
+        {
+            for (int i = 0; i < Sim.Staff.Count; i++)
+                if (Sim.Staff[i] == staff) return i;
+            return -1;
         }
 
         /// <summary>A walkable cell reachable from the entrance that no other staff member uses (not the entrance itself).</summary>

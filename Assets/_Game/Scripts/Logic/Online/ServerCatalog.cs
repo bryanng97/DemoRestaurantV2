@@ -211,7 +211,10 @@ namespace DemoRestaurant.Logic.Online
             {
                 string id = ids.ToLocal(row["id"].AsString());
                 int energy = row["energy"].AsInt(0), price = row["price"].AsInt(-1);
-                if (string.IsNullOrEmpty(id) || energy <= 0 || price < 0) continue;
+                var effects = ParsePerkEffects(row["effects"]);
+                int duration = row["durationMinutes"].AsInt(0);
+                bool perk = effects.IsTimed && duration > 0;
+                if (string.IsNullOrEmpty(id) || (energy <= 0 && !perk) || price < 0) continue;
                 Content.ItemDef item;
                 if (pack.HasItem(id)) item = pack.GetItem(id);
                 else
@@ -220,12 +223,36 @@ namespace DemoRestaurant.Logic.Online
                     item = new Content.ItemDef(id, "catalog.item." + row["id"].AsString(), energy, price) { AssetKey = template };
                     pack.AddCatalogItem(item);
                 }
-                item.EnergyRestore = Math.Min(Content.StaffEnergyRules.Max, energy);
+                item.EnergyRestore = Math.Min(Content.StaffEnergyRules.Max, Math.Max(0, energy));
                 item.Price = price;
                 item.Available = row["available"].AsBool(true);
                 item.UnlockLevel = Math.Max(1, row["unlockLevel"].AsInt(1));
+                item.Target = row["target"].AsString() == "restaurant" ? Content.ItemTarget.Restaurant : Content.ItemTarget.Employee;
+                item.Effects = perk ? effects : Content.PerkEffects.None;
+                item.DurationMinutes = perk ? duration : 0;
+                item.SaleStartUtc = ParseUtc(row["saleStart"].AsString());
+                item.SaleEndUtc = ParseUtc(row["saleEnd"].AsString());
             }
         }
+
+        /// <summary>A staff item's timed effects (Phase 4C perks), clamped to the BO ranges.</summary>
+        private static Content.PerkEffects ParsePerkEffects(JsonValue e)
+        {
+            if (e.Kind != JsonKind.Object) return Content.PerkEffects.None;
+            var effects = new Content.PerkEffects
+            {
+                WorkSpeedPercent = Math.Max(0, Math.Min(500, e["workSpeedPercent"].AsInt(0))),
+                EnergyDrainPercent = Math.Max(0, Math.Min(100, e["energyDrainPercent"].AsInt(0))),
+                XpPercent = Math.Max(0, Math.Min(500, e["xpPercent"].AsInt(0))),
+                PopularityPercent = Math.Max(0, Math.Min(500, e["popularityPercent"].AsInt(0))),
+            };
+            return effects.IsTimed ? effects : Content.PerkEffects.None;
+        }
+
+        private static DateTime? ParseUtc(string text) =>
+            DateTime.TryParse(text, System.Globalization.CultureInfo.InvariantCulture,
+                System.Globalization.DateTimeStyles.AdjustToUniversal | System.Globalization.DateTimeStyles.AssumeUniversal, out var t)
+                ? t : (DateTime?)null;
 
         /// <summary>
         /// Copies the published game rules (BO → Game Rules) over rules.json. Objects the session already holds
@@ -271,6 +298,15 @@ namespace DemoRestaurant.Logic.Online
                     bands.Add(new Content.EnergyBand((float)band["min"].AsDouble() * scale, (float)band["speed"].AsDouble(1)));
                 if (bands.Count > 0) e.Bands = bands;
             }
+            var perks = rules["perks"];
+            if (perks.Kind == JsonKind.Object)
+            {
+                var p = target.Perks;
+                p.Enabled = perks["enabled"].AsBool(p.Enabled);
+                p.SlotsPerEmployee = Math.Max(1, perks["slotsPerEmployee"].AsInt(p.SlotsPerEmployee));
+                p.SlotsRestaurant = Math.Max(0, perks["slotsRestaurant"].AsInt(p.SlotsRestaurant));
+            }
+
             var toilets = rules["toilets"];
             if (toilets.Kind == JsonKind.Object)
             {

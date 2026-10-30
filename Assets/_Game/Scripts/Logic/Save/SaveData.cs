@@ -45,6 +45,7 @@ namespace DemoRestaurant.Logic.Save
         public List<IngredientCount> inventory = new List<IngredientCount>();
         public List<StaffSave> staff = new List<StaffSave>();
         public List<ItemCount> items = new List<ItemCount>();
+        public List<PerkSave> perks = new List<PerkSave>();
 
         /// <summary>This device's guest id.</summary>
         public string playerId;
@@ -116,5 +117,15 @@ namespace DemoRestaurant.Logic.Save
     {
         public string id;
         public int count;
+    }
+
+    /// <summary>An active perk: its item, on which employee (index in <see cref="SaveData.staff"/>, -1 = the restaurant).</summary>
+    [Serializable]
+    public sealed class PerkSave
+    {
+        public string itemId;
+        public int staffIndex = -1;
+        public long startedUtcTicks;
+        public long expiresUtcTicks;
     }
 }

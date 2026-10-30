@@ -55,6 +55,8 @@ namespace DemoRestaurant.Logic.Session
         public Inventory Inventory { get; }
         /// <summary>Consumable items such as energy drinks.</summary>
         public ItemBag Items { get; } = new ItemBag();
+        /// <summary>Perks running now (timed staff items, Phase 4C).</summary>
+        public PerkBook Perks { get; }
         public IngredientMarket Market { get; }
         /// <summary>The farm behind the restaurant (9 plots, opened by level).</summary>
         public Garden Garden { get; }
@@ -106,6 +108,7 @@ namespace DemoRestaurant.Logic.Session
                 Items.Add(pair.Key, pair.Value);
             Progress = new RestaurantProgress(Tuning);
             Demand = new RestaurantDemand(Rules.Demand) { CapBonus = () => EffectTotal(e => e.DemandCapBonus) };
+            Perks = new PerkBook(() => Rules.Perks);
             Progress.LevelUp += OnLevelUp;
 
             Recipes = new RecipeBook(content.Dishes);
@@ -185,6 +188,7 @@ namespace DemoRestaurant.Logic.Session
                     Sim.SpawnCustomer(type);
             }
 
+            ApplyPerks();
             Sim.Tick(dt);
             if (ArrivalsEnabled && !IsOpen)
                 Demand.OnClosed(TimeSpan.FromSeconds(dt));
@@ -343,10 +347,11 @@ namespace DemoRestaurant.Logic.Session
             RecordDuty(staff, true);
         }
 
-        /// <summary>Buys one item with coins.</summary>
-        /// <summary>True when the item is on sale now: published as available and unlocked at this level.</summary>
-        public bool CanBuyItem(ItemDef item) => item != null && item.Price > 0 && item.Available && Progress.Level >= item.UnlockLevel;
+        /// <summary>True when the item is on sale now: published as available, unlocked at this level, in its sale window.</summary>
+        public bool CanBuyItem(ItemDef item) => item != null && item.Price > 0 && item.Available && Progress.Level >= item.UnlockLevel
+            && item.IsOnSale(_utcNow());
 
+        /// <summary>Buys one item with coins.</summary>
         public bool BuyItem(ItemDef item)
         {
             if (!CanBuyItem(item) || !Wallet.TrySpend(item.Price))
@@ -357,24 +362,61 @@ namespace DemoRestaurant.Logic.Session
             return true;
         }
 
-        /// <summary>Uses one item on a staff member (restores energy). False if none left or energy is already full.</summary>
+        /// <summary>
+        /// Uses one item on a staff member: restores its energy and starts its perk, if it has one. False if none
+        /// left, the item is for the restaurant, a plain energy item meets full energy, or the perk can't start
+        /// (see <see cref="CheckPerk"/>).
+        /// </summary>
         public bool UseItem(ItemDef item, Staff staff)
         {
-            if (item == null || staff == null || staff.Energy >= StaffEnergyRules.Max || !Items.TryUse(item))
-                return false;
-            Sim.RestoreEnergy(staff, item.EnergyRestore);
+            if (item == null || staff == null || item.Target != ItemTarget.Employee) return false;
+            var now = _utcNow();
+            if (!item.IsPerk && staff.Energy >= StaffEnergyRules.Max) return false;
+            if (Perks.Check(item, staff, now) != PerkCheck.Ok || !Items.TryUse(item)) return false;
+            if (item.EnergyRestore > 0) Sim.RestoreEnergy(staff, item.EnergyRestore);
+            if (item.IsPerk) Perks.Start(item, staff, now);
+            ApplyPerks();
             if (staff.ServerId != null)
                 RecordAction("item_use", Body().Set("itemId", item.Id).Set("staffId", staff.ServerId));
-            Ledger.Record(LedgerKind.ItemUsed, 1, item.Id, _utcNow());
+            Ledger.Record(LedgerKind.ItemUsed, 1, item.Id, now);
             return true;
+        }
+
+        /// <summary>Uses a restaurant perk (target restaurant): it applies to every employee and the restaurant.</summary>
+        public bool UseRestaurantItem(ItemDef item)
+        {
+            if (item == null || item.Target != ItemTarget.Restaurant || !item.IsPerk) return false;
+            var now = _utcNow();
+            if (Perks.Check(item, null, now) != PerkCheck.Ok || !Items.TryUse(item)) return false;
+            Perks.Start(item, null, now);
+            ApplyPerks();
+            RecordAction("item_use", Body().Set("itemId", item.Id));
+            Ledger.Record(LedgerKind.ItemUsed, 1, item.Id, now);
+            return true;
+        }
+
+        /// <summary>Why the item's perk could or couldn't start now on this employee (null = the restaurant).</summary>
+        public PerkCheck CheckPerk(ItemDef item, Staff staff) => Perks.Check(item, staff, _utcNow());
+
+        /// <summary>Drops ended perks and hands each employee their work speed and drain factors.</summary>
+        private void ApplyPerks()
+        {
+            var now = _utcNow();
+            Perks.Prune(now);
+            foreach (var s in Sim.Staff)
+            {
+                s.PerkSpeed = 1f + Perks.StaffTotal(s, now, e => e.WorkSpeedPercent) / 100f;
+                s.PerkDrain = Math.Max(0f, 1f - Perks.StaffTotal(s, now, e => e.EnergyDrainPercent) / 100f);
+            }
         }
 
         /// <summary>
         /// One tap refill: uses the item on whoever is most tired, again and again, until everyone is full or the items
-        /// run out. Returns how many were used.
+        /// run out. Returns how many were used. Items without instant energy (perks only) are not used this way.
         /// </summary>
         public int RefillAll(ItemDef item)
         {
+            if (item == null || item.EnergyRestore <= 0 || item.Target != ItemTarget.Employee) return 0;
             int used = 0;
             while (true)
             {
@@ -393,6 +435,7 @@ namespace DemoRestaurant.Logic.Session
                 return;
             Ledger.Record(LedgerKind.StaffDismissed, 1, staff.Type.Id, _utcNow());
             if (staff.ServerId != null) RecordAction("dismiss", Body().Set("staffId", staff.ServerId));
+            Perks.RemoveStaff(staff);
             Sim.Dismiss(staff);
         }
 
@@ -579,8 +622,11 @@ namespace DemoRestaurant.Logic.Session
             TotalCustomersServed++;
             Ledger.Record(LedgerKind.Sale, coins, c.Order.Id, _utcNow());
             double demandBefore = Demand.Value;
-            Demand.OnHappyGuest();
-            int xp = Progress.XpForServe(Recipes.LevelOf(c.Order));
+            // Restaurant perks raise the popularity and XP of this sale, rounded as the server rounds.
+            var now = _utcNow();
+            Demand.OnHappyGuest(1 + Perks.RestaurantTotal(now, e => e.PopularityPercent) / 100.0);
+            int xp = (int)Math.Round(Progress.XpForServe(Recipes.LevelOf(c.Order))
+                * (1 + Perks.RestaurantTotal(now, e => e.XpPercent) / 100.0), MidpointRounding.AwayFromZero);
             _effectKey = RecordAction("sale", Body().Set("dishId", c.Order.Id).Set("recipeLevel", Recipes.LevelOf(c.Order))
                 .Set("happy", true), coins, xp, (float)(Demand.Value - demandBefore));
             Progress.Add(xp);
