@@ -121,28 +121,20 @@ namespace DemoRestaurant.Logic.Layout
             {
                 if (left < Math.Min(0f, box.Left - 250f) || right > Math.Max(1000f, box.Right + 250f) || candidate.y != 650) return false;
             }
-            else if (left < box.Left + 10 || right > box.Right - 10 || top < box.Top + 10 || candidate.y > Ground ||
-                (d.kind == ExteriorKind.Door && candidate.y != Ground)) return false;
+            else if (d.kind == ExteriorKind.Door)
+            {
+                // The door stands on the building's base.
+                if (left < box.Left + 10 || right > box.Right - 10 || top < box.Top + 10 || candidate.y != Ground) return false;
+            }
+            // As the reference game (WorldCustomiseBuilding.adjustBuildingItemPosition): windows, signs and wall
+            // decor hang anywhere on the street stage above the ground line, over the roof too, and may overlap.
+            else if (left < 0 || right > 1000 || top < 0 || candidate.y > Ground) return false;
             foreach (var p in pieces)
             {
                 if (p.instance == candidate.instance) continue;
                 var other = Get(p.itemId);
                 if (other == null) return false;
                 if (Single(d.kind) && d.kind == other.kind) return false;
-                if (Fixed(other.kind)) continue;
-                bool ground = d.kind == ExteriorKind.Ground, otherGround = other.kind == ExteriorKind.Ground;
-                if (ground != otherGround)
-                {
-                    // Keep the pavement in front of the entrance clear.
-                    var door = d.kind == ExteriorKind.Door ? candidate : other.kind == ExteriorKind.Door ? p : null;
-                    if (door == null) continue;
-                    var prop = ground ? candidate : p;
-                    var propDef = ground ? d : other;
-                    if (Math.Abs(door.x - prop.x) < (Get(door.itemId).width + propDef.width) / 2 + 20) return false;
-                    continue;
-                }
-                if (left < p.x + other.width / 2 && right > p.x - other.width / 2 &&
-                    top < p.y && candidate.y > p.y - other.height) return false;
             }
             return true;
         }

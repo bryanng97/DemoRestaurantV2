@@ -97,7 +97,8 @@ namespace DemoRestaurant.Game.UI
             var receiver = _stage.gameObject.AddComponent<Image>();
             receiver.color = new Color(1, 1, 1, 0); receiver.raycastTarget = true;
             _stage.gameObject.AddComponent<ExteriorPointer>().Owner = this;
-            // While browsing, the whole screen swipes the street (neighbours stand outside the stage's rect).
+            // The whole screen takes touches: browsing swipes the street (neighbours stand outside the stage's
+            // rect) and the editor reaches pieces hung above it.
             _streetTouch = UiKit.NewRect("StreetTouch", safe); UiKit.Stretch(_streetTouch);
             _streetTouch.gameObject.AddComponent<Image>().color = new Color(1, 1, 1, 0);
             _streetTouch.gameObject.AddComponent<ExteriorPointer>().Owner = this;
@@ -420,8 +421,7 @@ namespace DemoRestaurant.Game.UI
                 UnityEngine.InputSystem.Mouse.current.delta.ReadValue().sqrMagnitude > 0)
             {
                 var mouse = new PointerEventData(EventSystem.current) { position = UnityEngine.InputSystem.Mouse.current.position.ReadValue() };
-                if (RectTransformUtility.RectangleContainsScreenPoint(_stage, mouse.position) &&
-                    !RectTransformUtility.RectangleContainsScreenPoint(_shop, mouse.position)) Move(mouse);
+                if (!RectTransformUtility.RectangleContainsScreenPoint(_shop, mouse.position)) Move(mouse);
             }
         }
 
@@ -546,7 +546,8 @@ namespace DemoRestaurant.Game.UI
         {
             if (_stage == null || _draft == null) return;
             _neighbours.gameObject.SetActive(!IsEditing);
-            _streetTouch.gameObject.SetActive(!IsEditing);
+            // Touches anywhere reach the street and the editor (signs may hang above the stage, over the roof).
+            _streetTouch.gameObject.SetActive(true);
             _pan.anchoredPosition = new Vector2(IsEditing ? 0f : _panX, 0f);
             _stage.localScale = Vector3.one * (IsEditing ? 1f : Mathf.Min(1, _root.rect.width / 1450f));
             if (!IsEditing) return; // DrawBuilding restores the fixed street framing on leaving edit mode.

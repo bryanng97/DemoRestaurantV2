@@ -21,16 +21,18 @@ namespace DemoRestaurant.Logic.Tests
         }, new[] { Piece(1,"wall",500,620), Piece(2,"roof",500,272), Piece(3,"door",500,620),
             Piece(4,"window",280,560), Piece(5,"plant",150,650) });
 
-        [Test] public void OverlapAndBlockedDoorAreRejected()
+        [Test] public void WallPiecesHangAnywhereAboveTheGround_TheDoorStaysOnTheBase()
         {
+            // As the reference game: windows, signs and wall decor may overlap and hang over the roof.
             var c = Catalog(); var state = c.Starter();
             Assert.IsTrue(c.Validate(state.pieces));
-            Assert.IsFalse(c.CanPlace(state.pieces, Piece(6,"window",300,560)));
-            Assert.IsFalse(c.CanPlace(state.pieces, Piece(6,"plant",500,650)));
-            Assert.IsFalse(c.CanPlace(state.pieces, Piece(3,"door",150,620)));
-            Assert.IsFalse(c.CanPlace(state.pieces, Piece(6,"window",500,300)));
+            Assert.IsTrue(c.CanPlace(state.pieces, Piece(6,"window",300,560)), "overlapping another window");
+            Assert.IsTrue(c.CanPlace(state.pieces, Piece(6,"window",500,300)), "over the roof");
+            Assert.IsTrue(c.CanPlace(state.pieces, Piece(6,"plant",500,650)), "in front of the door");
+            Assert.IsFalse(c.CanPlace(state.pieces, Piece(6,"window",300,640)), "below the ground line");
+            Assert.IsFalse(c.CanPlace(state.pieces, Piece(6,"window",20,560)), "off the street stage");
+            Assert.IsFalse(c.CanPlace(state.pieces, Piece(3,"door",150,620)), "the door stays on the building");
             Assert.IsFalse(c.CanPlace(state.pieces, Piece(6,"window",float.NaN,500)));
-            Assert.IsTrue(c.CanPlace(state.pieces, Piece(4,"window",720,560)));
         }
         [Test] public void TheFrontGrowsWithLevel_AndEarlierPiecesStayValid()
         {
@@ -46,18 +48,16 @@ namespace DemoRestaurant.Logic.Tests
             Assert.AreEqual(ExteriorCatalog.Ground, c.BoxFor(10).Bottom, "it grows upwards from the pavement");
             Assert.AreEqual(0, c.StepFor(1)); Assert.AreEqual(1, c.StepFor(9)); Assert.AreEqual(2, c.StepFor(40), "the building base tier");
             // A front saved at a larger size: an unmoved piece outside today's wall still saves; moving it must fit.
-            var big = c.Starter(); big.pieces.Find(p => p.instance == 4).x = 140;
+            var big = c.Starter(); big.pieces.Find(p => p.instance == 3).x = 140;
             Assert.IsFalse(c.Validate(big.pieces, 1), "outside the level-1 wall");
             Assert.IsTrue(c.TryQuote(big, big.pieces, 1, out _, out _), "left where it was");
-            var moved = big.Copy(); moved.pieces.Find(p => p.instance == 4).x = 135;
+            var moved = big.Copy(); moved.pieces.Find(p => p.instance == 3).x = 135;
             Assert.IsFalse(c.TryQuote(big, moved.pieces, 1, out _, out _), "moved, so it must fit");
             var state = c.Starter();
+            var wideDoor = Piece(3, "door", 120, 620);
+            Assert.IsFalse(c.CanPlace(state.pieces, wideDoor, 1), "the door outside the level-1 front");
+            Assert.IsTrue(c.CanPlace(state.pieces, wideDoor, 10), "inside the grown front");
             var wide = Piece(6, "window", 120, 560);
-            Assert.IsFalse(c.CanPlace(state.pieces, wide, 1), "outside the level-1 front");
-            Assert.IsTrue(c.CanPlace(state.pieces, wide, 10), "inside the grown front");
-            var high = Piece(6, "window", 720, 340); // top at 190: above the level-1 front (270), inside the grown one (180)
-            Assert.IsFalse(c.CanPlace(state.pieces, high, 7));
-            Assert.IsTrue(c.CanPlace(state.pieces, high, 10));
             Assert.IsTrue(c.Validate(state.pieces, 10), "the starter front is still valid at a higher level");
             state.pieces.Add(wide);
             state.owned.Find(o => o.itemId == "window").count = 2;
