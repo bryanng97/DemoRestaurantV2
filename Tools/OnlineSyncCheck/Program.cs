@@ -151,6 +151,35 @@ public static class Program
         var fresh = Call("GET", "/state", null);
         Check(fresh["coins"].AsLong() == after["coins"].AsLong(), "GET /state agrees");
 
+        // Perks (Phase 4C): an employee perk and a restaurant perk, bought and used on the device, kept by the server.
+        ItemDef speed = null, party = null;
+        foreach (var item in pack.Items)
+        {
+            if (!item.IsPerk) continue;
+            if (item.Target == ItemTarget.Employee) speed ??= item; else party ??= item;
+        }
+        if (speed == null || party == null) Console.WriteLine("SKIP: perks (this ruleset has no employee and restaurant perk)");
+        else
+        {
+            var perkWaiter = Find(game, StaffRole.Waiter, owner: false);
+            Check(game.BuyItem(speed) && game.BuyItem(party), $"perk items bought ({speed.Id}, {party.Id})");
+            Check(game.UseItem(speed, perkWaiter), "the employee perk starts on a waiter");
+            Check(game.UseRestaurantItem(party), "the restaurant perk starts");
+            Check(perkWaiter.SpeedMultiplier > 1f || speed.Effects.WorkSpeedPercent == 0, $"the waiter works faster ({perkWaiter.SpeedMultiplier:0.00}x)");
+            round = Ledger(online, evenIfEmpty: false);
+            Check(round.Outcome.Rejected.Count == 0 && round.Outcome.Retry.Count == 0, "perk purchases and uses accepted");
+            var perks = online.LastState["perks"];
+            bool onWaiter = false, onRestaurant = false;
+            foreach (var p in perks.Items)
+            {
+                onWaiter |= p["itemId"].AsString() == speed.Id && p["staffId"].AsString() == perkWaiter.ServerId;
+                onRestaurant |= p["itemId"].AsString() == party.Id && p["staffId"].Kind == JsonKind.Null;
+            }
+            Check(onWaiter && onRestaurant, $"the server keeps both perks ({perks.Count} active)");
+            Check(game.Perks.Active.Count == 2, "the device still shows both perks after the server state");
+            Check(game.Wallet.DisplayCoins == online.LastState["coins"].AsLong(), $"coins reconcile after the perks ({online.LastState["coins"].AsLong()})");
+        }
+
         // ---- A fresh device (guest play, never synced) signs into this account, which now has progress.
         var device = new RestaurantSession(pack, StarterLayout(pack, start), seed: 11, startingCoins: start["coins"].AsLong());
         device.BuyItem(pack.GetItem("kopi_o_kaw"));
@@ -341,7 +370,20 @@ public static class Program
         }
         var items = new List<ItemDef>();
         foreach (var i in body["catalog"]["items"].Items)
-            items.Add(new ItemDef(i["id"].AsString(), "item", (float)i["energy"].AsDouble(), i["price"].AsInt()));
+        {
+            // Perks (Phase 4C): timed effects on one employee or the restaurant.
+            var e = i["effects"];
+            items.Add(new ItemDef(i["id"].AsString(), "item", (float)i["energy"].AsDouble(), i["price"].AsInt())
+            {
+                Target = i["target"].AsString() == "restaurant" ? ItemTarget.Restaurant : ItemTarget.Employee,
+                Effects = e.Kind != JsonKind.Object ? PerkEffects.None : new PerkEffects
+                {
+                    WorkSpeedPercent = e["workSpeedPercent"].AsInt(0), EnergyDrainPercent = e["energyDrainPercent"].AsInt(0),
+                    XpPercent = e["xpPercent"].AsInt(0), PopularityPercent = e["popularityPercent"].AsInt(0),
+                },
+                DurationMinutes = i["durationMinutes"].AsInt(0),
+            });
+        }
         var staff = new List<StaffTypeDef>();
         foreach (var role in new[] { StaffRole.Chef, StaffRole.Waiter, StaffRole.Cleaner })
         {
