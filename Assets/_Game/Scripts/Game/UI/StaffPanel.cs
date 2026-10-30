@@ -80,6 +80,12 @@ namespace DemoRestaurant.Game.UI
             _ownerName.resizeTextMinSize = 14;
             _ownerName.resizeTextMaxSize = 22;
             _ownerJob = UiKit.Label(card, "Job", 80, 36, 250, 30, 17, TextAnchor.MiddleLeft, UiKit.SoftText);
+            // Stays left of the job buttons: long translations shrink instead of running underneath them.
+            _ownerJob.horizontalOverflow = HorizontalWrapMode.Wrap;
+            _ownerJob.verticalOverflow = VerticalWrapMode.Truncate;
+            _ownerJob.resizeTextForBestFit = true;
+            _ownerJob.resizeTextMinSize = 11;
+            _ownerJob.resizeTextMaxSize = 17;
             for (int i = 0; i < Roles.Length; i++)
             {
                 var role = Roles[i];

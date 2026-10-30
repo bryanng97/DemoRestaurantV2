@@ -6,6 +6,7 @@ using DemoRestaurant.Game.Render;
 using DemoRestaurant.Logic.Content;
 using DemoRestaurant.Logic.Layout;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace DemoRestaurant.Game.UI
@@ -41,6 +42,9 @@ namespace DemoRestaurant.Game.UI
         private readonly List<(BuildCategory category, string code, Button button)> _filters = new List<(BuildCategory, string, Button)>();
         private RectTransform _categoryButtonsRoot;
         private int _categoryVersion = -1;
+        // Category tabs are sized so the viewport always shows whole tabs; the strip rests on a tab boundary.
+        private float _tabStep = 136f;
+        private bool _categoryDragging;
         private readonly List<(string id, Image rim)> _cardRims = new List<(string, Image)>();
         /// <summary>Every card's rect and what choosing it does, so a finger can drag a piece straight out of the bar.</summary>
         private readonly List<(RectTransform card, Action select)> _cardPicks = new List<(RectTransform, Action)>();
@@ -96,6 +100,9 @@ namespace DemoRestaurant.Game.UI
             categoriesScroll.viewport = categoriesView; categoriesScroll.content = categoriesRow;
             categoriesScroll.vertical = false; categoriesScroll.movementType = ScrollRect.MovementType.Clamped;
             _categoryScroll = categoriesScroll;
+            var dragWatch = categoriesView.gameObject.AddComponent<EventTrigger>();
+            AddTrigger(dragWatch, EventTriggerType.BeginDrag, () => _categoryDragging = true);
+            AddTrigger(dragWatch, EventTriggerType.EndDrag, () => _categoryDragging = false);
             _categoryNavigation = UiKit.NewRect("CategoryNavigation", _bar);
             _categoryNavigation.anchorMin = new Vector2(0, 1); _categoryNavigation.anchorMax = Vector2.one;
             _categoryNavigation.pivot = new Vector2(0, 1);
@@ -252,6 +259,7 @@ namespace DemoRestaurant.Game.UI
         private void LateUpdate()
         {
             if (_cardGrid == null || !_catalogOpen) return;
+            FitCategoryTabs();
             RefreshCategoryNavigation();
             float width = Mathf.Max(1, (_cardsViewport.rect.width - 20) * .5f);
             var size = new Vector2(width, 208);
@@ -270,14 +278,54 @@ namespace DemoRestaurant.Game.UI
             return button;
         }
 
+        private static void AddTrigger(EventTrigger trigger, EventTriggerType type, Action action)
+        {
+            var entry = new EventTrigger.Entry { eventID = type };
+            entry.callback.AddListener(_ => action());
+            trigger.triggers.Add(entry);
+        }
+
         private void ScrollCategories(int direction)
         {
             float overflow = _categoryScroll.content.rect.width - _categoryScroll.viewport.rect.width;
             if (overflow <= 1f) return;
             _categoryScroll.StopMovement();
-            _categoryScroll.horizontalNormalizedPosition = Mathf.Clamp01(
-                _categoryScroll.horizontalNormalizedPosition + direction * 136f / overflow);
+            int tab = Mathf.RoundToInt(-_categoryScroll.content.anchoredPosition.x / _tabStep) + direction;
+            SetCategoryOffset(Mathf.Clamp(tab * _tabStep, 0f, overflow));
             RefreshCategoryNavigation();
+        }
+
+        private void SetCategoryOffset(float offset)
+        {
+            var content = _categoryScroll.content;
+            content.anchoredPosition = new Vector2(-offset, content.anchoredPosition.y);
+        }
+
+        /// <summary>
+        /// Widens the tabs so a whole number of them fills the viewport, and lets the strip settle on a tab
+        /// boundary after a swipe, so no tab label is ever cut in half at the edge.
+        /// </summary>
+        private void FitCategoryTabs()
+        {
+            if (_categoryScroll == null || _categoryButtonsRoot.childCount == 0) return;
+            float view = _categoryScroll.viewport.rect.width;
+            if (view <= 1f) return;
+            int perView = Mathf.Max(1, Mathf.FloorToInt((view + 8f) / 136f));
+            float step = view / perView;
+            if (Mathf.Abs(step - _tabStep) > .5f || Mathf.Abs(_categoryButtonsRoot.sizeDelta.x - step * _filters.Count) > .5f)
+            {
+                _tabStep = step;
+                for (int i = 0; i < _filters.Count; i++)
+                    UiKit.Place((RectTransform)_filters[i].button.transform, i * step, 0, step - 8f, 80);
+                _categoryButtonsRoot.sizeDelta = new Vector2(step * _filters.Count, 0);
+            }
+            float overflow = _categoryButtonsRoot.sizeDelta.x - view;
+            if (_categoryDragging || overflow <= 1f || Mathf.Abs(_categoryScroll.velocity.x) > 300f) return;
+            float offset = -_categoryScroll.content.anchoredPosition.x;
+            float target = Mathf.Clamp(Mathf.Round(offset / _tabStep) * _tabStep, 0f, overflow);
+            if (Mathf.Abs(target - offset) < .5f) return;
+            _categoryScroll.StopMovement();
+            SetCategoryOffset(Mathf.Lerp(offset, target, Mathf.Min(1f, Time.unscaledDeltaTime * 14f)));
         }
 
         private void RefreshCategoryNavigation()
