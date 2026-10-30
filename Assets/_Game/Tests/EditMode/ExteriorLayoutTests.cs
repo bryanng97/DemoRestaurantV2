@@ -45,6 +45,12 @@ namespace DemoRestaurant.Logic.Tests
             Assert.AreEqual(450f, c.BoxFor(10).Height);
             Assert.AreEqual(ExteriorCatalog.Ground, c.BoxFor(10).Bottom, "it grows upwards from the pavement");
             Assert.AreEqual(0, c.StepFor(1)); Assert.AreEqual(1, c.StepFor(9)); Assert.AreEqual(2, c.StepFor(40), "the building base tier");
+            // A front saved at a larger size: an unmoved piece outside today's wall still saves; moving it must fit.
+            var big = c.Starter(); big.pieces.Find(p => p.instance == 4).x = 140;
+            Assert.IsFalse(c.Validate(big.pieces, 1), "outside the level-1 wall");
+            Assert.IsTrue(c.TryQuote(big, big.pieces, 1, out _, out _), "left where it was");
+            var moved = big.Copy(); moved.pieces.Find(p => p.instance == 4).x = 135;
+            Assert.IsFalse(c.TryQuote(big, moved.pieces, 1, out _, out _), "moved, so it must fit");
             var state = c.Starter();
             var wide = Piece(6, "window", 120, 560);
             Assert.IsFalse(c.CanPlace(state.pieces, wide, 1), "outside the level-1 front");

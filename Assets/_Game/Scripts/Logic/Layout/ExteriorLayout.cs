@@ -147,18 +147,29 @@ namespace DemoRestaurant.Logic.Layout
             return true;
         }
 
-        public bool Validate(IReadOnlyList<ExteriorPiece> pieces, int level = 1)
+        /// <param name="kept">The front as it was: a piece left exactly where it stood there is accepted even if it no
+        /// longer fits (fronts saved at a larger size can stand outside today's wall). Moved and new pieces must fit.</param>
+        public bool Validate(IReadOnlyList<ExteriorPiece> pieces, int level = 1, IReadOnlyList<ExteriorPiece> kept = null)
         {
             if (pieces == null || pieces.Count > 64) return false;
             var ids = new HashSet<int>();
             var required = new HashSet<ExteriorKind>();
             foreach (var p in pieces)
             {
-                if (p == null || !ids.Add(p.instance) || p.instance <= 0 || !CanPlace(pieces, p, level)) return false;
+                if (p == null || !ids.Add(p.instance) || p.instance <= 0 || (!CanPlace(pieces, p, level) && !Unmoved(p, kept))) return false;
                 var kind = Get(p.itemId).kind;
                 if (Single(kind) && !required.Add(kind)) return false;
             }
             return required.Contains(ExteriorKind.Wall) && required.Contains(ExteriorKind.Roof) && required.Contains(ExteriorKind.Door);
+        }
+
+        private static bool Unmoved(ExteriorPiece p, IReadOnlyList<ExteriorPiece> kept)
+        {
+            if (kept == null) return false;
+            foreach (var k in kept)
+                if (k != null && k.instance == p.instance && k.itemId == p.itemId && k.x == p.x && k.y == p.y && k.flipped == p.flipped)
+                    return true;
+            return false;
         }
 
         public bool TryQuote(ExteriorSave current, IReadOnlyList<ExteriorPiece> pieces, int level, out long cost,
@@ -166,7 +177,7 @@ namespace DemoRestaurant.Logic.Layout
         {
             cost = 0;
             ownership = new List<ExteriorOwned>();
-            if (current == null || !Validate(pieces, level)) return false;
+            if (current == null || !Validate(pieces, level, current.pieces)) return false;
             var counts = new Dictionary<string, int>();
             if (current.owned != null) foreach (var o in current.owned)
                 if (o != null && Get(o.itemId) != null) counts[o.itemId] = Math.Max(0, o.count);
