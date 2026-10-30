@@ -88,7 +88,6 @@ namespace DemoRestaurant.Logic.Save
                 stoveFactors.Add(Math.Max(10, Math.Min(200, f.Def.Effects.OperationTimePercent)) / 100.0);
             }
             stoveFactors.Sort();
-            var beds = RestaurantSim.BedsInOrder(s.Layout.Furniture);
             report.BlockedReason = BlockedReason(workers, stoves, seats);
 
             var menu = s.Menu.Active;
@@ -142,14 +141,11 @@ namespace DemoRestaurant.Logic.Save
                 customers += perMinute * step / 60.0;
 
                 // Idle counts as working: on duty drains, resting recovers (and returns to work when full).
-                // Resting staff take the beds in hiring order, strongest bed first, as in the restaurant.
-                int bed = 0;
                 foreach (var w in workers)
                 {
                     if (w.Resting)
                     {
-                        float bedFactor = bed < beds.Count ? Math.Max(1f, beds[bed++].Def.Effects.RestRecoveryMultiplier) : 1f;
-                        w.Energy = Math.Min(StaffEnergyRules.Max, w.Energy + energyRules.RecoverPerMinute * bedFactor * (float)(step / 60.0));
+                        w.Energy = Math.Min(StaffEnergyRules.Max, w.Energy + energyRules.RecoverPerMinute * (float)(step / 60.0));
                         if (w.Energy >= energyRules.AutoReturnAt) w.Resting = false;
                     }
                     else

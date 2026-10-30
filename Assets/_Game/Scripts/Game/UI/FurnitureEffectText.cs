@@ -17,7 +17,6 @@ namespace DemoRestaurant.Game.UI
             // Popularity is shown to players as points / 10.
             if (e.DemandCapBonus > 0) parts.Add(Loc.Format("ui.effects.popularity_cap", (e.DemandCapBonus / 10f).ToString("0.0")));
             if (e.PatienceSeconds > 0) parts.Add(Loc.Format("ui.effects.patience", e.PatienceSeconds));
-            if (e.RestRecoveryMultiplier > 1f) parts.Add(Loc.Format("ui.effects.rest_recovery", e.RestRecoveryMultiplier.ToString("0.##")));
             return string.Join(" · ", parts);
         }
     }

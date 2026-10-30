@@ -62,8 +62,6 @@ namespace DemoRestaurant.Logic.Simulation
         /// <summary>The broken toilet being fixed, if any.</summary>
         public PlacedFurniture FixTarget { get; internal set; }
         public TrashPiece TrashTarget { get; internal set; }
-        /// <summary>The bed a resting staff member sleeps on (see RestaurantSim.Beds), or null.</summary>
-        public PlacedFurniture Bed { get; internal set; }
 
         /// <summary>0-100. Drains while on duty; recovers while resting.</summary>
         public float Energy

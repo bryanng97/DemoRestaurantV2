@@ -475,7 +475,6 @@ namespace DemoRestaurant.Game.UI
                 case FurnitureKind.Chair: return BuildCategory.Chair;
                 case FurnitureKind.Toilet:
                 case FurnitureKind.Entertainment:
-                case FurnitureKind.Bed:
                 case FurnitureKind.Sink: return BuildCategory.Functional;
                 case FurnitureKind.Stove:
                 case FurnitureKind.DrinkMachine:

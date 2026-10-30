@@ -244,25 +244,6 @@ namespace DemoRestaurant.Logic.Tests
         }
 
         [Test]
-        public void Idle_ABedSpeedsUpTheRestOfTheFirstRestingEmployee()
-        {
-            var bed = new FurnitureDef("bed", "b", FurnitureKind.Bed, 2, 1, 0.6f, 0.3f, 1, restRecoveryMultiplier: 2f);
-            var s = Session(Pack());
-            Assert.IsTrue(s.Layout.TryPlace(bed, new GridPos(8, 0), Facing.SouthWest, out _));
-            Crew(s);
-            foreach (var staff in s.Sim.Staff)
-                s.Sim.SetEnergy(staff, 10f, resting: true);
-
-            s.ApplyOfflineProgress(Start - TimeSpan.FromMinutes(2));
-
-            var chef = s.Sim.Staff[0];
-            var waiter = s.Sim.Staff[1];
-            float normal = waiter.Energy - 10f;
-            Assert.Greater(normal, 0f);
-            Assert.AreEqual(normal * 2f, chef.Energy - 10f, 0.5f, "the chef, hired first, had the bed: twice the recovery");
-        }
-
-        [Test]
         public void Idle_XpCanLevelUp()
         {
             var s = Session(Pack());

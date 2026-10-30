@@ -83,8 +83,6 @@ namespace DemoRestaurant.Logic.Content
         Sink,
         /// <summary>A paid activity for guests who cannot find a dining seat.</summary>
         Entertainment,
-        /// <summary>A resting staff member sleeps here (one each) and recovers faster (effect RestRecoveryMultiplier).</summary>
-        Bed,
     }
 
     public enum StaffRole
@@ -293,10 +291,8 @@ namespace DemoRestaurant.Logic.Content
 
         public FurnitureDef(string id, string nameKey, FurnitureKind kind, int sizeX, int sizeY,
             float height, float seatHeight, int price, int unlockLevel = 1, int breakCount = 0,
-            bool stackable = false, bool surface = false, bool outdoorDecor = false, float restRecoveryMultiplier = 1f)
+            bool stackable = false, bool surface = false, bool outdoorDecor = false)
         {
-            if (restRecoveryMultiplier > 1f)
-                Effects = new FurnitureEffects { RestRecoveryMultiplier = Math.Min(10f, restRecoveryMultiplier) };
             OutdoorDecor = outdoorDecor;
             Stackable = stackable;
             Surface = surface || kind == FurnitureKind.Table;
@@ -441,13 +437,10 @@ namespace DemoRestaurant.Logic.Content
         public int OperationTimePercent = 100;
         public int DemandCapBonus;
         public int PatienceSeconds;
-        /// <summary>A bed: the resting staff member on it recovers this many times faster (1 = normal).</summary>
-        public float RestRecoveryMultiplier = 1f;
         public EffectStacking Stacking = EffectStacking.UniqueAsset;
         public int MaxCopies = 1;
 
-        public bool IsNeutral => OperationTimePercent == 100 && DemandCapBonus == 0 && PatienceSeconds == 0
-            && RestRecoveryMultiplier <= 1f;
+        public bool IsNeutral => OperationTimePercent == 100 && DemandCapBonus == 0 && PatienceSeconds == 0;
 
         /// <summary>
         /// The restaurant-wide total of one effect over placed pieces, as the server counts it: once per asset

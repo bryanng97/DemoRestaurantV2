@@ -192,7 +192,6 @@ namespace DemoRestaurant.Logic.Online
                 OperationTimePercent = Math.Max(10, Math.Min(200, e["operationTimePercent"].AsInt(100))),
                 DemandCapBonus = Math.Max(0, e["demandCapBonus"].AsInt(0)),
                 PatienceSeconds = Math.Max(0, e["patienceSeconds"].AsInt(0)),
-                RestRecoveryMultiplier = (float)Math.Max(1, Math.Min(10, e["restRecoveryMultiplier"].AsDouble(1))),
                 Stacking = stacking == "sum" ? Content.EffectStacking.Sum
                     : stacking == "highest" ? Content.EffectStacking.Highest : Content.EffectStacking.UniqueAsset,
                 MaxCopies = Math.Max(1, e["maxCopies"].AsInt(1)),

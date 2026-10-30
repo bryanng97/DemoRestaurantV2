@@ -46,8 +46,6 @@ namespace DemoRestaurant.Logic.Simulation
                     }
                 }
                 homes.Add(home);
-                s.Bed = null; // beds are handed out again on the next tick
-                s.Z = 0;
                 s.Home = home;
                 s.Position = Vec2.CellCentre(home);
                 s.Path.Clear();

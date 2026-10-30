@@ -166,7 +166,7 @@ namespace DemoRestaurant.Game.Render
             if (_editing) { SortDepth(); return; }
             foreach (var pair in _characters)
             {
-                // As in the reference game, a resting employee without a bed leaves the floor until back on duty.
+                // As in the reference game, a resting employee leaves the floor until back on duty.
                 bool shown = !IsOffFloor(pair.Key);
                 pair.Value.SetActive(shown);
                 if (shown) pair.Value.Sync(pair.Key, PoseFor(pair.Key), t);
@@ -1231,8 +1231,8 @@ namespace DemoRestaurant.Game.Render
             return hints != null && hints.seatHeight > 0f ? hints.seatHeight : -1f;
         }
 
-        /// <summary>Resting without a bed: not drawn until they return to work.</summary>
-        public static bool IsOffFloor(Agent agent) => agent is Staff s && s.IsResting && s.Bed == null;
+        /// <summary>Resting staff leave the floor, as in the reference game: not drawn until they return to work.</summary>
+        public static bool IsOffFloor(Agent agent) => agent is Staff s && s.IsResting;
 
         /// <summary>What a character is doing this frame, as far as drawing is concerned.</summary>
         private CharacterPose PoseFor(Agent agent)
@@ -1270,14 +1270,9 @@ namespace DemoRestaurant.Game.Render
             // (below full speed) or while resting (blue, filling up).
             float energy = s.Energy / StaffEnergyRules.Max;
             bool showEnergy = !cooking && (s.IsResting || s.SpeedMultiplier < 1f);
-            bool sleeping = s.Bed != null;
             return new CharacterPose
             {
                 Moving = s.IsWalking,
-                // Asleep on a bed: drawn in the seated pose until lying-down frames exist.
-                Seated = sleeping,
-                SeatZ = sleeping ? s.Bed.Def.SeatHeight : -1f,
-                ActivityKey = sleeping ? "ui.activity.sleeping" : null,
                 ShowBubble = s.State == StaffState.Cooking,
                 Cooking = s.State == StaffState.Cooking || s.State == StaffState.Pouring,
                 Cleaning = s.State == StaffState.Cleaning || s.State == StaffState.PickingTrash,
