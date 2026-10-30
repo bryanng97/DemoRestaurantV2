@@ -462,7 +462,26 @@ namespace DemoRestaurant.Game.UI
         {
             var button = Card(f.Id, f.NameKey, _content.ArtForFurniture(f.Id).Sprite, "", () => _controller.SelectFurniture(f));
             var card = button.transform;
+            AddEffectBadge((RectTransform)card, f);
             _shopCards.Add((f, card.Find("Info").GetComponent<Text>(), card.Find("Icon").GetComponent<Image>()));
+        }
+
+        /// <summary>A piece's permanent effects (Phase 3) on a strip across the top of its shop or storage card.</summary>
+        private static void AddEffectBadge(RectTransform card, FurnitureDef f)
+        {
+            string effects = FurnitureEffectText.For(f);
+            if (effects.Length == 0) return;
+            var strip = UiKit.NewRect("Effects", card);
+            strip.anchorMin = new Vector2(0, 1); strip.anchorMax = Vector2.one; strip.pivot = new Vector2(0.5f, 1);
+            strip.offsetMin = new Vector2(6, -50); strip.offsetMax = new Vector2(-6, -6);
+            var back = strip.gameObject.AddComponent<Image>();
+            back.color = new Color(0.25f, 0.16f, 0.08f, 0.82f); back.raycastTarget = false;
+            var text = UiKit.AddText(UiKit.NewRect("Text", strip), 18, TextAnchor.MiddleCenter, new Color(1f, 0.86f, 0.4f));
+            UiKit.Stretch(text.rectTransform, 4, 2, 4, 2);
+            text.horizontalOverflow = HorizontalWrapMode.Wrap; text.verticalOverflow = VerticalWrapMode.Truncate;
+            text.resizeTextForBestFit = true; text.resizeTextMinSize = 11; text.resizeTextMaxSize = 18;
+            text.raycastTarget = false;
+            text.text = effects;
         }
 
         private BuildCategory CategoryFor(FurnitureDef f)
