@@ -103,7 +103,7 @@ namespace DemoRestaurant.Logic.Simulation
             var rules = _settings.StaffEnergy;
             if (s.IsResting)
             {
-                s.Energy += rules.RecoverPerMinute * dt / 60f;
+                s.Energy += rules.RecoverPerMinute * RestMultiplier(s) * dt / 60f;
                 if (s.Energy >= rules.AutoReturnAt)
                     s.IsResting = false;
             }
@@ -162,6 +162,7 @@ namespace DemoRestaurant.Logic.Simulation
 
         private void UpdateKitchen(float dt)
         {
+            AssignBeds();
             for (int i = 0; i < _staff.Count; i++)
             {
                 UpdateEnergy(_staff[i], dt);

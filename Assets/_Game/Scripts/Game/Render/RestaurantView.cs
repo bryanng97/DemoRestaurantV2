@@ -1262,9 +1262,14 @@ namespace DemoRestaurant.Game.Render
             // (below full speed) or while resting (blue, filling up).
             float energy = s.Energy / StaffEnergyRules.Max;
             bool showEnergy = !cooking && (s.IsResting || s.SpeedMultiplier < 1f);
+            bool sleeping = s.Bed != null;
             return new CharacterPose
             {
                 Moving = s.IsWalking,
+                // Asleep on a bed: drawn in the seated pose until lying-down frames exist.
+                Seated = sleeping,
+                SeatZ = sleeping ? s.Bed.Def.SeatHeight : -1f,
+                ActivityKey = sleeping ? "ui.activity.sleeping" : null,
                 ShowBubble = s.State == StaffState.Cooking,
                 Cooking = s.State == StaffState.Cooking || s.State == StaffState.Pouring,
                 Cleaning = s.State == StaffState.Cleaning || s.State == StaffState.PickingTrash,

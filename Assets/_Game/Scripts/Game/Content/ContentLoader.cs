@@ -201,7 +201,7 @@ namespace DemoRestaurant.Game.Content
             {
                 if (!Enum.TryParse(f.kind, out FurnitureKind kind))
                     throw new ContentException($"Furniture '{f.id}' in pack '{packId}' has unknown kind '{f.kind}'.");
-                furniture.Add(new FurnitureDef(f.id, f.nameKey, kind, f.sizeX, f.sizeY, f.height, f.seatHeight, f.price, f.unlockLevel, f.breakCount, f.stackable, f.surface, f.outdoorDecor || f.category == "Outdoor"));
+                furniture.Add(new FurnitureDef(f.id, f.nameKey, kind, f.sizeX, f.sizeY, f.height, f.seatHeight, f.price, f.unlockLevel, f.breakCount, f.stackable, f.surface, f.outdoorDecor || f.category == "Outdoor", f.restRecoveryMultiplier));
                 furnitureArt[f.id] = new FurnitureArt
                 {
                     Sprite = f.sprite,
@@ -597,6 +597,7 @@ namespace DemoRestaurant.Game.Content
             public string sprite; public string spriteBack; public string category; public string tapAction; public float artScale; public string placeholderColor;
             public bool mirrorSprite; public Vector2[] groundCorners;
             public bool outdoorDecor;
+            public float restRecoveryMultiplier = 1f;
         }
 
         [Serializable] private class CustomerFile { public CustomerDto[] customerTypes = Array.Empty<CustomerDto>(); }
