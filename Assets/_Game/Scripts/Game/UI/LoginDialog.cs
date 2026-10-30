@@ -109,6 +109,8 @@ namespace DemoRestaurant.Game.UI
             if (check != CredentialCheck.Ok) { ShowCheck(check); return; }
             SetBusy(true);
             var result = await _online.SignIn(_email.text, _password.text);
+            // Signing in can load the account's restaurant (a scene reload) and destroy this dialog meanwhile.
+            if (_root == null) return;
             SetBusy(false);
             if (result.Status == AuthStatus.EmailNotVerified)
             {
