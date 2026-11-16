@@ -86,9 +86,12 @@ namespace DemoRestaurant.Game.Online
         {
             if (_state == null || _watering) return;
             var target = _state.Plots.Find(p => p.Index == plot);
+            Debug.Log($"Visit: plot {plot} tapped ({(target == null ? "none" : target.Open ? target.Planted ? target.IngredientId : "empty" : "locked")}).");
             if (target == null || !target.CanWater)
             {
-                if (target != null && target.Ready) _banner.ShowMessage(Loc.Format("ui.street.plot_ready", CropName(target.IngredientId)));
+                _banner.ShowMessage(target == null || !target.Open ? Loc.Get("ui.street.plot_locked")
+                    : !target.Planted ? Loc.Get("ui.street.plot_empty")
+                    : Loc.Format("ui.street.plot_ready", CropName(target.IngredientId)));
                 return;
             }
             _watering = true;

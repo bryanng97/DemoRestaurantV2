@@ -75,11 +75,15 @@ namespace DemoRestaurant.Logic.Progression
             var crops = new List<IngredientDef>();
             if (ingredients != null)
                 foreach (var i in ingredients)
+                {
+                    _known[i.Id] = i;
                     if (i.Source == IngredientSource.Garden) crops.Add(i);
+                }
             _crops = crops;
         }
 
         public bool HasCrops => _crops.Count > 0;
+        private readonly Dictionary<string, IngredientDef> _known = new Dictionary<string, IngredientDef>();
 
         // ---------------------------------------------------------------- where the farm is
         // Right behind the back-right wall (y < 0), a few cells in from the back corner, with lawn between the fence and the wall:
@@ -233,9 +237,8 @@ namespace DemoRestaurant.Logic.Progression
             foreach (var s in saved)
             {
                 if (s == null || s.index < 0 || s.index >= PlotCount) continue;
-                IngredientDef crop = null;
-                foreach (var c in _crops) if (c.Id == s.crop) crop = c;
-                if (crop == null || !TryParse(s.waterUntilUtc, out var water) || !TryParse(s.lastUpdateUtc, out var last)) continue;
+                // Any known ingredient: the server may plant crops this pack doesn't sell as seeds.
+                if (s.crop == null || !_known.TryGetValue(s.crop, out var crop) || !TryParse(s.waterUntilUtc, out var water) || !TryParse(s.lastUpdateUtc, out var last)) continue;
                 _plots[s.index] = new Plot { Crop = crop, Grown = Math.Max(0, s.grownSeconds), WaterUntil = water, Last = last };
             }
         }
