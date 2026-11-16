@@ -285,6 +285,8 @@
     { "key": "ui.visit.home", "value": "回家" },
     { "key": "ui.visit.loading", "value": "正在打开 {0}…" },
     { "key": "ui.visit.cant_show", "value": "这间餐厅暂时无法在这台设备上显示。" },
+    { "key": "ui.visit.help", "value": "可捡的垃圾：{0} · {1}" },
+    { "key": "ui.visit.help_hint", "value": "点地上的垃圾捡起来，点干掉的作物浇水。" },
     { "key": "ui.perk.work_speed", "value": "工作速度 +{0}%" },
     { "key": "ui.perk.energy_drain", "value": "体力消耗 -{0}%" },
     { "key": "ui.perk.xp", "value": "经验 +{0}%" },

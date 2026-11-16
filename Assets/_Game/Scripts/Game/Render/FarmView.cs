@@ -35,6 +35,8 @@ namespace DemoRestaurant.Game.Render
         private readonly Dictionary<string, Sprite> _sprites = new Dictionary<string, Sprite>();
         private System.Func<bool> _tapsBlocked;
         private System.Action<int> _plotTapped;
+        /// <summary>The level that opens plots; a visit shows the visited owner's (default: this session's).</summary>
+        public System.Func<int> Level { get; set; }
         private Vector2 _pressAt;
         private float _pressTime;
         private bool _pressed;
@@ -115,7 +117,7 @@ namespace DemoRestaurant.Game.Render
             _timer = RefreshSeconds;
             var garden = _session.Garden;
             var now = _session.UtcNow;
-            int level = _session.Progress.Level;
+            int level = Level?.Invoke() ?? _session.Progress.Level;
             for (int i = 0; i < Garden.PlotCount; i++)
             {
                 var view = _plots[i];

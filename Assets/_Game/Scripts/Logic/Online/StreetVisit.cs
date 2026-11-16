@@ -102,6 +102,27 @@ namespace DemoRestaurant.Logic.Online
             return state;
         }
 
+        /// <summary>
+        /// The owner's planted plots as garden saves, so the visited farm draws them: a ready crop is fully grown,
+        /// a watered one keeps growing, a dry one asks for water. Empty and locked plots stay empty.
+        /// </summary>
+        public List<Progression.GardenPlotSave> GardenSaves(DateTime nowUtc)
+        {
+            var list = new List<Progression.GardenPlotSave>();
+            foreach (var p in Plots)
+            {
+                if (!p.Open || !p.Planted || string.IsNullOrEmpty(p.IngredientId)) continue;
+                list.Add(new Progression.GardenPlotSave
+                {
+                    index = p.Index, crop = p.IngredientId,
+                    grownSeconds = p.Ready ? 1e9 : 0,
+                    waterUntilUtc = (p.Watered ? nowUtc.AddHours(1) : nowUtc.AddSeconds(-1)).ToString("o"),
+                    lastUpdateUtc = nowUtc.ToString("o"),
+                });
+            }
+            return list;
+        }
+
         /// <summary>Folds a help result back: litter left, the day's coins and, after watering, the owner's plots.</summary>
         public void Apply(HelpResult result, JsonValue data)
         {

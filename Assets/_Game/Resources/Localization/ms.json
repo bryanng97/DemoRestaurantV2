@@ -285,6 +285,8 @@
     { "key": "ui.visit.home", "value": "Pulang" },
     { "key": "ui.visit.loading", "value": "Membuka {0}…" },
     { "key": "ui.visit.cant_show", "value": "Restoran ini belum boleh dipaparkan pada peranti ini." },
+    { "key": "ui.visit.help", "value": "Sampah untuk dikutip: {0} · {1}" },
+    { "key": "ui.visit.help_hint", "value": "Ketik sampah untuk mengutipnya dan tanaman kering untuk menyiramnya." },
     { "key": "ui.perk.work_speed", "value": "+{0}% kelajuan kerja" },
     { "key": "ui.perk.energy_drain", "value": "-{0}% guna tenaga" },
     { "key": "ui.perk.xp", "value": "+{0}% XP" },

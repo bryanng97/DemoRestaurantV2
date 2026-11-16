@@ -12,7 +12,7 @@ namespace DemoRestaurant.Game.UI
     /// </summary>
     public sealed class VisitBanner : MonoBehaviour
     {
-        private Text _title, _info, _homeLabel, _message;
+        private Text _title, _info, _help, _homeLabel, _message;
         private float _messageTime;
         private StreetRestaurant _shop;
 
@@ -24,11 +24,14 @@ namespace DemoRestaurant.Game.UI
 
             var card = UiKit.Box(safe, "VisitCard", UiKit.CardRim, UiKit.Cream, 4);
             card.anchorMin = card.anchorMax = card.pivot = new Vector2(.5f, 1);
-            card.anchoredPosition = new Vector2(0, -20); card.sizeDelta = new Vector2(760, 132);
+            card.anchoredPosition = new Vector2(0, -20); card.sizeDelta = new Vector2(760, 178);
             _title = UiKit.Label(card, "Title", 20, 10, 720, 66, 40, TextAnchor.MiddleCenter, UiKit.DarkText);
             _title.resizeTextForBestFit = true; _title.resizeTextMinSize = 24; _title.resizeTextMaxSize = 40;
             _info = UiKit.Label(card, "Info", 20, 76, 720, 46, 26, TextAnchor.MiddleCenter, UiKit.SoftText);
             _info.resizeTextForBestFit = true; _info.resizeTextMinSize = 18; _info.resizeTextMaxSize = 26;
+            _help = UiKit.Label(card, "Help", 20, 124, 720, 44, 24, TextAnchor.MiddleCenter, UiKit.DarkText);
+            _help.resizeTextForBestFit = true; _help.resizeTextMinSize = 16; _help.resizeTextMaxSize = 24;
+            _help.text = Loc.Get("ui.visit.help_hint");
 
             var home = UiKit.TextButton(safe, "GoHome", UiKit.Green, 34, goHome, out _homeLabel);
             var rect = (RectTransform)home.transform;
@@ -44,6 +47,9 @@ namespace DemoRestaurant.Game.UI
             Loc.LanguageChanged += Refresh;
             Refresh();
         }
+
+        /// <summary>The help line: litter left and the coins earned helping today.</summary>
+        public void SetHelp(string text) => _help.text = text;
 
         /// <summary>A short message over the room (the HUD and its toasts are hidden while visiting).</summary>
         public void ShowMessage(string text, float seconds = 3f)

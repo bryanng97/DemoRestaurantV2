@@ -87,7 +87,9 @@ namespace DemoRestaurant.Game.StressTest
 
         // Phase 5: visiting another restaurant (read-only). No saves, sync, guests, editor or taps that change it.
         private VisitRequest _visit;
-        private bool Blocked() => _visit != null || (_builder != null && _builder.IsEditing);
+        private bool Blocked() => _visit != null || Editing();
+        private bool Editing() => _builder != null && _builder.IsEditing;
+        private VisitHelper _visitHelper;
 
         // Restaurant layout save (renovations and land), kept in step with the game save above.
         private bool _autoSaveAllowed;
@@ -163,19 +165,21 @@ namespace DemoRestaurant.Game.StressTest
             // The farm behind the back-right wall: tapping it opens the garden panel (not while decorating).
             var farm = new GameObject("FarmView").AddComponent<FarmView>();
             farm.transform.SetParent(_view.transform, false);
-            farm.Bind(_session, _content, Blocked, plot => _ui.GardenPanel.Show(plot));
+            // Visiting: a tapped plot is watered for its owner (VisitHelper); at home it opens the garden panel.
+            farm.Bind(_session, _content, Editing, plot => { if (_visitHelper != null) _visitHelper.Water(plot); else if (_visit == null) _ui.GardenPanel.Show(plot); });
             var trash = new GameObject("GroundTrash").AddComponent<TrashView>();
             trash.transform.SetParent(_view.transform, false);
-            trash.Bind(_session, ArtLibrary.For(_content.Theme), Blocked);
+            trash.Bind(_session, ArtLibrary.For(_content.Theme), Editing); // visiting: the visited litter, picked up for its owner
             // Wall pieces with a tap action (the menu holder opens the menu).
             var wallTaps = new GameObject("WallTaps").AddComponent<WallTapHandler>();
             wallTaps.transform.SetParent(_view.transform, false);
-            wallTaps.Bind(() => _session.Layout, _content, Blocked,
-                action => { if (action == "menu") _ui.MenuPanel.Toggle(); });
+            wallTaps.Bind(() => _session.Layout, _content, Editing,
+                action => { if (action == "menu" && _visit == null) _ui.MenuPanel.Toggle(); });
             // Tapping a broken functional fixture repairs it (as in the reference game).
             wallTaps.FloorTap = world =>
             {
                 if (trash.TryTap(world)) return true;
+                if (_visit != null) return false; // the visited room: only its litter can be tapped
                 if (_view.TryTapDirtyTable(world)) return true;
                 var piece = _view.PickFurniture(world);
                 if (piece == null || !_session.Sim.Fix(piece)) return false;
@@ -232,6 +236,18 @@ namespace DemoRestaurant.Game.StressTest
                 _earningsHud.gameObject.SetActive(false); // our coins and earnings rate
                 var banner = new GameObject("VisitBanner").AddComponent<VisitBanner>();
                 banner.Bind(_visit.Restaurant, GoHome);
+                farm.Level = () => _visit.Restaurant.Level;
+                var config = OnlineConfig.Load();
+                if (config != null && config.IsConfigured)
+                {
+                    var http = new SupabaseHttp(config);
+                    var auth = new SupabaseAuth(http);
+                    if (auth.IsSignedIn)
+                    {
+                        _visitHelper = new GameObject("VisitHelper").AddComponent<VisitHelper>();
+                        _visitHelper.Bind(new GameApiClient(http, auth), _visit.Restaurant, _session, banner);
+                    }
+                }
                 var reward = _visit.Reward;
                 if (reward != null && _content.Pack.HasIngredient(reward.IngredientId))
                     banner.ShowMessage(Loc.Format("ui.street.first_visit", reward.Quantity,
@@ -467,6 +483,7 @@ namespace DemoRestaurant.Game.StressTest
                 return;
             }
 
+            if (_visit != null) { _music.Play(MusicScene.Restaurant); return; } // the visited room doesn't simulate
             _music.Play(_builder.IsEditing || (_ui.Exterior != null && _ui.Exterior.IsEditing) ? MusicScene.Editor
                 : _ui.Exterior != null && _ui.Exterior.IsOpen ? MusicScene.Street : MusicScene.Restaurant);
             if (_builder.IsEditing || (_ui.Exterior != null && _ui.Exterior.IsEditing))

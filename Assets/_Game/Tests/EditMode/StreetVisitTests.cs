@@ -77,6 +77,22 @@ namespace DemoRestaurant.Logic.Tests
         }
 
         [Test]
+        public void TheVisitedGardenDrawsPlantedPlots_ReadyGrowingOrDry()
+        {
+            var state = VisitState.Parse(JsonValue.Parse(@"{ ""garden"": { ""plots"": [
+              { ""index"": 0, ""open"": true, ""crop"": { ""ingredientId"": ""rice"", ""watered"": true, ""ready"": false } },
+              { ""index"": 1, ""open"": true, ""crop"": { ""ingredientId"": ""egg"", ""watered"": false, ""ready"": true } },
+              { ""index"": 2, ""open"": true, ""crop"": { ""ingredientId"": ""chili"", ""watered"": false, ""ready"": false } },
+              { ""index"": 3, ""open"": true, ""crop"": null }, { ""index"": 4, ""open"": false, ""crop"": null } ] } }"));
+            var now = new System.DateTime(2026, 11, 16, 12, 0, 0, System.DateTimeKind.Utc);
+            var saves = state.GardenSaves(now);
+            Assert.AreEqual(3, saves.Count, "empty and locked plots stay empty");
+            Assert.Greater(System.DateTime.Parse(saves[0].waterUntilUtc).ToUniversalTime(), now, "watered keeps growing");
+            Assert.Greater(saves[1].grownSeconds, 1e6, "ready is fully grown");
+            Assert.Less(System.DateTime.Parse(saves[2].waterUntilUtc).ToUniversalTime(), now, "dry asks for water");
+        }
+
+        [Test]
         public void StreetFacade_MapsIdsAndSkipsUnknownPieces_ButNeedsWallRoofAndDoor()
         {
             var catalog = new Layout.ExteriorCatalog(new[]

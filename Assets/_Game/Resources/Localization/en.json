@@ -285,6 +285,8 @@
     { "key": "ui.visit.home", "value": "Home" },
     { "key": "ui.visit.loading", "value": "Opening {0}…" },
     { "key": "ui.visit.cant_show", "value": "This restaurant can't be shown on this device yet." },
+    { "key": "ui.visit.help", "value": "Litter to pick up: {0} · {1}" },
+    { "key": "ui.visit.help_hint", "value": "Tap litter to pick it up and dry crops to water them." },
     { "key": "ui.perk.work_speed", "value": "+{0}% work speed" },
     { "key": "ui.perk.energy_drain", "value": "-{0}% energy use" },
     { "key": "ui.perk.xp", "value": "+{0}% XP" },
