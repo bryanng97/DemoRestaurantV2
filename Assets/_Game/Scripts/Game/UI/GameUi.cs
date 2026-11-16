@@ -50,6 +50,8 @@ namespace DemoRestaurant.Game.UI
         public ExteriorStreetView Exterior { get; set; }
         /// <summary>Phase 5 visits: help panel for a restaurant tapped on the street.</summary>
         public StreetPanel Street { get; private set; }
+        /// <summary>Phase 5: opens another restaurant (a shop tapped on the street); set by the scene bootstrap.</summary>
+        public Action<Logic.Online.StreetRestaurant> VisitRestaurant { get; set; }
         public void SetGameplayVisible(bool visible) => _canvasRoot.gameObject.SetActive(visible);
 
         public RestaurantSession Session { get; private set; }

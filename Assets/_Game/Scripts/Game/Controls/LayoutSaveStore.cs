@@ -28,7 +28,20 @@ namespace DemoRestaurant.Game.Controls
             if (!File.Exists(path)) return false;
             try
             {
-                var snapshot = JsonUtility.FromJson<LayoutSnapshot>(File.ReadAllText(path));
+                return TryLoad(layout, content, JsonUtility.FromJson<LayoutSnapshot>(File.ReadAllText(path)), out balance, out owned);
+            }
+            catch (Exception e) when (e is IOException || e is UnauthorizedAccessException || e is ArgumentException)
+            { Debug.LogWarning("Could not load restaurant layout: " + e.Message); return false; }
+        }
+
+        /// <summary>Loads a layout snapshot held in memory (a visited restaurant) with the same checks as a save.</summary>
+        public static bool TryLoad(RestaurantLayout layout, LoadedContentPack content, LayoutSnapshot snapshot,
+            out long? balance, out System.Collections.Generic.Dictionary<string, int> owned)
+        {
+            balance = null;
+            owned = null;
+            try
+            {
                 if (snapshot == null) return Fail("unreadable file");
                 LayoutMigration.UpgradeEntertainmentAxes(snapshot, content.Pack);
                 if (!ValidFloors(snapshot, content)) return Fail("unknown floor tile");

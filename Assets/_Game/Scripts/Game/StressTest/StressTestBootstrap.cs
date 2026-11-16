@@ -83,7 +83,11 @@ namespace DemoRestaurant.Game.StressTest
         private System.DateTime? _pausedAtUtc;
         private bool _resetting;
 
-        private bool UsesSave => useSaveGame && mode == Mode.Game && !_resetting;
+        private bool UsesSave => useSaveGame && mode == Mode.Game && !_resetting && _visit == null;
+
+        // Phase 5: visiting another restaurant (read-only). No saves, sync, guests, editor or taps that change it.
+        private VisitRequest _visit;
+        private bool Blocked() => _visit != null || (_builder != null && _builder.IsEditing);
 
         // Restaurant layout save (renovations and land), kept in step with the game save above.
         private bool _autoSaveAllowed;
@@ -95,6 +99,7 @@ namespace DemoRestaurant.Game.StressTest
             GameSettings.Apply(targetFrameRate);
 
             _content = ContentLoader.Load(contentPack);
+            _visit = mode == Mode.Game ? VisitRequest.Current : null;
             // A new restaurant starts at the level-1 room size and grows with its level (the stress test uses the fixed showroom).
             var growth = mode == Mode.Stress ? null : _content.Pack.Rules.RoomGrowth;
             var (roomWidth, roomHeight) = growth != null ? growth.SizeFor(1) : (RoomWidth, RoomHeight);
@@ -104,7 +109,15 @@ namespace DemoRestaurant.Game.StressTest
             else FurnishStarter(layout, _content.Pack);
             layout.SetWaitingArea(System.Linq.Enumerable.Take(WaitingArea, _content.Pack.Rules.WaitingSpots));
             HangStarterWalls(layout, _content.Pack);
-            bool loaded = LayoutSaveStore.TryLoad(layout, _content, out var savedCoins, out var ownedFurniture);
+            long? savedCoins = null;
+            System.Collections.Generic.Dictionary<string, int> ownedFurniture = null;
+            // Visiting: the other restaurant's layout instead of ours (checked before the visit started).
+            if (_visit != null && !LayoutSaveStore.TryLoad(layout, _content, _visit.Layout, out _, out _))
+            {
+                Debug.LogWarning("Visit: the visited restaurant doesn't load here; staying home.");
+                _visit = VisitRequest.Current = null;
+            }
+            bool loaded = _visit != null || LayoutSaveStore.TryLoad(layout, _content, out savedCoins, out ownedFurniture);
             // Saves from before wall pieces: hang the starter set (menu holder and windows) and own it.
             if (loaded && layout.WallItems.Count == 0)
             {
@@ -136,7 +149,7 @@ namespace DemoRestaurant.Game.StressTest
                 if (save != null && save.contentPack == contentPack)
                     savedAt = _session.ApplySave(save);
             }
-            if (mode != Mode.Stress) _session.GrowRoom(); // the room is as big as the restaurant level allows
+            if (mode != Mode.Stress && _visit == null) _session.GrowRoom(); // the room is as big as the restaurant level allows
 
             // One painter for the player's avatar everywhere: in the restaurant, on the profile card and dialog.
             var avatars = new AvatarPainter(_content.Pack.Avatar);
@@ -150,14 +163,14 @@ namespace DemoRestaurant.Game.StressTest
             // The farm behind the back-right wall: tapping it opens the garden panel (not while decorating).
             var farm = new GameObject("FarmView").AddComponent<FarmView>();
             farm.transform.SetParent(_view.transform, false);
-            farm.Bind(_session, _content, () => _builder != null && _builder.IsEditing, plot => _ui.GardenPanel.Show(plot));
+            farm.Bind(_session, _content, Blocked, plot => _ui.GardenPanel.Show(plot));
             var trash = new GameObject("GroundTrash").AddComponent<TrashView>();
             trash.transform.SetParent(_view.transform, false);
-            trash.Bind(_session, ArtLibrary.For(_content.Theme), () => _builder != null && _builder.IsEditing);
+            trash.Bind(_session, ArtLibrary.For(_content.Theme), Blocked);
             // Wall pieces with a tap action (the menu holder opens the menu).
             var wallTaps = new GameObject("WallTaps").AddComponent<WallTapHandler>();
             wallTaps.transform.SetParent(_view.transform, false);
-            wallTaps.Bind(() => _session.Layout, _content, () => _builder != null && _builder.IsEditing,
+            wallTaps.Bind(() => _session.Layout, _content, Blocked,
                 action => { if (action == "menu") _ui.MenuPanel.Toggle(); });
             // Tapping a broken functional fixture repairs it (as in the reference game).
             wallTaps.FloorTap = world =>
@@ -188,7 +201,7 @@ namespace DemoRestaurant.Game.StressTest
             _ui.PersistLayout = (snapshot, balance) => !UsesSave || LayoutSaveStore.TrySave(snapshot, _content, balance);
             var sign = new GameObject("TerraceSign").AddComponent<TerraceSignView>();
             sign.transform.SetParent(_view.transform, false);
-            sign.Bind(_session, _content, () => _builder != null && _builder.IsEditing, () => _ui.TerraceSale.Show());
+            sign.Bind(_session, _content, Blocked, () => _ui.TerraceSale.Show());
             if (_content.Exterior != null)
             {
                 var exterior = new GameObject("ExteriorStreet").AddComponent<ExteriorStreetView>();
@@ -209,6 +222,22 @@ namespace DemoRestaurant.Game.StressTest
             _builder.Saved += () => { _autoSaveAllowed = true; SaveNow(); };
             _session.Economy.SaleSettled += _ => PersistRestaurant();
             HookFeedback();
+            _ui.VisitRestaurant = StartVisit;
+
+            if (_visit != null)
+            {
+                // Visiting: the room only (no guests or staff), the visit banner in place of the HUD.
+                _session.ArrivalsEnabled = false;
+                _ui.SetGameplayVisible(false);
+                _earningsHud.gameObject.SetActive(false); // our coins and earnings rate
+                var banner = new GameObject("VisitBanner").AddComponent<VisitBanner>();
+                banner.Bind(_visit.Restaurant, GoHome);
+                var reward = _visit.Reward;
+                if (reward != null && _content.Pack.HasIngredient(reward.IngredientId))
+                    banner.ShowMessage(Loc.Format("ui.street.first_visit", reward.Quantity,
+                        Loc.Get(_content.Pack.GetIngredient(reward.IngredientId).NameKey)));
+                return;
+            }
 
             ApplyMode(mode, initial: savedAt == null);
             if (showDebugHud)
@@ -363,6 +392,51 @@ namespace DemoRestaurant.Game.StressTest
             Debug.Log($"Online: adopted the server restaurant ({reason}{detail}).");
             s_showAdopted = true;
             _resetting = true; // nothing else may overwrite the adopted saves before the reload
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+
+        /// <summary>
+        /// Phase 5: a shop tapped on the street. Records the visit (the server gives a first-visit ingredient), loads
+        /// that restaurant's layout, checks it loads here, saves our own restaurant and reloads the scene into visit mode.
+        /// </summary>
+        private async void StartVisit(StreetRestaurant shop)
+        {
+            if (shop == null || _visiting) return;
+            if (_online == null || !_online.Auth.IsSignedIn) { _ui.Toast(Loc.Get("ui.street.sign_in")); return; }
+            _visiting = true;
+            _ui.Toast(Loc.Format("ui.visit.loading", shop.Name), 2f);
+            var api = _online.Api;
+            var visit = await api.Visit(shop.RestaurantId);
+            var room = visit.Ok ? await api.GetRestaurantLayout(shop.RestaurantId) : visit;
+            _visiting = false;
+            if (this == null) return;
+            if (!room.Ok) { _ui.Toast(Loc.Get("ui.street.failed")); return; }
+            var floors = new System.Collections.Generic.HashSet<string>();
+            foreach (var f in _content.Theme.floors) floors.Add(f.id);
+            var wallpapers = new System.Collections.Generic.HashSet<string>();
+            foreach (var w in _content.Theme.wallpapers) wallpapers.Add(w.id);
+            var snapshot = ServerLayoutCodec.Decode(room.Data, _online.Sync.Ids, floors.Contains, wallpapers.Contains);
+            var probe = new RestaurantLayout(snapshot.width, snapshot.height, new GridPos(0, 1));
+            if (!LayoutSaveStore.TryLoad(probe, _content, snapshot, out _, out _))
+            {
+                Debug.LogWarning($"Visit: {shop.Name}'s restaurant doesn't load on this device.");
+                _ui.Toast(Loc.Get("ui.visit.cant_show"));
+                return;
+            }
+            Debug.Log($"Visit: entering {shop.Name}.");
+            PersistAll();
+            _online.SaveSync();
+            VisitRequest.Current = new VisitRequest { Restaurant = shop, Layout = snapshot, Reward = FirstVisitReward.Parse(visit.Data) };
+            _resetting = true; // our saves are written; nothing may overwrite them before the reload
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+        private bool _visiting;
+
+        /// <summary>Back from a visit: the scene reloads the player's own restaurant from their saves.</summary>
+        private void GoHome()
+        {
+            Debug.Log("Visit: going home.");
+            VisitRequest.Current = null;
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 

@@ -865,8 +865,8 @@ namespace DemoRestaurant.Game.UI
                 // The front and its name plate, in the neighbour's 1000 x 680 design space.
                 if (local.x < -560 || local.x > 560 || local.y < -300 || local.y > 640) continue; // the front, roof and name card
                 Close();
-                Debug.Log("Street: tapped " + shop.Name + (_ui.Street == null ? " (no visit panel)" : ""));
-                _ui.Street?.VisitFromStreet(shop);
+                Debug.Log("Street: tapped " + shop.Name);
+                _ui.VisitRestaurant?.Invoke(shop);
                 return;
             }
         }
